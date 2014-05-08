@@ -12,11 +12,8 @@
     "errorhandler": "~1.0.0",
     "compression": "~1.0.1",
     "lodash": "~2.4.1",
-    "mongoose": "~3.8.8",
-    "connect-mongo": "mrzepinski/connect-mongo#2135988",
-    "passport": "~0.2.0",
-    "passport-local": "~0.1.6",
-    "ejs": "~0.8.4"
+    "jade": "~1.3.0",
+    "cip.js": "git://github.com/headnet/cip.js#nodejs-imp"
   },
   "devDependencies": {
     "grunt": "~0.4.1",

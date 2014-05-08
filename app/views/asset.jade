@@ -1,0 +1,59 @@
+extends index
+
+block content
+  .row.marketing
+    h2 Titel
+
+  .row.marketing
+    img(src=image, alt='billede', style='max-width: 100%')
+
+  .row.marketing
+    h4 Generelle oplysninger
+    table(class='table table-striped')
+        - if(item.creator)
+          tr
+            td Fotograf / skaber af mediet:
+            td= item.creator
+        - if(item.copyright)
+          tr
+            td Copyright:
+            td= item.copyright
+        - if(item.license)
+          tr
+            td Licens:
+            td= item.license.displaystring
+        - if(item.filename)
+          tr
+            td Filnavn:
+            td= item.filename
+        - if(item.year)
+          tr
+            td Årstal:
+            td= item.year
+
+  .row.marketing
+    - if(item.description)
+      h4 Beskrivelse
+      p= item.description
+
+  .row.marketing
+    - if(item.longitude && item.latitude)
+        h4 Lokalitet
+        .col-md-8.nopadding
+            table(class='table table-striped')
+                - if(item.locationnote)
+                    tr
+                       td Lokalitetsnote:
+                       td= item.locationnote
+                - if(item.longitude && item.latitude)
+                    tr
+                       td Koordinater:
+                       td= item.longitude + ',' + item.latitude
+        .col-md-4(style="text-align: center")
+              a(href='http://maps.google.dk/maps?ll=' +
+                     item.longitude + ',' + item.latitude +
+                     '&spn=0.008039,0.015857&t=h&z=16')
+                img(alt='Google Map',
+                    src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                        item.longitude + ',' + item.latitude +
+                        '&sensor=false&scale=1&zoom=14&maptype=terrain')
