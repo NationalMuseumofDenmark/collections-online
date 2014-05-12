@@ -11,20 +11,35 @@ block content
     h4 Generelle oplysninger
     table(class='table table-striped')
       tr
-        td Fotograf / skaber af mediet:
-        td= item.creator || '-'
-      tr
-        td Copyright:
-        td= item.copyright || '-'
-      tr
-        td Licens:
-        td= item.license.displaystring || '-'
+        td Fil-ID:
+        td XXX
       tr
         td Filnavn:
         td= item.filename || '-'
       tr
+        td Copyright:
+        td= item.copyright || '-'
+      tr
+        td Fotograf / skaber af mediet:
+        td= item.creator || '-'
+      tr
+        td Licens:
+        td= item.license.displaystring || '-'
+      tr
+        td Vandrette pixels:
+        td= item.img_width || '-'
+      tr
+        td Lodrette pixels:
+        td= item.img_height || '-'
+      tr
+        td Opløsning:
+        td= item.dpi || '-'
+      tr
         td Årstal:
         td= item.year || '-'
+      tr
+        td Inventar nr.:
+        td= item.assetno || '-'
 
   .row.marketing
     - if(item.description)
