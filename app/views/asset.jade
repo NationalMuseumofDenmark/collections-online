@@ -12,7 +12,7 @@ block content
     table(class='table table-striped')
       tr
         td Fil-ID:
-        td XXX
+        td -
       tr
         td Filnavn:
         td= item.filename || '-'
@@ -27,10 +27,10 @@ block content
         td= item.license.displaystring || '-'
       tr
         td Vandrette pixels:
-        td= item.img_width || '-'
+        td= item.img_width.toFixed(3) || '-'
       tr
         td Lodrette pixels:
-        td= item.img_height || '-'
+        td= item.img_height.toFixed(3) || '-'
       tr
         td Opløsning:
         td= item.dpi || '-'
