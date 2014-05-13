@@ -2,7 +2,7 @@ extends index
 
 block content
   .row.marketing
-    h2 Titel
+    h2= item.short_title || 'Ingen title'
 
   .row.marketing
     img(src=image, alt='billede', style='max-width: 100%')
@@ -12,7 +12,7 @@ block content
     table(class='table table-striped')
       tr
         td Fil-ID:
-        td -
+        td= id || '-'
       tr
         td Filnavn:
         td= item.filename || '-'
@@ -38,8 +38,15 @@ block content
         td Årstal:
         td= item.year || '-'
       tr
-        td Inventar nr.:
-        td= item.assetno || '-'
+        td Arkivnavn:
+        td= item.archivename || '-'
+      tr
+        td Arkivalienr.:
+        td= item.archiveno || '-'
+      tr
+        td Genstandsnr.:
+        td= item.unitno || '-'
+
 
   .row.marketing
     - if(item.description)
@@ -47,23 +54,45 @@ block content
       p= item.description
 
   .row.marketing
-    - if(item.longitude && item.latitude)
-        h4 Lokalitet
-        .col-md-8.nopadding
-            table(class='table table-striped')
-                - if(item.locationnote)
-                    tr
-                       td Lokalitetsnote:
-                       td= item.locationnote
-                - if(item.longitude && item.latitude)
-                    tr
-                       td Koordinater:
-                       td= item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5)
-        .col-md-4(style="text-align: center")
-              a(href='http://maps.google.dk/maps?ll=' +
-                     item.longitude + ',' + item.latitude +
-                     '&spn=0.008039,0.015857&t=h&z=16')
-                img(alt='Google Map',
-                    src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                        item.longitude + ',' + item.latitude +
-                        '&sensor=false&scale=1&zoom=14&maptype=terrain')
+    h4 Tid
+    table(class='table table-striped')
+      tr
+        td Optagelsestid - Fra:
+        td= item.acceptance_time_from ? item.acceptance_time_from.displaystring : '-'
+      tr
+        td Optagelsestid - Til:
+        td= item.acceptance_time_to ? item.acceptance_time_to.displaystring : '-'
+      tr
+        td Tidsnote:
+        td= item.timenote || '-'
+
+  .row.marketing
+    h4 Lokalitet
+    - var has_coordinates = item.longitude && item.latitude;
+    div(class=has_coordinates ? 'col-md-8 nopadding' : '')
+        table(class='table table-striped')
+          tr
+            td Koordinater:
+            td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+          tr
+            td Sted:
+            td= item.place || '-'
+          tr
+            td By:
+            td= item.city || '-'
+          tr
+            td Topnr.:
+            td= item.topno || '-'
+          tr
+            td Lokalitetsnote:
+            td= item.locationnote || '-'
+
+    - if(has_coordinates)
+      .col-md-4(style="text-align: center")
+          a(href='http://maps.google.dk/maps?ll=' +
+                 item.longitude + ',' + item.latitude +
+                 '&spn=0.008039,0.015857&t=h&z=16')
+            img(alt='Google Map',
+                src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                    item.longitude + ',' + item.latitude +
+                    '&sensor=false&scale=1&zoom=14&maptype=terrain')
