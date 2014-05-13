@@ -1,8 +1,14 @@
 extends index
 
+block header
+  style.
+    table td:first-child {
+      width: 250px;
+    }
+
 block content
   .row.marketing
-    h2= item.short_title || 'Ingen title'
+    h2= item.short_title || 'Ingen titel'
 
   .row.marketing
     img(src=image, alt='billede', style='max-width: 100%')
@@ -37,6 +43,15 @@ block content
       tr
         td Årstal:
         td= item.year || '-'
+
+  .row.marketing
+    - if(item.description)
+      h4 Beskrivelse
+      p= item.description
+
+  .row.marketing
+    h4 Reference til fysisk arkiv
+    table(class='table table-striped')
       tr
         td Arkivnavn:
         td= item.archivename || '-'
@@ -47,11 +62,6 @@ block content
         td Genstandsnr.:
         td= item.unitno || '-'
 
-
-  .row.marketing
-    - if(item.description)
-      h4 Beskrivelse
-      p= item.description
 
   .row.marketing
     h4 Tid
