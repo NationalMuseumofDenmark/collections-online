@@ -5,6 +5,12 @@ block header
     table td:first-child {
       width: 250px;
     }
+    table td.date span:after {
+      content: '/';
+    }
+    table td.date span:last-child:after {
+      content: '';
+    }
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork')
@@ -71,10 +77,24 @@ block content
         table(class='table table-striped')
           tr
             td Optagelsestid - Fra:
-            td= item.acceptance_time_from ? item.acceptance_time_from.displaystring : '-'
+            - var date = item.acceptance_time_from;
+            - if(!date)
+              td= '-'
+            - else
+              td(class='date')
+                span= date.day
+                span= date.month
+                span(itemprop='dateCreated')= date.year
           tr
             td Optagelsestid - Til:
-            td= item.acceptance_time_to ? item.acceptance_time_to.displaystring : '-'
+            - var date = item.acceptance_time_to;
+            - if(!date)
+              td= '-'
+            - else
+              td(class='date')
+                span= date.day
+                span= date.month
+                span= date.year
           tr
             td Tidsnote:
             td= item.timenote || '-'
