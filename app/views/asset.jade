@@ -7,102 +7,105 @@ block header
     }
 
 block content
-  .row.marketing
-    h2= item.short_title || 'Ingen titel'
+  div(itemscope, itemtype='http://schema.org/CreativeWork')
+      .row.marketing
+        h2(itemprop='name')= item.short_title || 'Ingen titel'
 
-  .row.marketing
-    img(src=image, alt='billede', style='max-width: 100%')
+      .row.marketing
+        img(itemprop='thumbnailUrl',
+            src=image, alt='billede',
+            style='max-width: 100%')
 
-  .row.marketing
-    h4 Generelle oplysninger
-    table(class='table table-striped')
-      tr
-        td Fil-ID:
-        td= id || '-'
-      tr
-        td Filnavn:
-        td= item.filename || '-'
-      tr
-        td Copyright:
-        td= item.copyright || '-'
-      tr
-        td Fotograf / skaber af mediet:
-        td= item.creator || '-'
-      tr
-        td Licens:
-        td= item.license.displaystring || '-'
-      tr
-        td Vandrette pixels:
-        td= item.img_width.toFixed(3) || '-'
-      tr
-        td Lodrette pixels:
-        td= item.img_height.toFixed(3) || '-'
-      tr
-        td Opløsning:
-        td= item.dpi || '-'
-      tr
-        td Årstal:
-        td= item.year || '-'
-
-  .row.marketing
-    - if(item.description)
-      h4 Beskrivelse
-      p= item.description
-
-  .row.marketing
-    h4 Reference til fysisk arkiv
-    table(class='table table-striped')
-      tr
-        td Arkivnavn:
-        td= item.archivename || '-'
-      tr
-        td Arkivalienr.:
-        td= item.archiveno || '-'
-      tr
-        td Genstandsnr.:
-        td= item.unitno || '-'
-
-
-  .row.marketing
-    h4 Tid
-    table(class='table table-striped')
-      tr
-        td Optagelsestid - Fra:
-        td= item.acceptance_time_from ? item.acceptance_time_from.displaystring : '-'
-      tr
-        td Optagelsestid - Til:
-        td= item.acceptance_time_to ? item.acceptance_time_to.displaystring : '-'
-      tr
-        td Tidsnote:
-        td= item.timenote || '-'
-
-  .row.marketing
-    h4 Lokalitet
-    - var has_coordinates = item.longitude && item.latitude;
-    div(class=has_coordinates ? 'col-md-8 nopadding' : '')
+      .row.marketing
+        h4 Generelle oplysninger
         table(class='table table-striped')
           tr
-            td Koordinater:
-            td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+            td Fil-ID:
+            td= id || '-'
           tr
-            td Sted:
-            td= item.place || '-'
+            td Filnavn:
+            td= item.filename || '-'
           tr
-            td By:
-            td= item.city || '-'
+            td Copyright:
+            td(itemprop='copyrightHolder')= item.copyright || '-'
           tr
-            td Topnr.:
-            td= item.topno || '-'
+            td Fotograf / skaber af mediet:
+            td(itemprop='creator')= item.creator || '-'
           tr
-            td Lokalitetsnote:
-            td= item.locationnote || '-'
+            td Licens:
+            td= item.license ? item.license.displaystring : '-'
+          tr
+            td Vandrette pixels:
+            td= item.img_width.toFixed(3) || '-'
+          tr
+            td Lodrette pixels:
+            td= item.img_height.toFixed(3) || '-'
+          tr
+            td Opløsning:
+            td= item.dpi || '-'
+          tr
+            td Årstal:
+            td= item.year || '-'
 
-    - if(has_coordinates)
-      .col-md-4(style="text-align: center")
-          a(href='http://maps.google.dk/maps?ll=' +
-                 item.longitude + ',' + item.latitude +
-                 '&spn=0.008039,0.015857&t=h&z=16')
-            img(alt='Google Map',
-                src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                    item.longitude + ',' + item.latitude +
-                    '&sensor=false&scale=1&zoom=14&maptype=terrain')
+      .row.marketing
+        - if(item.description)
+          h4 Beskrivelse
+          p(itemprop='description')= item.description
+
+      .row.marketing
+        h4 Reference til fysisk arkiv
+        table(class='table table-striped')
+          tr
+            td Arkivnavn:
+            td= item.archivename ? item.archivename.displaystring : '-'
+          tr
+            td Arkivalienr.:
+            td= item.archiveno || '-'
+          tr
+            td Genstandsnr.:
+            td= item.unitno || '-'
+
+
+      .row.marketing
+        h4 Tid
+        table(class='table table-striped')
+          tr
+            td Optagelsestid - Fra:
+            td= item.acceptance_time_from ? item.acceptance_time_from.displaystring : '-'
+          tr
+            td Optagelsestid - Til:
+            td= item.acceptance_time_to ? item.acceptance_time_to.displaystring : '-'
+          tr
+            td Tidsnote:
+            td= item.timenote || '-'
+
+      .row.marketing
+        h4 Lokalitet
+        - var has_coordinates = item.longitude && item.latitude;
+        div(class=has_coordinates ? 'col-md-8 nopadding' : '')
+            table(class='table table-striped')
+              tr
+                td Koordinater:
+                td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+              tr
+                td Sted:
+                td= item.place || '-'
+              tr
+                td By:
+                td= item.city || '-'
+              tr
+                td Topnr.:
+                td= item.topno || '-'
+              tr
+                td Lokalitetsnote:
+                td= item.locationnote || '-'
+
+        - if(has_coordinates)
+          .col-md-4(style="text-align: center")
+              a(href='http://maps.google.dk/maps?ll=' +
+                     item.longitude + ',' + item.latitude +
+                     '&spn=0.008039,0.015857&t=h&z=16')
+                img(alt='Google Map',
+                    src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                        item.longitude + ',' + item.latitude +
+                        '&sensor=false&scale=1&zoom=14&maptype=terrain')
