@@ -58,7 +58,7 @@ block content
                 - if(item.longitude && item.latitude)
                     tr
                        td Koordinater:
-                       td= item.longitude + ',' + item.latitude
+                       td= item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5)
         .col-md-4(style="text-align: center")
               a(href='http://maps.google.dk/maps?ll=' +
                      item.longitude + ',' + item.latitude +
