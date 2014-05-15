@@ -1,29 +1,54 @@
 doctype html
+
+mixin analytics
+  script.
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-2930791-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+mixin head
+  base(href='/')
+  title
+
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='description', content='')
+  meta(name='viewport', content='width=device-width')
+
+  link(rel='stylesheet', href='styles/main.css')
+
+mixin header
+  .header(ng-controller='NavbarCtrl')
+    img(src="http://samlinger.natmus.dk/themes/natmus/images/logo.png")
+
+    ul.nav.nav-pills.pull-right
+      li
+        a(href="#") Hjælp
+      li
+        a(href="#") Kontakt
+
+mixin footer
+  .footer
+    Noget meget interessant footer tekst, evt. noget om licensering mv.
+
 html.no-js
   head
-    meta(charset='utf-8')
-    meta(http-equiv='X-UA-Compatible', content='IE=edge')
-    base(href='/')
-    title
-    meta(name='description', content='')
-    meta(name='viewport', content='width=device-width')
-    link(rel='stylesheet', href='styles/main.css')
+    +head()
+    +analytics()
+
     block header
   body(ng-app='natmusSamlingerApp')
     .container(ng-view='')
-      .header(ng-controller='NavbarCtrl')
-        img(src="http://samlinger.natmus.dk/themes/natmus/images/logo.png")
 
-        ul.nav.nav-pills.pull-right
-          li
-            a(href="#") Hjælp
-          li
-            a(href="#") Kontakt
-
+      +header()
       block content
-
-      .footer
-        Noget meget interessant footer tekst, evt. noget om licensering mv.
+      +footer()
 
     // build:js(app) scripts/vendor.js
     script(src='bower_components/jquery/dist/jquery.js')
