@@ -5,5 +5,5 @@ angular.module('natmusSamlingerApp', [
   'ngResource',
   'ngSanitize',
 ])
-  .run(function ($rootScope, $location, Auth) {
+  .run(function ($rootScope, $location) {
   });
