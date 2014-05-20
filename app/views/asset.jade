@@ -40,7 +40,6 @@ block content
               td(itemprop='creator')= item.creator || '-'
             tr
               td Licens:
-              //td= item.license ? item.license.displaystring : '-'
               td
                 - var license = helpers.license_tag(item.license.id);
                 - if(license)
