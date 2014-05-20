@@ -25,30 +25,38 @@ block content
       .row.marketing
         h4 Generelle oplysninger
         table(class='table table-striped')
-          tr
-            td Fil-ID:
-            td= id || '-'
-          tr
-            td Filnavn:
-            td= item.filename || '-'
-          tr
-            td Copyright:
-            td(itemprop='copyrightHolder')= item.copyright || '-'
-          tr
-            td Fotograf / skaber af mediet:
-            td(itemprop='creator')= item.creator || '-'
-          tr
-            td Licens:
-            td= item.license ? item.license.displaystring : '-'
-          tr
-            td Vandrette pixels:
-            td= item.img_width.toFixed(3) || '-'
-          tr
-            td Lodrette pixels:
-            td= item.img_height.toFixed(3) || '-'
-          tr
-            td Opløsning:
-            td= item.dpi || '-'
+          tbody
+            tr
+              td Fil-ID:
+              td= id || '-'
+            tr
+              td Filnavn:
+              td= item.filename || '-'
+            tr
+              td Copyright:
+              td(itemprop='copyrightHolder')= item.copyright || '-'
+            tr
+              td Fotograf / skaber af mediet:
+              td(itemprop='creator')= item.creator || '-'
+            tr
+              td Licens:
+              //td= item.license ? item.license.displaystring : '-'
+              td
+                - var license = helpers.license_tag(item.license.id);
+                - if(license)
+                  a(href=license.url, rel='license', target='_blank')
+                    img(src=license.img, alt='Creative Commons licens')
+                - else
+                  span= item.license.displaystring
+            tr
+              td Vandrette pixels:
+              td= item.img_width.toFixed(3) || '-'
+            tr
+              td Lodrette pixels:
+              td= item.img_height.toFixed(3) || '-'
+            tr
+              td Opløsning:
+              td= item.dpi || '-'
 
       .row.marketing
         - if(item.description)
@@ -58,52 +66,55 @@ block content
       .row.marketing
         h4 Reference til fysisk arkiv
         table(class='table table-striped')
-          tr
-            td Arkivnavn:
-            td= item.archivename ? item.archivename.displaystring : '-'
-          tr
-            td Arkivalienr.:
-            td= item.archiveno || '-'
-          tr
-            td Genstandsnr.:
-            td= item.unitno || '-'
+          tbody
+            tr
+              td Arkivnavn:
+              td= item.archivename ? item.archivename.displaystring : '-'
+            tr
+              td Arkivalienr.:
+              td= item.archiveno || '-'
+            tr
+              td Genstandsnr.:
+              td= item.unitno || '-'
 
 
       .row.marketing
         h4 Tid
         table(class='table table-striped')
-          tr
-            td Årstal:
-            td= item.year || '-'
-          tr
-            td Optagelsestid - Fra:
-            - var date = item.acceptance_time_from;
-            - if(!date)
-              td= '-'
-            - else
-              td(class='date')
-                span= date.day
-                span= date.month
-                span(itemprop='dateCreated')= date.year
-          tr
-            td Optagelsestid - Til:
-            - var date = item.acceptance_time_to;
-            - if(!date)
-              td= '-'
-            - else
-              td(class='date')
-                span= date.day
-                span= date.month
-                span= date.year
-          tr
-            td Tidsnote:
-            td= item.timenote || '-'
+          tbody
+            tr
+              td Årstal:
+              td= item.year || '-'
+            tr
+              td Optagelsestid - Fra:
+              - var date = item.acceptance_time_from;
+              - if(!date)
+                td= '-'
+              - else
+                td(class='date')
+                  span= date.day
+                  span= date.month
+                  span(itemprop='dateCreated')= date.year
+            tr
+              td Optagelsestid - Til:
+              - var date = item.acceptance_time_to;
+              - if(!date)
+                td= '-'
+              - else
+                td(class='date')
+                  span= date.day
+                  span= date.month
+                  span= date.year
+            tr
+              td Tidsnote:
+              td= item.timenote || '-'
 
       .row.marketing
         h4 Lokalitet
         - var has_coordinates = item.longitude && item.latitude;
         div(class=has_coordinates ? 'col-md-8 nopadding' : '')
-            table(class='table table-striped')
+          table(class='table table-striped')
+            tbody
               tr
                 td Koordinater:
                 td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
