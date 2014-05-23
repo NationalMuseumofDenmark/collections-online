@@ -197,7 +197,7 @@ module.exports = function (grunt) {
       app: {
         src: '<%= yeoman.app %>/views/index.jade',
         ignorePath: '<%= yeoman.app %>/',
-        exclude: ['picturefill']
+        exclude: []
       },
       sass: {
         src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],

@@ -11,6 +11,9 @@ block header
     table td.date span:last-child:after {
       content: '';
     }
+    .asset-image img {
+      width: 100%;
+    }
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork')
@@ -18,9 +21,13 @@ block content
         h2(itemprop='name')= item.short_title || 'Ingen titel'
 
       .row.marketing
-        img(itemprop='thumbnailUrl',
-            src=image, alt='billede',
-            style='max-width: 100%')
+        span(data-picture, data-alt="Billede", class="asset-image")
+          span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
+          span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
+          span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
+
+          noscript
+            img(src=image_src, alt='billede')
 
       .row.marketing
         h4 Generelle oplysninger
