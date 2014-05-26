@@ -1,3 +1,4 @@
-# robotstxt.org
-
 User-agent: *
+Disallow: /
+Allow: /DNT/70587
+
