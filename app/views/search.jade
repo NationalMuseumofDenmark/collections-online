@@ -17,6 +17,11 @@ block header
     }
 
 block content
+  form(action=url)
+    .form-group
+      input(type='text', class='form-control', placeholder='Søg', name='q'
+            value=freetext || nothing)
+
   .search_result
     - each result in results
       .result_item
