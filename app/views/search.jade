@@ -1,0 +1,25 @@
+extends index
+
+block header
+  style.
+    .search_result {
+
+    }
+    .result_item {
+      float: left;
+      margin: 0 10px 10px 0;
+      height: 150px;
+      width: 150px;
+      overflow: hidden;
+    }
+    .clear_left {
+      clear: left;
+    }
+
+block content
+  .search_result
+    - each result in results
+      .result_item
+        a(href=helpers.asset_url(result))
+          img(src=helpers.thumbnail_url(result), alt='billede')
+  .clear_left
