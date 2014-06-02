@@ -18,15 +18,15 @@ require('./lib/routes')(app);
 var es_client = new elasticsearch.Client();
 app.set('es_client', es_client);
 
-cip.init_session(function(nm) {
-    cip.get_catalogs(nm, function(catalogs) {
-        cip.get_category_tree(nm, catalogs[1], function(response) {
-            var categories = new cip_categories.Categories(response, function(categories) {
-                //categories.dump_tree(categories.tree);
-            });
-        });
-    });
+var categories = {};
+
+cip_categories.load_categories(function(result) {
+    for(var i=0; i < result.length; ++i) {
+        categories[result[i].id] = result[i].tree;
+    }
+    app.set('cip_categories', categories);
 });
+
 
 // Start server
 app.listen(config.port, config.ip, function () {
