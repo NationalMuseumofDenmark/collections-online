@@ -4,6 +4,7 @@ var express = require('express'),
     path = require('path'),
     fs = require('fs'),
     cip = require('./lib/cip-methods.js'),
+    cip_categories = require('./lib/cip-categories.js'),
     elasticsearch = require('elasticsearch');;
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -16,6 +17,16 @@ require('./lib/routes')(app);
 
 var es_client = new elasticsearch.Client();
 app.set('es_client', es_client);
+
+var categories = {};
+
+cip_categories.load_categories(function(result) {
+    for(var i=0; i < result.length; ++i) {
+        categories[result[i].id] = result[i].tree;
+    }
+    app.set('cip_categories', categories);
+});
+
 
 // Start server
 app.listen(config.port, config.ip, function () {
