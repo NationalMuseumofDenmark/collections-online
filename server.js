@@ -21,8 +21,8 @@ app.set('es_client', es_client);
 cip.init_session(function(nm) {
     cip.get_catalogs(nm, function(catalogs) {
         cip.get_category_tree(nm, catalogs[1], function(response) {
-            var categories = new cip_categories.Categories(response, function(tree) {
-                console.log(tree); 
+            var categories = new cip_categories.Categories(response, function(categories) {
+                //categories.dump_tree(categories.tree);
             });
         });
     });
