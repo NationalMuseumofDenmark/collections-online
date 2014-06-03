@@ -3,8 +3,8 @@ extends index
 mixin paging
   ul(class="pagination pull-right")
     - each page in pagination
-      li(class=(page*50 == parseInt(req.param('offset') || '0') ? 'active' : ''))
-        a(href=req.path + '?' + helpers.query_string({offset: page*50, q: req.param('q')}))= page+1
+      li(class=(page*page_size == parseInt(req.param('offset') || '0') ? 'active' : ''))
+        a(href=req.path + '?' + helpers.query_string({offset: page*page_size, q: req.param('q')}))= page+1
 
 block header
   style.
@@ -12,9 +12,9 @@ block header
 
     }
     .result-item {
-      margin: 0 10px 10px 0;
-      height: 150px;
-      width: 150px;
+      margin: 0 0 10px 10px;
+      height: 162px;
+      width: 162px;
       overflow: hidden;
     }
 
