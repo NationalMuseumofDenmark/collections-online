@@ -55,6 +55,8 @@ block content
                       img(src=license.img, alt='Creative Commons licens')
                   - else
                     span= item.license.displaystring
+                - else
+                  span -
             tr
               td Vandrette pixels:
               td= item.img_width.toFixed(3) || '-'
