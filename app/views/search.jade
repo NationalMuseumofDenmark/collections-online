@@ -1,34 +1,43 @@
 extends index
 
+mixin paging
+  ul(class="pagination pull-right")
+    - each page in pagination
+      li(class=(page*50 == parseInt(req.param('offset')) ? 'active' : ''))
+        a(href=req.path + '?offset=' + page*50)= page+1
+
 block header
   style.
-    .search_result {
+    .search-result {
 
     }
-    .result_item {
-      float: left;
+    .result-item {
       margin: 0 10px 10px 0;
       height: 150px;
       width: 150px;
       overflow: hidden;
     }
-    .clear_left {
-      clear: left;
-    }
 
 block content
-  form(action=url)
+  form(action=req.path)
     .form-group
       .input-group
         input(type='text', class='form-control', placeholder='Søg', name='q'
-              value=freetext || nothing)
+              value=req.param('freetext') || nothing)
         .input-group-btn
           button(type="submit", class="btn btn-default")
             span Søg
 
-  .search_result
+  .search-result
     - each result in results
-      .result_item
+      .result-item.pull-left
         a(href=helpers.asset_url(result))
           img(src=helpers.thumbnail_url(result), alt='billede')
-  .clear_left
+
+  .clearfix
+
+  +paging()
+
+  .clearfix
+
+
