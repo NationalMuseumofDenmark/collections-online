@@ -48,12 +48,13 @@ block content
             tr
               td Licens:
               td
-                - var license = helpers.license_tag(item.license.id);
-                - if(license)
-                  a(href=license.url, rel='license', target='_blank')
-                    img(src=license.img, alt='Creative Commons licens')
-                - else
-                  span= item.license.displaystring
+                - if(item.license)
+                  - var license = helpers.license_tag(item.license.id);
+                  - if(license)
+                    a(href=license.url, rel='license', target='_blank')
+                      img(src=license.img, alt='Creative Commons licens')
+                  - else
+                    span= item.license.displaystring
             tr
               td Vandrette pixels:
               td= item.img_width.toFixed(3) || '-'
