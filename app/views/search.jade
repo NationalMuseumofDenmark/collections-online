@@ -3,8 +3,8 @@ extends index
 mixin paging
   ul(class="pagination pull-right")
     - each page in pagination
-      li(class=(page*50 == parseInt(req.param('offset')) ? 'active' : ''))
-        a(href=req.path + '?offset=' + page*50)= page+1
+      li(class=(page*50 == parseInt(req.param('offset') || '0') ? 'active' : ''))
+        a(href=req.path + '?' + helpers.query_string({offset: page*50, q: req.param('q')}))= page+1
 
 block header
   style.
@@ -23,7 +23,7 @@ block content
     .form-group
       .input-group
         input(type='text', class='form-control', placeholder='Søg', name='q'
-              value=req.param('freetext') || nothing)
+              value=req.param('q') || nothing)
         .input-group-btn
           button(type="submit", class="btn btn-default")
             span Søg
