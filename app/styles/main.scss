@@ -8,6 +8,7 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 body {
     padding-top: 20px;
     padding-bottom: 20px;
+    overflow-x: hidden; // Enable bleeds without horizontal scroll
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
@@ -55,6 +56,12 @@ body {
 /* Supporting marketing content */
 .marketing {
     margin: 40px 0;
+    &.asset-bleed {
+        margin-left: -15px;
+        margin-right: -15px;
+        padding-left: 0;
+        padding-right: 0;
+    }
 }
 
 .marketing p + h4 {
