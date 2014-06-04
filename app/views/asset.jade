@@ -17,17 +17,20 @@ block header
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork')
+      - var title = item.short_title || 'Ingen titel'
       .row.marketing
-        h2(itemprop='name')= item.short_title || 'Ingen titel'
+        h2(itemprop='name')= title
 
       .row.marketing
-        span(data-picture, data-alt="Billede", class="asset-image")
+        span(data-picture, data-alt=title,
+             class="asset-image")
+
           span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
           span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
           span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
 
           noscript
-            img(src=image_src, alt=item.short_title, title=item.short_title)
+            img(src=image_src, alt=title, title=title)
 
       .row.marketing
         h4 Generelle oplysninger
