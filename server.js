@@ -20,18 +20,16 @@ app.set('es_client', es_client);
 
 var categories = {};
 
-cip_categories.load_categories(function(result) {
+cip_categories.load_categories().then(function(result) {
     for(var i=0; i < result.length; ++i) {
-        categories[result[i].id] = result[i].tree;
+        categories[result[i].id] = result[i];
     }
     app.set('cip_categories', categories);
-});
-
-
-// Start server
-app.listen(config.port, config.ip, function () {
-
-    console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
+}).then(function() {
+    // Start server
+    app.listen(config.port, config.ip, function () {
+        console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
+    });
 });
 
 // Expose app
