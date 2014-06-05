@@ -14,6 +14,22 @@ block header
     .asset-image img {
       width: 100%;
     }
+    .categories {
+      list-style: none;
+      clear: left;
+      margin: 0 0;
+      padding: 5px 0;
+    }
+    .categories li {
+      float: left;
+    }
+    .categories li:after {
+      content: '››';
+      margin: 0 5px;
+    }
+    .categories li:last-child:after {
+      content: '';
+    }
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork')
@@ -69,6 +85,15 @@ block content
             tr
               td Opløsning:
               td= item.dpi || '-'
+
+
+      .row.marketing
+        h4 Kategorier
+        each path in categories
+          ul.categories
+            each category in path
+              - if(category.id != 1)
+                li= category.name
 
       .row.marketing
         - if(item.description)
