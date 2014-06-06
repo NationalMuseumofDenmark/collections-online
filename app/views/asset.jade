@@ -93,7 +93,8 @@ block content
             ul.categories
               each category in path
                 - if(category.id != 1)
-                  li= category.name
+                  li
+                    a(href="/?q=" + category.name)= category.name
 
       .row.marketing
         - if(item.description)
