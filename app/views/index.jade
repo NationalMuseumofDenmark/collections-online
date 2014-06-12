@@ -25,17 +25,24 @@ mixin head
 
 mixin header
   .header
-    img(src="http://samlinger.natmus.dk/themes/natmus/images/logo.png")
-
-    ul.nav.nav-pills.pull-right
+    ul.nav.nav-pills
       li
         a(href="#") Hjælp
       li
         a(href="#") Kontakt
+    img(src="http://samlinger.natmus.dk/themes/natmus/images/logo.png")
+
 
 mixin footer
-  .footer
-    Noget meget interessant footer tekst, evt. noget om licensering mv.
+  footer.bleed
+    .footer
+      address
+        | Nationalmuseet<br>Prinsens Palæ<br>Ny Vestergade 10<br>DK-1471 København K<br>Tel. +45 3313 4411
+      
+      h2 Følg os på:
+      ul
+        each val in ['Facebook', 'Twitter', 'YouTube']
+          li= val
 
 html.no-js
   head
