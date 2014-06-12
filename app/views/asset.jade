@@ -1,42 +1,10 @@
 extends index
 
-block header
-  style.
-    table td:first-child {
-      width: 250px;
-    }
-    table td.date span:after {
-      content: '/';
-    }
-    table td.date span:last-child:after {
-      content: '';
-    }
-    .asset-image img {
-      width: 100%;
-    }
-    .categories {
-      list-style: none;
-      clear: left;
-      margin: 0 0;
-      padding: 5px 0;
-    }
-    .categories li {
-      float: left;
-    }
-    .categories li:after {
-      content: '››';
-      margin: 0 5px;
-    }
-    .categories li:last-child:after {
-      content: '';
-    }
-
 block content
-  div(itemscope, itemtype='http://schema.org/CreativeWork')
+  div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
       - var title = item.short_title || 'Ingen titel'
-      .row.marketing.asset-bleed
-        span(data-picture, data-alt=title,
-             class="asset-image")
+      .row.bleed
+        span(data-picture, data-alt=title)
 
           span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
           span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
@@ -45,137 +13,146 @@ block content
           noscript
             img(src=image_src, alt=title, title=title)
 
-      .row.marketing
-        h2(itemprop='name')= title
+      .row
+        h1(itemprop='name')= title
 
-      .row.marketing
-        h4 Generelle oplysninger
-        table(class='table table-striped')
-          tbody
-            tr
-              td Fil-ID:
-              td= id || '-'
-            tr
-              td Filnavn:
-              td= item.filename || '-'
-            tr
-              td Copyright:
-              td(itemprop='copyrightHolder')= item.copyright || '-'
-            tr
-              td Fotograf / skaber af mediet:
-              td(itemprop='creator')= item.creator || '-'
-            tr
-              td Licens:
-              td
-                - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    span= item.license.displaystring
-                - else
-                  span -
-            tr
-              td Vandrette pixels:
-              td= item.img_width.toFixed(3) || '-'
-            tr
-              td Lodrette pixels:
-              td= item.img_height.toFixed(3) || '-'
-            tr
-              td Opløsning:
-              td= item.dpi || '-'
+      - if(item.description)
+        .row
+          h2.sr-only Beskrivelse
+          p(itemprop='description',
+            class='lead')= item.description
 
-      - if(categories)
-        .row.marketing
-          h4 Kategorier
-          each path in categories
-            ul.categories
-              each category in path
-                - if(category.id != 1)
-                  li
-                    a(href="/?q=" + category.name)= category.name
-
-      .row.marketing
-        - if(item.description)
-          h4 Beskrivelse
-          p(itemprop='description')= item.description
-
-      .row.marketing
-        h4 Reference til fysisk arkiv
-        table(class='table table-striped')
-          tbody
-            tr
-              td Arkivnavn:
-              td= item.archivename ? item.archivename.displaystring : '-'
-            tr
-              td Arkivalienr.:
-              td= item.archiveno || '-'
-            tr
-              td Genstandsnr.:
-              td= item.unitno || '-'
-
-
-      .row.marketing
-        h4 Tid
-        table(class='table table-striped')
-          tbody
-            tr
-              td Årstal:
-              td= item.year || '-'
-            tr
-              td Optagelsestid - Fra:
-              - var date = item.acceptance_time_from;
-              - if(!date)
-                td= '-'
-              - else
-                td(class='date')
-                  span= date.day
-                  span= date.month
-                  span(itemprop='dateCreated')= date.year
-            tr
-              td Optagelsestid - Til:
-              - var date = item.acceptance_time_to;
-              - if(!date)
-                td= '-'
-              - else
-                td(class='date')
-                  span= date.day
-                  span= date.month
-                  span= date.year
-            tr
-              td Tidsnote:
-              td= item.timenote || '-'
-
-      .row.marketing
-        h4 Lokalitet
-        - var has_coordinates = item.longitude && item.latitude;
-        div(class=has_coordinates ? 'col-md-8 nopadding' : '')
           table(class='table table-striped')
             tbody
               tr
-                td Koordinater:
-                td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+                th Rettighedshaver
+                td(itemprop='copyrightHolder')= item.copyright || '-'
               tr
-                td Sted:
-                td= item.place || '-'
+                th Fotograf
+                td(itemprop='creator')= item.creator || '-'
               tr
-                td By:
-                td= item.city || '-'
-              tr
-                td Topnr.:
-                td= item.topno || '-'
-              tr
-                td Lokalitetsnote:
-                td= item.locationnote || '-'
+                th Licens
+                td
+                  - if(item.license)
+                    - var license = helpers.license_tag(item.license.id);
+                    - if(license)
+                      a(href=license.url, rel='license', target='_blank')
+                        img(src=license.img, alt='Creative Commons licens')
+                    - else
+                      | #{item.license.displaystring}
+                  - else
+                    | -
+
+      .row
+        h2 Tid
+        table(class='table table-striped')
+          tbody
+            tr
+              th Årstal:
+              td= item.year || '-'
+            tr
+              th Optagelsestid - Fra:
+              td(itemprop='dateCreated', class='date')
+                - var date = item.acceptance_time_from;
+                - if(!date)
+                  | -
+                - else
+                  | #{date.day}/#{date.month}/#{date.year}
+            tr
+              th Optagelsestid - Til:
+              td(class='date')
+                - var date = item.acceptance_time_to;
+                - if(!date)
+                  | -
+                - else
+                  | #{date.day}/#{date.month}/#{date.year}
+            tr
+              th Tidsnote:
+              td= item.timenote || '-'
+
+      
+      .row
+        h2 Sted
+        - var has_coordinates = item.longitude && item.latitude;
+        //- div(class=has_coordinates ? 'col-md-8 nopadding' : '')
+        table(class='table table-striped')
+          tbody
+            tr
+              th Sted:
+              td= item.place || '-'
+            tr
+              th Koordinater:
+              td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+            tr
+              th By:
+              td= item.city || '-'
+            tr
+              th Topnr.:
+              td= item.topno || '-'
+            tr
+              th Lokalitetsnote:
+              td= item.locationnote || '-'
 
         - if(has_coordinates)
-          .col-md-4(style="text-align: center")
-              a(href='http://maps.google.dk/maps?ll=' +
-                     item.longitude + ',' + item.latitude +
-                     '&spn=0.008039,0.015857&t=h&z=16',
-                target='blank')
-                img(alt='Google Map',
-                    src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                        item.longitude + ',' + item.latitude +
-                        '&sensor=false&scale=1&zoom=14&maptype=terrain')
+          //- .col-md-4(style="text-align: center")
+          div
+            a(href='http://maps.google.dk/maps?ll=' +
+                   item.longitude + ',' + item.latitude +
+                   '&spn=0.008039,0.015857&t=h&z=16',
+                    target='blank')
+              img(alt='Google Map',
+                  src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                      item.longitude + ',' + item.latitude +
+                      '&sensor=false&scale=1&zoom=14&maptype=terrain')
+      .row
+        h2 Tekniske oplysninger
+        table(class='table table-striped')
+          tbody
+            tr
+              th Bredde (pixel):
+              td= item.img_width.toFixed(3) || '-'
+            tr
+              th Højde (pixel):
+              td= item.img_height.toFixed(3) || '-'
+            tr
+              th Opløsning (DPI):
+              td= item.dpi || '-'
+            tr
+              th Fil-ID:
+              td= id || '-'
+
+
+
+          //- tbody
+          //-   tr
+          //-     td Arkivalienr.:
+          //-     td= item.archiveno || '-'
+          //-   tr
+          //-     td Genstandsnr.:
+          //-     td= item.unitno || '-'
+          //-   tr
+          //-     td Arkivnavn:
+          //-     td= item.archivename ? item.archivename.displaystring : '-'
+
+
+
+      //- - if(categories)
+      //-   .row
+      //-     h4 Kategorier
+      //-     each path in categories
+      //-       ul.categories
+      //-         each category in path
+      //-           - if(category.id != 1)
+      //-             li
+      //-               a(href="/?q=" + category.name)= category.name
+
+
+      //- .row
+      //-   h2 Generelle oplysninger
+      //-   table(class='table table-striped')
+      //-     tbody
+      //-       tr
+      //-         td Filnavn:
+      //-         td= item.filename || '-'
+
+
