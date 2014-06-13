@@ -17,87 +17,97 @@ block content
             img(src=image_src, alt=title, title=title)
 
       .row
+        ul.list-group
+          li.list-group-item [Samling]
+            a.pull-right
+              span.glyphicon.glyphicon-share-alt
+            a(class='pull-right', href='#{image_src_set["1200"]}')
+              span.glyphicon.glyphicon-download-alt
+
+      .row
         h1(itemprop='name')= title
 
-      - if(item.description)
-        .row
+      .row
+        - if(item.description)
           h2.sr-only Beskrivelse
           p(itemprop='description',
             class='lead')= item.description
 
-          table(class='table table-striped')
-            tbody
-              tr
-                th Rettighedshaver
-                td(itemprop='copyrightHolder')= item.copyright || '-'
-              tr
-                th Fotograf
-                td(itemprop='creator')= item.creator || '-'
-              tr
-                th Licens
-                td
-                  - if(item.license)
-                    - var license = helpers.license_tag(item.license.id);
-                    - if(license)
-                      a(href=license.url, rel='license', target='_blank')
-                        img(src=license.img, alt='Creative Commons licens')
-                    - else
-                      | #{item.license.displaystring}
-                  - else
-                    | -
-
-      .row
-        h2 Tid
         table(class='table table-striped')
           tbody
             tr
-              th Årstal:
-              td= item.year || '-'
+              th Licens:
+              td
+                - if(item.license)
+                  - var license = helpers.license_tag(item.license.id);
+                  - if(license)
+                    a(href=license.url, rel='license', target='_blank')
+                      img(src=license.img, alt='Creative Commons licens')
+                  - else
+                    | #{item.license.displaystring}
+                - else
+                  | -
             tr
-              th Optagelsestid - Fra:
+              th Rettighedshaver og fotograf:
+              td
+                span(itemprop='copyrightHolder')= item.copyright || '-'
+                | , 
+                span(itemprop='creator')= item.creator || '-'
+
+      .row
+        h2 Tidsperiode og årstal
+        - if(item.year)
+          p= item.year
+        table(class='table table-striped')
+          tbody
+            tr
+              th Optagelsestid:
               td(itemprop='dateCreated', class='date')
-                - var date = item.acceptance_time_from;
-                - if(!date)
-                  | -
-                - else
-                  | #{date.day}/#{date.month}/#{date.year}
+                - var from = item.acceptance_time_from;
+                - var to = item.acceptance_time_to;
+                - if(from)
+                  | #{from.day}/#{from.month}/#{from.year}
+                - if((from && to) || (!from && !to))
+                  |  - 
+                - if(to)
+                  | #{to.day}/#{to.month}/#{to.year}
             tr
-              th Optagelsestid - Til:
-              td(class='date')
-                - var date = item.acceptance_time_to;
-                - if(!date)
-                  | -
-                - else
-                  | #{date.day}/#{date.month}/#{date.year}
-            tr
-              th Tidsnote:
-              td= item.timenote || '-'
+              th Fremstillingstid:
+              td [Fremstillingstid]
 
       
       .row
         h2 Sted
         - var has_coordinates = item.longitude && item.latitude;
-        //- div(class=has_coordinates ? 'col-md-8 nopadding' : '')
+        - if (item.place)
+          p= item.place
         table(class='table table-striped')
           tbody
             tr
-              th Sted:
-              td= item.place || '-'
+              th Adresse:
+              td
+                - var address = item.address || '[Adresse]'
+                - var zipcode = item.zipcode || '[Postnummer]'
+                - var city = item.city
+                - if(address)
+                  | #{address}
+                
+                - if(zipcode)
+                  - if(address)
+                    | , 
+                  | #{zipcode}
+                - if(city)
+                  - if(address || zipcode)
+                    | , 
+                  | #{city}
             tr
               th Koordinater:
               td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
-            tr
-              th By:
-              td= item.city || '-'
-            tr
-              th Topnr.:
-              td= item.topno || '-'
             tr
               th Lokalitetsnote:
               td= item.locationnote || '-'
 
         - if(has_coordinates)
-          //- .col-md-4(style="text-align: center")
           div
             a(href='http://maps.google.dk/maps?ll=' +
                    item.longitude + ',' + item.latitude +
@@ -112,18 +122,29 @@ block content
         table(class='table table-striped')
           tbody
             tr
-              th Bredde (pixel):
-              td= item.img_width.toFixed(3) || '-'
+              th Fil-ID:
+              td= id || '-'
             tr
-              th Højde (pixel):
-              td= item.img_height.toFixed(3) || '-'
+              th Størrelse (pixel):
+              td
+                | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'
-            tr
-              th Fil-ID:
-              td= id || '-'
 
+      .row
+        h2 Yderligere information
+        p [Skal specificeres]
+
+      .row
+        h2 Vurdér, Del, Download
+        p [Skal specificeres. Så vidt jeg forstår, er vurdering udsat. Og bør deling (Share this) og download ikke være ikoner i tilknytning til billedet? Evt. til højre for samlingen?]
+
+      .row
+        h2 Relateret indhold
+        - for item in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]']
+          .col-sm-6.col-md-4.col-lg-3
+            .thumbnail= item
 
 
           //- tbody
@@ -137,7 +158,13 @@ block content
           //-     td Arkivnavn:
           //-     td= item.archivename ? item.archivename.displaystring : '-'
 
+            //- tr
+            //-   th Tidsnote:
+            //-   td= item.timenote || '-'
 
+            //- tr
+            //-   th Topnr.:
+            //-   td= item.topno || '-'
 
       //- - if(categories)
       //-   .row
