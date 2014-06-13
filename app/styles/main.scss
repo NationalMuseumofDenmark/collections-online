@@ -67,6 +67,12 @@ body {
   img {
     @include img-responsive();
   }
+  a {
+    .glyphicon {
+      color: #000;
+      margin-left: 1em;
+    }
+  }
   table,
   tbody,
   tr,
@@ -78,12 +84,6 @@ body {
     th,
     td {
       border-top: none;
-    }
-  }
-  .related-assets {
-    li {
-      display: inline-block;
-      width: 50%;
     }
   }
 }
