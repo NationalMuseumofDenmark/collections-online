@@ -14,8 +14,12 @@ block content
             img(src=image_src, alt=title, title=title)
 
       .row
-        ul.breadcrumb
-          li [Samling]
+        ul.list-group
+          li.list-group-item [Samling]
+            a.pull-right
+              span.glyphicon.glyphicon-share-alt
+            a(class='pull-right', href='#{image_src_set["1200"]}')
+              span.glyphicon.glyphicon-download-alt
 
       .row
         h1(itemprop='name')= title
@@ -135,11 +139,11 @@ block content
 
       .row
         h2 Relateret indhold
-        ul.list-group.related-assets
-          - for item in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]']
-            li.well= item
+        - for item in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]']
+          .col-sm-6.col-md-4.col-lg-3
+            .thumbnail= item
 
-            
+
           //- tbody
           //-   tr
           //-     td Arkivalienr.:
