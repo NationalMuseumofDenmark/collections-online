@@ -7,15 +7,7 @@ block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
       - var title = item.short_title || 'Ingen titel'
       .row.bleed
-        span(data-picture, data-alt=title)
-
-          span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
-          span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
-          span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
-
-          noscript
-            img(src=image_src, alt=title, title=title)
-
+        +responsiveImage(title)
       .row
         ul.list-group
           li.list-group-item [Samling]

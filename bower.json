@@ -11,7 +11,9 @@
     "angular-cookies": ">=1.2.*",
     "angular-sanitize": ">=1.2.*",
     "angular-route": ">=1.2.*",
-    "picturefill": "~1.2.1"
+    "picturefill": "~1.2.1",
+    "ngInfiniteScroll": "~1.0.0",
+    "masonry": "~3.1.5"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",

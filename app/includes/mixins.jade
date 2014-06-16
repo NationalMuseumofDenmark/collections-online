@@ -1,0 +1,55 @@
+mixin analytics
+  script.
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-2930791-3']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+mixin head
+  base(href='/')
+
+  meta(charset='utf-8')
+  meta(http-equiv='X-UA-Compatible', content='IE=edge')
+  meta(name='description', content='')
+  meta(name='viewport', content='width=device-width')
+
+  link(rel='stylesheet', href='styles/main.css')
+
+mixin header
+  .header
+    ul.nav.nav-pills
+      li
+        a(href="#") Hjælp
+      li
+        a(href="#") Kontakt
+    a(href='/')
+      img(src="http://samlinger.natmus.dk/themes/natmus/images/logo.png")
+
+
+mixin footer
+  footer.bleed
+    .footer
+      address
+        | Nationalmuseet<br>Prinsens Palæ<br>Ny Vestergade 10<br>DK-1471 København K<br>Tel. +45 3313 4411
+
+      h2 Følg os på:
+      ul
+        each val in ['Facebook', 'Twitter', 'YouTube']
+          li= val
+
+mixin responsiveImage(title)
+  span(data-picture, data-alt=title)
+
+    span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
+    span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
+    span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
+
+    noscript
+      img(src=image_src, alt=title, title=title)
+
+
