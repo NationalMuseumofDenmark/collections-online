@@ -8,10 +8,12 @@ html.no-js
 
     block header
   body(ng-app='natmusSamlingerApp')
-    .container(ng-view='')
+    div(ng-view='')
 
       +header()
-      block content
+      +samlingerHeader()
+      .container
+        block content
       +footer()
 
     // build:js(app) scripts/vendor.js
@@ -32,6 +34,7 @@ html.no-js
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/modal.js')
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/tooltip.js')
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/popover.js')
+    script(src='../bower_components/angular-bootstrap/ui-bootstrap-tpls.js')
     script(src='../bower_components/angular-resource/angular-resource.js')
     script(src='../bower_components/angular-cookies/angular-cookies.js')
     script(src='../bower_components/angular-sanitize/angular-sanitize.js')
