@@ -3,186 +3,185 @@ extends index
 append header
   title= item.short_title
 
+
+
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
-      - var title = item.short_title || 'Ingen titel'
-      .row.bleed
-        span(data-picture, data-alt=title)
+    - var title = item.short_title || 'Ingen titel'
+    .row.bleed
+      +responsiveImage(title)
+    .row
+      .col-xs-8 [Samling]
+      .col-xs-4
+        a(href='#').pull-right
+          span.glyphicon.glyphicon-share-alt
+        a(href='#{image_src_set["1200"]}').pull-right
+          span.glyphicon.glyphicon-download-alt
 
-          span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
-          span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
-          span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
+    .row
+      h1(itemprop='name')= title
 
-          noscript
-            img(src=image_src, alt=title, title=title)
+    .row
+      - if(item.description)
+        h2.sr-only Beskrivelse
+        p(itemprop='description',
+          class='lead')= item.description
 
-      .row
-        ul.list-group
-          li.list-group-item [Samling]
-            a.pull-right
-              span.glyphicon.glyphicon-share-alt
-            a(class='pull-right', href='#{image_src_set["1200"]}')
-              span.glyphicon.glyphicon-download-alt
-
-      .row
-        h1(itemprop='name')= title
-
-      .row
-        - if(item.description)
-          h2.sr-only Beskrivelse
-          p(itemprop='description',
-            class='lead')= item.description
-
-        table(class='table table-striped')
-          tbody
-            tr
-              th Licens:
-              td
-                - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
+      table(class='table table-striped')
+        tbody
+          tr
+            th Licens:
+            td
+              - if(item.license)
+                - var license = helpers.license_tag(item.license.id);
+                - if(license)
+                  a(href=license.url, rel='license', target='_blank')
+                    img(src=license.img, alt='Creative Commons licens')
                 - else
-                  | -
-            tr
-              th Rettighedshaver og fotograf:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-                | , 
-                span(itemprop='creator')= item.creator || '-'
+                  | #{item.license.displaystring}
+              - else
+                | -
+          tr
+            th Rettighedshaver og fotograf:
+            td
+              span(itemprop='copyrightHolder')= item.copyright || '-'
+              | , 
+              span(itemprop='creator')= item.creator || '-'
 
-      .row
-        h2 Tidsperiode og årstal
-        - if(item.year)
-          p= item.year
-        table(class='table table-striped')
-          tbody
-            tr
-              th Optagelsestid:
-              td(itemprop='dateCreated', class='date')
-                - var from = item.acceptance_time_from;
-                - var to = item.acceptance_time_to;
-                - if(from)
-                  | #{from.day}/#{from.month}/#{from.year}
-                - if((from && to) || (!from && !to))
-                  |  - 
-                - if(to)
-                  | #{to.day}/#{to.month}/#{to.year}
-            tr
-              th Fremstillingstid:
-              td [Fremstillingstid]
+    .row
+      h2 Tidsperiode og årstal
+      - if(item.year)
+        p= item.year
+      table(class='table table-striped')
+        tbody
+          tr
+            th Optagelsestid:
+            td(itemprop='dateCreated', class='date')
+              - var from = item.acceptance_time_from;
+              - var to = item.acceptance_time_to;
+              - if(from)
+                | #{from.day}/#{from.month}/#{from.year}
+              - if((from && to) || (!from && !to))
+                |  - 
+              - if(to)
+                | #{to.day}/#{to.month}/#{to.year}
+          tr
+            th Fremstillingstid:
+            td [Fremstillingstid]
 
-      
-      .row
-        h2 Sted
-        - var has_coordinates = item.longitude && item.latitude;
-        - if (item.place)
-          p= item.place
-        table(class='table table-striped')
-          tbody
-            tr
-              th Adresse:
-              td
-                - var address = item.address || '[Adresse]'
-                - var zipcode = item.zipcode || '[Postnummer]'
-                - var city = item.city
+    
+    .row
+      h2 Sted
+      - var has_coordinates = item.longitude && item.latitude;
+      - if (item.place)
+        p= item.place
+      table(class='table table-striped')
+        tbody
+          tr
+            th Adresse:
+            td
+              - var address = item.address || '[Adresse]'
+              - var zipcode = item.zipcode || '[Postnummer]'
+              - var city = item.city
+              - if(address)
+                | #{address}
+              
+              - if(zipcode)
                 - if(address)
-                  | #{address}
-                
-                - if(zipcode)
-                  - if(address)
-                    | , 
-                  | #{zipcode}
-                - if(city)
-                  - if(address || zipcode)
-                    | , 
-                  | #{city}
-            tr
-              th Koordinater:
-              td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
-            tr
-              th Lokalitetsnote:
-              td= item.locationnote || '-'
+                  | , 
+                | #{zipcode}
+              - if(city)
+                - if(address || zipcode)
+                  | , 
+                | #{city}
+          tr
+            th Koordinater:
+            td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+          tr
+            th Lokalitetsnote:
+            td= item.locationnote || '-'
 
-        - if(has_coordinates)
-          div
-            a(href='http://maps.google.dk/maps?ll=' +
-                   item.longitude + ',' + item.latitude +
-                   '&spn=0.008039,0.015857&t=h&z=16',
-                    target='blank')
-              img(alt='Google Map',
-                  src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                      item.longitude + ',' + item.latitude +
-                      '&sensor=false&scale=1&zoom=14&maptype=terrain')
-      .row
-        h2 Tekniske oplysninger
-        table(class='table table-striped')
-          tbody
-            tr
-              th Fil-ID:
-              td= id || '-'
-            tr
-              th Størrelse (pixel):
-              td
-                | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
-            tr
-              th Opløsning (DPI):
-              td= item.dpi || '-'
+      - if(has_coordinates)
+        div
+          a(href='http://maps.google.dk/maps?ll=' +
+                 item.longitude + ',' + item.latitude +
+                 '&spn=0.008039,0.015857&t=h&z=16',
+                  target='blank')
+            img(alt='Google Map',
+                src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                    item.longitude + ',' + item.latitude +
+                    '&sensor=false&scale=1&zoom=14&maptype=terrain')
+    .row
+      h2 Tekniske oplysninger
+      table(class='table table-striped')
+        tbody
+          tr
+            th Fil-ID:
+            td= id || '-'
+          tr
+            th Størrelse (pixel):
+            td
+              | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
+          tr
+            th Opløsning (DPI):
+            td= item.dpi || '-'
 
-      .row
-        h2 Yderligere information
-        p [Skal specificeres]
+    .row
+      h2 Yderligere information
+      p [Skal specificeres]
 
-      .row
-        h2 Vurdér, Del, Download
-        p [Skal specificeres. Så vidt jeg forstår, er vurdering udsat. Og bør deling (Share this) og download ikke være ikoner i tilknytning til billedet? Evt. til højre for samlingen?]
+    .row
+      h2 Vurdér, Del, Download
+      p [Skal specificeres. Så vidt jeg forstår, er vurdering udsat. Og bør deling (Share this) og download ikke være ikoner i tilknytning til billedet? Evt. til højre for samlingen?]
 
-      .row
-        h2 Relateret indhold
-        - for item in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]']
-          .col-sm-6.col-md-4.col-lg-3
-            .thumbnail= item
-
-
-          //- tbody
-          //-   tr
-          //-     td Arkivalienr.:
-          //-     td= item.archiveno || '-'
-          //-   tr
-          //-     td Genstandsnr.:
-          //-     td= item.unitno || '-'
-          //-   tr
-          //-     td Arkivnavn:
-          //-     td= item.archivename ? item.archivename.displaystring : '-'
-
-            //- tr
-            //-   th Tidsnote:
-            //-   td= item.timenote || '-'
-
-            //- tr
-            //-   th Topnr.:
-            //-   td= item.topno || '-'
-
-      //- - if(categories)
-      //-   .row
-      //-     h4 Kategorier
-      //-     each path in categories
-      //-       ul.categories
-      //-         each category in path
-      //-           - if(category.id != 1)
-      //-             li
-      //-               a(href="/?q=" + category.name)= category.name
+    .row.search-results
+      h2 Relateret indhold
+      - for asset in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]']
+        .col-sm-6.col-md-4.col-lg-3
+          - var href = '#'
+          a(href=href, class='thumbnail')
+            +responsiveImage(title)
+            h2.h4 #{title}
+            p= item.description || ''
 
 
-      //- .row
-      //-   h2 Generelle oplysninger
-      //-   table(class='table table-striped')
-      //-     tbody
-      //-       tr
-      //-         td Filnavn:
-      //-         td= item.filename || '-'
+
+        //- tbody
+        //-   tr
+        //-     td Arkivalienr.:
+        //-     td= item.archiveno || '-'
+        //-   tr
+        //-     td Genstandsnr.:
+        //-     td= item.unitno || '-'
+        //-   tr
+        //-     td Arkivnavn:
+        //-     td= item.archivename ? item.archivename.displaystring : '-'
+
+          //- tr
+          //-   th Tidsnote:
+          //-   td= item.timenote || '-'
+
+          //- tr
+          //-   th Topnr.:
+          //-   td= item.topno || '-'
+
+    //- - if(categories)
+    //-   .row
+    //-     h4 Kategorier
+    //-     each path in categories
+    //-       ul.categories
+    //-         each category in path
+    //-           - if(category.id != 1)
+    //-             li
+    //-               a(href="/?q=" + category.name)= category.name
+
+
+    //- .row
+    //-   h2 Generelle oplysninger
+    //-   table(class='table table-striped')
+    //-     tbody
+    //-       tr
+    //-         td Filnavn:
+    //-         td= item.filename || '-'
 
 

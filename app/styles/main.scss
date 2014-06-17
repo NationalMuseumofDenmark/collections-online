@@ -6,21 +6,24 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
-/* Space out content a bit */
 body {
-  padding-top: 20px;
-  // padding-bottom: 20px;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
   font-family: Nunito, sans-serif;
 }
 
-/* Make the masthead heading the same height as the navigation */
 .header {
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+  margin-bottom: 20px;
+  height: 2em;
+  background: #000;
+  color: #fff;
+  text-align: center;
+  h2 {
+    margin: 0;
+  }
+  a {
+    line-height: 2em;
+    vertical-align: middle;
+    color: #fff;
   }
 }
 
@@ -32,8 +35,19 @@ body {
   border-top: 1px solid #e5e5e5;
 }
 
-.container-narrow > hr {
-  margin: 30px 0;
+/* Category menu */
+.categories-menu {
+  h2 {
+    font-size: 34px;
+    margin-top: 0;
+    a {
+      color: #000;
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
 }
 
 /* Main marketing message and sign up button */
@@ -61,7 +75,6 @@ body {
   padding-right: 0;
 }
 
-
 /* Assets */
 .asset {
   img {
@@ -81,28 +94,30 @@ body {
     display: block;
   }
   .table > tbody > tr {
-    th,
+    th {
+      padding-bottom: 0;
+      border-top: none;
+    }
     td {
+      padding-top: 0;
       border-top: none;
     }
   }
 }
 
-.nopadding {
-   padding: 0 !important;
-   margin: 0 !important;
+/* Search results */
+.search-results {
+  a {
+    color: #000;
+    &:hover {
+      text-decoration: none;
+      border-color: #000;
+    }
+  }
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
   .asset {
     table {
       display: table;
@@ -116,9 +131,19 @@ body {
     th {
       display: table-cell;
       width: 35%;
+      padding-bottom: 8px;
     }
     td {
       display: table-cell;
+      padding-top: 8px;
+    }
+    .table > tbody > tr {
+      th {
+        padding-bottom: 8px;
+      }
+      td {
+        padding-top: 8px;
+      }
     }
   }
 }
