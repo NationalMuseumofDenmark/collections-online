@@ -9,7 +9,7 @@ append header
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
-    .row.bleed
+    .row.bleed.text-center
       +responsiveImage(title)
     .row
       .col-xs-8 [Samling]
@@ -138,6 +138,9 @@ block content
         table(class='table table-striped')
           tbody
             tr
+              th Filnavn:
+              td= item.filename || '-'
+            tr
               th Arkivalienr.:
               td= item.archiveno || '-'
             tr
@@ -163,7 +166,7 @@ block content
           a(href=href, class='thumbnail')
             +responsiveImage(title)
             h2.h4 #{title}
-            p= item.description || ''
+            p.description= item.description || ''
 
 
 

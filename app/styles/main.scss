@@ -75,6 +75,12 @@ body {
   padding-right: 0;
 }
 
+p.description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* Assets */
 .asset {
   img {
