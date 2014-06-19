@@ -9,15 +9,11 @@ append header
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
-    .row.bleed
+    .row.bleed.text-center
       +responsiveImage(title)
     .row
       .col-xs-8 [Samling]
       .col-xs-4
-        //- a(href='#').pull-right
-        //-   h3.sr-only Del indhold
-        //-   span.glyphicon.glyphicon-share-alt
-        //-   div.share-this.hidden
         .pull-right
           +shareThisHTML()
         a(href='#{image_src_set["1200"]}').pull-right
@@ -132,8 +128,34 @@ block content
             td= item.dpi || '-'
 
     .row
-      h2 Yderligere information
+      h2.additional-info-header
+        - var path = req.path
+        a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').well.collapsed Yderligere information
+          span.glyphicon.glyphicon-chevron-up.pull-right
+          span.glyphicon.glyphicon-chevron-down.pull-right
       p [Skal specificeres]
+      div#additional-info.collapse
+        table(class='table table-striped')
+          tbody
+            tr
+              th Filnavn:
+              td= item.filename || '-'
+            tr
+              th Arkivalienr.:
+              td= item.archiveno || '-'
+            tr
+              th Genstandsnr.:
+              td= item.unitno || '-'
+            tr
+              th Arkivnavn:
+              td= item.archivename ? item.archivename.displaystring : '-'
+            tr
+              th Tidsnote:
+              td= item.timenote || '-'
+
+            tr
+              th Topnr.:
+              td= item.topno || '-'
 
     .row.search-results
       h2 Relateret indhold
@@ -144,7 +166,7 @@ block content
           a(href=href, class='thumbnail')
             +responsiveImage(title)
             h2.h4 #{title}
-            p= item.description || ''
+            p.description= item.description || ''
 
 
 
