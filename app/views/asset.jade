@@ -2,6 +2,7 @@ extends index
 
 append header
   title= item.short_title
+  +shareThisJS()
 
 
 
@@ -13,8 +14,12 @@ block content
     .row
       .col-xs-8 [Samling]
       .col-xs-4
-        a(href='#').pull-right
-          span.glyphicon.glyphicon-share-alt
+        //- a(href='#').pull-right
+        //-   h3.sr-only Del indhold
+        //-   span.glyphicon.glyphicon-share-alt
+        //-   div.share-this.hidden
+        .pull-right
+          +shareThisHTML()
         a(href='#{image_src_set["1200"]}').pull-right
           span.glyphicon.glyphicon-download-alt
 
