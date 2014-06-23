@@ -86,6 +86,9 @@ p.description {
   img {
     @include img-responsive();
   }
+  .asset-image img {
+    margin: 0 auto; // Center tall asset images
+  }
   .additional-info-header {
     a {
       display: block;
