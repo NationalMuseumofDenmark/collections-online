@@ -85,6 +85,7 @@ p.description {
 .asset {
   img {
     @include img-responsive();
+    margin: 0 auto; // Center tall images
   }
   .additional-info-header {
     a {
