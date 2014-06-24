@@ -5,6 +5,17 @@ append header
   +shareThisJS()
 
 
+mixin formatDate(from, to)
+  - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
+    | #{from.year}
+  - else
+    - if(from)
+      | #{from.day}/#{from.month}/#{from.year}
+    - if((from && to) || (!from && !to))
+      |  -
+    - if(to)
+      | #{to.day}/#{to.month}/#{to.year}
+
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
@@ -12,7 +23,7 @@ block content
     .row.bleed.asset-image
       +responsiveImage(title)
     .row
-      .col-xs-8 [Samling]
+      .col-xs-8= catalog.name
       .col-xs-4
         .pull-right
           +shareThisHTML()
@@ -58,19 +69,12 @@ block content
           tr
             th Optagelsestid:
             td(itemprop='dateCreated', class='date')
-              - var from = item.acceptance_time_from;
-              - var to = item.acceptance_time_to;
-              - if(from)
-                | #{from.day}/#{from.month}/#{from.year}
-              - if((from && to) || (!from && !to))
-                |  - 
-              - if(to)
-                | #{to.day}/#{to.month}/#{to.year}
+              +formatDate(item.acceptance_time_from, item.acceptance_time_to)
           tr
             th Fremstillingstid:
-            td [Fremstillingstid]
+            td
+              +formatDate(item.creation_time_from, item.creation_time_to)
 
-    
     .row
       h2 Sted
       - var has_coordinates = item.longitude && item.latitude;
@@ -81,20 +85,24 @@ block content
           tr
             th Adresse:
             td
-              - var address = item.address || '[Adresse]'
-              - var zipcode = item.zipcode || '[Postnummer]'
-              - var city = item.city
-              - if(address)
-                | #{address}
-              
-              - if(zipcode)
+              - var address = item.address || item.street;
+              - var zipcode = item.zipcode;
+              - var city = item.city;
+
+              - if(address || zipcode || city)
                 - if(address)
-                  | , 
-                | #{zipcode}
-              - if(city)
-                - if(address || zipcode)
-                  | , 
-                | #{city}
+                  | #{address}
+
+                - if(zipcode)
+                  - if(address)
+                    | ,
+                  | #{zipcode}
+                - if(city)
+                  - if(address || zipcode)
+                    | ,
+                  | #{city}
+              - else
+                | -
           tr
             th Koordinater:
             td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
@@ -133,7 +141,7 @@ block content
         a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').well.collapsed Yderligere information
           span.glyphicon.glyphicon-chevron-up.pull-right
           span.glyphicon.glyphicon-chevron-down.pull-right
-      p [Skal specificeres]
+
       div#additional-info.collapse
         table(class='table table-striped')
           tbody
@@ -156,56 +164,4 @@ block content
             tr
               th Topnr.:
               td= item.topno || '-'
-
-    .row.search-results
-      h2 Relateret indhold
-      div#masonry-container
-      - for asset in ['[Asset 1]', '[Asset 2]', '[Asset 3]', '[Asset 4]', '[Asset 5]']
-        .col-xs-12.col-sm-6.col-md-4.col-lg-3
-          - var href = '#'
-          a(href=href, class='thumbnail')
-            +responsiveImage(title)
-            h2.h4 #{title}
-            p.description= item.description || ''
-
-
-
-        //- tbody
-        //-   tr
-        //-     td Arkivalienr.:
-        //-     td= item.archiveno || '-'
-        //-   tr
-        //-     td Genstandsnr.:
-        //-     td= item.unitno || '-'
-        //-   tr
-        //-     td Arkivnavn:
-        //-     td= item.archivename ? item.archivename.displaystring : '-'
-
-          //- tr
-          //-   th Tidsnote:
-          //-   td= item.timenote || '-'
-
-          //- tr
-          //-   th Topnr.:
-          //-   td= item.topno || '-'
-
-    //- - if(categories)
-    //-   .row
-    //-     h4 Kategorier
-    //-     each path in categories
-    //-       ul.categories
-    //-         each category in path
-    //-           - if(category.id != 1)
-    //-             li
-    //-               a(href="/?q=" + category.name)= category.name
-
-
-    //- .row
-    //-   h2 Generelle oplysninger
-    //-   table(class='table table-striped')
-    //-     tbody
-    //-       tr
-    //-         td Filnavn:
-    //-         td= item.filename || '-'
-
 

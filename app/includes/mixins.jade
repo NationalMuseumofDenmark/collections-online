@@ -72,11 +72,14 @@ mixin navigation()
       a(href='#')
         span.sr-only Kategorier
         | &#9776;
-    - var catalog_aliases = {"Alle": "ALL","Antiksamlingen": "AS","Bevaringsafdelingen": "BA","Danmarks Middelalder og Renæssance": "DMR","Danmarks Nyere Tid": "DNT","Etnografisk samling": "ES","Frihedsmuseet": "FHM","Den Kgl. Mønt- og Medaljesamling": "KMM","Musikmuseet": "MUM"}
+    - var catalogs = req.app.get('cip_catalogs').sort(function(x,y) { return x.name.localeCompare(y.name); })
     ul(aria-labelledby='heading-categories-menu', role='menu').dropdown-menu.dropdown-menu-right
-      each alias, name in catalog_aliases
-        li
-          a(href='/#{(alias!=="ALL") ? alias : ""}', role='menu-item')= name
+      each catalog in catalogs
+        - var alias = catalog.alias
+        - var name = catalog.name
+        - if(alias != undefined)
+          li
+            a(href='/#{(alias!=="ALL") ? alias : ""}', role='menu-item')= name
 
 
 mixin responsiveImage(title)

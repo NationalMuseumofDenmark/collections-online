@@ -1,32 +1,20 @@
 extends index
 
-//- mixin paging
-//-   ul(class="pagination pull-right")
-//-     - each page in pagination
-//-       li(class=(page*page_size == parseInt(req.param('offset') || '0') ? 'active' : ''))
-//-         a(href=req.path + '?' + helpers.query_string({offset: page*page_size, q: req.param('q')}))= page+1
-
 append header
   title Søg
 
 block content
-  section(role='main')
+  section(role='main', ng-controller='searchController')
     h1.page-header.sr-only Søgeresultat
-    div(class='search-results', infinite-scroll='search()')#masonry-container
-      - each result in results
-        .col-xs-12.col-sm-6.col-md-4.col-lg-3
-          - var title = result.short_title
-          - var href = helpers.asset_url(result)
-          a(href=href, class='thumbnail')
-            img(src=helpers.thumbnail_url(result), alt='#{title}')
-            h2.h4 #{title}
-            p.description= result.description || ''
-            p.small Katalog: #{result.catalogue || '[katalognavn]'} / Fil-ID: #{result.filename} / Fotograf: #{result.creator}
+    div(class='search-results', data-infinite-scroll='search.nextPage()')#masonry-container
+      div(ng-repeat='result in search.results', class='col-xs-12 col-sm-6 col-md-4 col-lg-3', data-update-masonry-container)
+          a(href='{{result.url}}', class='thumbnail')
+            img(src='{{result.thumbnail_url}}', alt='{{result.title}}')
+            h2.h4 {{result.title}}
+            p.description {{result.description}}
+            p.small {{result.colophon}}
 
   .clearfix
 
-    //- +paging()
-
-    //- .clearfix
 
 
