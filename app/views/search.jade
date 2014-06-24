@@ -21,6 +21,7 @@ block content
             img(src=helpers.thumbnail_url(result), alt='#{title}')
             h2.h4 #{title}
             p.description= result.description || ''
+            p.small Katalog: #{result.catalogue || '[katalognavn]'} / Fil-ID: #{result.filename} / Fotograf: #{result.creator}
 
   .clearfix
 
