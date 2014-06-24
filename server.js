@@ -26,6 +26,13 @@ cip_categories.load_categories().then(function(result) {
     }
     app.set('cip_categories', categories);
 }).then(function() {
+    cip.init_session().then(function(nm) {
+        cip.get_catalogs(nm).then(function(catalogs) {
+            app.set('cip_catalogs', catalogs);
+            debugger;
+        });
+    });
+}).then(function() {
     // Start server
     app.listen(config.port, config.ip, function () {
         console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));

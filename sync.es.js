@@ -63,8 +63,8 @@ create_index().then(function() {
 
 
 
-cip.init_session(function(nm) {
-    cip.get_catalogs(nm, function(catalogs) {
+cip.init_session().then(function(nm) {
+    cip.get_catalogs(nm).then(function(catalogs) {
         var promises = [];
 
         for(var i=0; i < catalogs.length; ++i) {
