@@ -87,7 +87,7 @@ p.description {
     @include img-responsive();
   }
   .asset-image img {
-    margin: 0 auto; // Center tall asset images
+    @include center-block(); // Center tall asset images
   }
   .additional-info-header {
     a {
@@ -141,11 +141,16 @@ p.description {
 
 /* Search results */
 .search-results {
+  .thumbnail {
+    background-color: #e5e5e5;
+    border-color: #e5e5e5;
+  }
   a {
     color: #000;
     &:hover {
       text-decoration: none;
-      border-color: #000;
+      background-color: #ddd;
+      border-color: #ddd;
     }
   }
 }
