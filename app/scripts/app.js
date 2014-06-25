@@ -41,13 +41,13 @@ app.directive('updateMasonryContainer', function() {
         restrict: 'A',
         link: function(scope) {
             if(scope.search.updated) {
+                scope.search.updated = false;
                 var container = document.querySelector('#masonry-container');
                 var msnry;
                 // Initialize Masonry after all images have loaded
                 imagesLoaded(container, function() {
                     msnry = new Masonry(container);
                 });
-                scope.search.updated = false;
             }
         }
     };
