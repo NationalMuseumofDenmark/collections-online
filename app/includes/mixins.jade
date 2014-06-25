@@ -56,15 +56,13 @@ mixin samlingerHeader()
 
 mixin searchBox()
   - var path = (req.path).split('/')
-  form(action='/' + path[1])
-    .form-group
+  .form-group
       div(class='input-group')
-        input(type='text', class='form-control', placeholder=req.param('q') || 'Søg', name='q'
-              value=req.param('q') || nothing,
-              ng-model='asyncSelected',
+        input(type='text', class='form-control', placeholder=req.param('q') || 'Søg', name='q',
+              ng-model='q',
               typeahead='term for item in helpers.typeahead_result')
         .input-group-btn
-          button(type="submit", class="btn btn-default") Søg
+          button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
 mixin navigation()
   nav.categories-menu.dropdown.pull-right

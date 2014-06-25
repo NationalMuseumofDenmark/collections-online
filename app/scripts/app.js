@@ -8,49 +8,50 @@ var app = angular.module('natmusSamlingerApp', [
   'infinite-scroll'
 ]);
 
-app.controller('searchController', function($scope, Search, ngProgress) {
+app.controller('searchController', function($scope, $http, ngProgress) {
+    $scope.results = [];
+    $scope.offset = 0;
+    $scope.updated = false;
+    $scope.q = '';
     $scope.ngProgress = ngProgress;
-    $scope.search = new Search(ngProgress);
-});
 
-app.factory('Search', function($location, $http) {
-    var Search = function(ngProgress) {
-        this.results = [];
-        this.offset = 0;
-        this.updated = false;
-        this.ngProgress = ngProgress;
+    $scope.doSearch = function() {
+        $scope.offset = 0;
+        $scope.results = [];
+        $scope.nextPage();
     };
 
-    Search.prototype.nextPage = function() {
-        this.ngProgress.height(5);
-        this.ngProgress.reset();
-        this.ngProgress.start();
+    $scope.nextPage = function() {
+        $scope.ngProgress.height(5);
+        $scope.ngProgress.reset();
+        $scope.ngProgress.start();
 
         var base_url = 'http://' + window.location.host + window.location.pathname;
         if(base_url.slice(-1) != '/') {
             base_url = base_url + '/';
         }
-        var url = base_url + "search.json?offset=" + this.offset;
+        var url = base_url + "search.json?offset=" + $scope.offset;
+        url = url + '&q=' + $scope.q;
 
         $http.get(url).success(function(data) {
             var results = data.results;
             for (var i = 0; i < results.length; i++) {
-                this.results.push(results[i]);
+                $scope.results.push(results[i]);
             }
-            this.offset = this.offset + results.length;
-            this.updated = true;
-            this.ngProgress.complete();
-        }.bind(this));
+            $scope.offset = this.offset + results.length;
+            $scope.updated = true;
+            $scope.ngProgress.complete();
+        }.bind($scope));
     };
-    return Search;
 });
+
 
 app.directive('updateMasonryContainer', function() {
     return {
         restrict: 'A',
         link: function(scope) {
-            if(scope.search.updated) {
-                scope.search.updated = false;
+            if(scope.updated) {
+                scope.updated = false;
                 var container = document.querySelector('#masonry-container');
                 var msnry;
                 // Initialize Masonry after all images have loaded

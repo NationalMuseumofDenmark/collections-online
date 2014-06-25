@@ -4,10 +4,10 @@ append header
   title Søg
 
 block content
-  section(role='main', ng-controller='searchController')
+  section(role='main')
     h1.page-header.sr-only Søgeresultat
-    div(class='search-results', data-infinite-scroll='search.nextPage()', data-infinite-scroll-distance="3")#masonry-container
-      div(ng-repeat='result in search.results', class='col-xs-12 col-sm-6 col-md-4 col-lg-3', data-update-masonry-container)
+    div(class='search-results', data-infinite-scroll='nextPage()')#masonry-container
+      div(ng-repeat='result in results', class='col-xs-12 col-sm-6 col-md-4 col-lg-3', data-update-masonry-container)
           a(href='{{result.url}}', class='thumbnail')
             img(src='{{result.thumbnail_url}}', alt='{{result.title}}')
             h2.h4 {{result.title}}
