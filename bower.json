@@ -15,7 +15,8 @@
     "picturefill": "~1.2.1",
     "ngInfiniteScroll": "~1.0.0",
     "masonry": "~3.1.5",
-    "imagesloaded": "~3.1.8"
+    "imagesloaded": "~3.1.8",
+    "ngprogress": "~1.0.4"
   },
   "devDependencies": {
     "angular-mocks": ">=1.2.*",
