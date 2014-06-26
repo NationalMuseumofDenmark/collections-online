@@ -11,9 +11,14 @@ var app = angular.module('natmusSamlingerApp', [
 app.controller('searchController', function($scope, $http, ngProgress) {
     $scope.results = [];
     $scope.offset = 0;
+    $scope.loading = false;
     $scope.updated = false;
     $scope.q = '';
     $scope.ngProgress = ngProgress;
+
+    $scope.$watch('loading', function(value) {
+        // Add spinner or something
+    });
 
     $scope.doSearch = function() {
         $scope.offset = 0;
@@ -21,10 +26,12 @@ app.controller('searchController', function($scope, $http, ngProgress) {
         $scope.nextPage();
     };
 
+    $scope.isLoading = function() {
+        return $scope.loading;
+    };
+
     $scope.nextPage = function() {
-        $scope.ngProgress.height(5);
-        $scope.ngProgress.reset();
-        $scope.ngProgress.start();
+        $scope.loading = true;
 
         var base_url = 'http://' + window.location.host + window.location.pathname;
         if(base_url.slice(-1) != '/') {
@@ -40,7 +47,7 @@ app.controller('searchController', function($scope, $http, ngProgress) {
             }
             $scope.offset = this.offset + results.length;
             $scope.updated = true;
-            $scope.ngProgress.complete();
+            $scope.loading = false;
         }.bind($scope));
     };
 });
@@ -51,14 +58,13 @@ app.directive('updateMasonryContainer', function() {
         restrict: 'A',
         link: function(scope) {
             if(scope.updated) {
-                scope.updated = false;
                 var container = document.querySelector('#masonry-container');
                 var msnry;
                 // Initialize Masonry after all images have loaded
                 imagesLoaded(container, function() {
                     msnry = new Masonry(container);
+                    scope.updated = false;
                 });
-                scope.ngProgress.complete();
             }
         }
     };
