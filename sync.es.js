@@ -6,6 +6,9 @@ var asset_mapping = require('./lib/asset-mapping.js');
 
 var client = new elasticsearch.Client();
 
+// XXX: Change this to do a full sync
+var sync_all = false;
+
 function create_index() {
     var deferred = Q.defer();
 
@@ -21,32 +24,60 @@ function create_index() {
     return deferred.promise;
 }
 
-function handle_catalog(nm, catalog) {
-    var deferred = Q.defer();
+function handle_results(catalog, items) {
+   if(items !== undefined && items.length > 0) {
+        for(var i=0; i < items.length; ++i) {
+            var formatted_result = asset_mapping.format_result(items[i].fields);
+            var es_id = catalog.alias + '-' + formatted_result['id'];
 
-    if(catalog.alias !== undefined) {
-        cip.get_recent_assets(nm, catalog, '$today-2d', function(catalog, items) {
-            if(items !== undefined && items.length > 0) {
-                for(var i=0; i < items.length; ++i) {
-                    var formatted_result = asset_mapping.format_result(items[i].fields);
-                    var es_id = catalog.alias + '-' + formatted_result['id'];
-
-                    formatted_result['catalog'] = catalog.alias;
-
-                    client.index({
-                        index: 'assets',
-                        type: 'asset',
-                        id: es_id,
-                        body: formatted_result
-                    }).then(function(resp) {
-                        console.log('Indexed ' + resp._id);
-                    }, function(resp) {
-                        console.log('Error indexing ' + resp._id);
-                    });
+            if(formatted_result['modification_time'] != undefined) {
+                re = new RegExp('\\d+');
+                var re_result = re.exec(formatted_result['modification_time']);
+                if(re_result && re_result.length > 0) {
+                    formatted_result['modification_time'] = parseInt(re_result[0]);
                 }
             }
 
-            deferred.resolve();
+            formatted_result['catalog'] = catalog.alias;
+
+            client.index({
+                index: 'assets',
+                type: 'asset',
+                id: es_id,
+                body: formatted_result
+            }).then(function(resp) {
+                console.log('Indexed ' + resp._id);
+            }, function(resp) {
+                console.log('Error indexing ' + resp._id);
+            });
+        }
+    }
+}
+
+function get_result(result, i) {
+    var deferred = Q.defer();
+
+    result.get(100, i, function(returnvalue) {
+        handle_results(result.catalog, returnvalue);
+        deferred.resolve();
+    });
+
+    return deferred.promise;
+}
+
+function handle_catalog(nm, catalog) {
+    var deferred = Q.defer();
+    var promises = [];
+
+    if(catalog.alias !== undefined) {
+        cip.get_recent_assets(nm, catalog, sync_all ? '2003-12-24' : '$today-2d', function(result) {
+            for(var i=0; i < result.total_rows; i=i+100) {
+                promises.push(get_result(result, i));
+            }
+
+            Q.all(promises).then(function() {
+                deferred.resolve();
+            });
         });
     } else {
         deferred.resolve();
