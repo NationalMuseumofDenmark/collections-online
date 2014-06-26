@@ -30,10 +30,10 @@ block content
         a(href='#{image_src_set["1200"]}').pull-right
           span.glyphicon.glyphicon-download-alt
 
-    .row
+    .col-xs-12
       h1(itemprop='name')= title
 
-    .row
+    .col-xs-12
       - if(item.description)
         h2.sr-only Beskrivelse
         p(itemprop='description',
@@ -60,12 +60,13 @@ block content
               | , 
               span(itemprop='creator')= item.creator || '-'
 
-    .row
+    .col-xs-12.col-sm-6
       h2 Tidsperiode og årstal
-      - if(item.year)
-        p= item.year
       table(class='table table-striped')
         tbody
+          - if(item.year)
+            tr
+              td(colspan='2')= item.year
           tr
             th Optagelsestid:
             td(itemprop='dateCreated', class='date')
@@ -75,13 +76,14 @@ block content
             td
               +formatDate(item.creation_time_from, item.creation_time_to)
 
-    .row
+    .col-xs-12.col-sm-6
       h2 Sted
       - var has_coordinates = item.longitude && item.latitude;
-      - if (item.place)
-        p= item.place
       table(class='table table-striped')
         tbody
+          - if (item.place)
+            tr
+              td(colspan='2')= item.place
           tr
             th Adresse:
             td
@@ -120,7 +122,7 @@ block content
                 src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
                     item.longitude + ',' + item.latitude +
                     '&sensor=false&scale=1&zoom=14&maptype=terrain')
-    .row
+    .col-xs-12.col-sm-6
       h2 Tekniske oplysninger
       table(class='table table-striped')
         tbody
@@ -135,10 +137,10 @@ block content
             th Opløsning (DPI):
             td= item.dpi || '-'
 
-    .row
+    .col-xs-12.col-sm-6
       h2.additional-info-header
         - var path = req.path
-        a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').well.collapsed Yderligere information
+        a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed Yderligere information
           span.glyphicon.glyphicon-chevron-up.pull-right
           span.glyphicon.glyphicon-chevron-down.pull-right
 
