@@ -60,7 +60,7 @@ mixin searchBox()
       div(class='input-group')
         input(type='text', class='form-control', placeholder='Søg', name='q',
               autocomplete="off", ng-model='q',
-              typeahead='term as term.text for term in suggestions')
+              typeahead='term.text for term in suggestions')
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
