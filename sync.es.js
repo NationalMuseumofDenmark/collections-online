@@ -38,6 +38,12 @@ function handle_results(catalog, items) {
                 }
             }
 
+            if(formatted_result['categories'] != undefined) {
+                formatted_result['categories_int'] = [];
+                for(var j=0; j < formatted_result['categories'].length; ++j) {
+                    formatted_result['categories_int'].push(formatted_result['categories'][j].id);
+                }
+            }
             formatted_result['catalog'] = catalog.alias;
 
             client.index({
