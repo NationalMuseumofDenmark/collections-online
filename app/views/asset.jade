@@ -24,7 +24,8 @@ mixin addDating(item)
         li.year= item.year
       each category in categories_time
         - if(category.name[0] != '$')
-          li= category.name
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
   - else
     | -
 
@@ -34,7 +35,8 @@ mixin addPlace(item)
     ul.categories
       each category in categories_place
         - if(category.name[0] != '$')
-          li= category.name
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
   - else
     | -
 
