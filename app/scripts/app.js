@@ -5,13 +5,15 @@ var app = angular.module('natmusSamlingerApp', [
   'ngResource',
   'ngSanitize',
   'ngProgress',
-  'infinite-scroll'
+  'infinite-scroll',
+  'ui.bootstrap'
 ]);
 
 app.controller('searchController', function($scope, $http, ngProgress) {
     $scope.results = [];
     $scope.catalogs = [];
     $scope.categories = [];
+    $scope.suggestions = [];
 
     $scope.loading = false;
     $scope.updated = false;
@@ -42,6 +44,14 @@ app.controller('searchController', function($scope, $http, ngProgress) {
         $scope.results = [];
         $scope.nextPage();
     };
+
+    $scope.$watch('q', function(value) {
+        var url = $scope.getBaseUrl() + 'suggest.json?text=' + value;
+        $http.get(url).success(function(data) {
+            $scope.suggestions = data;
+            console.log($scope.suggestions);
+        });
+    });
 
     $scope.setCatalog = function(alias) {
         $scope.catalog = alias;
