@@ -9,7 +9,7 @@ var app = angular.module('natmusSamlingerApp', [
   'ui.bootstrap'
 ]);
 
-app.controller('searchController', function($scope, $http, ngProgress) {
+app.controller('searchController', function($scope, $http, $window, ngProgress) {
     $scope.results = [];
     $scope.catalogs = [];
     $scope.categories = [];
@@ -18,6 +18,7 @@ app.controller('searchController', function($scope, $http, ngProgress) {
     $scope.loading = false;
     $scope.updated = false;
 
+    $scope.category = parseInt($window.location.hash.substring(1)) || 0;
     $scope.catalog = '';
     $scope.q = '';
 
@@ -55,6 +56,7 @@ app.controller('searchController', function($scope, $http, ngProgress) {
 
     $scope.setCatalog = function(alias) {
         $scope.catalog = alias;
+        $scope.category = 0;
 
         if($scope.catalog != '') {
             $scope.loadCategories();
@@ -76,6 +78,10 @@ app.controller('searchController', function($scope, $http, ngProgress) {
         }
         url = url + "search.json?offset=" + $scope.offset;
         url = url + '&q=' + $scope.q;
+
+        if($scope.category > 0) {
+            url = url + '&category=' + $scope.category;
+        }
 
         $http.get(url).success(function(data) {
             var results = data.results;
