@@ -31,7 +31,7 @@ app.controller('searchController', function($scope, $http, $window, ngProgress) 
     });
 
     $scope.getBaseUrl = function() {
-        var base_url = 'http://' + window.location.host + window.location.pathname;
+        var base_url = 'http://' + window.location.host;
 
         if(base_url.slice(-1) != '/') {
             base_url = base_url + '/';
@@ -128,3 +128,4 @@ app.directive('updateMasonryContainer', function() {
         }
     };
 });
+
