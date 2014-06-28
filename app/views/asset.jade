@@ -16,6 +16,27 @@ mixin formatDate(from, to)
     - if(to)
       | #{to.day}/#{to.month}/#{to.year}
 
+mixin addDating(item)
+  - var categories_time = helpers.category_by_tag(categories, 'Tid');
+  - if(categories_time.length > 0 || item.year)
+    ul.categories
+      - if(item.year)
+        li.year= item.year
+      each category in categories_time
+        - if(category.name[0] != '$')
+          li= category.name
+  - else
+    | -
+
+mixin addPlace(item)
+  - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
+  - if(categories_place.length > 0)
+    ul.categories
+      each category in categories_place
+        - if(category.name[0] != '$')
+          li= category.name
+  - else
+    | -
 
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
@@ -62,10 +83,13 @@ block content
 
     .row
       h2 Tidsperiode og årstal
-      - if(item.year)
-        p= item.year
       table(class='table table-striped')
         tbody
+          tr
+            th Datering:
+            td
+              +addDating(item)
+
           tr
             th Optagelsestid:
             td(itemprop='dateCreated', class='date')
@@ -82,6 +106,10 @@ block content
         p= item.place
       table(class='table table-striped')
         tbody
+          tr
+            th Område:
+            td
+              +addPlace(item)
           tr
             th Adresse:
             td

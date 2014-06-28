@@ -58,26 +58,34 @@ mixin searchBox()
   - var path = (req.path).split('/')
   .form-group
       div(class='input-group')
-        input(type='text', class='form-control', placeholder=req.param('q') || 'Søg', name='q',
-              ng-model='q',
-              typeahead='term for item in helpers.typeahead_result')
+        input(type='text', class='form-control', placeholder='Søg', name='q',
+              autocomplete="off", ng-model='q',
+              typeahead='term.text for term in suggestions')
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
+mixin categories()
+  script(type="text/ng-template" id="categories.html")
+    {{category.name}}
+    ul
+      li(ng-repeat="category in category.children", ng-include="'categories.html'")
+
 mixin navigation()
+  //+categories()
   nav.categories-menu.dropdown.pull-right
     h2(data-toggle='dropdown')#heading-categories-menu.dropdown-toggle
       a(href='#')
         span.sr-only Kategorier
         | &#9776;
-    - var catalogs = req.app.get('cip_catalogs').sort(function(x,y) { return x.name.localeCompare(y.name); })
     ul(aria-labelledby='heading-categories-menu', role='menu').dropdown-menu.dropdown-menu-right
-      each catalog in catalogs
-        - var alias = catalog.alias
-        - var name = catalog.name
-        - if(alias != undefined)
-          li
-            a(href='/#{(alias!=="ALL") ? alias : ""}', role='menu-item')= name
+      li
+        a(role='menu-item', ng-click='setCatalog("")')
+          | Alle
+      li(ng-repeat='catalog in catalogs')
+        a(role='menu-item', ng-click='setCatalog(catalog.alias)')
+          | {{ catalog.name }}
+    //ul
+    //  li(ng-repeat="category in categories" ng-include="'categories.html'")
 
 
 mixin responsiveImage(title)
