@@ -118,3 +118,40 @@ mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
   <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+// Asset mixins
+mixin formatDate(from, to)
+  - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
+    | #{from.year}
+  - else
+    - if(from)
+      | #{from.day}/#{from.month}/#{from.year}
+    - if((from && to) || (!from && !to))
+      |  -
+    - if(to)
+      | #{to.day}/#{to.month}/#{to.year}
+
+mixin addDating(item)
+  - var categories_time = helpers.category_by_tag(categories, 'Tid');
+  - if(categories_time.length > 0 || item.year)
+    ul.categories
+      - if(item.year)
+        li.year= item.year
+      each category in categories_time
+        - if(category.name[0] != '$')
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+  - else
+    | -
+
+mixin addPlace(item)
+  - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
+  - if(categories_place.length > 0)
+    ul.categories
+      each category in categories_place
+        - if(category.name[0] != '$')
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+  - else
+    | -
+
