@@ -9,7 +9,41 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 // endbower
 
 body {
+  // For category menu
+  position: relative;
+  left: 0;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
+  transition: all 0.5s ease 0s;
+  &.categories-menu-open { // Menu toggle class
+    left: -300px;
+    .categories-menu {
+      margin-top: 2em;
+      ul { // Menu list
+        overflow: auto;
+      }
+    }
+    #heading-categories-menu a { // Menu toggle button
+      background: #000;
+      bottom: 0;
+      display: block;
+      left: 0;
+      opacity: 0.5;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding-top: 20px;
+      z-index: 9998;
+      text-align: right;
+      color: $brand-primary;
+    }
+    .menu-container {
+      position: static;
+    }
+  }
+}
+.main-wrapper {
+  background: $white;
+  color: $black;
 }
 
 .header {
@@ -43,6 +77,27 @@ body {
     margin-top: 0;
     a {
       color: $black;
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
+  }
+  ul {
+    background: #000;
+    display: block;
+    height: 100%;
+    right: 0;
+    overflow: hidden;
+    padding: 30px;
+    position: fixed;
+    top: 0;
+    width: 300px;
+    z-index: -1;
+    a {
+      display: block;
+      color: $white;
+      text-decoration: none;
       &:hover,
       &:focus {
         text-decoration: none;

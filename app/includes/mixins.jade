@@ -50,7 +50,7 @@ mixin samlingerHeader()
   .container
     .col-xs-10
       +searchBox()
-    .col-xs-2
+    .col-xs-2.menu-container
       +navigation()
 
 
@@ -73,17 +73,17 @@ mixin categories()
 
 mixin navigation()
   //+categories()
-  nav.categories-menu.dropdown.pull-right
-    h2(data-toggle='dropdown')#heading-categories-menu.dropdown-toggle
+  nav.categories-menu.pull-right
+    h2#heading-categories-menu
       a(href='#')
-        span.sr-only Kategorier
-        | &#9776;
-    ul(aria-labelledby='heading-categories-menu', role='menu').dropdown-menu.dropdown-menu-right
+        span.sr-only Kataloger og kategorier
+        span &#9776;
+    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
       li
-        a(role='menu-item', ng-click='setCatalog("")')
+        a(href='', role='menu-item', ng-click='setCatalog("")')
           | Alle
       li(ng-repeat='catalog in catalogs')
-        a(role='menu-item', ng-click='setCatalog(catalog.alias)')
+        a(href='', role='menu-item', ng-click='setCatalog(catalog.alias)')
           | {{ catalog.name }}
     //ul
     //  li(ng-repeat="category in categories" ng-include="'categories.html'")
