@@ -4,42 +4,6 @@ append header
   title= item.short_title
   +shareThisJS()
 
-
-mixin formatDate(from, to)
-  - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
-    | #{from.year}
-  - else
-    - if(from)
-      | #{from.day}/#{from.month}/#{from.year}
-    - if((from && to) || (!from && !to))
-      |  -
-    - if(to)
-      | #{to.day}/#{to.month}/#{to.year}
-
-mixin addDating(item)
-  - var categories_time = helpers.category_by_tag(categories, 'Tid');
-  - if(categories_time.length > 0 || item.year)
-    ul.categories
-      - if(item.year)
-        li.year= item.year
-      each category in categories_time
-        - if(category.name[0] != '$')
-          li
-            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
-  - else
-    | -
-
-mixin addPlace(item)
-  - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
-  - if(categories_place.length > 0)
-    ul.categories
-      each category in categories_place
-        - if(category.name[0] != '$')
-          li
-            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
-  - else
-    | -
-
 block content
   div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
@@ -62,7 +26,7 @@ block content
         p(itemprop='description',
           class='lead')= item.description
 
-      table(class='table table-striped')
+      table
         tbody
           tr
             th Licens:
@@ -85,7 +49,7 @@ block content
 
     .col-xs-12.col-sm-6
       h2 Tidsperiode og årstal
-      table(class='table table-striped')
+      table
         tbody
           - if(item.year)
             tr
@@ -106,7 +70,7 @@ block content
     .col-xs-12.col-sm-6
       h2 Sted
       - var has_coordinates = item.longitude && item.latitude;
-      table(class='table table-striped')
+      table
         tbody
           - if (item.place)
             tr
@@ -143,19 +107,20 @@ block content
             th Lokalitetsnote:
             td= item.locationnote || '-'
 
-      - if(has_coordinates)
-        div
-          a(href='http://maps.google.dk/maps?ll=' +
-                 item.longitude + ',' + item.latitude +
-                 '&spn=0.008039,0.015857&t=h&z=16',
-                  target='blank')
-            img(alt='Google Map',
-                src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                    item.longitude + ',' + item.latitude +
-                    '&sensor=false&scale=1&zoom=14&maptype=terrain')
+          - if(has_coordinates)
+            tr
+              td(colspan='2')
+                a(href='http://maps.google.dk/maps?ll=' +
+                       item.longitude + ',' + item.latitude +
+                       '&spn=0.008039,0.015857&t=h&z=16',
+                        target='blank')
+                  img(alt='Google Map',
+                      src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
+                          item.longitude + ',' + item.latitude +
+                          '&sensor=false&scale=1&zoom=14&maptype=terrain')
     .col-xs-12.col-sm-6
       h2 Tekniske oplysninger
-      table(class='table table-striped')
+      table(class='table')
         tbody
           tr
             th Fil-ID:
@@ -176,7 +141,7 @@ block content
           span.glyphicon.glyphicon-chevron-down.pull-right
 
       div#additional-info.collapse
-        table(class='table table-striped')
+        table(class='table')
           tbody
             tr
               th Filnavn:

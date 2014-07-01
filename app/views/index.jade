@@ -9,10 +9,9 @@ html.no-js
     block header
 
   body(ng-app='natmusSamlingerApp', ng-controller='searchController')
-    div(ng-view='')
+    div(ng-view='').main-wrapper
 
       +header()
-      +samlingerHeader()
       .container
         block content
       +footer()
@@ -58,5 +57,7 @@ html.no-js
     // endbuild
 
     script(src='scripts/app.js')
+    script(src='js/natmus.js')
+
 
 

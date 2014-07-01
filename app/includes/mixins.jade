@@ -22,24 +22,24 @@ mixin head
   link(rel='stylesheet', href='styles/main.css')
 
 mixin header
-  header
-    .header
-      h2.small
-        a
-          | Nationalmuseet
-          span.caret &nbsp;
-      hgroup.hidden
-        ul.nav.nav-pills
-          li
-            a(href="#") Hjælp
-          li
-            a(href="#") Kontakt
+  header.header
+    .natmus
+      .container
+        .row
+          p.col-xs-12
+            a(href='http://natmus.dk')
+              | Natmus.dk
+    +samlingerHeader()
 
 mixin footer
   footer
     .footer
-      address
-        | Nationalmuseet<br>Prinsens Palæ<br>Ny Vestergade 10<br>DK-1471 København K<br>Tel. +45 3313 4411
+      address.col-sm-9
+        span Nationalmuseet
+        span Prinsens Palæ
+        span Ny Vestergade 10
+        span DK-1471 København K
+        span Tel. +45 3313 4411
 
       h2 Følg os på:
       ul
@@ -47,11 +47,20 @@ mixin footer
           li= val
 
 mixin samlingerHeader()
-  .container
-    .col-xs-10
-      +searchBox()
-    .col-xs-2
-      +navigation()
+  hgroup.container
+    .row.menu-container
+      .row.col-sm-4
+        .col-xs-9
+          a(href='/')
+            img(src='images/logotype.png', alt='Nationalmuseets samlinger')
+        .col-xs-3
+          a(href='/')
+            img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
+      .row.col-sm-8.menu-container
+        .col-xs-2.menu-container
+          +navigation()
+        .col-xs-10
+          +searchBox()
 
 
 
@@ -65,28 +74,30 @@ mixin searchBox()
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
-mixin categories()
-  script(type="text/ng-template" id="categories.html")
-    {{category.name}}
-    ul
-      li(ng-repeat="category in category.children", ng-include="'categories.html'")
+mixin menuIcon()
+  svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", width="32px", height="32px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+    path(id="menu-icon", d="M462 163.5H50v-65h412V163.5z M462 223.5H50v65h412V223.5z M462 348.5H50v65h412V348.5z")
+
+
 
 mixin navigation()
-  //+categories()
-  nav.categories-menu.dropdown.pull-right
-    h2(data-toggle='dropdown')#heading-categories-menu.dropdown-toggle
+  nav.categories-menu
+    h2#heading-categories-menu
       a(href='#')
-        span.sr-only Kategorier
-        | &#9776;
-    ul(aria-labelledby='heading-categories-menu', role='menu').dropdown-menu.dropdown-menu-right
+        span.sr-only Kataloger og kategorier
+        +menuIcon()
+        //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
+    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
       li
-        a(role='menu-item', ng-click='setCatalog("")')
+        a(href='', role='menu-item', ng-click='setCatalog("")')
           | Alle
       li(ng-repeat='catalog in catalogs')
-        a(role='menu-item', ng-click='setCatalog(catalog.alias)')
+        a(href='', role='menu-item', ng-click='setCatalog(catalog.alias)')
           | {{ catalog.name }}
-    //ul
-    //  li(ng-repeat="category in categories" ng-include="'categories.html'")
+        ul(ng-if='categories.children')
+          li(ng-repeat='category in categories.children')
+            a(href='')
+              | {{category.name}}
 
 
 mixin responsiveImage(title)
@@ -118,3 +129,40 @@ mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
   <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+
+// Asset mixins
+mixin formatDate(from, to)
+  - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
+    | #{from.year}
+  - else
+    - if(from)
+      | #{from.day}/#{from.month}/#{from.year}
+    - if((from && to) || (!from && !to))
+      |  -
+    - if(to)
+      | #{to.day}/#{to.month}/#{to.year}
+
+mixin addDating(item)
+  - var categories_time = helpers.category_by_tag(categories, 'Tid');
+  - if(categories_time.length > 0 || item.year)
+    ul.categories
+      - if(item.year)
+        li.year= item.year
+      each category in categories_time
+        - if(category.name[0] != '$')
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+  - else
+    | -
+
+mixin addPlace(item)
+  - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
+  - if(categories_place.length > 0)
+    ul.categories
+      each category in categories_place
+        - if(category.name[0] != '$')
+          li
+            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+  - else
+    | -
+
