@@ -65,14 +65,8 @@ mixin searchBox()
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
-mixin categories()
-  script(type="text/ng-template" id="categories.html")
-    {{category.name}}
-    ul
-      li(ng-repeat="category in category.children", ng-include="'categories.html'")
 
 mixin navigation()
-  //+categories()
   nav.categories-menu.pull-right
     h2#heading-categories-menu
       a(href='#')
@@ -85,8 +79,10 @@ mixin navigation()
       li(ng-repeat='catalog in catalogs')
         a(href='', role='menu-item', ng-click='setCatalog(catalog.alias)')
           | {{ catalog.name }}
-    //ul
-    //  li(ng-repeat="category in categories" ng-include="'categories.html'")
+        ul(ng-if='categories.children')
+          li(ng-repeat='category in categories.children')
+            a(href='')
+              | {{category.name}}
 
 
 mixin responsiveImage(title)

@@ -17,13 +17,12 @@ body {
   &.categories-menu-open { // Menu toggle class
     left: -300px;
     .categories-menu {
-      margin-top: 2em;
       ul { // Menu list
         overflow: auto;
       }
     }
     #heading-categories-menu a { // Menu toggle button
-      background: #000;
+      background: $black;
       bottom: 0;
       display: block;
       left: 0;
@@ -31,10 +30,10 @@ body {
       position: absolute;
       right: 0;
       top: 0;
-      padding-top: 20px;
+      padding: 50px 15px 0 0;
       z-index: 9998;
       text-align: right;
-      color: $brand-primary;
+      color: $gray;
     }
     .menu-container {
       position: static;
@@ -48,7 +47,7 @@ body {
 
 .header {
   margin-bottom: 20px;
-  height: 2em;
+  height: 30px;
   background: $black;
   color: $white;
   text-align: center;
