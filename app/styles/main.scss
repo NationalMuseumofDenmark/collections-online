@@ -9,22 +9,80 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 // endbower
 
 body {
+  // For category menu
+  position: relative;
+  right: 0;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
+  transition: all 0.5s ease 0s;
+  &.categories-menu-open { // Menu toggle class
+    right: -280px;
+    .categories-menu {
+      ul { // Menu list
+        overflow: auto;
+      }
+    }
+    #heading-categories-menu a { // Menu toggle button
+      background: $black;
+      bottom: 0;
+      display: block;
+      left: 0;
+      opacity: 0.5;
+      position: absolute;
+      right: 0;
+      top: 0;
+      padding: 120px 0 0 15px;
+      z-index: 9998;
+      text-align: left;
+      color: $gray;
+    }
+    .menu-container {
+      position: static;
+    }
+    #menu-icon {
+      fill: $gray;
+    }
+  }
+}
+.main-wrapper {
+  background: $white;
+  color: $black;
 }
 
 .header {
-  margin-bottom: 20px;
-  height: 2em;
-  background: $black;
-  color: $white;
-  text-align: center;
-  h2 {
+  a {
+    color: $black;
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+  h1 {
     margin: 0;
   }
-  a {
-    line-height: 2em;
-    vertical-align: middle;
-    color: $white;
+  .natmus {
+    margin-bottom: 20px;
+    height: 30px;
+    background: $black;
+    color: $white;    
+    a {
+      line-height: 30px;
+      vertical-align: middle;
+      color: $white;
+    }
+  }
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 50px;
+  }
+  hgroup {
+    .row {
+      margin-bottom: 20px;
+    }
+    .form-group,
+    h2 {
+      margin: 0;
+    }
   }
 }
 
@@ -39,7 +97,6 @@ body {
 /* Category menu */
 .categories-menu {
   h2 {
-    font-size: 34px;
     margin-top: 0;
     a {
       color: $black;
@@ -47,25 +104,33 @@ body {
       &:focus {
         text-decoration: none;
       }
+      #menu-icon {
+        height: 34px;
+        width: auto;
+      }
+
     }
   }
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid $gray-lighter;
-}
-
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-.row {
-  margin: 20px 0;
-  p + h4 {
-    margin-top: 28px;
+  ul {
+    background: #000;
+    display: block;
+    height: 100%;
+    left: 0;
+    overflow: hidden;
+    padding: 30px;
+    position: fixed;
+    top: 0;
+    width: 280px;
+    z-index: -1;
+    a {
+      display: block;
+      color: $white;
+      text-decoration: none;
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
   }
 }
 
@@ -125,21 +190,25 @@ p.description {
       text-decoration: none
     }
   }
-  table,
-  tbody,
-  tr,
-  th,
-  td {
+  table {
     display: block;
-  }
-  .table > tbody > tr {
-    th {
-      padding-bottom: 0;
-      border-top: none;
-    }
-    td {
-      padding-top: 0;
-      border-top: none;
+    @extend .list-group;
+    & > tbody {
+      display: block;
+      & > tr {
+        @extend .list-group-item;
+        display: list-item;
+        list-style: none;
+        th {
+          display: inline;
+          padding-right: .5em;
+          border-top: none;
+        }
+        td {
+          display: inline;
+          border-top: none;
+        }
+      }
     }
   }
 }
@@ -177,38 +246,27 @@ ul.categories {
     content: ',';
   }
   list-style: none;
-  float: left;
   padding: 0;
   margin: 0;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .asset {
-    table {
-      display: table;
-    }
-    tbody {
-      display: table-row-group;
-    }
-    tr {
-      display: table-row;
-    }
-    th {
-      display: table-cell;
-      width: 25%;
-      padding-bottom: 8px;
-    }
-    td {
-      display: table-cell;
-      padding-top: 8px;
-    }
-    .table > tbody > tr {
-      th {
-        padding-bottom: 8px;
+  %pull-right {
+    float: right !important;
+  }
+  body {
+    // For category menu
+    &.categories-menu-open { // Menu toggle class
+      #heading-categories-menu a { // Menu toggle button
+        padding: 50px 0 0 15px;
       }
-      td {
-        padding-top: 8px;
+    }
+  }
+  .header {
+    hgroup {
+      .col-sm-4 {
+        @extend %pull-right;
       }
     }
   }
