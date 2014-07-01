@@ -22,24 +22,30 @@ mixin head
   link(rel='stylesheet', href='styles/main.css')
 
 mixin header
-  header
-    .header
-      h2.small
-        a
-          | Nationalmuseet
-          span.caret &nbsp;
-      hgroup.hidden
-        ul.nav.nav-pills
-          li
-            a(href="#") Hjælp
-          li
-            a(href="#") Kontakt
+  header.header
+    .top-link
+      .container
+        p.col-xs-12
+          a(href='http://natmus.dk')
+            | Natmus.dk
+    hgroup.container
+      .col-xs-9
+        a(href='/')
+          img(src='images/logotype.png', alt='Nationalmuseets samlinger')
+      .col-xs-3
+        a(href='/')
+          img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
+
 
 mixin footer
   footer
     .footer
-      address
-        | Nationalmuseet<br>Prinsens Palæ<br>Ny Vestergade 10<br>DK-1471 København K<br>Tel. +45 3313 4411
+      address.col-sm-9
+        span Nationalmuseet
+        span Prinsens Palæ
+        span Ny Vestergade 10
+        span DK-1471 København K
+        span Tel. +45 3313 4411
 
       h2 Følg os på:
       ul
@@ -65,13 +71,19 @@ mixin searchBox()
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
+mixin menuIcon()
+  svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", width="32px", height="32px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+    path(id="menu-icon", d="M462 163.5H50v-65h412V163.5z M462 223.5H50v65h412V223.5z M462 348.5H50v65h412V348.5z")
+
+
 
 mixin navigation()
   nav.categories-menu.pull-right
     h2#heading-categories-menu
       a(href='#')
         span.sr-only Kataloger og kategorier
-        span &#9776;
+        +menuIcon()
+        //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
       li
         a(href='', role='menu-item', ng-click='setCatalog("")')

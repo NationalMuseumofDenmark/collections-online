@@ -30,7 +30,7 @@ body {
       position: absolute;
       right: 0;
       top: 0;
-      padding: 50px 15px 0 0;
+      padding: 130px 15px 0 0;
       z-index: 9998;
       text-align: right;
       color: $gray;
@@ -38,26 +38,48 @@ body {
     .menu-container {
       position: static;
     }
+    #menu-icon {
+      fill: $gray;
+    }
   }
 }
 .main-wrapper {
   background: $white;
   color: $black;
 }
+.container {
+  padding-right: 0;
+  padding-left: 0;
+}
 
 .header {
-  margin-bottom: 20px;
-  height: 30px;
-  background: $black;
-  color: $white;
-  text-align: center;
-  h2 {
+  height: 100px;
+  margin-bottom: 30px;
+  a {
+    color: $black;
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+  h1 {
     margin: 0;
   }
-  a {
-    line-height: 2em;
-    vertical-align: middle;
-    color: $white;
+  .top-link {
+    margin-bottom: 20px;
+    height: 30px;
+    background: $black;
+    color: $white;    
+    a {
+      line-height: 30px;
+      vertical-align: middle;
+      color: $white;
+    }
+  }
+  img {
+    width: auto;
+    max-width: 100%;
+    max-height: 50px;
   }
 }
 
@@ -72,7 +94,6 @@ body {
 /* Category menu */
 .categories-menu {
   h2 {
-    font-size: 34px;
     margin-top: 0;
     a {
       color: $black;
@@ -80,6 +101,11 @@ body {
       &:focus {
         text-decoration: none;
       }
+      #menu-icon {
+        height: 34px;
+        width: auto;
+      }
+
     }
   }
   ul {
@@ -102,24 +128,6 @@ body {
         text-decoration: none;
       }
     }
-  }
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid $gray-lighter;
-}
-
-.jumbotron .btn {
-  font-size: 21px;
-  padding: 14px 24px;
-}
-
-.row {
-  margin: 20px 0;
-  p + h4 {
-    margin-top: 28px;
   }
 }
 
@@ -179,21 +187,25 @@ p.description {
       text-decoration: none
     }
   }
-  table,
-  tbody,
-  tr,
-  th,
-  td {
+  table {
     display: block;
-  }
-  .table > tbody > tr {
-    th {
-      padding-bottom: 0;
-      border-top: none;
-    }
-    td {
-      padding-top: 0;
-      border-top: none;
+    @extend .list-group;
+    & > tbody {
+      display: block;
+      & > tr {
+        @extend .list-group-item;
+        display: list-item;
+        list-style: none;
+        th {
+          display: inline;
+          padding-right: .5em;
+          border-top: none;
+        }
+        td {
+          display: inline;
+          border-top: none;
+        }
+      }
     }
   }
 }
@@ -231,39 +243,10 @@ ul.categories {
     content: ',';
   }
   list-style: none;
-  float: left;
   padding: 0;
   margin: 0;
 }
 
 /* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
-  .asset {
-    table {
-      display: table;
-    }
-    tbody {
-      display: table-row-group;
-    }
-    tr {
-      display: table-row;
-    }
-    th {
-      display: table-cell;
-      width: 25%;
-      padding-bottom: 8px;
-    }
-    td {
-      display: table-cell;
-      padding-top: 8px;
-    }
-    .table > tbody > tr {
-      th {
-        padding-bottom: 8px;
-      }
-      td {
-        padding-top: 8px;
-      }
-    }
-  }
 }
