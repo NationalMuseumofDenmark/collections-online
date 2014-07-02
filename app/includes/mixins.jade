@@ -34,33 +34,38 @@ mixin header
 mixin footer
   footer
     .footer
-      address.col-sm-9
-        span Nationalmuseet
-        span Prinsens Palæ
-        span Ny Vestergade 10
-        span DK-1471 København K
-        span Tel. +45 3313 4411
+      .container
+        .row
+          address.col-md-9
+            span Nationalmuseet
+            span Prinsens Palæ
+            span Ny Vestergade 10
+            span DK-1471 København K
+            span Tel. +45 3313 4411
 
-      h2 Følg os på:
-      ul
-        each val in ['Facebook', 'Twitter', 'YouTube']
-          li= val
+          .col-md-3
+            h2 Følg os på:
+            ul
+              each val in ['Facebook', 'Twitter', 'YouTube']
+                li= val
 
 mixin samlingerHeader()
   hgroup.container
-    .row.menu-container
-      .row.col-sm-4
-        .col-xs-9
-          a(href='/')
-            img(src='images/logotype.png', alt='Nationalmuseets samlinger')
-        .col-xs-3
-          a(href='/')
-            img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
-      .row.col-sm-8.menu-container
-        .col-xs-2.menu-container
-          +navigation()
-        .col-xs-10
-          +searchBox()
+    .row
+      .col-md-4.col-md-push-8
+        .row
+          .col-xs-9
+            a(href='/')
+              img(src='images/logotype.png', alt='Nationalmuseets samlinger')
+          .col-xs-3
+            a(href='/')
+              img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
+      .col-md-8.col-md-pull-4
+        .row
+          .col-xs-2.col-md-1
+            +navigation()
+          .col-xs-10.col-md-8
+            +searchBox()
 
 
 
