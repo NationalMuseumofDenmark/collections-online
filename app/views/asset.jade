@@ -17,9 +17,12 @@ block content
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
                 +icon('download-9-icon')
               ul.dropdown-menu(role='menu')
-                each val in ['400', '800', '1200']
-                  li
-                    a(href='#{image_src_set[val]}') #{val}
+                li
+                  a(href='#{image_src_set[800]}') Lille
+                li
+                  a(href='#{image_src_set[1200]}') Mellem
+                li
+                  a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
             +shareThisHTML()
       .col-md-6
         p.catalog= catalog.name
