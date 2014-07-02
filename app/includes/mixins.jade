@@ -36,18 +36,25 @@ mixin footer
     .footer
       .container
         .row
-          address.col-md-9
+          address.col-xs-12
             span Nationalmuseet
             span Prinsens Palæ
             span Ny Vestergade 10
             span DK-1471 København K
             span Tel. +45 3313 4411
-
-          .col-md-3
-            h2 Følg os på:
-            ul
-              each val in ['Facebook', 'Twitter', 'YouTube']
-                li= val
+        .row
+          .col-xs-12
+            h2.h4 Følg os på:
+            p.social-links
+              a(href='https://www.facebook.com/nationalmuseet')
+                span.sr-only Facebook
+                +icon('facebook-4-icon')
+              a(href='https://twitter.com/Nationalmuseet')
+                span.sr-only Twitter
+                +icon('twitter-4-icon')
+              a(href='http://www.youtube.com/user/natmusdk')
+                span.sr-only YouTube
+                +icon('youtube-4-icon')
 
 mixin samlingerHeader()
   hgroup.container
@@ -96,6 +103,16 @@ mixin icon(id)
     when 'plus-2-icon'
       svg.plus-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
         polygon(id="#{id}" points="462,209.528 302.471,209.528 302.471,50 209.529,50 209.529,209.528 50,209.528 50,302.47 209.529,302.47 209.529,462 302.471,462 302.471,302.47 462,302.47")
+    when 'facebook-4-icon'
+      svg.facebook-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M256.417,50c-113.771,0-206,92.229-206,206s92.229,206,206,206s206-92.229,206-206 S370.188,50,256.417,50z M317.385,171.192c0,0-20.604,0-28.789,0c-10.162,0-12.28,4.163-12.28,14.678c0,8.75,0,25.404,0,25.404 h41.069l-3.951,44.596h-37.118v133.227h-53.2V256.435h-27.666v-45.16h27.666c0,0,0-6.493,0-35.565 c0-33.379,17.849-50.807,57.437-50.807c6.484,0,36.833,0,36.833,0V171.192z")
+    when 'twitter-4-icon'
+      svg.twitter-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M256,50C142.229,50,50,142.229,50,256s92.229,206,206,206s206-92.229,206-206S369.771,50,256,50z M359.599,220.506c3.021,67.199-47.096,142.124-135.802,142.124c-26.981,0-52.096-7.911-73.238-21.466 c25.347,2.987,50.646-4.044,70.734-19.786c-20.907-0.386-38.554-14.198-44.632-33.181c7.486,1.432,14.851,1.013,21.575-0.816 c-22.976-4.617-38.839-25.317-38.321-47.453c6.44,3.58,13.81,5.729,21.642,5.977c-21.278-14.221-27.303-42.318-14.785-63.789 c23.563,28.906,58.77,47.928,98.478,49.92c-6.969-29.886,15.702-58.667,46.542-58.667c13.742,0,26.16,5.802,34.874,15.088 c10.884-2.143,21.108-6.119,30.341-11.594c-3.567,11.157-11.144,20.521-21.008,26.433c9.665-1.153,18.874-3.722,27.441-7.523 C377.035,205.355,368.935,213.771,359.599,220.506z")
+    when 'youtube-4-icon'
+      svg.youtube-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M287.63 286.939c-4.673 0-8.681 2.979-11.634 6.576v-30.711h-13.21v95.394h13.21v-5.409 c3.647 4.5 7.6 6.3 12.4 6.299c8.705 0 11.962-6.763 11.962-15.469V304.58C300.386 295 297.2 286.9 287.6 286.939z M286.921 341.705c0 2.242-0.379 3.859-1.134 4.85c-1.441 1.888-4.564 1.803-6.693 0.725c-1-0.504-2.032-1.33-3.098-2.475v-43.852 c0.889-0.966 1.787-1.682 2.698-2.145c2.29-1.158 5.246-0.934 6.8 1.156c0.933 1.2 1.4 3 1.4 5.406V341.705z M242.853 203.326v-34.37c0-4.044 1.862-7.046 5.722-7.046c4.212 0 6 2.9 6 7.046v34.37c0 4.023-2.051 6.996-5.746 7 C245.049 210.3 242.9 207.2 242.9 203.326z M236.938 287.83h13.084v70.368h-13.084v-7.769 c-2.411 2.863-4.918 5.045-7.526 6.541c-7.053 4.04-16.734 3.953-16.734-10.324V287.83h13.084v53.941 c0 2.8 0.7 4.7 3.5 4.742c2.55 0 6.096-3.271 7.691-5.27V287.83z M212.855 276.65h-15.243v81.548h-14.734V276.65h-15.242 v-13.846h45.22V276.65z M330.127 286.051c-11.803 0-19.872 8.48-19.872 20.697v31.585c0 12.7 6.4 21.8 18.9 21.8 c13.788 0 19.607-8.211 19.607-21.771v-5.286h-13.465v4.892c0 6.127-0.322 9.844-5.845 9.844c-5.268 0-5.714-4.565-5.714-9.844 v-13.274h25.023v-17.916C348.743 294 342.7 286.1 330.1 286.051z M335.278 313.741H323.72v-7.124 c0-4.836 0.996-8.247 5.845-8.247c4.705 0 5.7 3.5 5.7 8.247V313.741z M256 50C142.229 50 50 142.2 50 256 s92.229 206 206 206c113.77 0 206-92.229 206-206S369.77 50 256 50z M280.256 148.495h13.737v56.641 c0 3 0.7 5 3.7 4.978c2.679 0 6.403-3.437 8.077-5.533v-56.085h13.737v73.889h-13.737v-8.157 c-5.952 7.061-11.722 9.224-15.878 9.224c-7.364 0-9.596-5.899-9.596-13.198V148.495z M248.844 147.9 c11.136 0 19.8 8.3 19.8 19.851v36.218c0 12.411-8.702 19.799-19.75 19.799c-13.324 0-20.129-6.778-20.129-19.799v-36.218 C228.715 155.9 236.7 147.9 248.8 147.887z M193.115 122.22l10.669 40.037l9.912-40.037h15.72l-18.005 59.538v40.626 h-15.473v-40.626l-18.406-59.538H193.115z M369.465 350.28c0 17.397-14.104 31.5-31.5 31.5h-161.93c-17.397 0-31.5-14.103-31.5-31.5 v-79.579c0-17.398 14.103-31.501 31.5-31.501h161.93c17.396 0 31.5 14.1 31.5 31.501V350.28z")
+
     default
       span #{id} is not a valid icon ID
 
@@ -135,13 +152,9 @@ mixin shareThisHTML()
       +icon('arrow-4-icon')
     ul.dropdown-menu(role='menu')
       li.st_facebook(displayText='Facebook')
-      li.st_twitter(displayText='Tweet')
-      li.st_googleplus(displayText='Google +')
+      li.st_twitter(displayText='Twitter')
       li.st_pinterest(displayText='Pinterest')
       li.st_email(displayText='Email')
-      li.st_reddit(displayText='Reddit')
-      li.st_evernote(displayText='Evernote')
-      li.st_sharethis(displayText='ShareThis')
 
 mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>
