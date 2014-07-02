@@ -46,6 +46,7 @@ body {
 .main-wrapper {
   background: $white;
   color: $black;
+  overflow-x: hidden; // Enable bleeds without horizontal scroll
 }
 
 .header {
