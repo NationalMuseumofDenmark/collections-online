@@ -51,6 +51,10 @@ body {
   color: $black;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
 }
+svg {
+  width: 40px;
+  height: 40px;
+}
 
 .header {
   a {
@@ -114,8 +118,7 @@ body {
         text-decoration: none;
       }
       svg {
-        height: 34px;
-        width: 34px;
+        margin-top: -4px; // Align with search box
       }
 
     }
@@ -169,10 +172,8 @@ p.description {
 
 /* Assets */
 .asset {
-  img {
-    @include img-responsive();
-  }
   .asset-image img {
+    @include img-responsive();
     @include center-block(); // Center tall asset images
   }
   .asset-tools {
@@ -186,26 +187,45 @@ p.description {
       min-width: 145px;
     }
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
+  }
+  .catalog {
+    font-weight: bold;
+  }
+  .map {
+    @include img-responsive();
+  }
+  .asset-block {
+    margin-bottom: $line-height-computed;
   }
   .additional-info-header {
     a {
       display: block;
       width: 100%;
-      .glyphicon-chevron-down {
-        display: none;
+      vertical-align: middle;
+      svg {
+        @extend .pull-left;
+        width: 20px;
+        height: 20px;
+        margin: .2em .2em 0 0;
+        vertical-align: middle;
       }
-      .glyphicon-chevron-up {
-        display: block;
+      .plus-icon {
+        @extend .hidden;
+      }
+      .minus-icon {
+        @extend .show;
+        visibility: visible !important;
       }
       &.collapsed {
-        .glyphicon-chevron-down {
-          display: block;
+        .plus-icon {
+          @extend .show;
+          visibility: visible !important;
         }
-        .glyphicon-chevron-up {
-          display: none;
+        .minus-icon {
+          @extend .hidden;
         }
       }
     }
@@ -268,7 +288,7 @@ ul.categories {
     content: '';
   }
   li {
-    float: left;
+    display: inline;
     padding-right: 5px;
   }
   li.year {
@@ -276,6 +296,7 @@ ul.categories {
   li.year:after {
     content: ',';
   }
+  display: inline;
   list-style: none;
   padding: 0;
   margin: 0;
