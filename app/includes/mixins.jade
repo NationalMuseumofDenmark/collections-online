@@ -34,33 +34,38 @@ mixin header
 mixin footer
   footer
     .footer
-      address.col-sm-9
-        span Nationalmuseet
-        span Prinsens Palæ
-        span Ny Vestergade 10
-        span DK-1471 København K
-        span Tel. +45 3313 4411
+      .container
+        .row
+          address.col-md-9
+            span Nationalmuseet
+            span Prinsens Palæ
+            span Ny Vestergade 10
+            span DK-1471 København K
+            span Tel. +45 3313 4411
 
-      h2 Følg os på:
-      ul
-        each val in ['Facebook', 'Twitter', 'YouTube']
-          li= val
+          .col-md-3
+            h2 Følg os på:
+            ul
+              each val in ['Facebook', 'Twitter', 'YouTube']
+                li= val
 
 mixin samlingerHeader()
   hgroup.container
-    .row.menu-container
-      .row.col-sm-4
-        .col-xs-9
-          a(href='/')
-            img(src='images/logotype.png', alt='Nationalmuseets samlinger')
-        .col-xs-3
-          a(href='/')
-            img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
-      .row.col-sm-8.menu-container
-        .col-xs-2.menu-container
-          +navigation()
-        .col-xs-10
-          +searchBox()
+    .row
+      .col-md-4.col-md-push-8
+        .row
+          .col-xs-9
+            a(href='/')
+              img(src='images/logotype.png', alt='Nationalmuseets samlinger')
+          .col-xs-3
+            a(href='/')
+              img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
+      .col-md-8.col-md-pull-4.menu-container
+        .row
+          .col-xs-2.col-md-1.menu-container
+            +navigation()
+          .col-xs-10.col-md-8
+            +searchBox()
 
 
 
@@ -74,18 +79,32 @@ mixin searchBox()
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
 
-mixin menuIcon()
-  svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", width="32px", height="32px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
-    path(id="menu-icon", d="M462 163.5H50v-65h412V163.5z M462 223.5H50v65h412V223.5z M462 348.5H50v65h412V348.5z")
-
-
+mixin icon(id)
+  case id
+    when 'menu-icon'
+      svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M462 163.5H50v-65h412V163.5z M462 223.5H50v65h412V223.5z M462 348.5H50v65h412V348.5z")
+    when 'download-9-icon'
+      svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M360.353,277.271L256.998,380.802L153.647,277.271h47.529v-38.77h111.646v38.77H360.353z M201.177,220.49h111.646v-31.318H201.177V220.49z M312.823,172.729v-25.53H201.177v25.53H312.823z M90,256 c0,91.756,74.258,166,166,166c91.755,0,166-74.258,166-166c0-91.755-74.258-166-166-166C164.245,90,90,164.259,90,256z M462,256 c0,113.771-92.229,206-206,206S50,369.771,50,256c0-113.771,92.229-206,206-206S462,142.229,462,256z")
+    when 'arrow-4-icon'
+      svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M160.879,312.387V205.609h117.064v-39.627l93.178,93.016l-93.178,93.018v-39.629H160.879z M90,256 c0,91.756,74.258,166,166,166c91.755,0,166-74.258,166-166c0-91.755-74.258-166-166-166C164.245,90,90,164.259,90,256z M462,256 c0,113.771-92.229,206-206,206S50,369.771,50,256c0-113.771,92.229-206,206-206S462,142.229,462,256z")      
+    when 'minus-2-icon'
+      svg.minus-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        rect(id="#{id}" x="50" y="209.529" width="412" height="92.941")
+    when 'plus-2-icon'
+      svg.plus-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        polygon(id="#{id}" points="462,209.528 302.471,209.528 302.471,50 209.529,50 209.529,209.528 50,209.528 50,302.47 209.529,302.47 209.529,462 302.471,462 302.471,302.47 462,302.47")
+    default
+      span #{id} is not a valid icon ID
 
 mixin navigation()
   nav.categories-menu
     h2#heading-categories-menu
       a(href='#')
         span.sr-only Kataloger og kategorier
-        +menuIcon()
+        +icon('menu-icon')
         //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
       li
@@ -111,19 +130,18 @@ mixin responsiveImage(title)
       img(src=image_src, alt=title, title=title)
 
 mixin shareThisHTML()
-  .dropdown
-    a(data-toggle='dropdown', href='#').dropdown-toggle
-      span.sr-only Del indhold
-      span.glyphicon.glyphicon-share-alt
-    .dropdown-menu.pull-right
-      <span class='st_facebook_large' displayText='Facebook'></span>
-      <span class='st_twitter_large' displayText='Tweet'></span>
-      <span class='st_googleplus_large' displayText='Google +'></span>
-      <span class='st_pinterest_large' displayText='Pinterest'></span>
-      <span class='st_email_large' displayText='Email'></span>
-      <span class='st_reddit_large' displayText='Reddit'></span>
-      <span class='st_evernote_large' displayText='Evernote'></span>
-      <span class='st_sharethis_large' displayText='ShareThis'></span>
+  .btn-group
+    a(data-toggle='dropdown', href='#').dropdown-toggle.btn.btn-default Del
+      +icon('arrow-4-icon')
+    ul.dropdown-menu(role='menu')
+      li.st_facebook(displayText='Facebook')
+      li.st_twitter(displayText='Tweet')
+      li.st_googleplus(displayText='Google +')
+      li.st_pinterest(displayText='Pinterest')
+      li.st_email(displayText='Email')
+      li.st_reddit(displayText='Reddit')
+      li.st_evernote(displayText='Evernote')
+      li.st_sharethis(displayText='ShareThis')
 
 mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>

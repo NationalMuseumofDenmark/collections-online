@@ -11,11 +11,18 @@ block content
       .col-md-6
         .bleed.asset-image
           +responsiveImage(title)
-        a(href='#{image_src_set["1200"]}').pull-right
-          span.glyphicon.glyphicon-download-alt
-        +shareThisHTML()
+        .row
+          .asset-tools
+            .btn-group
+              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+                +icon('download-9-icon')
+              ul.dropdown-menu(role='menu')
+                each val in ['400', '800', '1200']
+                  li
+                    a(href='#{image_src_set[val]}') #{val}
+            +shareThisHTML()
       .col-md-6
-        span= catalog.name
+        p.catalog= catalog.name
 
         // Title
         h1(itemprop='name')= title
@@ -110,14 +117,8 @@ block content
             - if(has_coordinates)
               tr
                 td(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' +
-                         item.longitude + ',' + item.latitude +
-                         '&spn=0.008039,0.015857&t=h&z=16',
-                          target='blank')
-                    img(alt='Google Map',
-                        src='http://maps.google.dk/maps/api/staticmap?size=200x150&markers=' +
-                            item.longitude + ',' + item.latitude +
-                            '&sensor=false&scale=1&zoom=14&maptype=terrain')
+                  a(href='http://maps.google.dk/maps?ll=' + item.longitude + ',' + item.latitude + '&spn=0.008039,0.015857&t=h&z=16', target='blank')
+                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.longitude + ',' + item.latitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
         // Technical info
         h2 Tekniske oplysninger
         table(class='table')
@@ -134,32 +135,34 @@ block content
               td= item.dpi || '-'
 
         // Additional info
-        h2.additional-info-header
-          - var path = req.path
-          a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed Yderligere information
-            span.glyphicon.glyphicon-chevron-up.pull-right
-            span.glyphicon.glyphicon-chevron-down.pull-right
+        .asset-block
+          h2.additional-info-header
+            - var path = req.path
+            a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
+              +icon('minus-2-icon')
+              +icon('plus-2-icon')
+              | Yderligere information
 
-        div#additional-info.collapse
-          table(class='table')
-            tbody
-              tr
-                th Filnavn:
-                td= item.filename || '-'
-              tr
-                th Arkivalienr.:
-                td= item.archiveno || '-'
-              tr
-                th Genstandsnr.:
-                td= item.unitno || '-'
-              tr
-                th Arkivnavn:
-                td= item.archivename ? item.archivename.displaystring : '-'
-              tr
-                th Tidsnote:
-                td= item.timenote || '-'
+          div#additional-info.collapse
+            table(class='table')
+              tbody
+                tr
+                  th Filnavn:
+                  td= item.filename || '-'
+                tr
+                  th Arkivalienr.:
+                  td= item.archiveno || '-'
+                tr
+                  th Genstandsnr.:
+                  td= item.unitno || '-'
+                tr
+                  th Arkivnavn:
+                  td= item.archivename ? item.archivename.displaystring : '-'
+                tr
+                  th Tidsnote:
+                  td= item.timenote || '-'
 
-              tr
-                th Topnr.:
-                td= item.topno || '-'
+                tr
+                  th Topnr.:
+                  td= item.topno || '-'
 
