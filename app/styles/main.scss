@@ -37,6 +37,9 @@ body {
     }
     .menu-container {
       position: static;
+      &.col-md-pull-4 {
+        margin-left: -33.333333%;
+      }
     }
     #menu-icon {
       fill: $gray;
@@ -93,6 +96,11 @@ body {
   background: $black;
   color: $white;
   border-top: 1px solid $gray-lighter;
+  address {
+    span {
+      display: block;
+    }
+  }
 }
 
 /* Category menu */
@@ -105,9 +113,9 @@ body {
       &:focus {
         text-decoration: none;
       }
-      #menu-icon {
+      svg {
         height: 34px;
-        width: auto;
+        width: 34px;
       }
 
     }
@@ -152,6 +160,13 @@ p.description {
   text-overflow: ellipsis;
 }
 
+.btn {
+  svg {
+    vertical-align: middle;
+    margin: 0 .2em
+  }
+}
+
 /* Assets */
 .asset {
   img {
@@ -159,6 +174,21 @@ p.description {
   }
   .asset-image img {
     @include center-block(); // Center tall asset images
+  }
+  .asset-tools {
+    @extend .col-xs-12;
+    @extend .btn-group;
+    @extend .btn-group-justified;
+    margin-top: $line-height-computed/2;
+    margin-bottom: $line-height-computed;
+    .dropdown-menu {
+      width: 100%;
+      min-width: 145px;
+    }
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
   .additional-info-header {
     a {

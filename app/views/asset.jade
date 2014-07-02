@@ -11,9 +11,16 @@ block content
       .col-md-6
         .bleed.asset-image
           +responsiveImage(title)
-        a(href='#{image_src_set["1200"]}').pull-right
-          span.glyphicon.glyphicon-download-alt
-        +shareThisHTML()
+        .row
+          .asset-tools
+            .btn-group
+              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+                +icon('download-9-icon')
+              ul.dropdown-menu(role='menu')
+                each val in ['400', '800', '1200']
+                  li
+                    a(href='#{image_src_set[val]}') #{val}
+            +shareThisHTML()
       .col-md-6
         span= catalog.name
 
