@@ -154,6 +154,16 @@ svg {
       &:focus {
         text-decoration: none;
       }
+      &.col-xs-2 {
+        @extend .text-center;
+        padding: 10px 2px;
+      }
+      svg {
+        width: 12px;
+        height: 12px;
+        fill: $white;
+        margin: 0 auto;
+      }
     }
   }
 }

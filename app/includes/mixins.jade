@@ -133,8 +133,10 @@ mixin navigation()
         a(href='', role='menu-item', ng-click='setCatalog("")')
           | Alle
       li(ng-repeat='catalog in catalogs')
-        a(href='', role='menu-item', ng-click='setCatalog(catalog.alias)')
+        a.col-xs-10(href='/{{catalog.alias}}', role='menu-item')
           | {{ catalog.name }}
+        a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
+          +icon('plus-2-icon')
         ul(ng-if='categories.children')
           li(ng-repeat='category in categories.children')
             a(href='')
