@@ -75,16 +75,18 @@ mixin samlingerHeader()
             +searchBox()
 
 
-
 mixin searchBox()
   - var path = (req.path).split('/')
   .form-group
-      div(class='input-group')
-        input(type='text', class='form-control', placeholder='Søg', name='q',
-              autocomplete="off", ng-model='q',
-              typeahead='term.text for term in suggestions')
+      form(class='input-group search-box')
+        .input-group-text
+          input(type='text', class='form-control', placeholder='Søg', name='q',
+                autocomplete="off", ng-model='q',
+                typeahead='term.text for term in suggestions')
         .input-group-btn
-          button(type="submit", class="btn btn-default", ng-click='doSearch()') Søg
+          button(type="submit", class="btn btn-default", ng-click='doSearch()')
+            span.sr-only Søg
+            +icon('magnifier-2-icon')
 
 mixin icon(id)
   case id
@@ -112,7 +114,9 @@ mixin icon(id)
     when 'youtube-4-icon'
       svg.youtube-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
         path(id="#{id}", d="M287.63 286.939c-4.673 0-8.681 2.979-11.634 6.576v-30.711h-13.21v95.394h13.21v-5.409 c3.647 4.5 7.6 6.3 12.4 6.299c8.705 0 11.962-6.763 11.962-15.469V304.58C300.386 295 297.2 286.9 287.6 286.939z M286.921 341.705c0 2.242-0.379 3.859-1.134 4.85c-1.441 1.888-4.564 1.803-6.693 0.725c-1-0.504-2.032-1.33-3.098-2.475v-43.852 c0.889-0.966 1.787-1.682 2.698-2.145c2.29-1.158 5.246-0.934 6.8 1.156c0.933 1.2 1.4 3 1.4 5.406V341.705z M242.853 203.326v-34.37c0-4.044 1.862-7.046 5.722-7.046c4.212 0 6 2.9 6 7.046v34.37c0 4.023-2.051 6.996-5.746 7 C245.049 210.3 242.9 207.2 242.9 203.326z M236.938 287.83h13.084v70.368h-13.084v-7.769 c-2.411 2.863-4.918 5.045-7.526 6.541c-7.053 4.04-16.734 3.953-16.734-10.324V287.83h13.084v53.941 c0 2.8 0.7 4.7 3.5 4.742c2.55 0 6.096-3.271 7.691-5.27V287.83z M212.855 276.65h-15.243v81.548h-14.734V276.65h-15.242 v-13.846h45.22V276.65z M330.127 286.051c-11.803 0-19.872 8.48-19.872 20.697v31.585c0 12.7 6.4 21.8 18.9 21.8 c13.788 0 19.607-8.211 19.607-21.771v-5.286h-13.465v4.892c0 6.127-0.322 9.844-5.845 9.844c-5.268 0-5.714-4.565-5.714-9.844 v-13.274h25.023v-17.916C348.743 294 342.7 286.1 330.1 286.051z M335.278 313.741H323.72v-7.124 c0-4.836 0.996-8.247 5.845-8.247c4.705 0 5.7 3.5 5.7 8.247V313.741z M256 50C142.229 50 50 142.2 50 256 s92.229 206 206 206c113.77 0 206-92.229 206-206S369.77 50 256 50z M280.256 148.495h13.737v56.641 c0 3 0.7 5 3.7 4.978c2.679 0 6.403-3.437 8.077-5.533v-56.085h13.737v73.889h-13.737v-8.157 c-5.952 7.061-11.722 9.224-15.878 9.224c-7.364 0-9.596-5.899-9.596-13.198V148.495z M248.844 147.9 c11.136 0 19.8 8.3 19.8 19.851v36.218c0 12.411-8.702 19.799-19.75 19.799c-13.324 0-20.129-6.778-20.129-19.799v-36.218 C228.715 155.9 236.7 147.9 248.8 147.887z M193.115 122.22l10.669 40.037l9.912-40.037h15.72l-18.005 59.538v40.626 h-15.473v-40.626l-18.406-59.538H193.115z M369.465 350.28c0 17.397-14.104 31.5-31.5 31.5h-161.93c-17.397 0-31.5-14.103-31.5-31.5 v-79.579c0-17.398 14.103-31.501 31.5-31.501h161.93c17.396 0 31.5 14.1 31.5 31.501V350.28z")
-
+    when 'magnifier-2-icon'
+      svg.magnifier-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
+        path(id="#{id}", d="M460.355 421.59L353.844 315.078c20.041-27.553 31.885-61.437 31.885-98.037 C385.729 124.9 310.8 50 218.7 50C126.58 50 51.6 124.9 51.6 217.041c0 92.1 74.9 167 167 167 c34.912 0 67.352-10.773 94.184-29.158L419.945 462L460.355 421.59z M100.631 217.041c0-65.096 52.959-118.056 118.055-118.056 c65.098 0 118.1 53 118.1 118.056c0 65.096-52.959 118.056-118.057 118.056C153.59 335.1 100.6 282.1 100.6 217 z")
     default
       span #{id} is not a valid icon ID
 
@@ -128,8 +132,10 @@ mixin navigation()
         a(href='', role='menu-item', ng-click='setCatalog("")')
           | Alle
       li(ng-repeat='catalog in catalogs')
-        a(href='', role='menu-item', ng-click='setCatalog(catalog.alias)')
+        a.col-xs-10(href='/{{catalog.alias}}', role='menu-item')
           | {{ catalog.name }}
+        a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
+          +icon('plus-2-icon')
         ul(ng-if='categories.children')
           li(ng-repeat='category in categories.children')
             a(href='')
