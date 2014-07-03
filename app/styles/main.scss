@@ -157,6 +157,16 @@ svg {
     }
   }
 }
+.search-box {
+  button[type=submit] {
+    height: 31px;
+    line-height: $line-height-computed;
+  }
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
 
 .bleed {
   margin-left: -15px;
