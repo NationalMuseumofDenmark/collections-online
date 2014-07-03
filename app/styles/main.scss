@@ -175,8 +175,9 @@ svg {
     width: 100%;
   }
   button[type=submit] {
+    width: 50px;
     height: 31px;
-    line-height: $line-height-computed;
+    // line-height: $line-height-computed;
   }
   svg {
     width: 20px;
