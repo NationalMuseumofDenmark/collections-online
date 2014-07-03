@@ -278,29 +278,20 @@ p.description {
     }
   }
   table {
-    display: block;
-    & > tbody {
-      display: block;
-      & > tr {
-        position: relative;
-        display: block;
-        width: 100%;
-        padding: $line-height-computed/2 0;
-        border-bottom: 1px solid $gray-light;
-        &:first-child {
-          border-top: 1px solid $gray-light;
-        }
-        th {
-          display: inline-block;
-          padding: 0 .5em 0 0;
-          border-top: none;
-        }
-        td {
-          display: inline-block;
-          padding: 0;
-          border-top: none;
-        }
+    width: 100%;
+    tr {
+      border-bottom: 1px solid $gray-light;
+      &:first-child {
+        border-top: 1px solid $gray-light;
       }
+    }
+    th {
+      display: inline-block;
+      padding: $line-height-computed/2 .3em $line-height-computed/2 0;
+    }
+    td {
+      display: inline-block;
+      padding: $line-height-computed/2 0;
     }
   }
 }
