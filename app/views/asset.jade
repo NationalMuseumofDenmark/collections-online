@@ -25,7 +25,8 @@ block content
                   a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
             +shareThisHTML()
       .col-md-6
-        p.catalog= catalog.name
+        p.catalog
+          a(href='/#{catalog.alias}')= catalog.name
 
         // Title
         h1(itemprop='name')= title
