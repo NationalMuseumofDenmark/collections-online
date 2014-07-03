@@ -11,7 +11,7 @@ mixin analytics
     })();
 
 mixin head
-  base(href='/')
+  base(href='http://#{req.get("host")}/')
 
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
