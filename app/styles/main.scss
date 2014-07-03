@@ -158,6 +158,12 @@ svg {
   }
 }
 .search-box {
+  .input-group-text { // Added to box-in input field and typeahead
+    position: relative;
+  }
+  .dropdown-menu { // typeahead dropdown menu
+    width: 100%;
+  }
   button[type=submit] {
     height: 31px;
     line-height: $line-height-computed;

@@ -80,9 +80,10 @@ mixin searchBox()
   - var path = (req.path).split('/')
   .form-group
       form(class='input-group search-box')
-        input(type='text', class='form-control', placeholder='Søg', name='q',
-              autocomplete="off", ng-model='q',
-              typeahead='term.text for term in suggestions')
+        .input-group-text
+          input(type='text', class='form-control', placeholder='Søg', name='q',
+                autocomplete="off", ng-model='q',
+                typeahead='term.text for term in suggestions')
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()')
             span.sr-only Søg
