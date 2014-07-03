@@ -8,11 +8,13 @@ block content
     h1.page-header.sr-only Søgeresultat
     div(class='search-results', data-infinite-scroll='nextPage()', data-infinite-scroll-disabled='isLoading()', infinite-scroll-distance=2)#masonry-container
       div(ng-repeat='result in results', class='col-xs-12 col-sm-6 col-md-4 col-lg-3', data-update-masonry-container)
-          a(href='{{result.url}}', class='thumbnail')
+        .thumbnail
+          a(href='{{result.url}}')
             img(src='{{result.thumbnail_url}}', alt='{{result.title}}')
             h2.h4 {{result.title}}
             p.description {{result.description}}
-            p.small {{result.colophon}}
+          p.small(ng-if='result.catalog')
+            a(href='{{result.catalog_url}}') {{result.catalog}}
 
   .clearfix
 
