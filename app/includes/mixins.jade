@@ -11,7 +11,7 @@ mixin analytics
     })();
 
 mixin head
-  base(href='http://beta.samlinger.natmus.dk/')
+  base(href='/')
 
   meta(charset='utf-8')
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -19,7 +19,7 @@ mixin head
   meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
   link(rel='stylesheet', href='../bower_components/ngprogress/ngProgress.css', type='text/css')
-  link(rel='stylesheet', href='styles/main.css')
+  link(rel='stylesheet', href='/styles/main.css')
 
 mixin header
   header.header
@@ -63,10 +63,10 @@ mixin samlingerHeader()
         .row
           .col-xs-9
             a(href='/')
-              img(src='images/logotype.png', alt='Nationalmuseets samlinger')
+              img(src='/images/logotype.png', alt='Nationalmuseets samlinger')
           .col-xs-3
             a(href='/')
-              img.pull-right(src='images/logo.png', alt='Nationalmussets samlinger')
+              img.pull-right(src='/images/logo.png', alt='Nationalmussets samlinger')
       .col-md-8.col-md-pull-4.menu-container
         .row
           .col-xs-2.col-md-1.menu-container
