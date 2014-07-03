@@ -235,6 +235,7 @@ p.description {
   }
   .map {
     @include img-responsive();
+    width: 100%;
   }
   .asset-block {
     margin-bottom: $line-height-computed;
@@ -271,10 +272,6 @@ p.description {
   }
   a {
     color: #000;
-    .glyphicon {
-      color: #000;
-      margin-left: 1em;
-    }
     &:hover,
     &:focus {
       text-decoration: none
@@ -282,20 +279,25 @@ p.description {
   }
   table {
     display: block;
-    @extend .list-group;
     & > tbody {
       display: block;
       & > tr {
-        @extend .list-group-item;
-        display: list-item;
-        list-style: none;
+        position: relative;
+        display: block;
+        width: 100%;
+        padding: $line-height-computed/2 0;
+        border-bottom: 1px solid $gray-light;
+        &:first-child {
+          border-top: 1px solid $gray-light;
+        }
         th {
-          display: inline;
-          padding-right: .5em;
+          display: inline-block;
+          padding: 0 .5em 0 0;
           border-top: none;
         }
         td {
-          display: inline;
+          display: inline-block;
+          padding: 0;
           border-top: none;
         }
       }
