@@ -13,14 +13,16 @@ block content
           +responsiveImage(title)
         .row
           .asset-tools
-            .btn-group
+            .btn-group.dropup
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('download-9-icon')
+                +icon('download-icon')
               ul.dropdown-menu(role='menu')
                 li
                   a(href='#{image_src_set[800]}') Lille
+                li.divider
                 li
                   a(href='#{image_src_set[1200]}') Mellem
+                li.divider
                 li
                   a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
             +shareThisHTML()
@@ -62,9 +64,6 @@ block content
         h2 Tidsperiode og årstal
         table
           tbody
-            - if(item.year)
-              tr
-                td(colspan='2')= item.year
             tr
               th Datering:
               td
@@ -83,9 +82,6 @@ block content
         - var has_coordinates = item.longitude && item.latitude;
         table
           tbody
-            - if (item.place)
-              tr
-                td(colspan='2')= item.place
             tr
               th Område:
               td
