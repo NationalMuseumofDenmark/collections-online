@@ -4,19 +4,21 @@ append header
   title #{pageTitle} - Nationalmuseets Online Samlinger
 
 block content
-  section(role='main')
+  h1 #{results.results}
+
+  section
     h1.page-header= pageHeader
-    div(class='search-results', data-infinite-scroll='nextPage()', data-infinite-scroll-disabled='isLoading()', infinite-scroll-distance=2)#masonry-container
-      div(ng-repeat='result in results', class='col-xs-12 col-sm-6 col-md-4 col-lg-3', data-update-masonry-container)
-        .thumbnail
-          a(href='{{result.url}}')
-            img(src='{{result.thumbnail_url}}', alt='{{result.title}}')
-            h2.h4 {{result.title}}
-            p.description {{result.description}}
-          p.small(ng-if='result.catalog')
-            a(href='{{result.catalog_url}}') {{result.catalog}}
+    div(id="masonry-container" class="search-results")
+      each result in results
+        div(class='col-xs-12 col-sm-6 col-md-4 col-lg-3 box')
+          .thumbnail
+            a(href='#{result.url}')
+              img(src='#{result.thumbnail_url}', alt='#{result.title}')
+              h2.h4 #{result.title}
+              p.description #{result.description}
+            p.small
+              a(href='#{result.catalog_url}') #{result.catalog}
+  div(id='page-nav')
+    a(href='#{infinitepath}')
 
   .clearfix
-
-
-
