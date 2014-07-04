@@ -193,7 +193,7 @@ $headings-font-weight:    600;
 // //** `<input>` border radius
 // $input-border-radius:            $border-radius-base !default;
 // //** Border color for inputs on focus
-// $input-border-focus:             #66afe9 !default;
+$input-border-focus:             $brand-primary;
 
 // //** Placeholder text color
 // $input-color-placeholder:        $gray-light !default;
