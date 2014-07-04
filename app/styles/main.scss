@@ -45,6 +45,9 @@ body {
       fill: $gray;
     }
   }
+  a {
+    outline:none !important;
+  }
 }
 .main-wrapper {
   background: $white;
@@ -180,6 +183,11 @@ svg {
         text-decoration: none;
         background:#555555;
       }
+    }
+
+    a.expand-menu {
+      padding-top:7px !important;
+      padding-bottom:7px !important;
     }
   }
 

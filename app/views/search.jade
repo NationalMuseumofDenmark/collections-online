@@ -4,10 +4,8 @@ append header
   title #{pageTitle} - Nationalmuseets Online Samlinger
 
 block content
-  h1 #{results.results}
-
   section
-    h1.page-header= pageHeader
+    h1.page-header= titleheading
     div(id="masonry-container" class="search-results")
       each result in results
         div(class='col-xs-12 col-sm-6 col-md-4 col-lg-3 box')
