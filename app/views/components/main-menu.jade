@@ -5,15 +5,26 @@ li
 
 each nav in results
   li
-    if nav.current == nav.alias
-      a.col-xs-10(href='/#{nav.alias}') #{nav.name}
-      a.col-xs-2(href='')
-        +icon('plus-2-icon')
-      ul(class='menu-childern active', data-menu-child=nav.name)
-    else
-      a.col-xs-10(href='/#{nav.alias}') #{nav.name}
-      a.col-xs-2(href='')
-        +icon('plus-2-icon')
-      ul(class='menu-childern', data-menu-child=nav.name)
-      each child in nav.children.tree
+    a.col-xs-10(href='/#{nav.alias}') #{nav.name}
+    a.col-xs-2(href='', class='expand-menu')
+      +icon('plus-2-icon')
+    ul(class='menu-childern-first menu-hidden', data-menu-child=nav.name)
+      each child in nav.children.children
+        if child.children[0]
+          li
+            a.col-xs-10(href='/#{nav.alias}?cat=#{child.id}') #{child.name}
+            a.col-xs-2(href='', class='expand-menu')
+              +icon('plus-2-icon')
+            ul(class='menu-childern-last menu-hidden', data-menu-child=nav.name)
+              each lastchild in child.children
+                li
+                  a.col-xs-12(href='/#{nav.alias}?cat=#{lastchild.id}') #{lastchild.name}
+        else
+          li
+            a.col-xs-12(href='/#{nav.alias}?cat=#{child.id}') #{child.name}
+            ul(class='menu-childern-last', data-menu-child=nav.name)
+              each lastchild in child.children
+                li
+                  a.col-xs-12(href='/#{lastchild.id}') #{lastchild.name}
+
 
