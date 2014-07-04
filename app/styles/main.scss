@@ -245,11 +245,39 @@ p.description {
     .dropdown-menu {
       width: 100%;
       min-width: 145px;
+      & > li {
+        & > a,
+        & > .stButton {
+          color: $gray !important;
+          &:hover,
+          &:focus {
+            color: $gray !important;
+            background: $gray-light;
+          }
+        }
+        & > .stButton {
+          clear: both;
+          display: block !important;
+          margin: 0;
+          padding: 3px 20px;
+          font-size: $font-size-base;
+          font-weight: normal;
+          line-height: $line-height-base;
+          white-space: nowrap;
+          .chicklets {
+            font-family: inherit;
+            font-size: inherit;
+            height: auto;
+            line-height: inherit;
+        }
+        }
+      }
     }
     svg {
-      width: 20px;
-      height: 20px;
+      width: 16px;
+      height: 16px;
     }
+
   }
   .catalog {
     font-weight: bold;
