@@ -29,3 +29,22 @@ $(function() {
     source: searchSuggest.ttAdapter()
   });
 });
+
+// Retrieve the main menu and its childern
+$(function() {
+  $.ajax({
+  url: 'main-menu/catalogs?url=' + window.location.pathname.split('/')[1], // Append path to mark active
+  // dataType: 'default: Intelligent Guess (Other values: xml, json, script, or html)',
+  })
+  .done(function(data) {
+    console.log("success");
+    console.log(data);
+    $('.categories-menu .nav').html(data);
+  })
+  .fail(function(data) {
+    console.log("error");
+  })
+  .always(function(data) {
+    console.log("complete");
+  });
+});
