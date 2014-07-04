@@ -29,7 +29,6 @@ cip_categories.load_categories().then(function(result) {
     cip.init_session().then(function(nm) {
         cip.get_catalogs(nm).then(function(catalogs) {
             app.set('cip_catalogs', catalogs);
-            debugger;
         });
     });
 }).then(function() {
