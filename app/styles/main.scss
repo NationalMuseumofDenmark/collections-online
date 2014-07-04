@@ -71,7 +71,7 @@ svg {
     margin-bottom: 20px;
     height: 30px;
     background: $black;
-    color: $white;    
+    color: $white;
     a {
       line-height: 30px;
       vertical-align: middle;
@@ -182,6 +182,27 @@ svg {
   svg {
     width: 20px;
     height: 20px;
+  }
+  #search-input {
+    border-radius:4px 0 0 4px;
+  }
+  .input-group-btn {
+    vertical-align:top;
+  }
+  .twitter-typeahead {
+    width:100%;
+  }
+  .tt-dropdown-menu {
+    width:100%;
+    background:#fff;
+    font-size: 12px;
+  }
+  .tt-dataset-dropdown-menu {
+    padding: 4px 0;
+  }
+  .tt-suggestion.tt-cursor {
+    color: #fff;
+    background-color: #0097cf;
   }
 }
 

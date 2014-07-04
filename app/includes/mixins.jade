@@ -78,10 +78,10 @@ mixin samlingerHeader()
 mixin searchBox()
   - var path = (req.path).split('/')
   .form-group
-      form(class='input-group search-box')
+      form(class='input-group search-box', method="get", action="/")
         .input-group-text
-          input(type='text', class='form-control', placeholder='Søg', name='q',
-                autocomplete="off", ng-model='q',
+          input(type='text', id="search-input", class='form-control', placeholder='Søg', name='q',
+                autocomplete="off",
                 typeahead='term.text for term in suggestions')
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()')
@@ -98,7 +98,7 @@ mixin icon(id)
         path(id="#{id}", d="M360.353,277.271L256.998,380.802L153.647,277.271h47.529v-38.77h111.646v38.77H360.353z M201.177,220.49h111.646v-31.318H201.177V220.49z M312.823,172.729v-25.53H201.177v25.53H312.823z M90,256 c0,91.756,74.258,166,166,166c91.755,0,166-74.258,166-166c0-91.755-74.258-166-166-166C164.245,90,90,164.259,90,256z M462,256 c0,113.771-92.229,206-206,206S50,369.771,50,256c0-113.771,92.229-206,206-206S462,142.229,462,256z")
     when 'arrow-4-icon'
       svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
-        path(id="#{id}", d="M160.879,312.387V205.609h117.064v-39.627l93.178,93.016l-93.178,93.018v-39.629H160.879z M90,256 c0,91.756,74.258,166,166,166c91.755,0,166-74.258,166-166c0-91.755-74.258-166-166-166C164.245,90,90,164.259,90,256z M462,256 c0,113.771-92.229,206-206,206S50,369.771,50,256c0-113.771,92.229-206,206-206S462,142.229,462,256z")      
+        path(id="#{id}", d="M160.879,312.387V205.609h117.064v-39.627l93.178,93.016l-93.178,93.018v-39.629H160.879z M90,256 c0,91.756,74.258,166,166,166c91.755,0,166-74.258,166-166c0-91.755-74.258-166-166-166C164.245,90,90,164.259,90,256z M462,256 c0,113.771-92.229,206-206,206S50,369.771,50,256c0-113.771,92.229-206,206-206S462,142.229,462,256z")
     when 'minus-2-icon'
       svg.minus-icon(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
         rect(id="#{id}" x="50" y="209.529" width="412" height="92.941")
@@ -126,20 +126,36 @@ mixin navigation()
       a(href='#')
         span.sr-only Kataloger og kategorier
         +icon('menu-icon')
-        //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
       li
-        a(href='', role='menu-item', ng-click='setCatalog("")')
-          | Alle
-      li(ng-repeat='catalog in catalogs')
-        a.col-xs-10(href='/{{catalog.alias}}', role='menu-item')
-          | {{ catalog.name }}
-        a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
-          +icon('plus-2-icon')
-        ul(ng-if='categories.children')
-          li(ng-repeat='category in categories.children')
-            a(href='')
-              | {{category.name}}
+        a.col-xs-12(href='/') Alle
+      each nav in [{name:'Antiksamlingen',alias:'AS'},{name:'Bevaringsafdelingen',alias:'BA'},{name:'Danmarks Middelalder og Renæssance',alias:'DMR'},{name:'Danmarks Nyere Tid',alias:'DNT'},{name:'Den Kgl. Mønt- og Medaljesamling',alias:'KMM'},{name:'Etnografisk Samling',alias:'ES'},{name:'Frihedsmuseet',alias:'FHM'},{name:'Musikmuseet',alias:'MUM'}]
+        li
+          a.col-xs-10(href='/#{nav.alias}') #{nav.name}
+          a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
+            +icon('plus-2-icon')
+          ul.menu-childern(data-menu-child=nav.name)
+
+//- mixin navigation()
+//-   nav.categories-menu
+//-     h2#heading-categories-menu
+//-       a(href='#')
+//-         span.sr-only Kataloger og kategorier
+//-         +icon('menu-icon')
+//-         //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
+//-     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
+//-       li
+//-         a(href='', role='menu-item', ng-click='setCatalog("")')
+//-           | Alle
+//-       li(ng-repeat='catalog in catalogs')
+//-         a.col-xs-10(href='/{{catalog.alias}}', role='menu-item')
+//-           | {{ catalog.name }}
+//-         a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
+//-           +icon('plus-2-icon')
+//-         ul(ng-if='categories.children')
+//-           li(ng-repeat='category in categories.children')
+//-             a(href='')
+//-               | {{category.name}}
 
 
 mixin responsiveImage(title)
