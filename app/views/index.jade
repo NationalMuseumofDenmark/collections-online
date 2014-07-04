@@ -9,8 +9,8 @@ html.no-js
 
     block header
 
-  body(ng-app='natmusSamlingerApp', ng-controller='searchController')
-    div(ng-view='').main-wrapper
+  body
+    div.main-wrapper
 
       +header()
       .container
@@ -20,8 +20,6 @@ html.no-js
     // build:js(app) scripts/vendor.js
     // bower:js
     script(src='../bower_components/jquery/dist/jquery.js')
-    script(src='../bower_components/es5-shim/es5-shim.js')
-    script(src='../bower_components/json3/lib/json3.min.js')
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js')
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js')
     script(src='../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/button.js')
