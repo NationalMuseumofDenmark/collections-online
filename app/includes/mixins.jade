@@ -136,27 +136,6 @@ mixin navigation()
             +icon('plus-2-icon')
           ul.menu-childern(data-menu-child=nav.name)
 
-//- mixin navigation()
-//-   nav.categories-menu
-//-     h2#heading-categories-menu
-//-       a(href='#')
-//-         span.sr-only Kataloger og kategorier
-//-         +icon('menu-icon')
-//-         //- img(src='images/menu-icon.svg', alt='Kataloger og kategorier')
-//-     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
-//-       li
-//-         a(href='', role='menu-item', ng-click='setCatalog("")')
-//-           | Alle
-//-       li(ng-repeat='catalog in catalogs')
-//-         a.col-xs-10(href='/{{catalog.alias}}', role='menu-item')
-//-           | {{ catalog.name }}
-//-         a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
-//-           +icon('plus-2-icon')
-//-         ul(ng-if='categories.children')
-//-           li(ng-repeat='category in categories.children')
-//-             a(href='')
-//-               | {{category.name}}
-
 
 mixin responsiveImage(title)
   span(data-picture, data-alt=title)
