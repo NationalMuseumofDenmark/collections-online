@@ -193,16 +193,16 @@ svg {
     width:100%;
   }
   .tt-dropdown-menu {
-    width:100%;
-    background:#fff;
-    font-size: 12px;
+    width: 100%;
   }
-  .tt-dataset-dropdown-menu {
-    padding: 4px 0;
+  .tt-suggestions {
+    @extend .list-group;
   }
-  .tt-suggestion.tt-cursor {
-    color: #fff;
-    background-color: #0097cf;
+  .tt-suggestion {
+    @extend .list-group-item;
+    &.tt-cursor {
+      background-color: $gray-light;
+    }
   }
 }
 
