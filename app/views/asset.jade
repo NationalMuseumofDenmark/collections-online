@@ -1,7 +1,7 @@
 extends index
 
 append header
-  title= item.short_title
+  title= item.short_title || 'Ingen titel'
   +shareThisJS()
 
 block content
@@ -57,7 +57,7 @@ block content
               th Rettighedshaver og fotograf:
               td
                 span(itemprop='copyrightHolder')= item.copyright || '-'
-                | , 
+                | ,
                 span(itemprop='creator')= item.creator || '-'
 
         // Time and period
