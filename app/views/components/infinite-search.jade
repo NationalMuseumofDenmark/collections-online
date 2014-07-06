@@ -3,7 +3,10 @@ each result in results
     .thumbnail
       a(href='#{result.url}')
         img(src='#{result.thumbnail_url}', alt='#{result.title}')
-        h2.h4 #{result.title}
+        if result.title
+          h2.h4 #{result.title}
+        else
+          h2(class='h4') Ingen titel
         p.description #{result.description}
       p.small
         a(href='#{result.catalog_url}') #{result.catalog}
