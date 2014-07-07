@@ -55,9 +55,15 @@ $(function() {
     if ($(this).parent('div').hasClass('col-md-6')) {
       $(this).parent('div').removeClass('col-md-6');
       $(this).parent('div').addClass('col-md-12');
+      // Also for the div below
+      $(this).parent('div').next('div').removeClass('col-md-6');
+      $(this).parent('div').next('div').addClass('col-md-12');
     } else {
       $(this).parent('div').removeClass('col-md-12');
       $(this).parent('div').addClass('col-md-6');
+      // Also for the div below
+      $(this).parent('div').next('div').removeClass('col-md-12');
+      $(this).parent('div').next('div').addClass('col-md-6');
     }
   });
 });
