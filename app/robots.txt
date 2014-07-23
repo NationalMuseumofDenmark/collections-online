@@ -1,7 +1,3 @@
 User-agent: *
-Allow: /DNT/70587
-Allow: /sitemap.xml
-Disallow: /
+Allow: /
 Disallow: /infinite/*
-
-
