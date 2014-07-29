@@ -13,11 +13,11 @@ html.no-js
 
   body
     div.main-wrapper
-
       +header()
       .container
         block content
       +footer()
+      a#toTop
 
     <!-- build:js scripts/main.js -->
     // bower:js
@@ -49,6 +49,7 @@ html.no-js
     script(src='../bower_components/imagesloaded/imagesloaded.js')
     script(src='../bower_components/jquery-infinite-scroll/jquery.infinitescroll.js')
     script(src='../bower_components/typeahead.js/dist/typeahead.bundle.js')
+    script(src='../bower_components/scrollToTop/jquery.scrollToTop.js')
     script(src='../scripts/natmus.js')
     script(src='../scripts/masonry.init.js')
     // endbower:js

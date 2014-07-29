@@ -23,10 +23,19 @@ $(function() {
 
   searchSuggest.initialize();
 
-  $('#search-input').typeahead(null, {
+  $('#search-input').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 2
+  }, {
     name: 'dropdown-menu',
-    displayKey: 'text',
-    source: searchSuggest.ttAdapter()
+    displayKey: function(data) {
+      return data.text;
+    },
+    source: searchSuggest.ttAdapter(),
+    templates: {
+      suggestion: function (data) { return data.text + ' (' + data.freq  +')'; }
+    }
   });
 });
 
@@ -66,4 +75,9 @@ $(function() {
       $(this).parent('div').next('div').addClass('col-md-6');
     }
   });
+});
+
+// Scroll to top button
+$(function() {
+  $("#toTop").scrollToTop(400);
 });
