@@ -412,6 +412,9 @@ p.description {
     &:hover {
       color:#333333;
     }
+    &.no-right-border {
+      border-right:0;
+    }
   }
 }
 
