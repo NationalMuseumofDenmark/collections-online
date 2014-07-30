@@ -3,17 +3,68 @@ extends index
 append header
   //- title #{pageTitle} - Nationalmuseets Online Samlinger
   if results.is_search
-    title Nationalmuseets Online Samlinger - Søgning på "#{freetext}" (#{results.total_results} emner)
+    title Søgning på "#{freetext}" (#{results.total_results} emner) - Nationalmuseets Online Samlinger
   if results.is_front
-    title Nationalmuseets Online Samlinger - Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
+    title Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger
+    meta(property="og:type", content="website")
+    meta(property="og:url", content="http://samlinger.natmus.dk/")
+    meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
+    meta(property="og:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
+    meta(itemprop="image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
+    meta(name="twitter:card",content="summary")
+    meta(name="twitter:site", content="@Nationalmuseet")
+    meta(name="twitter:creator", content="@Nationalmuseet")
+    meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
+    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
+    meta(name="twitter:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+
   if results.is_category
-    title Nationalmuseets Online Samlinger - #{metadata.name} (#{results.total_results} emner)
+    title #{metadata.name} (#{results.total_results} emner)
       if metadata.breadcrumbs.first
         | &nbsp; &gt; &nbsp; #{metadata.breadcrumbs.first.name}
       if metadata.breadcrumbs.second
         | &nbsp; &gt; &nbsp; #{metadata.breadcrumbs.second.name}
+      | &nbsp; - &nbsp; Nationalmuseets Online Samlinger
+
+    if metadata.breadcrumbs.second
+      meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} > #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger")
+      meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} > #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger")
+      meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} > #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger")
+      meta(property="og:url", content="http://samlinger.natmus.dk/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
+    else
+      meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger")
+      meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger")
+      meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) > #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger")
+      meta(property="og:url", content="http://samlinger.natmus.dk/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}")
+
+    meta(property="og:type", content="website")
+    meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
+    meta(property="og:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(itemprop="image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(name="twitter:card",content="summary")
+    meta(name="twitter:site", content="@Nationalmuseet")
+    meta(name="twitter:creator", content="@Nationalmuseet")
+    meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
+    meta(name="twitter:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+
   if results.is_catalog
-    title Nationalmuseets Online Samlinger - #{metadata.name} (#{results.total_results} emner)
+    title #{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
+    meta(property="og:type", content="website")
+    meta(property="og:url", content="http://samlinger.natmus.dk/#{metadata.alias}")
+    meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
+    meta(property="og:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
+    meta(itemprop="image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
+    meta(name="twitter:card",content="summary")
+    meta(name="twitter:site", content="@Nationalmuseet")
+    meta(name="twitter:creator", content="@Nationalmuseet")
+    meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
+    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
+    meta(name="twitter:image", content="http://samlinger.natmus.dk/images/defaultshare.jpg")
+
 
 block content
   section
