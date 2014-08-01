@@ -11,6 +11,23 @@ mixin analytics
         ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
       })();
+    //- User voice
+    script.
+      UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/vQUyFPMM9iwEjKPwCHJO2A.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
+
+      //- Set colors
+      UserVoice.push(['set', {
+        accent_color: '#000',
+        trigger_color: 'white',
+        trigger_background_color: 'rgba(0, 0, 0, 0.80)',
+      }]);
+
+      //- Add default trigger to the bottom-right corner of the window:
+      UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'top-right' }]);
+
+      //- Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+      UserVoice.push(['autoprompt', {}]);
+
   //- Tracking for beta site (beta.samlinger.natmus.dk)
   - if(req.app.get('env') == 'production' && req.subdomains.length == 2)
     script.
