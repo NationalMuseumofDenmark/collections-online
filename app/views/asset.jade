@@ -5,28 +5,8 @@ append header
     title= item.short_title + ' - Nationalmuseets Online Samlinger'
   else
     title= 'Ingen title - Nationalmuseets Online Samlinger'
-  - title= item.short_title || 'Ingen titel'
-  - description= item.description || ''
-  - shareimg= image_src_set[1200] || '/images/defaultshare.jpg'
-  //- Social media tags
-  meta(property="og:type", content="website")
-  meta(property="og:url", content="http://samlinger.natmus.dk/#{catalog.alias}/#{item.id}")
-  meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
-  meta(property="og:image", content="http://samlinger.natmus.dk#{shareimg}")
-  meta(property="og:title", content="#{title}")
-  meta(property="og:description", content="#{description}")
-  meta(itemprop="image", content="http://samlinger.natmus.dk#{shareimg}")
-  meta(itemprop="name", content="#{title}")
-  meta(itemprop="description", content="#{description}")
-  meta(name="twitter:card",content="summary")
-  meta(name="twitter:site", content="@Nationalmuseet")
-  meta(name="twitter:creator", content="@Nationalmuseet")
-  meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
-  meta(name="twitter:title", content="#{title}")
-  meta(name="twitter:description", content="#{description}")
-  meta(name="twitter:image", content="http://samlinger.natmus.dk#{shareimg}")
-  meta(name='description', content='#{description}')
 
+  +assetMeta(item, image_src_set)
   +shareThisJS()
 
 block content
