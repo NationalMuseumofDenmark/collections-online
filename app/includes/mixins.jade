@@ -1,6 +1,6 @@
 mixin analytics
   //- Tracking for live site (samlinger.natmus.dk)
-  - if(req.app.get('env') == 'production' && req.subdomains.length == 1)
+  - if(req.app.get('env') == 'production')
     script.
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-2930791-3']);
@@ -29,7 +29,7 @@ mixin analytics
       UserVoice.push(['autoprompt', {}]);
 
   //- Tracking for beta site (beta.samlinger.natmus.dk)
-  - if(req.app.get('env') == 'production' && req.subdomains.length == 2)
+  - if(req.app.get('env') == 'test')
     script.
       var _gaq = _gaq || [];
       _gaq.push(['_setAccount', 'UA-2930791-7']);
