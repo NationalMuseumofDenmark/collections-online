@@ -72,7 +72,7 @@ block content
             tr
               th Datering:
               td
-                +addDating(item)
+                +addDating(item, catalog.alias)
             tr
               th Optagelsestid:
               td(itemprop='dateCreated', class='date')
@@ -90,7 +90,7 @@ block content
             tr
               th Område:
               td
-                +addPlace(item)
+                +addPlace(item, catalog.alias)
             tr
               th Adresse:
               td
@@ -136,7 +136,8 @@ block content
             tr
               th Størrelse (pixel):
               td
-                | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
+                if item.img_width && item.img_height
+                  | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'

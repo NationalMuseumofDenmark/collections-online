@@ -12,12 +12,16 @@ block content
       h1.page-header Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
     if results.is_category
       h1.page-header #{metadata.name} (#{results.total_results} emner)
-        if metadata.breadcrumbs.first
-          | &nbsp; &gt; &nbsp;
-          a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
-        if metadata.breadcrumbs.second
-          | &nbsp; &gt; &nbsp;
-          a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name}
+        if metadata.breadcrumbs
+          if metadata.breadcrumbs.first
+            | &nbsp; &gt; &nbsp;
+            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
+          if metadata.breadcrumbs.second
+            | &nbsp; &gt; &nbsp;
+            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name}
+        else
+          | &nbsp; &gt; Ingen titel
+
     if results.is_catalog
       h1.page-header #{metadata.name} (#{results.total_results} emner)
 

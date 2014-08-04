@@ -205,7 +205,7 @@ mixin formatDate(from, to)
     - if(to)
       | #{to.day}/#{to.month}/#{to.year}
 
-mixin addDating(item)
+mixin addDating(item, alias)
   - var categories_time = helpers.category_by_tag(categories, 'Tid');
   - if(categories_time.length > 0 || item.year)
     ul.categories
@@ -214,18 +214,19 @@ mixin addDating(item)
       each category in categories_time
         - if(category.name[0] != '$')
           li
-            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+            a(href='http://' + req.get('host') + '/' + alias + '?cat=' + category.id)= category.name
   - else
     | -
 
-mixin addPlace(item)
+mixin addPlace(item, alias)
   - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
   - if(categories_place.length > 0)
     ul.categories
       each category in categories_place
         - if(category.name[0] != '$')
           li
-            a(href='http://' + req.get('host') + '/#' + category.id)= category.name
+            - console.log(category)
+            a(href='http://' + req.get('host') + '/' + alias + '?cat=' + category.id)= category.name
   - else
     | -
 
@@ -246,23 +247,27 @@ mixin searchMeta(results, metadata)
     meta(property="og:url", content="#{baseUrl}")
 
   if results.is_category
-    if metadata.breadcrumbs.first
-      title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger
-    else if metadata.breadcrumbs.second
-      title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger
-
-    if metadata.breadcrumbs.second
-      - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " - Nationalmuseets Online Samlinger"
-      meta(property="og:title", content="#{title}")
-      meta(itemprop="name", content="#{title}")
-      meta(name="twitter:title", content="#{title}")
-      meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
+    if metadata.breadcrumbs
+      if metadata.breadcrumbs.second
+        title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger
+        - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " - Nationalmuseets Online Samlinger"
+        meta(property="og:title", content="#{title}")
+        meta(itemprop="name", content="#{title}")
+        meta(name="twitter:title", content="#{title}")
+        meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
+      else
+        title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger
+        - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " - Nationalmuseets Online Samlinger"
+        meta(property="og:title", content="#{title}")
+        meta(itemprop="name", content="#{title}")
+        meta(name="twitter:title", content="#{title}")
+        meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}")
     else
-      - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " - Nationalmuseets Online Samlinger"
-      meta(property="og:title", content="#{title}")
-      meta(itemprop="name", content="#{title}")
-      meta(name="twitter:title", content="#{title}")
-      meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}")
+      title #{metadata.name} &gt; Ingen titel - Nationalmuseets Online Samlinger
+      meta(property="og:title", content="Ingen titel - #{metadata.name}")
+      meta(itemprop="name", content="Ingen titel - #{metadata.name}")
+      meta(name="twitter:title", content="Ingen titel - #{metadata.name}")
+
 
   if results.is_catalog
     title #{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
