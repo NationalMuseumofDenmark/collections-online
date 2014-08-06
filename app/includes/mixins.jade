@@ -17,9 +17,9 @@ mixin analytics
 
       //- Set colors
       UserVoice.push(['set', {
-        accent_color: '#000',
+        accent_color: '#971623',
         trigger_color: 'white',
-        trigger_background_color: 'rgba(0, 0, 0, 0.80)',
+        trigger_background_color: 'rgba(151, 22, 35, 0.90)',
       }]);
 
       //- Add default trigger to the bottom-right corner of the window:
@@ -248,15 +248,15 @@ mixin searchMeta(results, metadata)
   if results.is_category
     if metadata.breadcrumbs
       if metadata.breadcrumbs.second
-        title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} - Nationalmuseets Online Samlinger
-        - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " - Nationalmuseets Online Samlinger"
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " emner) > " + " - Nationalmuseets Online Samlinger"
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
         meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
       else
-        title #{metadata.name} (#{results.total_results} emner) &gt; #{metadata.breadcrumbs.first.name} - Nationalmuseets Online Samlinger
-        - title= metadata.name + " (" + results.total_results + " emner) > " + metadata.breadcrumbs.first.name + " - Nationalmuseets Online Samlinger"
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " emner) " + " - Nationalmuseets Online Samlinger"
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")

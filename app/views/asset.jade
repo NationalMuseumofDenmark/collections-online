@@ -17,9 +17,9 @@ block content
         .bleed.asset-image
           +responsiveImage(title)
         .row
-          .asset-tools.red-buttons
+          .asset-tools
             .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle.no-right-border(data-toggle='dropdown', role='button') Download
+              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
                 +icon('download-icon')
               ul.dropdown-menu(role='menu')
                 li
@@ -31,6 +31,18 @@ block content
                 li
                   a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
             +shareThisHTML()
+            span.licens
+              span.title Licens:
+              - if(item.license)
+                  - var license = helpers.license_tag(item.license.id);
+                  - if(license)
+                    a(href=license.url, rel='license', target='_blank')
+                      img(src=license.img, alt='Creative Commons licens')
+                  - else
+                    | #{item.license.displaystring}
+                - else
+                  | -
+
       .col-md-6
         p.catalog
           a(href='/#{catalog.alias}')= catalog.name
@@ -43,27 +55,6 @@ block content
           h2.sr-only Beskrivelse
           p(itemprop='description',
             class='lead')= item.description
-
-        table
-          tbody
-            tr
-              th Licens:
-              td
-                - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
-                - else
-                  | -
-            tr
-              th Rettighedshaver og fotograf:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-                | ,
-                span(itemprop='creator')= item.creator || '-'
 
         // Time and period
         h2 Tidsperiode og årstal
@@ -141,6 +132,25 @@ block content
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'
+            //- tr
+            //-   th Licens:
+            //-   td
+                //- - if(item.license)
+                //-   - var license = helpers.license_tag(item.license.id);
+                //-   - if(license)
+                //-     a(href=license.url, rel='license', target='_blank')
+                //-       img(src=license.img, alt='Creative Commons licens')
+                //-   - else
+                //-     | #{item.license.displaystring}
+                //- - else
+                //-   | -
+            tr
+              th Rettighedshaver og fotograf:
+              td
+                span(itemprop='copyrightHolder')= item.copyright || '-'
+                | ,
+                span(itemprop='creator')= item.creator || '-'
+
 
         // Additional info
         .asset-block
