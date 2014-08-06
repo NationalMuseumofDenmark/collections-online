@@ -155,14 +155,6 @@ mixin navigation()
         span.sr-only Kataloger og kategorier
         +icon('menu-icon')
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
-      li
-        a.col-xs-12(href='/') Alle
-      each nav in [{name:'Antiksamlingen',alias:'AS'},{name:'Bevaringsafdelingen',alias:'BA'},{name:'Danmarks Middelalder og Renæssance',alias:'DMR'},{name:'Danmarks Nyere Tid',alias:'DNT'},{name:'Den Kgl. Mønt- og Medaljesamling',alias:'KMM'},{name:'Etnografisk Samling',alias:'ES'},{name:'Frihedsmuseet',alias:'FHM'},{name:'Musikmuseet',alias:'MUM'}]
-        li
-          a.col-xs-10(href='/#{nav.alias}') #{nav.name}
-          a.col-xs-2(href='', ng-click='setCatalog(catalog.alias)')
-            +icon('plus-2-icon')
-          ul.menu-childern(data-menu-child=nav.name)
 
 
 mixin responsiveImage(title)
@@ -230,54 +222,55 @@ mixin addPlace(item, alias)
     | -
 
 mixin searchMeta(results, metadata)
+  - siteTitle = req.app.get('site_title');
   - baseUrl = 'http://' + req.get('host')
   if results.is_search
-    - title= 'Søgning på "' + freetext +   '" (' + results.total_results + ' emner) - Nationalmuseets Online Samlinger'
+    - title= 'Søgning på "' + freetext +   '" (' + results.total_results + ' emner) - ' + siteTitle
     title #{title}
     meta(property="og:title", content="#{title}")
     meta(itemprop="name", content="#{title}")
     meta(name="twitter:title", content="#{title}")
     meta(property="og:url", content="#{baseUrl}/?q=#{freetext}")
   if results.is_front
-    title Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger
-    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
-    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
-    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - Nationalmuseets Online Samlinger")
+    title Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - #{siteTitle}
+    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
+    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
+    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
     meta(property="og:url", content="#{baseUrl}")
 
   if results.is_category
     if metadata.breadcrumbs
       if metadata.breadcrumbs.second
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " emner) > " + " - Nationalmuseets Online Samlinger"
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} emner) - #{siteTitle}
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " emner) > " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
         meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
       else
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " emner) " + " - Nationalmuseets Online Samlinger"
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} emner) - #{siteTitle}
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " emner) " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
         meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}")
     else
-      title #{metadata.name} &gt; Ingen titel - Nationalmuseets Online Samlinger
+      title #{metadata.name} &gt; Ingen titel - #{siteTitle}
       meta(property="og:title", content="Ingen titel - #{metadata.name}")
       meta(itemprop="name", content="Ingen titel - #{metadata.name}")
       meta(name="twitter:title", content="Ingen titel - #{metadata.name}")
 
 
   if results.is_catalog
-    title #{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger
-    meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
-    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
-    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) - Nationalmuseets Online Samlinger")
+    title #{metadata.name} (#{results.total_results} emner) - #{siteTitle}
+    meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
+    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
+    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
     meta(property="og:url", content="#{baseUrl}/#{metadata.alias}")
 
   //- Default for all search pages
   meta(property="og:type", content="website")
-  meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
+  meta(property="og:site_name", content=siteTitle)
   meta(property="og:image", content="#{baseUrl}/images/defaultshare.jpg")
   meta(itemprop="image", content="#{baseUrl}/images/defaultshare.jpg")
   meta(name="twitter:card",content="summary")
@@ -286,15 +279,16 @@ mixin searchMeta(results, metadata)
   meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
 
 mixin assetMeta(item, image_src_set)
+  - siteTitle = req.app.get('site_title');
   - title= item.short_title || 'Ingen titel'
   - description= item.description || ''
   - shareimg = image_src_set[1200] || '/images/defaultshare.jpg'
   - baseUrl = 'http://' + req.get('host')
   meta(property="og:type", content="website")
   meta(property="og:url", content="#{baseUrl}/#{catalog.alias}/#{item.id}")
-  meta(property="og:site_name", content="Nationalmuseets Online Samlinger")
+  meta(property="og:site_name", content="#{siteTitle}")
   meta(property="og:image", content="#{baseUrl}#{shareimg}")
-  meta(property="og:title", content="#{title} - Nationalmuseets Online Samlinger")
+  meta(property="og:title", content="#{title} - #{siteTitle}")
   meta(property="og:description", content="#{description}")
   meta(itemprop="image", content="#{baseUrl}#{shareimg}")
   meta(itemprop="name", content="#{title}")
@@ -303,7 +297,7 @@ mixin assetMeta(item, image_src_set)
   meta(name="twitter:site", content="@Nationalmuseet")
   meta(name="twitter:creator", content="@Nationalmuseet")
   meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
-  meta(name="twitter:title", content="#{title} - Nationalmuseets Online Samlinger")
+  meta(name="twitter:title", content="#{title} - #{siteTitle}")
   meta(name="twitter:description", content="#{description}")
   meta(name="twitter:image", content="#{baseUrl}#{shareimg}")
   meta(name='description', content='#{description}')
