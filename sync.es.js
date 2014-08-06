@@ -2,12 +2,15 @@ var elasticsearch = require('elasticsearch');
 var Q = require('q');
 
 var cip = require('./lib/cip-methods.js');
+var cip_categories = require('./lib/cip-categories.js');
+
 var asset_mapping = require('./lib/asset-mapping.js');
 
 var client = new elasticsearch.Client();
 
 // XXX: Change this to do a full sync
 var sync_all = false;
+var categories = {};
 
 function create_index() {
     var deferred = Q.defer();
@@ -40,8 +43,19 @@ function handle_results(catalog, items) {
 
             if(formatted_result['categories'] != undefined) {
                 formatted_result['categories_int'] = [];
+
                 for(var j=0; j < formatted_result['categories'].length; ++j) {
-                    formatted_result['categories_int'].push(formatted_result['categories'][j].id);
+                    if(formatted_result['categories'][j].path.indexOf('$Categories') != 0)
+                        continue;
+
+                    var path = categories[catalog.alias].get_path(formatted_result['categories'][j].id);
+                    if(path) {
+                        for(var k=0; k < path.length; k++) {
+                            formatted_result['categories_int'].push(path[k].id);
+                        }
+                    } else {
+                        debugger;
+                    }
                 }
             }
             formatted_result['catalog'] = catalog.alias;
@@ -92,24 +106,28 @@ function handle_catalog(nm, catalog) {
     return deferred.promise;
 }
 
-create_index().then(function() {
-    console.log("Index created");
-}, function() {
-    console.log("Failed, index probably already exists");
-});
+cip_categories.load_categories().then(function(result) {
+    for(var i=0; i < result.length; ++i) {
+        categories[result[i].id] = result[i];
+    }
+}).then(function() {
+    create_index().then(function() {
+        console.log("Index created");
+    }, function() {
+        console.log("Failed, index probably already exists");
+    });
+}).then(function() {
+    cip.init_session().then(function(nm) {
+        cip.get_catalogs(nm).then(function(catalogs) {
+            var promises = [];
 
+            for(var i=0; i < catalogs.length; ++i) {
+                promises.push(handle_catalog(nm, catalogs[i]));
+            }
 
-
-cip.init_session().then(function(nm) {
-    cip.get_catalogs(nm).then(function(catalogs) {
-        var promises = [];
-
-        for(var i=0; i < catalogs.length; ++i) {
-            promises.push(handle_catalog(nm, catalogs[i]));
-        }
-
-        Q.all(promises).then(function() {
-            process.exit(0);
+            Q.all(promises).then(function() {
+                process.exit(0);
+            });
         });
     });
 });
