@@ -18,7 +18,7 @@ $(function() {
   var searchSuggest = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    remote: 'suggest.json?text=%QUERY'
+    remote: '/suggest.json?text=%QUERY'
   });
 
   searchSuggest.initialize();
@@ -41,7 +41,7 @@ $(function() {
 
 // Retrieve the main menu and its childern
 $(function() {
-  $.ajax({url: 'main-menu/catalogs', // Append path to mark active
+  $.ajax({url: '/main-menu/catalogs', // Append path to mark active
   })
   .done(function(data) {
     $('.categories-menu .nav').html(data);
