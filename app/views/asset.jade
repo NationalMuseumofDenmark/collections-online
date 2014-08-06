@@ -1,7 +1,12 @@
 extends index
 
 append header
-  title= item.short_title || 'Ingen titel'
+  if item.short_title
+    title= item.short_title + ' - Nationalmuseets Online Samlinger'
+  else
+    title= 'Ingen title - Nationalmuseets Online Samlinger'
+
+  +assetMeta(item, image_src_set)
   +shareThisJS()
 
 block content
@@ -12,9 +17,9 @@ block content
         .bleed.asset-image
           +responsiveImage(title)
         .row
-          .asset-tools
+          .asset-tools.red-buttons
             .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+              a.btn.btn-default.dropdown-toggle.no-right-border(data-toggle='dropdown', role='button') Download
                 +icon('download-icon')
               ul.dropdown-menu(role='menu')
                 li
@@ -67,7 +72,7 @@ block content
             tr
               th Datering:
               td
-                +addDating(item)
+                +addDating(item, catalog.alias)
             tr
               th Optagelsestid:
               td(itemprop='dateCreated', class='date')
@@ -85,7 +90,7 @@ block content
             tr
               th Område:
               td
-                +addPlace(item)
+                +addPlace(item, catalog.alias)
             tr
               th Adresse:
               td
@@ -131,7 +136,8 @@ block content
             tr
               th Størrelse (pixel):
               td
-                | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
+                if item.img_width && item.img_height
+                  | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'

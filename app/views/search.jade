@@ -1,19 +1,8 @@
 extends index
 
 append header
-  //- title #{pageTitle} - Nationalmuseets Online Samlinger
-  if results.is_search
-    title Nationalmuseets Online Samlinger - Søgning på "#{freetext}" (#{results.total_results} emner)
-  if results.is_front
-    title Nationalmuseets Online Samlinger - Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
-  if results.is_category
-    title Nationalmuseets Online Samlinger - #{metadata.name} (#{results.total_results} emner)
-      if metadata.breadcrumbs.first
-        | &nbsp; &gt; &nbsp; #{metadata.breadcrumbs.first.name}
-      if metadata.breadcrumbs.second
-        | &nbsp; &gt; &nbsp; #{metadata.breadcrumbs.second.name}
-  if results.is_catalog
-    title Nationalmuseets Online Samlinger - #{metadata.name} (#{results.total_results} emner)
+  if results.is_search || results.is_front || results.is_category || results.is_catalog
+    +searchMeta(results, metadata)
 
 block content
   section
@@ -23,12 +12,16 @@ block content
       h1.page-header Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
     if results.is_category
       h1.page-header #{metadata.name} (#{results.total_results} emner)
-        if metadata.breadcrumbs.first
-          | &nbsp; &gt; &nbsp;
-          a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
-        if metadata.breadcrumbs.second
-          | &nbsp; &gt; &nbsp;
-          a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name}
+        if metadata.breadcrumbs
+          if metadata.breadcrumbs.first
+            | &nbsp; &gt; &nbsp;
+            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
+          if metadata.breadcrumbs.second
+            | &nbsp; &gt; &nbsp;
+            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name}
+        else
+          | &nbsp; &gt; Ingen titel
+
     if results.is_catalog
       h1.page-header #{metadata.name} (#{results.total_results} emner)
 
@@ -37,10 +30,11 @@ block content
         div(class='col-xs-12 col-sm-6 col-md-4 col-lg-3 box')
           .thumbnail
             a(href='#{result.url}')
-              img(src='#{result.thumbnail_url}', alt='#{result.title}')
               if result.title
+                img(src='#{result.thumbnail_url}', alt='#{result.title}')
                 h2.h4 #{result.title}
               else
+                img(src='#{result.thumbnail_url}', alt='Ingen titel')
                 h2(class='h4') Ingen titel
               p.description #{result.description}
             p.small

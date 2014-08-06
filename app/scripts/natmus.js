@@ -18,21 +18,30 @@ $(function() {
   var searchSuggest = new Bloodhound({
     datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    remote: 'suggest.json?text=%QUERY'
+    remote: '/suggest.json?text=%QUERY'
   });
 
   searchSuggest.initialize();
 
-  $('#search-input').typeahead(null, {
+  $('#search-input').typeahead({
+    hint: true,
+    highlight: true,
+    minLength: 2
+  }, {
     name: 'dropdown-menu',
-    displayKey: 'text',
-    source: searchSuggest.ttAdapter()
+    displayKey: function(data) {
+      return data.text;
+    },
+    source: searchSuggest.ttAdapter(),
+    templates: {
+      suggestion: function (data) { return data.text + ' (' + data.freq  +')'; }
+    }
   });
 });
 
 // Retrieve the main menu and its childern
 $(function() {
-  $.ajax({url: 'main-menu/catalogs', // Append path to mark active
+  $.ajax({url: '/main-menu/catalogs', // Append path to mark active
   })
   .done(function(data) {
     $('.categories-menu .nav').html(data);
@@ -66,4 +75,9 @@ $(function() {
       $(this).parent('div').next('div').addClass('col-md-6');
     }
   });
+});
+
+// Scroll to top button
+$(function() {
+  $("#toTop").scrollToTop(400);
 });

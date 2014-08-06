@@ -8,7 +8,6 @@ $(function() {
     $container.imagesLoaded(function(){
       $container.masonry({
         itemSelector: '.box',
-        // columnWidth: 100
       });
     });
 
@@ -17,8 +16,9 @@ $(function() {
       nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
       itemSelector : '.box',     // selector for all items you'll retrieve
       loading: {
-          finishedMsg: 'Ikke flere resultater.',
-          img: 'http://i.imgur.com/6RMhx.gif'
+          finishedMsg: 'Ikke flere resultater...',
+          img: '/images/loading.gif',
+          msgText: 'Henter flere resultater...'
         }
       },
       // trigger Masonry as a callback
