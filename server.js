@@ -17,6 +17,7 @@ require('./lib/routes')(app);
 
 var es_client = new elasticsearch.Client({host: config.es_host});
 app.set('es_client', es_client);
+app.set('site_title', config.site_title);
 
 var categories = {};
 
