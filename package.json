@@ -18,7 +18,9 @@
     "memory-cache": "~0.0.5",
     "cheerio": "~0.16.0",
     "elasticsearch": "~2.2.0",
-    "q": "~1.0.1"
+    "q": "~1.0.1",
+    "jpegtran-bin": "~0.2.7",
+    "gifsicle": "~0.1.6"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
