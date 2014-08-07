@@ -17,8 +17,9 @@ block content
       .col-md-6
         .bleed.asset-image
           +responsiveImage(title)
-        .row
-          .asset-tools
+
+      .col-md-6
+        .asset-tools
             .btn-group.dropup
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
                 +icon('download-icon')
@@ -43,8 +44,6 @@ block content
                     | #{item.license.displaystring}
                 - else
                   | -
-
-      .col-md-6
         p.catalog
           a(href='/#{catalog.alias}')= catalog.name
 
