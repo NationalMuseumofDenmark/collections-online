@@ -11,7 +11,8 @@ block content
     if results.is_front
       h1.page-header Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
     if results.is_category
-      h1.page-header #{metadata.name}
+      h1.page-header
+        a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name}
         if metadata.breadcrumbs
           if metadata.breadcrumbs.second
             | &nbsp; &gt; &nbsp;
@@ -25,7 +26,8 @@ block content
           | &nbsp; &gt; Ingen titel
 
     if results.is_catalog
-      h1.page-header #{metadata.name} (#{results.total_results} emner)
+      h1.page-header
+        a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name} (#{results.total_results} emner)
 
     div(id="masonry-container" class="search-results")
       each result in results.results
