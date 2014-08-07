@@ -18,7 +18,7 @@ body {
     right: -280px;
     .categories-menu {
       ul { // Menu list
-        overflow: auto;
+        overflow:auto;
       }
     }
     #heading-categories-menu a { // Menu toggle button
@@ -52,8 +52,12 @@ body {
 
 /* Boostrap style modifications */
 .container section h1.page-header {
-  margin-top:0; // remove top margin for mobiles
-  font-size: 22px;
+  margin-top:-15px; // remove top margin for mobiles
+  font-size: 18px;
+  color:$gray-dark;
+  a {
+    text-decoration:underline !important;
+  }
 }
 
 .main-wrapper {
@@ -151,7 +155,7 @@ svg {
     height: 100%;
     left: 0;
     overflow: hidden;
-    padding: 30px;
+    padding: 30px 15px;
     position: fixed;
     top: 0;
     width: 280px;
@@ -221,11 +225,13 @@ svg {
     width: 100%;
   }
   button[type=submit] {
+    background:$brand-primary;
     width: 50px;
     height: 31px;
-    // line-height: $line-height-computed;
+    border-color:$brand-primary;
   }
   svg {
+    fill:$white;
     width: 20px;
     height: 20px;
   }
@@ -290,18 +296,15 @@ p.description {
   }
   .asset-tools {
     @extend .col-xs-12;
-    @extend .btn-group;
-    @extend .btn-group-justified;
     margin-top: $line-height-computed;
     margin-bottom: $line-height-computed;
     .dropdown-menu {
-      width: 100%;
       min-width: 145px;
       font-size: 13.5px;
       & > li {
         & > a,
         & > .stButton {
-          color: $gray !important;
+          // color: $gray !important;
           &:hover,
           &:focus {
             color: $gray !important;
@@ -323,18 +326,32 @@ p.description {
             height: auto;
             line-height: inherit;
             font-size: 13.5px;
-        }
+          }
         }
       }
     }
     svg {
       width: 16px;
       height: 16px;
+      fill:$brand-primary;
     }
-
+    a.btn-default {
+      border:2px solid $brand-primary;
+      margin-right: 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .licens {
+      .title {
+        font-weight:bold;
+        margin-right: 5px;
+      }
+      @media all and (max-width:370px) {display:none;}
+    }
   }
   .catalog {
     font-weight: bold;
+    a { color:#000; }
   }
   .map {
     @include img-responsive();
@@ -373,17 +390,22 @@ p.description {
       }
     }
   }
+  h1, h2 {
+    color: $brand-primary;
+  }
   h1 {
     font-size: 21px;
   }
   h2 {
     font-size: 16px;
+    margin:15px 0 6.5px 0;
   }
   a {
-    color: #000;
+    color: $brand-primary;
+    text-decoration: underline;
     &:hover,
     &:focus {
-      text-decoration: none
+      color:$link-hover-color;
     }
   }
   table {
@@ -396,26 +418,11 @@ p.description {
     }
     th {
       display: inline-block;
-      padding: $line-height-computed/2 .3em $line-height-computed/2 0;
+      padding: 6.5px .3em 6.5px 0;
     }
     td {
       display: inline-block;
-      padding: $line-height-computed/2 0;
-    }
-  }
-
-  // Red buttons
-  .red-buttons a {
-    border-color:$brand-primary;
-    color:$brand-primary;
-    svg {
-      fill:$brand-primary;
-    }
-    &:hover {
-      color:#333333;
-    }
-    &.no-right-border {
-      border-right:0;
+      padding: 6.5px 0;
     }
   }
 }
@@ -436,8 +443,13 @@ p.description {
     &:hover {
       text-decoration: none;
       background-color: $white;
+      color:$link-hover-color;
       border: none;
     }
+  }
+  .cat-link a {
+    text-decoration:underline;
+    font-size: 97%;
   }
 }
 
@@ -487,8 +499,8 @@ ul.categories {
     position: fixed;
     bottom: 15px;
     right: 10px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     background-image: url('/images/scrolltotop.png');
     background-repeat: no-repeat;
     opacity: 0.80;
@@ -536,7 +548,7 @@ ul.categories {
     font-size: 31px;
   }
   .asset h2 {
-    font-size: 21px;
+    font-size: 18px;
   }
 
   .container section {
@@ -546,7 +558,12 @@ ul.categories {
   /* Boostrap style modifications */
   .container section h1.page-header {
     margin-top:34px;
-    font-size: 31px;
+    font-size: 28px;
+  }
+
+  // Frontpage category links
+  .cat-link a {
+    font-size: 85%;
   }
 }
 
@@ -555,5 +572,31 @@ ul.categories {
   #search-input:focus {
     font-size: 16px;
     background:$white;
+  }
+}
+
+/* Responsive masonry boxes */
+.box {
+  float:left;
+  box-sizing: border-box;
+  padding:0 10px;
+  min-height: 1px;
+  width:100%;
+
+  @media all and (max-width: 420px) {
+    width:100%;
+    padding:0;
+  }
+
+  @media all and (max-width: 635px) and (min-width: 420px) {
+    width:50%;
+  }
+
+  @media all and (max-width: 992px) and (min-width: 635px) {
+    width:33.3333%;
+  }
+
+  @media all and (min-width: 992px) {
+    width:25%;
   }
 }
