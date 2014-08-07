@@ -11,14 +11,16 @@ block content
     if results.is_front
       h1.page-header Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
     if results.is_category
-      h1.page-header #{metadata.name} (#{results.total_results} emner)
+      h1.page-header #{metadata.name}
         if metadata.breadcrumbs
-          if metadata.breadcrumbs.first
-            | &nbsp; &gt; &nbsp;
-            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
           if metadata.breadcrumbs.second
             | &nbsp; &gt; &nbsp;
-            a(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name}
+            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
+            | &nbsp; &gt; &nbsp;
+            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name} (#{results.total_results} emner)
+          else if metadata.breadcrumbs.first
+            | &nbsp; &gt; &nbsp;
+            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name} (#{results.total_results} emner)
         else
           | &nbsp; &gt; Ingen titel
 
@@ -27,7 +29,7 @@ block content
 
     div(id="masonry-container" class="search-results")
       each result in results.results
-        div(class='col-xs-12 col-sm-6 col-md-4 col-lg-3 box')
+        div(class='col-lg-3 box')
           .thumbnail
             a(href='#{result.url}')
               if result.title
@@ -37,7 +39,7 @@ block content
                 img(src='#{result.thumbnail_url}', alt='Ingen titel')
                 h2(class='h4') Ingen titel
               p.description #{result.description}
-            p.small
+            p.cat-link
               a(href='#{result.catalog_url}') #{result.catalog}
   div(id='page-nav')
     a(href='#{infinitepath}')
