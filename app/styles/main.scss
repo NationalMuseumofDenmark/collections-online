@@ -299,10 +299,9 @@ p.description {
     @include center-block(); // Center tall asset images
   }
   .asset-tools {
-    @extend .col-xs-12;
-    margin-top: $line-height-computed * 1.3;
-    margin-bottom: $line-height-computed * 1.3;
-    padding:0;
+    // @extend .col-xs-12;
+    margin-top: $line-height-computed;
+    margin-bottom: $line-height-computed;
     .dropdown-menu {
       min-width: 145px;
       font-size: 13.5px;
@@ -351,7 +350,14 @@ p.description {
         font-weight:bold;
         margin-right: 5px;
       }
-      @media all and (max-width:370px) {display:none;}
+    }
+    @media all and (max-width:385px) {
+      a.btn-default {
+        margin-right: 5px;
+      }
+      .licens .title {
+        display:none;
+      }
     }
   }
   .catalog {
@@ -442,6 +448,7 @@ p.description {
   .thumbnail {
     background-color: $white;
     border: none;
+    padding:0;
   }
   a {
     color: $black;
@@ -468,11 +475,6 @@ ul.categories {
   li {
     display: inline;
     padding-right: 5px;
-  }
-  li.year {
-  }
-  li.year:after {
-    content: ',';
   }
   display: inline;
   list-style: none;
