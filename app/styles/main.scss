@@ -378,9 +378,10 @@ p.description {
       vertical-align: middle;
       svg {
         @extend .pull-left;
+        fill:$brand-primary;
         width: 20px;
         height: 20px;
-        margin: .2em .2em 0 0;
+        margin: 0 .2em 0 0;
         vertical-align: middle;
       }
       .plus-icon {
