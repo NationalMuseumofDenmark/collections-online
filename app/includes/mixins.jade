@@ -112,7 +112,8 @@ mixin searchBox()
         .input-group-text
           input(type='text', id="search-input", class='form-control', placeholder='Søg', name='q',
                 autocomplete="off",
-                typeahead='term.text for term in suggestions')
+                typeahead='term.text for term in suggestions'
+                value=req.param('q'))
         .input-group-btn
           button(type="submit", class="btn btn-default", ng-click='doSearch()')
             span.sr-only Søg
@@ -228,31 +229,31 @@ mixin searchMeta(results, metadata)
   - siteTitle = req.app.get('site_title');
   - baseUrl = 'http://' + req.get('host')
   if results.is_search
-    - title= 'Søgning på "' + freetext +   '" (' + results.total_results + ' emner) - ' + siteTitle
+    - title= 'Søgning på "' + freetext +   '" (' + results.total_results + ' poster) - ' + siteTitle
     title #{title}
     meta(property="og:title", content="#{title}")
     meta(itemprop="name", content="#{title}")
     meta(name="twitter:title", content="#{title}")
     meta(property="og:url", content="#{baseUrl}/?q=#{freetext}")
   if results.is_front
-    title Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - #{siteTitle}
-    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
-    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
-    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner - " + siteTitle)
+    title Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - #{siteTitle}
+    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
+    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
+    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
     meta(property="og:url", content="#{baseUrl}")
 
   if results.is_category
     if metadata.breadcrumbs
       if metadata.breadcrumbs.second
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} emner) - #{siteTitle}
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " emner) > " + " - " + siteTitle
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} poster) - #{siteTitle}
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " poster) > " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
         meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
       else
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} emner) - #{siteTitle}
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " emner) " + " - " + siteTitle
+        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} poster) - #{siteTitle}
+        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " poster) " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
@@ -265,10 +266,10 @@ mixin searchMeta(results, metadata)
 
 
   if results.is_catalog
-    title #{metadata.name} (#{results.total_results} emner) - #{siteTitle}
-    meta(property="og:title", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
-    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
-    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} emner) - #{siteTitle}")
+    title #{metadata.name} (#{results.total_results} poster) - #{siteTitle}
+    meta(property="og:title", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
+    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
+    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
     meta(property="og:url", content="#{baseUrl}/#{metadata.alias}")
 
   //- Default for all search pages

@@ -7,25 +7,27 @@ append header
 block content
   section
     if results.is_search
-      h1.page-header Søgning på "#{freetext}" (#{results.total_results} emner)
+      h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
     if results.is_front
-      h1.page-header Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} emner
+      h1.page-header Nationalmuseets Samlinger Online (#{results.total_results} poster)
     if results.is_category
-      h1.page-header #{metadata.name}
+      h1.page-header
+        a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name}
         if metadata.breadcrumbs
           if metadata.breadcrumbs.second
             | &nbsp; &gt; &nbsp;
             a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name}
             | &nbsp; &gt; &nbsp;
-            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name} (#{results.total_results} emner)
+            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}') #{metadata.breadcrumbs.second.name} (#{results.total_results} poster)
           else if metadata.breadcrumbs.first
             | &nbsp; &gt; &nbsp;
-            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name} (#{results.total_results} emner)
+            a.breadcrumbs-link(href='/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}') #{metadata.breadcrumbs.first.name} (#{results.total_results} poster)
         else
           | &nbsp; &gt; Ingen titel
 
     if results.is_catalog
-      h1.page-header #{metadata.name} (#{results.total_results} emner)
+      h1.page-header
+        a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name} (#{results.total_results} poster)
 
     div(id="masonry-container" class="search-results")
       each result in results.results
@@ -33,10 +35,10 @@ block content
           .thumbnail
             a(href='#{result.url}')
               if result.title
-                img(src='#{result.thumbnail_url}', alt='#{result.title}')
+                img(src='#{result.thumbnail_url}')
                 h2.h4 #{result.title}
               else
-                img(src='#{result.thumbnail_url}', alt='Ingen titel')
+                img(src='#{result.thumbnail_url}')
                 h2(class='h4') Ingen titel
               p.description #{result.description}
             p.cat-link

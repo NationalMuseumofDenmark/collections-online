@@ -17,35 +17,35 @@ block content
       .col-md-6
         .bleed.asset-image
           +responsiveImage(title)
+        .asset-tools
+          .btn-group.dropup
+            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+              +icon('download-icon')
+            ul.dropdown-menu(role='menu')
+              li
+                a(href='#{image_src_set[800]}') Lille
+              li.divider
+              li
+                a(href='#{image_src_set[1200]}') Mellem
+              li.divider
+              li
+                a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
+          +shareThisHTML()
+          span.licens
+            span.title Licens:
+            - if(item.license)
+                - var license = helpers.license_tag(item.license.id);
+                - if(license)
+                  a(href=license.url, rel='license', target='_blank')
+                    img(src=license.img, alt='Creative Commons licens')
+                - else
+                  | #{item.license.displaystring}
+              - else
+                | -
 
       .col-md-6
-        .asset-tools
-            .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('download-icon')
-              ul.dropdown-menu(role='menu')
-                li
-                  a(href='#{image_src_set[800]}') Lille
-                li.divider
-                li
-                  a(href='#{image_src_set[1200]}') Mellem
-                li.divider
-                li
-                  a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
-            +shareThisHTML()
-            span.licens
-              span.title Licens:
-              - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
-                - else
-                  | -
         p.catalog
-          a(href='/#{catalog.alias}')= catalog.name
+          a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
         // Title
         h1(itemprop='name')= title
@@ -118,7 +118,7 @@ block content
 
 
         // Technical info
-        h2 Tekniske oplysninger
+        h2 Teknisk oplysning
         table
           tbody
             tr
@@ -132,24 +132,14 @@ block content
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'
-            //- tr
-            //-   th Licens:
-            //-   td
-                //- - if(item.license)
-                //-   - var license = helpers.license_tag(item.license.id);
-                //-   - if(license)
-                //-     a(href=license.url, rel='license', target='_blank')
-                //-       img(src=license.img, alt='Creative Commons licens')
-                //-   - else
-                //-     | #{item.license.displaystring}
-                //- - else
-                //-   | -
             tr
-              th Rettighedshaver og fotograf:
+              th Rettighedshaver:
               td
                 span(itemprop='copyrightHolder')= item.copyright || '-'
-                | ,
-                span(itemprop='creator')= item.creator || '-'
+            tr
+              th Fotograf:
+                td
+                  span(itemprop='creator')= item.creator || '-'
 
 
         // Additional info
