@@ -17,6 +17,7 @@ body {
 
   &.categories-menu-open { // Menu toggle class
     right: -280px;
+    overflow:hidden;
     .categories-menu {
       ul.nav { // Menu list
         z-index: 9999;
@@ -59,6 +60,10 @@ body {
   a {
     text-decoration:underline !important;
   }
+}
+
+.container section {
+  min-height: 450px; // Avoid detached footer
 }
 
 .main-wrapper {
@@ -557,10 +562,6 @@ ul.categories {
   }
   .asset h2 {
     font-size: 18px;
-  }
-
-  .container section {
-    min-height: 400px; // Avoid detached footer
   }
 
   /* Boostrap style modifications */
