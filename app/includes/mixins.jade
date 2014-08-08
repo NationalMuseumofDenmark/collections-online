@@ -161,15 +161,23 @@ mixin navigation()
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
 
 
-mixin responsiveImage(title)
-  span(data-picture, data-alt=title)
+mixin responsiveImage(title, item)
+  span(data-picture, data-alt=title, about=image_src)
 
     span(data-src=image_src_set['400'], data-media='(max-width: 400px)')
     span(data-src=image_src_set['800'], data-media='(min-width: 400px)')
     span(data-src=image_src_set['1200'], data-media='(min-width: 800px)')
 
-    noscript
+    noscript(about=image_src)
       img(src=image_src, alt=title)
+      - if(item.license)
+        - var license = helpers.license_tag(item.license.id);
+        - if(license)
+          a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
+        - else
+          | #{item.license.displaystring}
+      - else
+        | -
 
 mixin shareThisHTML()
   .btn-group.dropup

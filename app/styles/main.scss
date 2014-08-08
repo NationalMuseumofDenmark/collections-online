@@ -62,8 +62,12 @@ body {
   }
 }
 
+// Avoid detached footer
 .container section {
-  min-height: 450px; // Avoid detached footer
+  min-height: 450px;
+  @media all and (min-height: 1000px) {
+    min-height:600px;
+  }
 }
 
 .main-wrapper {
@@ -304,7 +308,6 @@ p.description {
     @include center-block(); // Center tall asset images
   }
   .asset-tools {
-    // @extend .col-xs-12;
     margin-top: $line-height-computed;
     margin-bottom: $line-height-computed;
     .dropdown-menu {
@@ -313,7 +316,7 @@ p.description {
       & > li {
         & > a,
         & > .stButton {
-          // color: $gray !important;
+          color: $gray !important;
           &:hover,
           &:focus {
             color: $gray !important;
@@ -349,6 +352,7 @@ p.description {
       margin-right: 15px;
       text-decoration: none;
       font-weight: bold;
+      color:$brand-primary;
     }
     .licens {
       .title {
@@ -378,6 +382,7 @@ p.description {
   }
   .additional-info-header {
     a {
+      color:$brand-primary;
       display: block;
       width: 100%;
       vertical-align: middle;
@@ -418,7 +423,7 @@ p.description {
     margin:15px 0 6.5px 0;
   }
   a {
-    color: $brand-primary;
+    color: $black;
     text-decoration: underline;
     &:hover,
     &:focus {
