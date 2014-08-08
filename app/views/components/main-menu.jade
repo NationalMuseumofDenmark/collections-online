@@ -26,5 +26,25 @@ each nav in results
               each lastchild in child.children
                 li
                   a.col-xs-12(href='/#{lastchild.id}') #{lastchild.name}
+li.col-xs-12.clearfix.menu-footer
+  img(src='/images/bottommenu.png')
+  h4.footer-title Om Nationalmuseets Samlinger Online
+  address
+    span Nationalmuseet
+    span Prinsens Palæ
+    span Ny Vestergade 10
+    span DK-1471 København K
+    span Tel. +45 3313 4411
+  h2.h4 Følg os på:
+  .social-links
+    a(href='https://www.facebook.com/nationalmuseet')
+      span.sr-only Facebook
+      +icon('facebook-4-icon')
+    a(href='https://twitter.com/Nationalmuseet')
+      span.sr-only Twitter
+      +icon('twitter-4-icon')
+    a(href='http://www.youtube.com/user/natmusdk')
+      span.sr-only YouTube
+      +icon('youtube-4-icon')
 
 
