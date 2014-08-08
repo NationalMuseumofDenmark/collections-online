@@ -81,3 +81,8 @@ $(function() {
 $(function() {
   $("#toTop").scrollToTop(400);
 });
+
+
+// Set main .container section min-height so footer does not jump
+var documentHeight = $(document).height();
+$('.container section').css('min-height', documentHeight - 140 -31 - 220 + 'px'); // document - header - heading - footer

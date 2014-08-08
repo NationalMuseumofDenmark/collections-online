@@ -62,8 +62,12 @@ body {
   }
 }
 
+// Avoid detached footer
 .container section {
-  min-height: 450px; // Avoid detached footer
+  min-height: 450px;
+  @media all and (min-height: 1000px) {
+    min-height:600px;
+  }
 }
 
 .main-wrapper {
