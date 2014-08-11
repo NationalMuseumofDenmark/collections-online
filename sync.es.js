@@ -28,19 +28,23 @@ function create_index() {
 }
 
 function clean_string(str) {
-    var regexp = new RegExp('^[A-Z]?[0-9]+[a-z]? - ');
+    var regexp = new RegExp('^[0-9]+[A-Z]+.[0-9]+.[0-9]+ ');
     if(str.search(regexp) == 0) {
-        str=str.replace(regexp, '');
+        return str.replace(regexp, '');
+    }
+    regexp = new RegExp('^[A-Z]?[0-9]+[a-z]? - ');
+    if(str.search(regexp) == 0) {
+        return str.replace(regexp, '');
     }
     regexp = new RegExp('^[A-F] - ');
     if(str.search(regexp) == 0) {
-        str=str.replace(regexp, '');
+        return str.replace(regexp, '');
     }
-    regexp = new RegExp('^[0-9]+[A-Z]+.[0-9]+.[0-9]+ ');
+    regexp = new RegExp('^[0-9][0-9] ');
     if(str.search(regexp) == 0) {
-        str=str.replace(regexp, '');
+        return str.replace(regexp, '');
     }
-
+    console.log(str);
     return str;
 }
 
