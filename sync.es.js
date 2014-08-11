@@ -43,6 +43,7 @@ function handle_results(catalog, items) {
 
             if(formatted_result['categories'] != undefined) {
                 formatted_result['categories_int'] = [];
+                formatted_result['categories_str'] = [];
 
                 for(var j=0; j < formatted_result['categories'].length; ++j) {
                     if(formatted_result['categories'][j].path.indexOf('$Categories') != 0)
@@ -52,6 +53,7 @@ function handle_results(catalog, items) {
                     if(path) {
                         for(var k=0; k < path.length; k++) {
                             formatted_result['categories_int'].push(path[k].id);
+                            formatted_result['categories_str'].push(path[k].name);
                         }
                     } else {
                         debugger;

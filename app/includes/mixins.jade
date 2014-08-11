@@ -26,19 +26,36 @@ mixin analytics
       })();
 
 mixin uservoice
+  //- Custom user voice link
+  .uv-icon.uv-top-right.user-voice-feedback
+    a(href='', id='uservoice-feedback')
+      img(src='/images/uservoiceicon.png')
+
   //- User voice
   script.
       UserVoice=window.UserVoice||[];(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/vQUyFPMM9iwEjKPwCHJO2A.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})();
 
       //- Set colors
       UserVoice.push(['set', {
+        target: '#uservoice-feedback',
+        position: 'top-right',
         accent_color: '#971623',
         trigger_color: 'white',
         trigger_background_color: 'rgba(151, 22, 35, 0.90)',
+        contact_enabled: true,
+        screenshot_enabled: true,
+        smartvote_enabled: true,
+        post_idea_enabled: true,
+        mode:'contact',
+        smartvote_title: 'Hjælp os med at beslutte, hvad der skal tilføjes'
       }]);
 
       //- Add default trigger to the bottom-right corner of the window:
-      UserVoice.push(['addTrigger', { mode: 'contact', trigger_position: 'top-right' }]);
+      UserVoice.push(['addTrigger', '#uservoice-feedback', {
+        mode:'contact',
+        menu_enabled: true,
+        trigger_position:'top-right'
+      }]);
 
       //- Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
       UserVoice.push(['autoprompt', {}]);
@@ -66,6 +83,8 @@ mixin footer
     .footer
       .container
         .row
+          img(src='/images/bottommenu.png')
+          h4.footer-title Om Nationalmuseets Samlinger Online
           address.col-xs-12
             span Nationalmuseet
             span Prinsens Palæ
