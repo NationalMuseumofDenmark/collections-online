@@ -44,7 +44,6 @@ function clean_string(str) {
     if(str.search(regexp) == 0) {
         return str.replace(regexp, '');
     }
-    console.log(str);
     return str;
 }
 
