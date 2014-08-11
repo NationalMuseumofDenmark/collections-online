@@ -34,7 +34,7 @@ $(function() {
     },
     source: searchSuggest.ttAdapter(),
     templates: {
-      suggestion: function (data) { return data.text + ' (' + data.freq  +')'; }
+      suggestion: function (data) { return data.text; }
     }
   });
 });
