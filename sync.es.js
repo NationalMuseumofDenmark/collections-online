@@ -9,7 +9,7 @@ var asset_mapping = require('./lib/asset-mapping.js');
 var client = new elasticsearch.Client();
 
 // XXX: Change this to do a full sync
-var sync_all = false;
+var sync_all = true;
 var categories = {};
 
 function create_index() {
@@ -25,6 +25,23 @@ function create_index() {
     });
 
     return deferred.promise;
+}
+
+function clean_string(str) {
+    var regexp = new RegExp('^[A-Z]?[0-9]+[a-z]? - ');
+    if(str.search(regexp) == 0) {
+        str=str.replace(regexp, '');
+    }
+    regexp = new RegExp('^[A-F] - ');
+    if(str.search(regexp) == 0) {
+        str=str.replace(regexp, '');
+    }
+    regexp = new RegExp('^[0-9]+[A-Z]+.[0-9]+.[0-9]+ ');
+    if(str.search(regexp) == 0) {
+        str=str.replace(regexp, '');
+    }
+
+    return str;
 }
 
 function handle_results(catalog, items) {
@@ -43,7 +60,7 @@ function handle_results(catalog, items) {
 
             if(formatted_result['categories'] != undefined) {
                 formatted_result['categories_int'] = [];
-                formatted_result['categories_str'] = [];
+                formatted_result['suggest'] = {'input': []};;
 
                 for(var j=0; j < formatted_result['categories'].length; ++j) {
                     if(formatted_result['categories'][j].path.indexOf('$Categories') != 0)
@@ -53,7 +70,11 @@ function handle_results(catalog, items) {
                     if(path) {
                         for(var k=0; k < path.length; k++) {
                             formatted_result['categories_int'].push(path[k].id);
-                            formatted_result['categories_str'].push(path[k].name);
+
+                            if(path[k].name.indexOf('$Categories') == 0)
+                                continue;
+
+                            formatted_result['suggest']['input'].push(clean_string(path[k].name));
                         }
                     } else {
                         debugger;
