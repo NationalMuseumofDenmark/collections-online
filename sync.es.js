@@ -9,7 +9,7 @@ var asset_mapping = require('./lib/asset-mapping.js');
 var client = new elasticsearch.Client();
 
 // XXX: Change this to do a full sync
-var sync_all = true;
+var sync_all = false;
 var categories = {};
 
 function create_index() {
