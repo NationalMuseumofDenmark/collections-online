@@ -507,7 +507,7 @@ ul.categories {
 #infscr-loading {
   background: none repeat scroll 0 0 #000;
   border-radius: 4px;
-  bottom: 40px;
+  bottom: 20px;
   color: #fff;
   left:0;
   right:0;
@@ -519,6 +519,7 @@ ul.categories {
   text-align: center;
   width: 180px;
   z-index: 100;
+  display:block !important;
 }
 
 /* Scroll to top button */
