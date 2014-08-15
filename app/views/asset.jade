@@ -11,7 +11,7 @@ append header
   +shareThisJS()
 
 block content
-  div(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
+  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6
@@ -48,7 +48,8 @@ block content
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
         // Title
-        h1(itemprop='name')= title
+        header
+          h1(itemprop='name')= title
 
         // Description
         - if(item.description)

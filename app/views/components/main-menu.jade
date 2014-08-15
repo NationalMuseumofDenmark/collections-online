@@ -1,12 +1,12 @@
 include ../../includes/mixins
 
 li
-  a.col-xs-12(href='/') Alle
+  a.col-xs-12.first-menu.top-border(href='/') Alle samlinger
 
 each nav in results
   li
-    a.col-xs-10(href='/#{nav.alias}') #{nav.name}
-    a.col-xs-2(href='', class='expand-menu')
+    a.col-xs-10.top-border(href='/#{nav.alias}') #{nav.name}
+    a.col-xs-2.top-border(href='', class='expand-menu')
       +icon('plus-2-icon')
     ul(class='menu-childern-first menu-hidden', data-menu-child=nav.name)
       each child in nav.children.children
@@ -26,25 +26,7 @@ each nav in results
               each lastchild in child.children
                 li
                   a.col-xs-12(href='/#{lastchild.id}') #{lastchild.name}
-li.col-xs-12.clearfix.menu-footer
-  img(src='/images/bottommenu.png')
-  h4.footer-title Om Nationalmuseets Samlinger Online
-  address
-    span Nationalmuseet
-    span Prinsens Palæ
-    span Ny Vestergade 10
-    span DK-1471 København K
-    span Tel. +45 3313 4411
-  h2.h4 Følg os på:
-  .social-links
-    a(href='https://www.facebook.com/nationalmuseet')
-      span.sr-only Facebook
-      +icon('facebook-4-icon')
-    a(href='https://twitter.com/Nationalmuseet')
-      span.sr-only Twitter
-      +icon('twitter-4-icon')
-    a(href='http://www.youtube.com/user/natmusdk')
-      span.sr-only YouTube
-      +icon('youtube-4-icon')
+li
+  a.col-xs-12.top-border(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online
 
 
