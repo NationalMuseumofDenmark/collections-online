@@ -41,7 +41,7 @@ $(function() {
 
 // Retrieve the main menu and its childern
 $(function() {
-  $.ajax({url: '/catalogs.json', // Append path to mark active
+  $.ajax({url: '/catalogs', // Append path to mark active
   })
   .done(function(data) {
     $('.categories-menu .nav').html(data);
