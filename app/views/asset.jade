@@ -29,7 +29,7 @@ block content
                 a(href='#{image_src_set[1200]}') Mellem
               li.divider
               li
-                a(href='http://samlinger.natmus.dk/CIP/asset/download/#{catalog.alias}/#{item.id}') Original
+                a(href='#{image_src_set.download}') Original
           +shareThisHTML()
           span.licens
             span.title Licens:
@@ -174,4 +174,3 @@ block content
                 tr
                   th Topnr.:
                   td= item.topno || '-'
-
