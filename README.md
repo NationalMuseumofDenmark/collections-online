@@ -1,7 +1,8 @@
 # Nationalmuseets Samlinger Online
 
-Webapp built on top of the [Canto Cumulus](http://www.canto.com/) web service, Canto Integration Platform (CIP).
-The webapp showcase assets stored in the Canto Cumulus installation at the
+Webapp built on top of the [Canto Cumulus](http://www.canto.com/) web service,
+[Canto Integration Platform (CIP)](http://cumulus.natmus.dk/CIP/doc/index.html).
+The webapp shows assets stored in the Canto Cumulus installation at the
 [National Museum of Denmark](http://natmus.dk). The site is live here: http://samlinger.natmus.dk/
 
 The webapp is built using [node.js](http://nodejs.org/), [Express](http://expressjs.com/),
