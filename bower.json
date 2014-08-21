@@ -1,6 +1,6 @@
 {
   "name": "natmus-samlinger",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "dependencies": {
     "jquery": "~1.11.0",
     "bootstrap-sass-official": "~3.1.1",
@@ -13,8 +13,5 @@
     "html5shiv":"3.7.2"
   },
   "devDependencies": {
-    "angular-mocks": ">=1.2.*",
-    "angular-scenario": ">=1.2.*"
-  },
-  "testPath": "test/client/spec"
+  }
 }
