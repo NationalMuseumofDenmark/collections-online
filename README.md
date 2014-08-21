@@ -10,7 +10,7 @@ stuff is using jQuery for performing masonry and auto suggestion. It is using th
 [cip.js](https://github.com/NationalMuseumofDenmark/cip.js) implementation for querying CIP.
 
 The solution is built by [Headnet ApS](http://www.headnet.dk). Licensed under
-[LGPL v3](https://www.gnu.org/licenses/lgpl.html). 
+[LGPL v3](https://www.gnu.org/licenses/lgpl.html).
 
 ![Screenshot](screenshot.png)
 
@@ -53,5 +53,5 @@ In case you find bugs please open [an issue](https://github.com/NationalMuseumof
 
 ## Contribute
 
-Please fork the repository into your own github account, and create a pull request whenever you are done with
-your changes. Ideally, you should rebase your branch before creating the pull request, in case of upstream changes.
+Please fork the repository into your own github account and create a pull request whenever you are done with
+your changes. Ideally, you should rebase your branch before creating the pull request in case of upstream changes.
