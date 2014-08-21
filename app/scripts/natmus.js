@@ -1,4 +1,5 @@
 'use strict';
+/*global $ */
 ////////////////////////////////////////////////////
 // JS file containing logic used a cross the site //
 ////////////////////////////////////////////////////
@@ -6,8 +7,9 @@
 
 // Open / close main menu nav
 $(function() {
-    $('#heading-categories-menu a').click(function(e){
+    $('#heading-categories-menu a').click(function(e) {
       $('body').toggleClass('categories-menu-open');
+      
       return false;
     });
 });
@@ -44,12 +46,25 @@ $(function() {
   $.ajax({url: '/catalogs', // Append path to mark active
   })
   .done(function(data) {
-    $('.categories-menu .nav').html(data);
+    var menu = $('.categories-menu .nav');
+    menu.html(data);
+    
+    menu.niceScroll({
+      cursorcolor:'#555',
+      background: '',
+      cursorwidth: '7px',
+      cursorborder: 'none',
+      autohidemode: false,
+      horizrailenabled: false,
+      zindex: 999999
+    });
 
     // Expand menus
     $('.categories-menu ul a.col-xs-2').click(function(e) {
       e.preventDefault();
       $(this).next('ul').slideToggle(300);
+
+      menu.getNiceScroll().resize();
     });
   })
   .fail(function(data) {
