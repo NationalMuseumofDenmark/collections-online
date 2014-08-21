@@ -609,6 +609,23 @@ ul.categories {
   }
 }
 
+/* Disable background scrolling */
+body.categories-menu-open {
+  // Mobiles
+  @media only screen and (min-device-width : 320px) and (max-device-width : 480px) {
+    right: 0;
+    left: 280px;
+    position:fixed;
+  }
+
+  // Ipads
+  @media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    right: 0;
+    left: 280px;
+    position:fixed;
+  }
+}
+
 /* Responsive masonry boxes */
 .box {
   float:left;
