@@ -38,6 +38,11 @@ command
 
     $ curl http://localhost:9200
 
+Export CIP username and password to environment variables
+
+    $ export CIP_USERNAME=username
+    $ export CIP_PASSWORD=password
+
 Now feed elasticsearch with data from CIP using the following command:
 
     $ node misc/sync.es.js all
