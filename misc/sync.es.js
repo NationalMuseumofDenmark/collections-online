@@ -1,9 +1,11 @@
+'use strict';
+
+var process = require('process');
 var elasticsearch = require('elasticsearch');
 var Q = require('q');
 
 var cip = require('./lib/cip-methods.js');
 var cip_categories = require('./lib/cip-categories.js');
-
 var asset_mapping = require('./lib/asset-mapping.js');
 
 var client = new elasticsearch.Client();
@@ -29,19 +31,19 @@ function create_index() {
 
 function clean_string(str) {
     var regexp = new RegExp('^[0-9]+[A-Z]+.[0-9]+.[0-9]+ ');
-    if(str.search(regexp) == 0) {
+    if(str.search(regexp) === 0) {
         return str.replace(regexp, '');
     }
     regexp = new RegExp('^[A-Z]?[0-9]+[a-z]? - ');
-    if(str.search(regexp) == 0) {
+    if(str.search(regexp) === 0) {
         return str.replace(regexp, '');
     }
     regexp = new RegExp('^[A-F] - ');
-    if(str.search(regexp) == 0) {
+    if(str.search(regexp) === 0) {
         return str.replace(regexp, '');
     }
     regexp = new RegExp('^[0-9][0-9] ');
-    if(str.search(regexp) == 0) {
+    if(str.search(regexp) === 0) {
         return str.replace(regexp, '');
     }
     return str;
@@ -51,40 +53,40 @@ function handle_results(catalog, items) {
    if(items !== undefined && items.length > 0) {
         for(var i=0; i < items.length; ++i) {
             var formatted_result = asset_mapping.format_result(items[i].fields);
-            var es_id = catalog.alias + '-' + formatted_result['id'];
+            var es_id = catalog.alias + '-' + formatted_result.id;
 
-            if(formatted_result['modification_time'] != undefined) {
-                re = new RegExp('\\d+');
-                var re_result = re.exec(formatted_result['modification_time']);
+            if(formatted_result.modification_time !== undefined) {
+                var re = new RegExp('\\d+');
+                var re_result = re.exec(formatted_result.modification_time);
                 if(re_result && re_result.length > 0) {
-                    formatted_result['modification_time'] = parseInt(re_result[0]);
+                    formatted_result.modification_time = parseInt(re_result[0]);
                 }
             }
 
-            if(formatted_result['categories'] != undefined) {
-                formatted_result['categories_int'] = [];
-                formatted_result['suggest'] = {'input': []};;
+            if(formatted_result.categories !== undefined) {
+                formatted_result.categories_int = [];
+                formatted_result.suggest = {'input': []};
 
-                for(var j=0; j < formatted_result['categories'].length; ++j) {
-                    if(formatted_result['categories'][j].path.indexOf('$Categories') != 0)
+                for(var j=0; j < formatted_result.categories.length; ++j) {
+                    if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
                         continue;
+                    }
 
-                    var path = categories[catalog.alias].get_path(formatted_result['categories'][j].id);
+                    var path = categories[catalog.alias].get_path(formatted_result.categories[j].id);
                     if(path) {
                         for(var k=0; k < path.length; k++) {
-                            formatted_result['categories_int'].push(path[k].id);
+                            formatted_result.categories_int.push(path[k].id);
 
-                            if(path[k].name.indexOf('$Categories') == 0)
+                            if(path[k].name.indexOf('$Categories') === 0) {
                                 continue;
+                            }
 
-                            formatted_result['suggest']['input'].push(clean_string(path[k].name));
+                            formatted_result.suggest.input.push(clean_string(path[k].name));
                         }
-                    } else {
-                        debugger;
                     }
                 }
             }
-            formatted_result['catalog'] = catalog.alias;
+            formatted_result.catalog = catalog.alias;
 
             client.index({
                 index: 'assets',
@@ -138,9 +140,9 @@ cip_categories.load_categories().then(function(result) {
     }
 }).then(function() {
     create_index().then(function() {
-        console.log("Index created");
+        console.log('Index created');
     }, function() {
-        console.log("Failed, index probably already exists");
+        console.log('Failed, index probably already exists');
     });
 }).then(function() {
     cip.init_session().then(function(nm) {
