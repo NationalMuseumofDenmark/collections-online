@@ -1,12 +1,6 @@
 // Generated on 2014-05-05 using generator-angular-fullstack 1.4.2
 'use strict';
 
-// # Globbing
-// for performance reasons we're only matching one level down:
-// 'test/spec/{,*/}*.js'
-// use this if you want to recursively match all subfolders:
-// 'test/spec/**/*.js'
-
 module.exports = function (grunt) {
 
   // Load grunt tasks automatically
@@ -53,14 +47,6 @@ module.exports = function (grunt) {
         options: {
           livereload: true
         }
-      },
-      mochaTest: {
-        files: ['test/server/{,*/}*.js'],
-        tasks: ['env:test', 'mochaTest']
-      },
-      jsTest: {
-        files: ['test/client/spec/{,*/}*.js'],
-        tasks: ['newer:jshint:test', 'karma']
       },
       compass: {
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
@@ -109,12 +95,6 @@ module.exports = function (grunt) {
       all: [
         '<%= yeoman.app %>/scripts/{,*/}*.js'
       ],
-      test: {
-        options: {
-          jshintrc: 'test/client/.jshintrc'
-        },
-        src: ['test/client/spec/{,*/}*.js']
-      }
     },
 
     // Empties folders to start fresh
@@ -127,16 +107,6 @@ module.exports = function (grunt) {
             '<%= yeoman.dist %>/*',
             '!<%= yeoman.dist %>/.git*',
             '!<%= yeoman.dist %>/Procfile'
-          ]
-        }]
-      },
-      heroku: {
-        files: [{
-          dot: true,
-          src: [
-            'heroku/*',
-            '!heroku/.git*',
-            '!heroku/Procfile'
           ]
         }]
       },
@@ -389,9 +359,6 @@ module.exports = function (grunt) {
       server: [
         'compass:server'
       ],
-      test: [
-        'compass'
-      ],
       debug: {
         tasks: [
           'nodemon',
@@ -433,28 +400,7 @@ module.exports = function (grunt) {
      },
      concat: {
        dist: {}
-     },
-
-    // Test settings
-    karma: {
-      unit: {
-        configFile: 'karma.conf.js',
-        singleRun: true
-      }
-    },
-
-    mochaTest: {
-      options: {
-        reporter: 'spec'
-      },
-      src: ['test/server/**/*.js']
-    },
-
-    env: {
-      test: {
-        NODE_ENV: 'test'
-      }
-    }
+     }
   });
 
   // Used for delaying livereload until after server has restarted
@@ -504,28 +450,6 @@ module.exports = function (grunt) {
     grunt.task.run(['serve']);
   });
 
-  grunt.registerTask('test', function(target) {
-    if (target === 'server') {
-      return grunt.task.run([
-        'env:test',
-        'mochaTest'
-      ]);
-    }
-
-    else if (target === 'client') {
-      return grunt.task.run([
-        'clean:server',
-        'concurrent:test',
-        'autoprefixer',
-        'karma'
-      ]);
-    }
-
-    else grunt.task.run([
-      'test:server',
-      'test:client'
-    ]);
-  });
 
   grunt.registerTask('build', [
     'clean:dist',
@@ -543,14 +467,8 @@ module.exports = function (grunt) {
     'usemin'
   ]);
 
-  grunt.registerTask('heroku', function () {
-    grunt.log.warn('The `heroku` task has been deprecated. Use `grunt build` to build for deployment.');
-    grunt.task.run(['build']);
-  });
-
   grunt.registerTask('default', [
     'newer:jshint',
-    'test',
     'build'
   ]);
 };
