@@ -1,18 +1,24 @@
 'use strict';
 
-var process = require('process');
 var elasticsearch = require('elasticsearch');
 var Q = require('q');
 
-var cip = require('./lib/cip-methods.js');
-var cip_categories = require('./lib/cip-categories.js');
-var asset_mapping = require('./lib/asset-mapping.js');
+var cip = require('../lib/cip-methods.js');
+var cip_categories = require('../lib/cip-categories.js');
+var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client();
 
-// XXX: Change this to do a full sync
 var sync_all = false;
 var categories = {};
+
+var args = process.argv;
+if(args && args.length > 1) {
+    if(args[args.length - 1] === 'all') {
+        console.log('Sync\'ing all!');
+        sync_all = true;
+    }
+}
 
 function create_index() {
     var deferred = Q.defer();
