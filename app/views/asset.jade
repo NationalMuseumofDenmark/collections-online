@@ -14,39 +14,7 @@ block content
   article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
     .row
-      .col-md-6
-        .bleed.asset-image
-          +responsiveImage(title, item)
-        .asset-tools
-          .btn-group.dropup
-            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-              +icon('download-icon')
-            ul.dropdown-menu(role='menu')
-              li
-                a(href='#{image_src_set.download_800}') Lille
-              li.divider
-              li
-                a(href='#{image_src_set.download_1200}') Mellem
-              li.divider
-              li
-                a(href='#{image_src_set.download_2000}') Stor
-              li.divider
-              li
-                a(href='#{image_src_set.download}') Original
-          +shareThisHTML()
-          span.licens
-            span.title Licens:
-            - if(item.license)
-                - var license = helpers.license_tag(item.license.id);
-                - if(license)
-                  a(href=license.url, rel='license', target='_blank')
-                    img(src=license.img, alt='Creative Commons licens')
-                - else
-                  | #{item.license.displaystring}
-              - else
-                | -
-
-      .col-md-6
+      .col-md-6.pull-right.text-row
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
@@ -177,3 +145,35 @@ block content
                 tr
                   th Topnr.:
                   td= item.topno || '-'
+      
+      .col-md-6.image-row
+          .bleed.asset-image
+            +responsiveImage(title, item)
+          .asset-tools
+            .btn-group.dropup
+              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+                +icon('download-icon')
+              ul.dropdown-menu(role='menu')
+                li
+                  a(href='#{image_src_set.download_800}') Lille
+                li.divider
+                li
+                  a(href='#{image_src_set.download_1200}') Mellem
+                li.divider
+                li
+                  a(href='#{image_src_set.download_2000}') Stor
+                li.divider
+                li
+                  a(href='#{image_src_set.download}') Original
+            +shareThisHTML()
+            span.licens
+              span.title Licens:
+              - if(item.license)
+                  - var license = helpers.license_tag(item.license.id);
+                  - if(license)
+                    a(href=license.url, rel='license', target='_blank')
+                      img(src=license.img, alt='Creative Commons licens')
+                  - else
+                    | #{item.license.displaystring}
+                - else
+                  | -

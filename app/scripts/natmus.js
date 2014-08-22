@@ -4,6 +4,8 @@
 // JS file containing logic used a cross the site //
 ////////////////////////////////////////////////////
 
+// Alter asset rows order
+$('.asset .text-row').insertAfter('.asset .image-row');
 
 // Open / close main menu nav
 $(function() {
@@ -101,3 +103,4 @@ $(function() {
 // Set main .container section min-height so footer does not jump
 var documentHeight = $(document).height();
 $('.container section').css('min-height', documentHeight - 140 -31 - 220 + 'px'); // document - header - heading - footer
+
