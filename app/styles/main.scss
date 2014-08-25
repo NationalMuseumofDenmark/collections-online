@@ -16,6 +16,9 @@ body {
   transition: all 0.5s ease 0s;
 
   &.categories-menu-open { // Menu toggle class
+    .nicescroll-rails {
+      display:block !important; // Show the js scrollbars
+    }
     right: -280px;
     overflow:hidden;
     .categories-menu {
@@ -239,6 +242,12 @@ svg {
     padding: 7px 25px;
   }
 }
+
+/* hide the scroll bar by default */
+.nicescroll-rails {
+  display:none !important;
+}
+
 .search-box {
   .input-group-text { // Added to box-in input field and typeahead
     position: relative;

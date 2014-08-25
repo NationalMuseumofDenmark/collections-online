@@ -7,10 +7,11 @@
     "picturefill": "~1.2.1",
     "masonry": "~3.1.5",
     "imagesloaded": "~3.1.8",
-    "jquery-infinite-scroll":"~2.0.2",
+    "jquery-infinite-scroll": "~2.0.2",
     "typeahead.js": "~0.10.2",
     "scrollToTop": "1.0.3",
-    "html5shiv":"3.7.2"
+    "html5shiv": "3.7.2",
+    "jquery-nicescroll": "*"
   },
   "devDependencies": {
   }
