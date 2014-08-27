@@ -68,6 +68,11 @@ mixin head
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='viewport', content='width=device-width, initial-scale=1.0')
 
+mixin sidebarmenu
+  nav.categories-menu
+    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
+  .gray-overlay
+
 mixin header
   header.header
     .natmus
@@ -118,7 +123,10 @@ mixin samlingerHeader()
       .col-md-8.col-md-pull-4.menu-container
         .row
           .col-xs-2.col-md-1.menu-container
-            +navigation()
+            h2#heading-categories-menu
+              a(href='#')
+                span.sr-only Kataloger og kategorier
+                +icon('menu-icon')
           .col-xs-10.col-md-8
             +searchBox()
 
@@ -169,15 +177,6 @@ mixin icon(id)
         path(id="#{id}", d="M460.355 421.59L353.844 315.078c20.041-27.553 31.885-61.437 31.885-98.037 C385.729 124.9 310.8 50 218.7 50C126.58 50 51.6 124.9 51.6 217.041c0 92.1 74.9 167 167 167 c34.912 0 67.352-10.773 94.184-29.158L419.945 462L460.355 421.59z M100.631 217.041c0-65.096 52.959-118.056 118.055-118.056 c65.098 0 118.1 53 118.1 118.056c0 65.096-52.959 118.056-118.057 118.056C153.59 335.1 100.6 282.1 100.6 217 z")
     default
       span #{id} is not a valid icon ID
-
-mixin navigation()
-  nav.categories-menu
-    h2#heading-categories-menu
-      a(href='#')
-        span.sr-only Kataloger og kategorier
-        +icon('menu-icon')
-    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
-
 
 mixin responsiveImage(title, item)
   span(data-picture, data-alt=title, about=image_src)
