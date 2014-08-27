@@ -11,47 +11,54 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 body {
   // For category menu
   position: relative;
-  right: 0;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
-  transition: all 0.5s ease 0s;
-
+  
   &.categories-menu-open { // Menu toggle class
-    .nicescroll-rails {
-      display:block !important; // Show the js scrollbars
-    }
-    right: -280px;
     overflow:hidden;
+    position:fixed;
+    right:0;
+    left:0;
+    bottom:0;
+    top:0;
+    padding-left:280px;
+    transition:all 400ms ease-in-out 0s;
+
+    .gray-overlay {
+      display:block;
+    }
+
     .categories-menu {
+      z-index: 9999;
       ul.nav { // Menu list
         z-index: 9999;
+        left:0;
       }
     }
     #heading-categories-menu a { // Menu toggle button
-      background: $black;
-      bottom: 0;
-      display: block;
-      left: 0;
-      opacity: 0.5;
-      position: absolute;
-      right: 0;
-      top: 0;
-      padding: 120px 0 0 15px;
-      z-index: 9998;
-      text-align: left;
       color: $gray;
-    }
-    .menu-container {
-      position: static;
-      &.col-md-pull-4 {
-        margin-left: -33.333333%;
+      #menu-icon {
+        fill: $gray;
       }
     }
-    #menu-icon {
-      fill: $gray;
+    .uv-popover, .user-voice-feedback {
+      display:none; // Hide user vocie
     }
   }
   a {
     outline:none !important;
+  }
+
+  .gray-overlay { 
+    display:none; 
+    background: $black;
+    bottom: 0;
+    left: 0;
+    opacity: 0.5;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 9998;
+    text-align: left;
   }
 }
 
@@ -149,10 +156,10 @@ svg {
   }
 }
 
-/* Category menu */
-.categories-menu {
+/* Category menu link */
+.menu-container{
   h2 {
-    margin-top: 0;
+    margin-top: -5px;
     a {
       color: $black;
       &:hover,
@@ -165,20 +172,26 @@ svg {
 
     }
   }
+}
+
+/* Category menu */
+.categories-menu {
   ul.nav {
     background: #000;
     display: block;
     height: 100%;
-    left: 0;
+    left: -280px;
+    height:100%;
+    clear:both;
     overflow-x: hidden;
     overflow-y:scroll;
     padding: 0 10px 0 10px;
     position: fixed;
     top: 0;
     bottom:0;
+    width:260px;
     box-sizing:content-box;
-    width: 260px;
-    z-index: -1;
+    transition:all 400ms ease-in-out 0s;
     a {
       display: block;
       color: $white;
@@ -245,7 +258,7 @@ svg {
 
 /* hide the scroll bar by default */
 .nicescroll-rails {
-  display:none !important;
+  display:none;
 }
 
 .search-box {
@@ -615,16 +628,6 @@ ul.categories {
   #search-input:focus {
     font-size: 16px;
     background:$white;
-  }
-}
-
-/* Disable background scrolling */
-body.categories-menu-open {
-  // Mobiles and pads
-  @media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
-    right: 0;
-    left: 280px;
-    position:fixed;
   }
 }
 

@@ -9,9 +9,16 @@ $('.asset .text-row').insertAfter('.asset .image-row');
 
 // Open / close main menu nav
 $(function() {
-    $('#heading-categories-menu a').click(function(e) {
+    $('#heading-categories-menu a, .gray-overlay').click(function(e) {
+      // Show/hide scroll bars with delay due to css animations
+      if ($('body').hasClass('categories-menu-open')) {
+        $('.nicescroll-rails').hide();
+      } else {
+        $('.nicescroll-rails').delay(700).fadeIn(300);
+      }
+
       $('body').toggleClass('categories-menu-open');
-      
+
       return false;
     });
 });
