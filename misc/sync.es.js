@@ -102,6 +102,7 @@ function handle_results(catalog, items) {
             }).then(function(resp) {
                 console.log('Indexed ' + resp._id);
             }, function(resp) {
+                console.log(resp);
                 console.log('Error indexing ' + resp._id);
             });
         }
