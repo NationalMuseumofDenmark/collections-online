@@ -154,15 +154,16 @@ block content
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
                 +icon('download-icon')
               ul.dropdown-menu(role='menu')
-                li
-                  a(href='#{image_src_set.download_800}') Lille
-                li.divider
-                li
-                  a(href='#{image_src_set.download_1200}') Mellem
-                li.divider
-                li
-                  a(href='#{image_src_set.download_2000}') Stor
-                li.divider
+                - if(item.filename.match('.tif$'))
+                  li
+                    a(href='#{image_src_set.download_800}') Lille
+                  li.divider
+                  li
+                    a(href='#{image_src_set.download_1200}') Mellem
+                  li.divider
+                  li
+                    a(href='#{image_src_set.download_2000}') Stor
+                  li.divider
                 li
                   a(href='#{image_src_set.download}') Original
             +shareThisHTML()
