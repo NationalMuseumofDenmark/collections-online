@@ -125,7 +125,7 @@ function handle_catalog(nm, catalog) {
     var promises = [];
 
     if(catalog.alias !== undefined) {
-        cip.get_recent_assets(nm, catalog, sync_all ? '2003-12-24' : '$today-2d', function(result) {
+        cip.get_recent_assets(nm, catalog, sync_all ? '2003-04-24' : '$today-2d', function(result) {
             for(var i=0; i < result.total_rows; i=i+100) {
                 promises.push(get_result(result, i));
             }
