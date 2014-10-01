@@ -56,7 +56,7 @@ function clean_string(str) {
 }
 
 function handle_results(catalog, items) {
-   if(items !== undefined && items.length > 0) {
+   if(items !== undefined && items !== null && items.length > 0) {
         for(var i=0; i < items.length; ++i) {
             var formatted_result = asset_mapping.format_result(items[i].fields);
             var es_id = catalog.alias + '-' + formatted_result.id;
