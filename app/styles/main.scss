@@ -549,7 +549,7 @@ ul.categories {
   display: none;
   position: fixed;
   bottom: 15px;
-  right: 10px;
+  right: 30px;
   width: 50px;
   height: 50px;
   background-image: url('/images/scrolltotop.png');
@@ -567,7 +567,7 @@ ul.categories {
 /* User voice script */
 .user-voice-feedback {
   top:10px !important;
-  right:25px !important;
+  right:30px !important;
   opacity:0.85;
   position:fixed;
   &:hover {
