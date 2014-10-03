@@ -33,4 +33,13 @@ $(function() {
         });
       }
     );
+
+    $(window).unbind('.infscr');
+
+    $("#more").click(function(){
+        var $container = $('#masonry-container');
+        $container.infinitescroll('retrieve');
+        return false;
+    });
+
 });
