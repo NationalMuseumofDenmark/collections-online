@@ -7,7 +7,7 @@ var cip = require('../lib/cip-methods.js');
 var cip_categories = require('../lib/cip-categories.js');
 var asset_mapping = require('../lib/asset-mapping.js');
 
-var client = new elasticsearch.Client();
+var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
 var sync_all = false;
 var categories = {};
