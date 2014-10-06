@@ -8,6 +8,8 @@ $icon-font-path: "/bower_components/bootstrap-sass-official/vendor/assets/fonts/
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
 
+@import "../bower_components/FlexSlider/flexslider.css";
+
 body {
   // For category menu
   position: relative;
@@ -654,4 +656,7 @@ ul.categories {
   @media all and (min-width: 992px) {
     width:25%;
   }
+}
+
+.slider {
 }
