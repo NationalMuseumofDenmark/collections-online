@@ -1,11 +1,18 @@
 extends index
 
+include frontpage-slider
+
 append header
   if results.is_search || results.is_front || results.is_category || results.is_catalog
     +searchMeta(results, metadata)
 
 block content
   section
+    if results.is_front
+      +FrontPageSlider()
+
+    .clearfix
+
     if results.is_search
       h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
     if results.is_front
@@ -52,3 +59,11 @@ block content
 
 
   .clearfix
+
+append javascript
+  script.
+      $(document).ready(function() {
+         $('.slider').flexslider({
+          animation: "slide"
+        });
+      });
