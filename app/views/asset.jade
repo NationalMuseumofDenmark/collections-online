@@ -147,8 +147,13 @@ block content
                   td= item.topno || '-'
       
       .col-md-6.image-row
-          .bleed.asset-image
-            +responsiveImage(title, item)
+          - if(item.filename.match('.tif') || item.filename.match('.pdf'))
+            .bleed.asset-image
+              +responsiveImage(title, item)
+          - else if(item.filename.match('.mp3'))
+             audio(controls)
+               source(src=image_src_set.download)
+
           .asset-tools
             .btn-group.dropup
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
