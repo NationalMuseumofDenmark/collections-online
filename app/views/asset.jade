@@ -147,7 +147,7 @@ block content
                   td= item.topno || '-'
       
       .col-md-6.image-row
-          - if(item.filename.match('.tif') || item.filename.match('.pdf'))
+          - if(item.filename.match('.tif') || item.filename.match('.jpg') || item.filename.match('.pdf'))
             .bleed.asset-image
               +responsiveImage(title, item)
           - else if(item.filename.match('.mp3'))
