@@ -68,7 +68,7 @@ body {
 .container section h1.page-header {
   margin-top:-15px; // remove top margin for mobiles
   font-size: 18px;
-  color:$gray-dark;
+  color:$brand-primary;
   a {
     text-decoration:underline !important;
   }
@@ -76,7 +76,7 @@ body {
 
 // Avoid detached footer
 .container section {
-  min-height: 450px;
+  // min-height: 450px;
   @media all and (min-height: 1000px) {
     min-height:600px;
   }
@@ -510,6 +510,15 @@ p.description {
   }
 }
 
+/* More button */
+#more {
+  @include clearfix;
+  border:2px solid $brand-primary;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color:$brand-primary;
+}
 ul.categories {
   li:after {
     content: ' /';
@@ -528,6 +537,11 @@ ul.categories {
 }
 
 /* Infinte scroller */
+.section-wrapper {
+  height:auto;
+  min-height:0 !important;
+}
+
 #infscr-loading {
   background: none repeat scroll 0 0 #000;
   border-radius: 4px;
@@ -656,7 +670,4 @@ ul.categories {
   @media all and (min-width: 992px) {
     width:25%;
   }
-}
-
-.slider {
 }
