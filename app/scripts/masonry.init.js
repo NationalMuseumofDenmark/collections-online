@@ -18,8 +18,10 @@ $(function() {
       loading: {
           finishedMsg: 'Ikke flere resultater...',
           img: '/images/loading.gif',
-          msgText: 'Henter flere resultater...'
-        }
+          msgText: 'Henter flere resultater...',
+          speed: 0,
+        },
+        animate:false
       },
       // trigger Masonry as a callback
       function( newElements ) {
