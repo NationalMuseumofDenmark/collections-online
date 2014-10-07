@@ -32,6 +32,7 @@ $(function() {
           // show elems now they're ready
           $newElems.animate({ opacity: 1 });
           $container.masonry( 'appended', $newElems, true );
+          $('#more').show();
         });
       }
     );
@@ -39,6 +40,7 @@ $(function() {
     $(window).unbind('.infscr');
 
     $("#more").click(function(){
+        $('#more').hide();
         var $container = $('#masonry-container');
         $container.infinitescroll('retrieve');
         return false;
