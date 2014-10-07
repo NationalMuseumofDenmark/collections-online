@@ -10,7 +10,6 @@
 .slider-wrapper {
 	padding:0;
     background:$black;
-    overflow:hidden;
 }
 
 .slider .flex-control-nav {
@@ -43,6 +42,19 @@
     }
 }
 
+// Hide initial slider image overflow
+.slider .slides li:first-child img {
+    display:block;
+}
+
+.slider .slides li img {
+    display:none;
+}
+
+.slider .flex-viewport .slides li img {
+    display:block;
+}
+
 @media screen and (min-width: $screen-md-min) {
 	.slider-text h1 {
 		font-size: 28px;
@@ -57,7 +69,7 @@
         }
 
         h2.lead {
-            font-size: 17px;
+            font-size: 16px;
             margin: 15px 0;
         }
 	}
@@ -111,7 +123,6 @@
 } /* Hide the slides before the JS is loaded. Avoids image jumping */
 .slider .slides img {
     width: 100%;
-    display: block;
 }
 
 .flex-pauseplay span {
