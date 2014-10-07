@@ -26,6 +26,7 @@
 
 	h1 {
 		font-size:18px;
+        color:$brand-primary;
 	}
 }
 
@@ -38,9 +39,13 @@
 		padding:0 15px;
 	}
 
-	.slider, .flex-viewport {
-		height:350px;
+	.slider, .flex-viewport{
+		height:428px;
 	}
+
+    .slider img {
+        min-height: 428px;
+    }
 
 	.flex-control-nav {
 		display:block;
@@ -160,8 +165,8 @@ html[xmlns] .slides {
 .flex-direction-nav a {
     text-decoration: none;
     display: block;
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     margin: -20px 0 0;
     position: absolute;
     top: 50%;
