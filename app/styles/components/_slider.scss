@@ -2,8 +2,14 @@
  * Styles for slider
  */
 
+.slider, .flex-viewport, .slider-text {
+    background:$black;
+    margin: 0 -15px 0 -15px;
+}
+
 .slider-wrapper {
 	padding:0;
+    background:$black;
 }
 
 .slider .flex-control-nav {
@@ -21,13 +27,19 @@
 }
 
 .slider-text {
-	margin-bottom:1.5em;
-	padding:0;
+	margin-bottom:45px;
+	padding:0 15px;
 
 	h1 {
 		font-size:18px;
-        color:$brand-primary;
+        color:$white;
 	}
+
+    h2.lead {
+        color:$white !important;
+        margin: 15px 0;
+        font-size:16px;
+    }
 }
 
 @media screen and (min-width: $screen-md-min) {
@@ -36,11 +48,22 @@
 	}
 
 	.slider-text {
-		padding:0 0 0 30px;
+		padding:0 15px 0 30px;
+        margin-bottom:0;
+
+        h1 {
+            margin-top:28px;
+        }
+
+        h2.lead {
+            font-size: 18px;
+            margin: 15px 0;
+        }
 	}
 
-	.slider, .flex-viewport{
+	.slider, .flex-viewport, .slider-text {
 		height:428px;
+        margin:0;
 	}
 
     .slider img {
@@ -76,16 +99,16 @@
 
 /* FlexSlider Necessary Styles
 *********************************/
-.flexslider {
+.slider {
     margin: 0;
     padding: 0;
 }
 
-.flexslider .slides > li {
+.slider .slides > li {
     display: none;
     -webkit-backface-visibility: hidden;
 } /* Hide the slides before the JS is loaded. Avoids image jumping */
-.flexslider .slides img {
+.slider .slides img {
     width: 100%;
     display: block;
 }
@@ -121,19 +144,8 @@ html[xmlns] .slides {
 
 /* FlexSlider Default Theme
 *********************************/
-.flexslider {
-    margin: 0 0 60px;
-    background: #fff;
-    border: 4px solid #fff;
+.slider {
     position: relative;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    -o-border-radius: 4px;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    -moz-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    -o-box-shadow: 0 1px 4px rgba(0,0,0,.2);
-    box-shadow: 0 1px 4px rgba(0,0,0,.2);
     zoom: 1;
 }
 
