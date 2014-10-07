@@ -16,7 +16,7 @@ block content
     if results.is_search
       h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
     if results.is_front
-      h1.page-header Nationalmuseets Samlinger Online (#{results.total_results} poster)
+      h1.page-header Alle samlinger (#{results.total_results} poster)
     if results.is_category
       h1.page-header
         a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name}
@@ -53,9 +53,10 @@ block content
   div(id='page-nav')
     a(href='#{infinitepath}')
 
-  div(style="width: 100%; text-align: center; margin: 30px auto; display:block; clear:both;")
-    a.btn.btn-default.btn-lg(role="button",id="more", style="padding: 10px 60px")
-      | Vis mere
+  - if(results.total_results_raw > 10)
+    div(style="width: 100%; text-align: center; margin: 30px auto; display:block; clear:both;")
+      a.btn.btn-default.btn-lg(role="button",id="more", style="padding: 10px 60px")
+        | Vis mere
 
 
   .clearfix
