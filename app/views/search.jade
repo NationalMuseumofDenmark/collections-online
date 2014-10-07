@@ -16,7 +16,7 @@ block content
     if results.is_search
       h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
     if results.is_front
-      h1.page-header Nationalmuseets Samlinger Online (#{results.total_results} poster)
+      h1.page-header Alle samlinger (#{results.total_results} poster)
     if results.is_category
       h1.page-header
         a.breadcrumbs-link.dark(href='/#{metadata.alias}') #{metadata.name}
