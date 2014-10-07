@@ -10,6 +10,7 @@
 .slider-wrapper {
 	padding:0;
     background:$black;
+    overflow:hidden;
 }
 
 .slider .flex-control-nav {
@@ -56,7 +57,7 @@
         }
 
         h2.lead {
-            font-size: 18px;
+            font-size: 17px;
             margin: 15px 0;
         }
 	}
