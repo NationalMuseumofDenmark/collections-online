@@ -18,8 +18,10 @@ $(function() {
       loading: {
           finishedMsg: 'Ikke flere resultater...',
           img: '/images/loading.gif',
-          msgText: 'Henter flere resultater...'
-        }
+          msgText: 'Henter flere resultater...',
+          speed: 0,
+        },
+        animate:false
       },
       // trigger Masonry as a callback
       function( newElements ) {
@@ -30,6 +32,7 @@ $(function() {
           // show elems now they're ready
           $newElems.animate({ opacity: 1 });
           $container.masonry( 'appended', $newElems, true );
+          $('#more').show();
         });
       }
     );
@@ -37,6 +40,7 @@ $(function() {
     $(window).unbind('.infscr');
 
     $("#more").click(function(){
+        $('#more').hide();
         var $container = $('#masonry-container');
         $container.infinitescroll('retrieve');
         return false;
