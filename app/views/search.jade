@@ -65,6 +65,9 @@ append javascript
   script.
       $(window).load(function() {
          $('.slider').flexslider({
-          animation: "slide"
+          animation: "slide",
+          start: function(slider){
+            $(window).trigger('resize');
+          }
         });
       });
