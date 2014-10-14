@@ -147,10 +147,11 @@ block content
                   td= item.topno || '-'
       
       .col-md-6.image-row
-          - if(item.filename.match('.tif') || item.filename.match('.jpg') || item.filename.match('.pdf'))
+          - var filename = item.filename.toLowerCase();
+          - if(filename.match('.tif') || filename.match('.jpg') || filename.match('.pdf'))
             .bleed.asset-image
               +responsiveImage(title, item)
-          - else if(item.filename.match('.mp3'))
+          - else if(filename.match('.mp3'))
              audio(controls)
                source(src=image_src_set.download)
 
@@ -159,7 +160,7 @@ block content
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
                 +icon('download-icon')
               ul.dropdown-menu(role='menu')
-                - if(item.filename.match('.tif$'))
+                - if(filename.match('.tif$'))
                   li
                     a(href='#{image_src_set.download_800}') Lille
                   li.divider
