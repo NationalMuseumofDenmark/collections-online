@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /DNT/70587
 Allow: /KMM/1473
+Allow: /DO/13776
 Allow: /sitemap.xml
 Disallow: /
 Disallow: /infinite/*
