@@ -192,10 +192,6 @@ mixin responsiveImage(title, item)
     - var license = helpers.license_tag(item.license.id);
     - if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
-    - else
-      | #{item.license.displaystring}
-  - else
-    | -
 
 mixin shareThisHTML()
   .btn-group.dropup
@@ -215,7 +211,6 @@ mixin shareThisJS()
   <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
   <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 
-// Asset mixins
 mixin formatDate(from, to)
   - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
     | #{from.year}
