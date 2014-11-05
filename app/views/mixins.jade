@@ -179,14 +179,14 @@ mixin icon(id)
       span #{id} is not a valid icon ID
 
 mixin responsiveImage(title, item)
-  picture(alt=title)
+  picture
     //[if IE 9]><video style="display: none;"><![endif]
     source(srcset=image_src_set['2000'], media='(min-width: 1200px)')
     source(srcset=image_src_set['1200'], media='(min-width: 800px)')
     source(srcset=image_src_set['800'], media='(min-width: 400px)')
     source(srcset=image_src_set['400'], media='(max-width: 400px)')
     //[if IE 9]></video><![endif]
-    img(srcset=image_src, alt=title)
+    img(src=image_src, alt=title)
 
   - if(item.license)
     - var license = helpers.license_tag(item.license.id);
