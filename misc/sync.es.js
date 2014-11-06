@@ -63,66 +63,72 @@ function clean_string(str) {
     return str;
 }
 
-function handle_results(catalog, items) {
+function handle_results(nm, catalog, items, deferred) {
    if(items !== undefined && items !== null && items.length > 0) {
         for(var i=0; i < items.length; ++i) {
             var formatted_result = asset_mapping.format_result(items[i].fields);
             var es_id = catalog.alias + '-' + formatted_result.id;
 
-            if(formatted_result.modification_time !== undefined) {
-                var re = new RegExp('\\d+');
-                var re_result = re.exec(formatted_result.modification_time);
-                if(re_result && re_result.length > 0) {
-                    formatted_result.modification_time = parseInt(re_result[0]);
-                }
-            }
-
-            if(formatted_result.categories !== undefined) {
-                formatted_result.categories_int = [];
-                formatted_result.suggest = {'input': []};
-
-                for(var j=0; j < formatted_result.categories.length; ++j) {
-                    if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
-                        continue;
+            asset_mapping.extend_metadata(nm, catalog.alias, items[i], formatted_result)
+            .then(function(formatted_result) {
+                if(formatted_result.modification_time !== undefined) {
+                    var re = new RegExp('\\d+');
+                    var re_result = re.exec(formatted_result.modification_time);
+                    if(re_result && re_result.length > 0) {
+                        formatted_result.modification_time = parseInt(re_result[0]);
                     }
+                }
 
-                    var path = categories[catalog.alias].get_path(formatted_result.categories[j].id);
-                    if(path) {
-                        for(var k=0; k < path.length; k++) {
-                            formatted_result.categories_int.push(path[k].id);
+                if(formatted_result.categories !== undefined) {
+                    formatted_result.categories_int = [];
+                    formatted_result.suggest = {'input': []};
 
-                            if(path[k].name.indexOf('$Categories') === 0) {
-                                continue;
+                    for(var j=0; j < formatted_result.categories.length; ++j) {
+                        if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
+                            continue;
+                        }
+
+                        var path = categories[catalog.alias].get_path(formatted_result.categories[j].id);
+                        if(path) {
+                            for(var k=0; k < path.length; k++) {
+                                formatted_result.categories_int.push(path[k].id);
+
+                                if(path[k].name.indexOf('$Categories') === 0) {
+                                    continue;
+                                }
+
+                                formatted_result.suggest.input.push(clean_string(path[k].name));
                             }
-
-                            formatted_result.suggest.input.push(clean_string(path[k].name));
                         }
                     }
                 }
-            }
-            formatted_result.catalog = catalog.alias;
+                formatted_result.catalog = catalog.alias;
 
-            client.index({
-                index: 'assets',
-                type: 'asset',
-                id: es_id,
-                body: formatted_result
-            }).then(function(resp) {
-                console.log('Indexed ' + resp._id);
+                client.index({
+                    index: 'assets',
+                    type: 'asset',
+                    id: es_id,
+                    body: formatted_result
+                }).then(function(resp) {
+                    console.log('Indexed ' + resp._id);
+                    deferred.resolve();
+                }, function(resp) {
+                    console.log(resp);
+                    console.log('Error indexing ' + resp._id);
+                });
             }, function(resp) {
-                console.log(resp);
-                console.log('Error indexing ' + resp._id);
+                console.error(resp);
+                console.error('Error indexing ' + resp);
             });
         }
     }
 }
 
-function get_result(result, i) {
+function get_result(nm, result, i) {
     var deferred = Q.defer();
 
     result.get(100, i, function(returnvalue) {
-        handle_results(result.catalog, returnvalue);
-        deferred.resolve();
+        handle_results(nm, result.catalog, returnvalue, deferred);
     });
 
     return deferred.promise;
@@ -135,7 +141,7 @@ function handle_catalog(nm, catalog) {
     if(catalog.alias !== undefined) {
         cip.get_recent_assets(nm, catalog, sync_all ? '2003-04-24' : '$today-2d', function(result) {
             for(var i=0; i < result.total_rows; i=i+100) {
-                promises.push(get_result(result, i));
+                promises.push(get_result(nm, result, i));
             }
 
             Q.all(promises).then(function() {
