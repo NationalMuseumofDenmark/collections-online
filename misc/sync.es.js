@@ -10,13 +10,21 @@ var asset_mapping = require('../lib/asset-mapping.js');
 var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
 var sync_all = false;
+// Aliases of specific catalogs that are to be synced.
+var sync_catalogs_whitelist = false;
 var categories = {};
 
 var args = process.argv;
-if(args && args.length > 1) {
+if(args && args.length > 2) {
     if(args[args.length - 1] === 'all') {
         console.log('Sync\'ing all!');
         sync_all = true;
+    } else {
+        sync_all = true;
+        // Extract the whitelist
+        sync_catalogs_whitelist = args[args.length - 1];
+        sync_catalogs_whitelist = sync_catalogs_whitelist.split(",");
+        console.log('Sync\'ing, all from the catalog(s)', sync_catalogs_whitelist.join(", "));
     }
 }
 
@@ -157,7 +165,9 @@ cip_categories.load_categories().then(function(result) {
             var promises = [];
 
             for(var i=0; i < catalogs.length; ++i) {
-                promises.push(handle_catalog(nm, catalogs[i]));
+                if(!sync_catalogs_whitelist || sync_catalogs_whitelist.indexOf(catalogs[i].alias) > -1) {
+                    promises.push(handle_catalog(nm, catalogs[i]));
+                }
             }
 
             Q.all(promises).then(function() {
