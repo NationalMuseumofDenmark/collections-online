@@ -7,7 +7,7 @@ append header
   else
     title= 'Ingen titel - ' + siteTitle
 
-  +assetMeta(item, image_src_set)
+  +assetMeta(item, sources)
   +shareThisJS()
 
 block content
@@ -148,12 +148,15 @@ block content
       
       .col-md-6.image-row
           - var filename = item.filename.toLowerCase();
-          - if(filename.match('.tif$') || filename.match('.tiff$') || filename.match('.jpg$') || filename.match('.jpeg$') || filename.match('.pdf$'))
+          - if(player === "image-single")
             .bleed.asset-image
-              +responsiveImage(title, item)
-          - else if(filename.match('.mp3'))
+              +responsiveImage(title, item, sources)
+          - else if(player === "image-rotation")
+            .bleed.asset-image
+              +rotationImage(title, item, sources)
+          - else if(player === "audio")
              audio(controls)
-               source(src=image_src_set.download)
+               source(src=sources.audio)
 
           .asset-tools
             .btn-group.dropup
@@ -162,16 +165,16 @@ block content
               ul.dropdown-menu(role='menu')
                 - if(filename.match('.tif$') || filename.match('.tiff$'))
                   li
-                    a(href='#{image_src_set.download_800}') Lille
+                    a(href='#{sources.image_set.download_800}') Lille
                   li.divider
                   li
-                    a(href='#{image_src_set.download_1200}') Mellem
+                    a(href='#{sources.image_set.download_1200}') Mellem
                   li.divider
                   li
-                    a(href='#{image_src_set.download_2000}') Stor
+                    a(href='#{sources.image_set.download_2000}') Stor
                   li.divider
                 li
-                  a(href='#{image_src_set.download}') Original
+                  a(href='#{sources.download}') Original
             +shareThisHTML()
             span.licens
               span.title Licens:

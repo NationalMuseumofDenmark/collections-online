@@ -178,15 +178,35 @@ mixin icon(id)
     default
       span #{id} is not a valid icon ID
 
-mixin responsiveImage(title, item)
+mixin responsiveImage(title, item, sources)
   picture
     //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=image_src_set['2000'], media='(min-width: 1200px)')
-    source(srcset=image_src_set['1200'], media='(min-width: 800px)')
-    source(srcset=image_src_set['800'], media='(min-width: 400px)')
-    source(srcset=image_src_set['400'], media='(max-width: 400px)')
+    source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
+    source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
+    source(srcset=sources.image_set['800'], media='(min-width: 400px)')
+    source(srcset=sources.image_set['400'], media='(max-width: 400px)')
     //[if IE 9]></video><![endif]
-    img(src=image_src, alt=title)
+    img(src=sources.image, alt=title)
+
+  - if(item.license)
+    - var license = helpers.license_tag(item.license.id);
+    - if(license)
+      a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
+    - else
+      | #{item.license.displaystring}
+  - else
+    | -
+
+mixin rotationImage(title, item, sources)
+  picture(alt=title)
+    //[if IE 9]><video style="display: none;"><![endif]
+    source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
+    source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
+    source(srcset=sources.image_set['800'], media='(min-width: 400px)')
+    source(srcset=sources.image_set['400'], media='(max-width: 400px)')
+    //[if IE 9]></video><![endif]
+    a.Magic360(data-magic360-options=helpers.magic360_options(sources.image_rotation_set))
+      img(src=sources.image, alt=title)
 
   - if(item.license)
     - var license = helpers.license_tag(item.license.id);
@@ -303,11 +323,11 @@ mixin searchMeta(results, metadata)
   meta(name="twitter:creator", content="@Nationalmuseet")
   meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
 
-mixin assetMeta(item, image_src_set)
+mixin assetMeta(item, sources)
   - siteTitle = req.app.get('site_title');
   - title= item.short_title || 'Ingen titel'
   - description= item.description || ''
-  - shareimg = image_src_set[1200] || '/images/defaultshare.jpg'
+  - shareimg = sources.image_set[1200] || '/images/defaultshare.jpg'
   - baseUrl = 'http://' + req.get('host')
   meta(property="og:type", content="website")
   meta(property="og:url", content="#{baseUrl}/#{catalog.alias}/#{item.id}")

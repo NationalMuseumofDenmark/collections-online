@@ -8,6 +8,7 @@ html(lang='da').no-js
     <!-- build:css /styles/main.css -->
     link(rel='stylesheet', href='../styles/main.css')
     <!-- endbuild -->
+    link(rel='stylesheet', href='../styles/magic360.css')
     block header
     +analytics()
     <!--[if lt IE 9]><script src="/bower_components/html5shiv/dist/html5shiv.js"></script><![endif]-->
@@ -51,6 +52,7 @@ html(lang='da').no-js
     script(src='../bower_components/jquery-infinite-scroll/jquery.infinitescroll.js')
     script(src='../bower_components/typeahead.js/dist/typeahead.bundle.js')
     script(src='../bower_components/html5shiv/dist/html5shiv.js')
+    script(src='../bower_components/jquery-nicescroll/jquery.nicescroll.js')
     // endbower:js
     <!-- endbuild -->
     script(src='../bower_components/scrollToTop/jquery.scrollToTop.js')
@@ -59,6 +61,9 @@ html(lang='da').no-js
 
     script(src='../scripts/natmus.js')
     script(src='../scripts/masonry.init.js')
+    script(src='../scripts/magic360.js')
+    script.
+        Magic360.lang = { 'hint-text': 'Træk', 'mobile-hint-text': 'Træk' };
 
     block javascript
 

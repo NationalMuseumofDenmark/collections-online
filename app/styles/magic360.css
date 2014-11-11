@@ -1,0 +1,548 @@
+/*
+
+
+   Magic 360 JS v4.5.16 
+   Copyright 2014 Magic Toolbox
+   Buy a license: www.magictoolbox.com/magic360/
+   License agreement: http://www.magictoolbox.com/license/
+
+
+*/
+
+.Magic360 {
+    padding: 0 !important;
+    outline: 0 !important;
+    display: inline-block;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-size: 0 !important;
+    line-height: 100% !important;
+    max-width: 100%;
+}
+.Magic360.desktop.zoom-in {
+    cursor: url(../images/magic360/zoomin.cur), pointer;
+}
+
+.Magic360 img {
+    border: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    height: auto;
+}
+
+.Magic360 > img {
+    width: 100%;
+}
+
+.Magic360.magic-for-ie8 > img {
+    max-width: none !important;
+}
+.Magic360.magic-for-ie7 > img, .MagicZoom.magic-for-ie5 img {
+    width: auto !important;
+}
+
+.Magic360-loading-box {
+    color:#000;
+    background: rgba(255,255,255,0.4);
+    border: 1px solid #000;
+    border: 1px solid rgba(0,0,0,0.5);
+    border-radius: 6px;
+    line-height:10pt;
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-size: 10pt;
+    font-weight: normal;
+    text-decoration: none;
+    text-align: left;
+    padding: 10px;
+    margin: 0;
+
+    width: 220px;
+    max-width: 90%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    cursor: default;
+}
+
+.lt-ie9-magic .Magic360-loading-box {
+    right: 0;
+    left:  0;
+    margin: -30px auto auto;
+    background: transparent !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,StartColorStr='#5cffffff', EndColorStr='#5cffffff');
+}
+.lt-ie7-magic .Magic360-loading-box {
+    margin: -30px 0 0 -110px;
+    left: 50%;
+    right: auto;
+}
+
+
+
+.Magic360-progress-text {
+    max-width: 100%;
+    margin-bottom: 10px;
+}
+
+.Magic360-progress-bar {
+    overflow: hidden;
+    padding:0;
+    background:#fff;
+    background-image: none;
+    background: rgba(197,197,197,0.6);
+
+    border: 1px solid #ffffff;
+    border: 1px solid rgba(204, 204, 204, 0.6);
+
+    border-radius: 6px;
+    max-width: 100%;
+}
+
+.lt-ie9-magic .Magic360-progress-bar {
+    background: #c5c5c5 !important;
+    filter: progid:DXImageTransform.Microsoft.Alpha(enabled=true,opacity=60);
+}
+
+.Magic360-progress-bar-state {
+    width: 20%;
+    height: 10px;
+    padding: 0;
+
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#c5c5c5), to(#ffffff));
+    background-image: -moz-linear-gradient(top,  #c5c5c5,  #ffffff);
+    background-image: -o-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: -ms-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+
+    border-right: 1px solid rgba(255,255,255,0.8);
+    border-radius: 6px;
+
+    -webkit-transform: translate3d(0,0,0);
+    -moz-transform: translate3d(0,0,0);
+    -ms-transform: translate3d(0,0,0);
+    -o-transform: translate3d(0,0,0);
+    transform: translate3d(0,0,0);
+}
+
+.ie9-magic .Magic360-progress-bar-state,
+.lt-ie9-magic .Magic360-progress-bar-state {
+    border-radius: 0;
+    background: transparent !important;
+    filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#c5c5c5', endColorstr='#ffffff');
+}
+
+.Magic360-loading-box-fs {
+    left: auto;
+    top: auto;
+    -webkit-transform: none;
+    -ms-transform: none;
+    transform: none;
+}
+
+.Magic360-fullscreen .Magic360-loading-box {
+    background: transparent;
+    border: 0;
+    font-size: 7pt;
+    line-height: 8pt;
+    width: 100%;
+    bottom: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.Magic360-fullscreen .Magic360-progress-text {
+    line-height: 9pt;
+    text-indent: 6px;
+    position: absolute;
+    top: 0;
+    margin: 0 !important;
+}
+
+.Magic360-fullscreen .Magic360-progress-bar {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.Magic360-fullscreen .Magic360-progress-bar-state {
+    height: 11px;
+    background:#fff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#c5c5c5), to(#ffffff));
+    background-image: -moz-linear-gradient(top,  #c5c5c5,  #ffffff);
+    background-image: -o-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: -ms-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+}
+
+@-webkit-keyframes m360-progress-state {
+    from { margin-left: -10%; } to { margin-left: 90%; }
+}
+@-moz-keyframes m360-progress-state {
+    from { margin-left: -10%; } to { margin-left: 90%; }
+}
+@-o-keyframes m360-progress-state {
+    from { margin-left: -10%; } to { margin-left: 90%; }
+}
+@keyframes m360-progress-state {
+    from { margin-left: -10%; } to { margin-left: 90%; }
+}
+
+.Magic360-progress-bar-state.bar-state-unknown {
+    margin-left: -10%;
+    -webkit-animation: m360-progress-state 3s linear 0s infinite alternate;
+    -moz-animation: m360-progress-state 3s linear 0s infinite alternate;
+    -ms-animation: m360-progress-state 3s linear 0s infinite alternate;
+    -o-animation: m360-progress-state 3s linear 0s infinite alternate;
+    animation: m360-progress-state 3s linear 0s infinite alternate;
+}
+
+.lt-ie9-magic .Magic360-fullscreen .Magic360-progress-bar-state {
+    border: 1px solid #000;
+    background: #c5c5c5 !important;
+    filter: alpha(opacity=60);
+}
+
+.lt-ie9-magic .Magic360-fullscreen .Magic360-progress-bar-state {
+filter:  progid:DXImageTransform.Microsoft.gradient(GradientType=0, startColorstr='#c5c5c5', endColorstr='#ffffff');
+}
+
+.Magic360 .magnifier {
+    -webkit-box-shadow: 0 0 10px #ccc;
+    -moz-box-shadow: 0 0 10px #ccc;
+    box-shadow: 0 0 10px #ccc;
+    border-collapse: separate;
+    background-color: #fff;
+}
+.lt-ie9-magic .magnifier {
+    border:  3px ridge #e7e7e7;
+}
+
+.Magic360.desktop .magnifier.inner {
+    cursor: url(../images/magic360/zoomout.cur), pointer;
+}
+.Magic360 .magnifier.circle,
+.Magic360 .magnifier.square{
+    cursor: none;
+}
+
+.Magic360-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: 0;
+    cursor: pointer;
+    font-size: 0;
+    height: 60px;
+    line-height: 0;
+    padding: 0;
+    position: absolute;
+    width: 60px;
+}
+
+.desktop .Magic360-button {
+    height: 40px;
+    width: 40px;
+    opacity: 0.7;
+    -webkit-transition: opacity 0.2s linear;
+    -moz-transition: opacity 0.2s linear;
+    -o-transition: opacity 0.2s linear;
+    -ms-transition: opacity 0.2s linear;
+    transition: opacity 0.2s linear;
+}
+.desktop .Magic360-button:hover {
+    opacity: 1.0 !important;
+}
+
+.lt-ie9-magic .Magic360-button {
+    filter: alpha(opacity=70);
+}
+.lt-ie9-magic .Magic360-button:hover {
+    filter: alpha(opacity=100) !important;
+}
+
+.Magic360-button.fullscreen {
+    background-image: url(../images/magic360/buttons01.png);
+    background-position: 0 0;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+}
+.Magic360-fullscreen .Magic360-button.fullscreen {
+    display: none;
+}
+
+.Magic360-button.fullscreen-exit {
+    background-image: url(../images/magic360/buttons01.png);
+    background-position: -60px 0;
+    right: 15px;
+    top: 15px;
+    z-index: 20;
+}
+
+@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) {
+    .Magic360-button {
+        height: 40px;
+        width: 40px;
+    }
+
+    .Magic360-button.fullscreen {
+        background-position: -120px 0;
+    }
+
+    .Magic360-button.fullscreen-exit {
+        background-position: -160px 0;
+    }
+}
+
+.Magic360-box {
+    text-align: center !important;
+    max-width: 100%;
+}
+
+.Magic360-box .Magic360 {
+    display: inline-block !important;
+    vertical-align: middle;
+}
+.lt-ie7-magic .Magic360-box .Magic360 {
+    width: auto !important;
+}
+
+.Magic360-box.desktop .Magic360-button.fullscreen {
+    background-position: -120px 0;
+}
+.Magic360-fullscreen.desktop .Magic360-button.fullscreen-exit {
+    background-position: -160px 0;
+}
+
+.Magic360-fullscreen {
+    background: #fff;
+}
+.Magic360-fullscreen:-webkit-full-screen {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    -webkit-backface-visibility: hidden !important;
+}
+.Magic360-fullscreen:-ms-fullscreen {
+    width: 100% !important;
+    height: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+}
+
+.Magic360-fullscreen:before {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+}
+
+.Magic360-fullscreen .Magic360 {
+    display: inline-block !important;
+    vertical-align: middle;
+}
+
+.Magic360-wait {
+    background-image: url(../images/magic360/loader.gif);
+    background-color: #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: default;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    opacity: 0.6;
+}
+
+.ie9-magic .Magic360-wait,
+.lt-ie9-magic .Magic360-wait {
+    filter: alpha(opacity=60);
+}
+
+.Magic360-message {
+    background-color: #FFFFFF;
+    background-image: none;
+    border: 1px solid #AAAAAA;
+    display: block;
+    font-size: 10px;
+    color: #000;
+    overflow: hidden;
+    padding: 6px;
+    position: absolute;
+    text-align: center;
+    top: 50%;
+    width: 33%;
+    left: 33%;
+    z-index: 100;
+
+    -webkit-box-shadow: 0 0 10px #000;
+    -moz-box-shadow: 0 0 10px #000;
+    box-shadow: 0 0 10px #000;
+    border-collapse: separate;
+
+    border-radius: 15px;
+}
+
+.Magic360-fullscreen .Magic360-message {
+    font-size: 18px;
+    background-color: #000;
+    border-color: #ccc;
+    color: #fff;
+    top: 15px;
+}
+
+.Magic360 .Magic360-hint {
+    color: #333;
+    opacity: 0.6;
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 13pt;
+    line-height: 13pt;
+
+    display: inline-block;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: middle;
+    padding: 12px 0;
+
+    width: 174px;
+    max-width: 90%;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    background-color: transparent;
+    background-image: -webkit-gradient(linear, left bottom, left top, from(#c5c5c5), to(#ffffff));
+    background-image: -moz-linear-gradient(bottom,  #c5c5c5,  #ffffff);
+    background-image: -o-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: -ms-linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+    background-image: linear-gradient(90deg,#c5c5c5 0%, #ffffff 100%);
+
+    border:1px solid #000;
+    border:1px solid rgba(0,0,0,0.4);
+
+    border-radius: 15px;
+
+    -moz-box-shadow: 0 0 4px #222;
+    -webkit-box-shadow: 0 0 4px #222;
+    box-shadow: 0 0 4px #222;
+}
+
+.ie9-magic .Magic360-hint,
+.lt-ie9-magic .Magic360-hint {
+    background: #ffffff !important;
+    filter: alpha(opacity=60);
+    box-shadow: inset 0 -18px 10px rgba(0,0,0,0.12), 0 1px 0 rgba(255,255,255, 0.3), inset 0 1px 0 rgba(255,255,255, 0.3);
+}
+.lt-ie9-magic .Magic360-hint {
+    right: 0;
+    left:  0;
+    margin: -20px auto auto;
+}
+.lt-ie7-magic .Magic360-hint {
+    margin: -20 0 0 -87;
+    left: 50%;
+    right: auto;
+}
+
+
+.Magic360 .Magic360-hint .hint-side, .Magic360-hint-side {
+    background-image: url(../images/magic360/hint-01.png);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 60px;
+    padding: 0;
+    max-width: 60px;
+}
+
+.Magic360 .Magic360-hint .hint-side.left {
+    background-position: 0 50%;
+    left: 5px;
+}
+
+.Magic360 .Magic360-hint .hint-side.right {
+    background-position: -60px 50%;
+    right: 5px;
+}
+
+.Magic360 .Magic360-hint .hint-text {
+    width: 40%;
+}
+
+.magic-temporary-img img {
+    max-height: none !important;
+    max-width: none !important;
+}
+
+/**** Hotspots ***/
+.hotspot-pointer {
+    display: inline-block;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    background-repeat: no-repeat;
+}
+
+.hotspot-pointer.d1 {
+    background-image: url(../images/magic360/hotspot1.png);
+}
+.hotspot-pointer.d2 {
+    background-image: url(../images/magic360/hotspot2.png);
+}
+.hotspot-pointer.d2 {
+    background-image: url(../images/magic360/hotspot3.png);
+}
+
+
+
+.hotspot-box {
+    position: absolute;
+    z-index: 10000;
+    padding:20px; background:#fff;
+
+    -moz-box-shadow: 0px 0px 2px 2px #888888;
+    -webkit-box-shadow: 0px 0px 2px 2px #888888;
+    box-shadow: 0px 0px 2px 2px #888888;
+
+    border-collapse: separate;
+    border-radius: 4px;
+}
+
+.lt-ie8-magic .hotspot-box {
+    /* For IE 5.5 - 7 */
+    filter: progid:DXImageTransform.Microsoft.Glow(Strength=2, Color='#888888') !important;
+}
+.ie8-magic .hotspot-box {
+    /* For IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Glow(Strength=2, Color='#888888')" !important;
+}
+
+.hotspot-box .b-close {
+    width: 24px;
+    height: 24px;
+    background: url(../images/magic360/hotspot-close.png) no-repeat;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    cursor: pointer;
+}
+/*****************/
