@@ -14,7 +14,7 @@
     "lodash": "~2.4.1",
     "jade": "~1.3.0",
     "request": "^2.27.0",
-    "cip-js": "git://github.com/NationalMuseumofDenmark/cip.js#nodejs-imp",
+    "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js#nodejs-imp",
     "memory-cache": "~0.0.5",
     "cheerio": "~0.16.0",
     "elasticsearch": "~2.2.0",
