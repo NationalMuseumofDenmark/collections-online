@@ -179,14 +179,7 @@ mixin icon(id)
       span #{id} is not a valid icon ID
 
 mixin responsiveImage(title, item, sources)
-  picture
-    //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
-    source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
-    source(srcset=sources.image_set['800'], media='(min-width: 400px)')
-    source(srcset=sources.image_set['400'], media='(max-width: 400px)')
-    //[if IE 9]></video><![endif]
-    img(src=sources.image, alt=title)
+  img(src=sources.image, alt=title)
 
   - if(item.license)
     - var license = helpers.license_tag(item.license.id);
@@ -324,25 +317,4 @@ mixin searchMeta(results, metadata)
   meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
 
 mixin assetMeta(item, sources)
-  - siteTitle = req.app.get('site_title');
-  - title= item.short_title || 'Ingen titel'
-  - description= item.description || ''
-  - shareimg = sources.image_set[1200] || '/images/defaultshare.jpg'
-  - baseUrl = 'http://' + req.get('host')
-  meta(property="og:type", content="website")
-  meta(property="og:url", content="#{baseUrl}/#{catalog.alias}/#{item.id}")
-  meta(property="og:site_name", content="#{siteTitle}")
-  meta(property="og:image", content="#{baseUrl}#{shareimg}")
-  meta(property="og:title", content="#{title} - #{siteTitle}")
-  meta(property="og:description", content="#{description}")
-  meta(itemprop="image", content="#{baseUrl}#{shareimg}")
-  meta(itemprop="name", content="#{title}")
-  meta(itemprop="description", content="#{description}")
-  meta(name="twitter:card",content="summary")
-  meta(name="twitter:site", content="@Nationalmuseet")
-  meta(name="twitter:creator", content="@Nationalmuseet")
-  meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
-  meta(name="twitter:title", content="#{title} - #{siteTitle}")
-  meta(name="twitter:description", content="#{description}")
-  meta(name="twitter:image", content="#{baseUrl}#{shareimg}")
-  meta(name='description', content='#{description}')
+  // Nothing
