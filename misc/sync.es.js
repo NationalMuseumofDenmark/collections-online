@@ -66,7 +66,8 @@ function clean_string(str) {
 function handle_results(nm, catalog, items, deferred) {
    if(items !== undefined && items !== null && items.length > 0) {
         for(var i=0; i < items.length; ++i) {
-            var formatted_result = asset_mapping.format_result(items[i].fields);
+            var asset = items[i];
+            var formatted_result = asset_mapping.format_result(asset.fields);
             var es_id = catalog.alias + '-' + formatted_result.id;
 
             asset_mapping.extend_metadata(nm, catalog.alias, items[i], formatted_result)
