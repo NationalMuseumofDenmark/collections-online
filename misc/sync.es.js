@@ -147,30 +147,41 @@ function clean_string(str) {
 }
 
 // Determines wether or not an asset should be visible to the user when searching.
-function determine_searchability(formatted_result) {
-    // TODO: Find out if this asset has relations to an asset that is in
-    // a "Rotationsbilleder" catalog. If this is the case, make this asset,
-    // non-searchable.
-    // Alternatively this asset might have "Friskærings-status" equal to
-    // "Er friskåret", in which case it should not be shown in search results.
-    var deferred = Q.defer();
-
+function determine_searchability(nm, asset, formatted_result) {
+    // First of all - we wouldn't like to have search results on assets
+    // which have been cropped into seperate assets.
     if(formatted_result.cropping_status && formatted_result.cropping_status.id == 2) {
-        deferred.resolve( false );
+        return false;
     } else {
-        // Find out what else ...
-        deferred.resolve( true );
+        // Second - We wouldn't like assets which are related to assets that are in the
+        // "Rotationsbilleder" category - as these are side-views of an object which will be
+        // reachable through the front-facing master asset.
+        return cip.get_related_assets(asset, 'isalternateof')
+        .then(function parse_relations(related_assets) {
+            var related_asset_promises = [];
+            for(var i in related_assets.ids) {
+                var related_asset_id = related_assets.ids[i];
+                var related_asset_promise = cip.get_asset(nm, formatted_result.catalog, related_asset_id);
+                related_asset_promises.push( related_asset_promise );
+            }
+            return Q.all(related_asset_promises).then(function(related_assets) {
+                for(var r in related_assets) {
+                    for(var a in related_assets[r]) {
+                        var related_asset = related_assets[r][a];
+                        var formatted_asset = asset_mapping.format_result(related_asset.fields);
+                        for(var c in formatted_asset.categories) {
+                            var category = formatted_asset.categories[c];
+                            if(category.name === "Rotationsbilleder") {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                // None of the related assets was a part of the rotational images category.
+                return true;
+            });
+        });
     }
-    /*
-    console.log(formatted_result);
-    // Get relevant related assets
-    cip.get_related_assets('isalternate')
-    .then(function parse_relations(related_assets) {
-        console.log( related_assets );
-    });
-    */
-
-    return deferred.promise;
 }
 
 // Handles a partial result from cumulus.
@@ -183,6 +194,7 @@ function handle_results(nm, catalog, items) {
     for(var i=0; i < items.length; ++i) {
         var asset = items[i];
         var formatted_result = asset_mapping.format_result(asset.fields);
+        formatted_result.catalog = catalog.alias;
 
         if(!is_relevant_asset(catalog.alias, formatted_result.id)) {
             continue; // Skip an irrelevant asset.
@@ -190,7 +202,7 @@ function handle_results(nm, catalog, items) {
 
         var asset_promise = Q.all([
             asset_mapping.extend_metadata(nm, catalog.alias, asset, formatted_result),
-            determine_searchability(formatted_result)
+            determine_searchability(nm, asset, formatted_result)
         ])
         .spread(function(formatted_result, is_searchable) {
             formatted_result.searchable = is_searchable;
@@ -226,7 +238,6 @@ function handle_results(nm, catalog, items) {
                     }
                 }
             }
-            formatted_result.catalog = catalog.alias;
             return formatted_result;
         })
         .then(function(formatted_result) {
