@@ -155,20 +155,20 @@ function determine_searchability(formatted_result) {
     // "Er friskåret", in which case it should not be shown in search results.
     var deferred = Q.defer();
 
-    if(formatted_result.id === 4875) {
-        console.log(formatted_result);
+    if(formatted_result.cropping_status && formatted_result.cropping_status.id == 2) {
         deferred.resolve( false );
-        /*
-        console.log(formatted_result);
-        // Get relevant related assets
-        cip.get_related_assets('isalternate')
-        .then(function parse_relations(related_assets) {
-            console.log( related_assets );
-        });
-        */
     } else {
+        // Find out what else ...
         deferred.resolve( true );
     }
+    /*
+    console.log(formatted_result);
+    // Get relevant related assets
+    cip.get_related_assets('isalternate')
+    .then(function parse_relations(related_assets) {
+        console.log( related_assets );
+    });
+    */
 
     return deferred.promise;
 }
