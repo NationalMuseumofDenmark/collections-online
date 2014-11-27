@@ -9,6 +9,12 @@ var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
+var sync_all = false;
+
+// Aliases of specific catalogs that are to be synced.
+var sync_catalogs_whitelist = false;
+var categories = {};
+
 var ASSETS_PER_REQUEST = 100;
 
 /*=== Defining modes to run the syncronization in ===*/
@@ -77,8 +83,8 @@ function is_relevant_catalog(catalog_alias) {
         }
         return false;
     } else if(mode === MODES.single) {
-        for(var a in reference) {
-            if(reference[a][0] === catalog_alias) {
+        for(var r in reference) {
+            if(reference[r][0] == catalog_alias) {
                 return true;
             }
         }
@@ -103,6 +109,14 @@ function is_relevant_asset(catalog_alias, asset_id) {
         return is_relevant_catalog(catalog_alias);
     }
 }
+
+// TODO: Consider implementing the modes in a smarter way - especially the
+// single mode has an overhead, as it is not requesting an asset directly but
+// rather through the traversal of all assets in the page.
+
+console.log("Running in mode: " + MODE_DESCRIPTIONS[mode]);
+
+/*=== END: Defining modes to run the syncronization in ===*/
 
 // Creates the index in the Elasticsearch index.
 function create_index() {
@@ -209,6 +223,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
                 if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
                     continue;
                 }
+            }
 
                 var path = categories[catalog_alias].get_path(formatted_result.categories[j].id);
                 if(path) {
@@ -326,6 +341,7 @@ var main_queue = cip_categories.load_categories()
         categories[result[i].id] = result[i];
     }
     var categories_count = Object.keys(categories).length;
+    console.log("Loaded categories for", categories_count, "catalogs");
 })
 .then(function() {
     return create_index().then(function() {
@@ -388,4 +404,8 @@ main_queue
     console.log('=== All done ===');
     // We are ready to die ..
     process.exit(0);
+})
+.fail(function (error) {
+    console.error("An error occurred");
+    console.error(error);
 });
