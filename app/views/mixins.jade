@@ -192,10 +192,6 @@ mixin responsiveImage(title, item, sources)
     - var license = helpers.license_tag(item.license.id);
     - if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
-    - else
-      | #{item.license.displaystring}
-  - else
-    | -
 
 mixin rotationImage(title, item, sources)
   picture(alt=title)
