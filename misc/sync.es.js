@@ -187,7 +187,7 @@ function determine_searchability(nm, asset, formatted_result) {
 // Handles a partial result from cumulus.
 function handle_results(nm, catalog, items) {
     var asset_promises = [];
-    if(items == undefined && items == null && items.length == 0) {
+    if(items == undefined || items == null || items.length == 0) {
         throw new Error("The items argument was undefined, null or of zero length.");
     }
 
