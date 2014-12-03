@@ -9,12 +9,6 @@ var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
-var sync_all = false;
-
-// Aliases of specific catalogs that are to be synced.
-var sync_catalogs_whitelist = false;
-var categories = {};
-
 var ASSETS_PER_REQUEST = 100;
 
 /*=== Defining modes to run the syncronization in ===*/
@@ -261,7 +255,7 @@ function handle_catalog(cip_client, catalog) {
     .then(function(result) {
         // Reset the counter.
         catalog_page_index[catalog.alias] = 0;
-        return Q.when(handle_next_result_page(result, catalog, result), function() {
+        return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
             console.log('Done parsing catalog', catalog.alias);
         });
     });
@@ -335,7 +329,7 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             var asset_promise = cip.get_asset(cip_client, catalog_alias, asset_id)
             .then(function(assets) {
                 if(assets.length === 1) {
-                    console.log('Logging asset ', assets[0].fields.id);
+                    console.log('Queuing asset', assets[0].fields.id, 'from the', catalog_alias, 'catalog.');
                     return handle_asset(cip_client, assets[0], catalog_alias);
                 } else {
                     throw new Error( 'No asset with id ' +asset_id+ ' was found in the ' +catalog_alias+ ' catalog.' );
