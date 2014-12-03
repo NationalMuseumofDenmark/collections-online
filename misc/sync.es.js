@@ -21,16 +21,16 @@ var ASSETS_PER_REQUEST = 100;
 
 // What modes can we run the elasticsearch script in?
 var MODES = {
-    recent: "recent",
-    all: "all",
-    catalog: "catalog",
-    single: "single"
+    recent: 'recent',
+    all: 'all',
+    catalog: 'catalog',
+    single: 'single'
 };
 var MODE_DESCRIPTIONS = {
-    recent: "Syncronize the most recently changed assets.",
-    all: "Syncronize all assets across all catalogs.",
-    catalog: "Syncronize only a single catalog or a set of comma seperated catalogs.",
-    single: "Syncronize only a single asset or a comma seperated list of assets."
+    recent: 'Syncronize the most recently changed assets.',
+    all: 'Syncronize all assets across all catalogs.',
+    catalog: 'Syncronize only a single catalog or a set of comma seperated catalogs.',
+    single: 'Syncronize only a single asset or a comma seperated list of assets.'
 };
 var mode, reference;
 
@@ -53,31 +53,31 @@ if(args && args.length <= 2) {
     mode = is_valid_mode(suggested_mode);
     if(mode === MODES.catalog || mode === MODES.single) {
         if(args.length >= 4) {
-            reference = args[3].split(",");
+            reference = args[3].split(',');
         }
     }
 }
 
 // Report any runtime errors on mode selection.
 if(!mode) {
-    console.error("Invalid mode - please select from:");
+    console.error('Invalid mode - please select from:');
     for(var m in MODES) {
-        console.error(" * " +MODES[m]+ ": "+MODE_DESCRIPTIONS[m]);
+        console.error(' * ' +MODES[m]+ ': '+MODE_DESCRIPTIONS[m]);
     }
     process.exit(1);
 } else if(mode === MODES.single) {
     // In the single mode, each asset is a combination of a catalog alias
     // and the asset ID, eg. DNT/101
     for(var r in reference) {
-        reference[r] = reference[r].split("/");
+        reference[r] = reference[r].split('-');
     }
 }
 
 function is_relevant_catalog(catalog_alias) {
     if(mode === MODES.catalog) {
         // Are there any of the split catalogs that maches?
-        for(var r in reference) {
-            if(reference[r] == catalog_alias) {
+        for(var c in reference) {
+            if(reference[c] === catalog_alias) {
                 return true;
             }
         }
@@ -98,7 +98,9 @@ function is_relevant_asset(catalog_alias, asset_id) {
     if(mode === MODES.single) {
         // Are there any of the split Catalog/ID 2-tuples that matches?
         for(var r in reference) {
-            if(reference[r][0] == catalog_alias && parseInt(reference[r][1]) == asset_id) {
+            var referenced_catalog_alias = reference[r][0];
+            var referenced_asset_id = parseInt(reference[r][1], 10);
+            if(referenced_catalog_alias === catalog_alias && referenced_asset_id === asset_id) {
                 return true;
             }
         }
@@ -120,7 +122,7 @@ console.log("Running in mode: " + MODE_DESCRIPTIONS[mode]);
 function create_index() {
     return client.indices.create({
         index: 'assets'
-    }).then(function(resp) {
+    }).then(function() {
         console.log('Index created');
     });
 }
@@ -147,10 +149,10 @@ function clean_string(str) {
 }
 
 // Determines wether or not an asset should be visible to the user when searching.
-function determine_searchability(nm, asset, formatted_result) {
+function determine_searchability(cip_client, asset, formatted_result) {
     // First of all - we wouldn't like to have search results on assets
     // which have been cropped into seperate assets.
-    if(formatted_result.cropping_status && formatted_result.cropping_status.id == 2) {
+    if(formatted_result.cropping_status && formatted_result.cropping_status.id === 2) {
         return false;
     } else {
         // Second - We wouldn't like assets which are related to assets that are in the
@@ -161,7 +163,7 @@ function determine_searchability(nm, asset, formatted_result) {
             var related_asset_promises = [];
             for(var i in related_assets.ids) {
                 var related_asset_id = related_assets.ids[i];
-                var related_asset_promise = cip.get_asset(nm, formatted_result.catalog, related_asset_id);
+                var related_asset_promise = cip.get_asset(cip_client, formatted_result.catalog, related_asset_id);
                 related_asset_promises.push( related_asset_promise );
             }
             return Q.all(related_asset_promises).then(function(related_assets) {
@@ -171,7 +173,7 @@ function determine_searchability(nm, asset, formatted_result) {
                         var formatted_asset = asset_mapping.format_result(related_asset.fields);
                         for(var c in formatted_asset.categories) {
                             var category = formatted_asset.categories[c];
-                            if(category.name === "Rotationsbilleder") {
+                            if(category.name === 'Rotationsbilleder') {
                                 return false;
                             }
                         }
@@ -184,125 +186,155 @@ function determine_searchability(nm, asset, formatted_result) {
     }
 }
 
-// Handles a partial result from cumulus.
-function handle_results(nm, catalog, items) {
-    var asset_promises = [];
-    if(items == undefined || items == null || items.length == 0) {
-        throw new Error("The items argument was undefined, null or of zero length.");
+var categories = {};
+var catalog_page_index = {};
+var catalog_index = 0;
+
+// Handle a specific asset from a result page.
+function handle_asset(cip_client, asset, catalog_alias) {
+    var formatted_result = asset_mapping.format_result(asset.fields);
+    formatted_result.catalog = catalog_alias;
+
+    if(!is_relevant_asset(catalog_alias, formatted_result.id)) {
+        console.log('Looks like an irrelevant asset', catalog_alias, formatted_result.id);
+        return false;
     }
 
-    for(var i=0; i < items.length; ++i) {
-        var asset = items[i];
-        var formatted_result = asset_mapping.format_result(asset.fields);
-        formatted_result.catalog = catalog.alias;
+    return Q.all([
+        asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
+        determine_searchability(cip_client, asset, formatted_result)
+    ])
+    .spread(function(formatted_result, is_searchable) {
+        formatted_result.searchable = is_searchable;
 
-        if(!is_relevant_asset(catalog.alias, formatted_result.id)) {
-            continue; // Skip an irrelevant asset.
+        if(formatted_result.modification_time !== undefined) {
+            var re = new RegExp('\\d+');
+            var re_result = re.exec(formatted_result.modification_time);
+            if(re_result && re_result.length > 0) {
+                formatted_result.modification_time = parseInt(re_result[0], 10);
+            }
         }
 
-        var asset_promise = Q.all([
-            asset_mapping.extend_metadata(nm, catalog.alias, asset, formatted_result),
-            determine_searchability(nm, asset, formatted_result)
-        ])
-        .spread(function(formatted_result, is_searchable) {
-            formatted_result.searchable = is_searchable;
+        if(formatted_result.categories !== undefined) {
+            formatted_result.categories_int = [];
+            formatted_result.suggest = {'input': []};
 
-            if(formatted_result.modification_time !== undefined) {
-                var re = new RegExp('\\d+');
-                var re_result = re.exec(formatted_result.modification_time);
-                if(re_result && re_result.length > 0) {
-                    formatted_result.modification_time = parseInt(re_result[0]);
+            for(var j=0; j < formatted_result.categories.length; ++j) {
+                if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
+                    continue;
                 }
             }
 
-            if(formatted_result.categories !== undefined) {
-                formatted_result.categories_int = [];
-                formatted_result.suggest = {'input': []};
+                var path = categories[catalog_alias].get_path(formatted_result.categories[j].id);
+                if(path) {
+                    for(var k=0; k < path.length; k++) {
+                        formatted_result.categories_int.push(path[k].id);
 
-                for(var j=0; j < formatted_result.categories.length; ++j) {
-                    if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
-                        continue;
-                    }
-
-                    var path = categories[catalog.alias].get_path(formatted_result.categories[j].id);
-                    if(path) {
-                        for(var k=0; k < path.length; k++) {
-                            formatted_result.categories_int.push(path[k].id);
-
-                            if(path[k].name.indexOf('$Categories') === 0) {
-                                continue;
-                            }
-
-                            formatted_result.suggest.input.push(clean_string(path[k].name));
+                        if(path[k].name.indexOf('$Categories') === 0) {
+                            continue;
                         }
+
+                        formatted_result.suggest.input.push(clean_string(path[k].name));
                     }
                 }
             }
-            return formatted_result;
-        })
-        .then(function(formatted_result) {
-            var es_id = catalog.alias + '-' + formatted_result.id;
-            return client.index({
-                index: 'assets',
-                type: 'asset',
-                id: es_id,
-                body: formatted_result
-            });
-        })
-        .then(function(resp) {
-            console.log('Successfully indexed ' + resp._id);
-        })
-        .fail(function(err) {
-            console.error( "Something went wrong indexing an asset" );
-            console.error( err.stack );
+        }
+        return formatted_result;
+    })
+    .then(function(formatted_result) {
+        var es_id = catalog_alias + '-' + formatted_result.id;
+        return client.index({
+            index: 'assets',
+            type: 'asset',
+            id: es_id,
+            body: formatted_result
         });
-
-        asset_promises.push( asset_promise );
-    }
-    var all_asset_promises = Q.all(asset_promises);
-    return all_asset_promises;
+    })
+    .then(function(resp) {
+        console.log('Successfully indexed ' + resp._id);
+    })
+    .fail(function(err) {
+        console.error( 'Something went wrong indexing an asset' );
+        console.error( err.stack );
+    });
 }
 
-// Feches the result from Cumulus, on the i'th asset offset.
-function get_result(nm, result, i) {
+// Handle a specific result page, with assets.
+function handle_result_page(cip_client, catalog, result, page_index) {
     var deferred = Q.defer();
+    var total_pages = Math.ceil(result.total_rows / ASSETS_PER_REQUEST);
+    console.log('Queuing page number', page_index+1, 'of', total_pages+1, 'in the', catalog.alias, 'catalog.');
 
-    result.get(ASSETS_PER_REQUEST, i, function(returnvalue) {
-        deferred.resolve( handle_results(nm, result.catalog, returnvalue) );
+    result.get(ASSETS_PER_REQUEST, page_index, function(assets_on_page) {
+        console.log('Got metadata of page ' +(page_index+1)+ ' from the ' +result.catalog.alias+ ' catalog.');
+        var asset_promises = [];
+        for(var a in assets_on_page) {
+            var asset = assets_on_page[a];
+            var asset_promise = handle_asset(cip_client, asset, catalog.alias);
+            asset_promises.push( asset_promise );
+        }
+        Q.all(asset_promises).then(function() {
+            // Resolve the page promise once all assets on the page has been resolved.
+            deferred.resolve( true );
+        });
     });
 
     return deferred.promise;
 }
 
-// Handles an entire catalog.
-function handle_catalog(nm, catalog) {
-    // Precondition: The catalog has it's alias defined.
-    if(catalog.alias === undefined) {
-        throw new Error("The catalog's alias was undefined");
+// Recursively handle the assets on pages, giving a breath first traversal
+// of the CIP webservice.
+function handle_next_result_page(cip_client, catalog, result) {
+    var page_index = catalog_page_index[catalog.alias];
+    if(page_index * ASSETS_PER_REQUEST < result.total_rows) {
+        catalog_page_index[catalog.alias]++;
+        return handle_result_page(cip_client, catalog, result, page_index)
+        .then(function() {
+            return handle_next_result_page(cip_client, catalog, result);
+        });
+    } else {
+        return true; // No more pages in the result.
     }
+}
 
-    // Get the assets recently published in the catalog.
-    return cip.get_recent_assets(nm, catalog, mode === MODES.recent ? '$today-2d' : '2003-04-24' )
+// Handle a specific catalog.
+function handle_catalog(cip_client, catalog) {
+    // Precondition: The catalog has it's alias defined.
+    if(catalog === undefined || catalog.alias === undefined) {
+        throw new Error('The catalog´s alias was undefined');
+    }
+    console.log('Queuing catalog', catalog.alias);
+    var modified_since = (mode === MODES.recent ? '$today-2d' : '2003-04-24');
+    // Let's find out how many pages of assets we have in this catalog.
+    return cip.get_recent_assets(cip_client, catalog, modified_since )
     .then(function(result) {
-        var partial_results = [];
-
-        for(var i=0; i < result.total_rows; i=i+ASSETS_PER_REQUEST) {
-            var page_index = Math.floor(i/ASSETS_PER_REQUEST);
-            var total_page_count = Math.floor(result.total_rows/ASSETS_PER_REQUEST);
-            console.log("Queuing assets page " + page_index + " / "
-                        + total_page_count + " of " + catalog.alias);
-
-            var partial_result = get_result(nm, result, i);
-            partial_results.push( partial_result );
-        }
-
-        return Q.all( partial_results );
+        // Reset the counter.
+        catalog_page_index[catalog.alias] = 0;
+        return Q.when(handle_next_result_page(result, catalog, result), function() {
+            console.log('Done parsing catalog', catalog.alias);
+        });
     });
 }
 
-console.log("=== Getting ready to start indexing ===");
+// Recursively handle the catalogs, giving a breath first traversal
+// of the CIP webservice.
+function handle_next_catalog(cip_client, catalogs) {
+    if(catalog_index < catalogs.length) {
+        var catalog = catalogs[catalog_index];
+        catalog_index++;
+        return handle_catalog(cip_client, catalog)
+        .then(function() {
+            return handle_next_catalog(cip_client, catalogs);
+        });
+    } else {
+        return true; // No more catalogs.
+    }
+}
 
-cip_categories.load_categories()
+// Let's get started.
+console.log('Running in mode: ' + MODE_DESCRIPTIONS[mode]);
+
+var main_queue = cip_categories.load_categories()
 .then(function(result) {
     // The categories pr catalog has been fetched from Cumulus.
     for(var i=0; i < result.length; ++i) {
@@ -315,34 +347,61 @@ cip_categories.load_categories()
     return create_index().then(function() {
         console.log('Index created');
     }, function(err) {
-        if(err.message === "IndexAlreadyExistsException[[assets] already exists]") {
+        // TODO: Add a recursive check for this message.
+        if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
             return; // No worries ...
         }
         console.log('Failed to create the index:', err);
     });
 })
-.then(function() {
-    return cip.init_session()
-    .then(function(nm) {
-        return cip.get_catalogs(nm)
-        .then(function(catalogs) {
-            var promises = [];
+.then(cip.init_session);
 
-            for(var c=0; c < catalogs.length; c++) {
+if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
+    main_queue = main_queue.then(function(cip_client) {
+        return [cip_client, cip.get_catalogs(cip_client)];
+    })
+    .spread(function(cip_client, catalogs) {
+        var relevant_catalogs = [];
+        if(mode === MODES.catalog) {
+            for(var c in catalogs) {
                 var catalog = catalogs[c];
-                if(is_relevant_catalog(catalog.alias)) {
-                    promises.push( handle_catalog(nm, catalog) );
-                } else {
-                    console.log("Skipping " +catalog.alias+ " as this seems irrelevant for the mode.");
+                if(reference.indexOf(catalog.alias) !== -1) {
+                    relevant_catalogs.push(catalog);
                 }
             }
-
-            return Q.all(promises);
-        });
+        } else {
+            // All catalogs are relevant catalogs.
+            relevant_catalogs = catalogs;
+        }
+        return handle_next_catalog(cip_client, relevant_catalogs);
     });
-})
-.then(function() {
-    console.log("=== All done ===");
+} else {
+    main_queue = main_queue.then(function(cip_client) {
+        var asset_promises = [];
+        for(var a in reference) {
+            var catalog_alias = reference[a][0];
+            var asset_id = reference[a][1];
+            var asset_promise = cip.get_asset(cip_client, catalog_alias, asset_id)
+            .then(function(assets) {
+                if(assets.length === 1) {
+                    console.log("Logging asset ", assets[0].fields.id);
+                    return handle_asset(cip_client, assets[0], catalog_alias);
+                } else {
+                    throw new Error( 'No asset with id ' +asset_id+ ' was found in the ' +catalog_alias+ ' catalog.' );
+                }
+            });
+            asset_promises.push( asset_promise );
+        }
+        return Q.all(asset_promises);
+    });
+}
+
+main_queue
+.fail(function (error) {
+    console.error('An error occurred');
+    console.error(error.stack);
+}).finally(function() {
+    console.log('=== All done ===');
     // We are ready to die ..
     process.exit(0);
 })
