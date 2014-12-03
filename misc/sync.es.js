@@ -146,11 +146,16 @@ function handle_asset(cip_client, asset, catalog_alias) {
     var formatted_result = asset_mapping.format_result(asset.fields);
     formatted_result.catalog = catalog_alias;
 
+    // TODO: Consider making the registration of new asset mappings more
+    // maintainable.
     return Q.all([
         asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
         determine_searchability(cip_client, asset, formatted_result)
     ])
     .spread(function(formatted_result, is_searchable) {
+        // TODO: Consider having a field for the values that are checked in the
+        // call to determine_searchability, but have the web application decide
+        // if it wants to display these or not.
         formatted_result.searchable = is_searchable;
 
         if(formatted_result.modification_time !== undefined) {
