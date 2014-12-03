@@ -73,43 +73,6 @@ if(!mode) {
     }
 }
 
-function is_relevant_catalog(catalog_alias) {
-    if(mode === MODES.catalog) {
-        // Are there any of the split catalogs that maches?
-        for(var c in reference) {
-            if(reference[c] === catalog_alias) {
-                return true;
-            }
-        }
-        return false;
-    } else if(mode === MODES.single) {
-        for(var r in reference) {
-            if(reference[r][0] == catalog_alias) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function is_relevant_asset(catalog_alias, asset_id) {
-    if(mode === MODES.single) {
-        // Are there any of the split Catalog/ID 2-tuples that matches?
-        for(var r in reference) {
-            var referenced_catalog_alias = reference[r][0];
-            var referenced_asset_id = parseInt(reference[r][1], 10);
-            if(referenced_catalog_alias === catalog_alias && referenced_asset_id === asset_id) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        return is_relevant_catalog(catalog_alias);
-    }
-}
-
 /*=== END: Defining modes to run the syncronization in ===*/
 
 // Creates the index in the Elasticsearch index.
@@ -189,11 +152,6 @@ function handle_asset(cip_client, asset, catalog_alias) {
     var formatted_result = asset_mapping.format_result(asset.fields);
     formatted_result.catalog = catalog_alias;
 
-    if(!is_relevant_asset(catalog_alias, formatted_result.id)) {
-        console.log('Looks like an irrelevant asset', catalog_alias, formatted_result.id);
-        return false;
-    }
-
     return Q.all([
         asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
         determine_searchability(cip_client, asset, formatted_result)
@@ -235,7 +193,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
         return formatted_result;
     })
     .then(function(formatted_result) {
-        var es_id = catalog_alias + '-' + formatted_result.id;
+        var es_id = formatted_result.catalog + '-' + formatted_result.id;
         return client.index({
             index: 'assets',
             type: 'asset',
