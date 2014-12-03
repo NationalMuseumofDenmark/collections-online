@@ -9,10 +9,7 @@ var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
-var sync_all = false;
-
 // Aliases of specific catalogs that are to be synced.
-var sync_catalogs_whitelist = false;
 var categories = {};
 
 var ASSETS_PER_REQUEST = 100;
@@ -21,16 +18,16 @@ var ASSETS_PER_REQUEST = 100;
 
 // What modes can we run the elasticsearch script in?
 var MODES = {
-    recent: "recent",
-    all: "all",
-    catalog: "catalog",
-    single: "single"
+    recent: 'recent',
+    all: 'all',
+    catalog: 'catalog',
+    single: 'single'
 };
 var MODE_DESCRIPTIONS = {
-    recent: "Syncronize the most recently changed assets.",
-    all: "Syncronize all assets across all catalogs.",
-    catalog: "Syncronize only a single catalog or a set of comma seperated catalogs.",
-    single: "Syncronize only a single asset or a comma seperated list of assets."
+    recent: 'Syncronize the most recently changed assets.',
+    all: 'Syncronize all assets across all catalogs.',
+    catalog: 'Syncronize only a single catalog or a set of comma seperated catalogs.',
+    single: 'Syncronize only a single asset or a comma seperated list of assets.'
 };
 var mode, reference;
 
@@ -53,38 +50,38 @@ if(args && args.length <= 2) {
     mode = is_valid_mode(suggested_mode);
     if(mode === MODES.catalog || mode === MODES.single) {
         if(args.length >= 4) {
-            reference = args[3].split(",");
+            reference = args[3].split(',');
         }
     }
 }
 
 // Report any runtime errors on mode selection.
 if(!mode) {
-    console.error("Invalid mode - please select from:");
+    console.error('Invalid mode - please select from:');
     for(var m in MODES) {
-        console.error(" * " +MODES[m]+ ": "+MODE_DESCRIPTIONS[m]);
+        console.error(' * ' +MODES[m]+ ': '+MODE_DESCRIPTIONS[m]);
     }
     process.exit(1);
 } else if(mode === MODES.single) {
     // In the single mode, each asset is a combination of a catalog alias
     // and the asset ID, eg. DNT/101
     for(var r in reference) {
-        reference[r] = reference[r].split("/");
+        reference[r] = reference[r].split('/');
     }
 }
 
 function is_relevant_catalog(catalog_alias) {
     if(mode === MODES.catalog) {
         // Are there any of the split catalogs that maches?
-        for(var r in reference) {
-            if(reference[r] == catalog_alias) {
+        for(var c in reference) {
+            if(reference[c] === catalog_alias) {
                 return true;
             }
         }
         return false;
     } else if(mode === MODES.single) {
-        for(var r in reference) {
-            if(reference[r][0] == catalog_alias) {
+        for(var a in reference) {
+            if(reference[a][0] === catalog_alias) {
                 return true;
             }
         }
@@ -98,7 +95,9 @@ function is_relevant_asset(catalog_alias, asset_id) {
     if(mode === MODES.single) {
         // Are there any of the split Catalog/ID 2-tuples that matches?
         for(var r in reference) {
-            if(reference[r][0] == catalog_alias && parseInt(reference[r][1]) == asset_id) {
+            var referenced_catalog_alias = reference[r][0];
+            var referenced_asset_id = parseInt(reference[r][1], 10);
+            if(referenced_catalog_alias === catalog_alias && referenced_asset_id === asset_id) {
                 return true;
             }
         }
@@ -112,7 +111,7 @@ function is_relevant_asset(catalog_alias, asset_id) {
 // single mode has an overhead, as it is not requesting an asset directly but
 // rather through the traversal of all assets in the page.
 
-console.log("Running in mode: " + MODE_DESCRIPTIONS[mode]);
+console.log('Running in mode: ' + MODE_DESCRIPTIONS[mode]);
 
 /*=== END: Defining modes to run the syncronization in ===*/
 
@@ -120,7 +119,7 @@ console.log("Running in mode: " + MODE_DESCRIPTIONS[mode]);
 function create_index() {
     return client.indices.create({
         index: 'assets'
-    }).then(function(resp) {
+    }).then(function() {
         console.log('Index created');
     });
 }
@@ -150,7 +149,7 @@ function clean_string(str) {
 function determine_searchability(nm, asset, formatted_result) {
     // First of all - we wouldn't like to have search results on assets
     // which have been cropped into seperate assets.
-    if(formatted_result.cropping_status && formatted_result.cropping_status.id == 2) {
+    if(formatted_result.cropping_status && formatted_result.cropping_status.id === 2) {
         return false;
     } else {
         // Second - We wouldn't like assets which are related to assets that are in the
@@ -171,7 +170,7 @@ function determine_searchability(nm, asset, formatted_result) {
                         var formatted_asset = asset_mapping.format_result(related_asset.fields);
                         for(var c in formatted_asset.categories) {
                             var category = formatted_asset.categories[c];
-                            if(category.name === "Rotationsbilleder") {
+                            if(category.name === 'Rotationsbilleder') {
                                 return false;
                             }
                         }
@@ -185,10 +184,11 @@ function determine_searchability(nm, asset, formatted_result) {
 }
 
 // Handles a partial result from cumulus.
+// TODO: Make the extension of metadata more modular.
 function handle_results(nm, catalog, items) {
     var asset_promises = [];
-    if(items == undefined && items == null && items.length == 0) {
-        throw new Error("The items argument was undefined, null or of zero length.");
+    if(items === undefined || items === null || items.length === 0) {
+        throw new Error('The items argument was undefined, null or of zero length.');
     }
 
     for(var i=0; i < items.length; ++i) {
@@ -211,7 +211,7 @@ function handle_results(nm, catalog, items) {
                 var re = new RegExp('\\d+');
                 var re_result = re.exec(formatted_result.modification_time);
                 if(re_result && re_result.length > 0) {
-                    formatted_result.modification_time = parseInt(re_result[0]);
+                    formatted_result.modification_time = parseInt(re_result[0], 10);
                 }
             }
 
@@ -268,6 +268,7 @@ function get_result(nm, result, i) {
     var deferred = Q.defer();
 
     result.get(ASSETS_PER_REQUEST, i, function(returnvalue) {
+        console.log('Got result of page ' +i+ ' from the ' +result.catalog.alias+ ' catalog.');
         deferred.resolve( handle_results(nm, result.catalog, returnvalue) );
     });
 
@@ -278,7 +279,7 @@ function get_result(nm, result, i) {
 function handle_catalog(nm, catalog) {
     // Precondition: The catalog has it's alias defined.
     if(catalog.alias === undefined) {
-        throw new Error("The catalog's alias was undefined");
+        throw new Error('The catalog´s alias was undefined');
     }
 
     // Get the assets recently published in the catalog.
@@ -289,8 +290,8 @@ function handle_catalog(nm, catalog) {
         for(var i=0; i < result.total_rows; i=i+ASSETS_PER_REQUEST) {
             var page_index = Math.floor(i/ASSETS_PER_REQUEST);
             var total_page_count = Math.floor(result.total_rows/ASSETS_PER_REQUEST);
-            console.log("Queuing assets page " + page_index + " / "
-                        + total_page_count + " of " + catalog.alias);
+            console.log('Queuing assets page ' + page_index + ' / ' +
+                        total_page_count + ' of ' + catalog.alias);
 
             var partial_result = get_result(nm, result, i);
             partial_results.push( partial_result );
@@ -300,7 +301,7 @@ function handle_catalog(nm, catalog) {
     });
 }
 
-console.log("=== Getting ready to start indexing ===");
+console.log('=== Getting ready to start indexing ===');
 
 cip_categories.load_categories()
 .then(function(result) {
@@ -309,13 +310,13 @@ cip_categories.load_categories()
         categories[result[i].id] = result[i];
     }
     var categories_count = Object.keys(categories).length;
-    console.log("Loaded categories for", categories_count, "catalogs");
+    console.log('Loaded categories for', categories_count, 'catalogs');
 })
 .then(function() {
     return create_index().then(function() {
         console.log('Index created');
     }, function(err) {
-        if(err.message === "IndexAlreadyExistsException[[assets] already exists]") {
+        if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
             return; // No worries ...
         }
         console.log('Failed to create the index:', err);
@@ -333,7 +334,7 @@ cip_categories.load_categories()
                 if(is_relevant_catalog(catalog.alias)) {
                     promises.push( handle_catalog(nm, catalog) );
                 } else {
-                    console.log("Skipping " +catalog.alias+ " as this seems irrelevant for the mode.");
+                    console.log('Skipping ' +catalog.alias+ ' as this seems irrelevant for the mode.');
                 }
             }
 
@@ -342,11 +343,11 @@ cip_categories.load_categories()
     });
 })
 .then(function() {
-    console.log("=== All done ===");
+    console.log('=== All done ===');
     // We are ready to die ..
     process.exit(0);
 })
 .fail(function (error) {
-    console.error("An error occurred");
+    console.error('An error occurred');
     console.error(error);
 });
