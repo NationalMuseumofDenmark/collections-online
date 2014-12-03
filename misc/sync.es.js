@@ -110,12 +110,6 @@ function is_relevant_asset(catalog_alias, asset_id) {
     }
 }
 
-// TODO: Consider implementing the modes in a smarter way - especially the
-// single mode has an overhead, as it is not requesting an asset directly but
-// rather through the traversal of all assets in the page.
-
-console.log("Running in mode: " + MODE_DESCRIPTIONS[mode]);
-
 /*=== END: Defining modes to run the syncronization in ===*/
 
 // Creates the index in the Elasticsearch index.
@@ -223,7 +217,6 @@ function handle_asset(cip_client, asset, catalog_alias) {
                 if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
                     continue;
                 }
-            }
 
                 var path = categories[catalog_alias].get_path(formatted_result.categories[j].id);
                 if(path) {
@@ -341,7 +334,7 @@ var main_queue = cip_categories.load_categories()
         categories[result[i].id] = result[i];
     }
     var categories_count = Object.keys(categories).length;
-    console.log("Loaded categories for", categories_count, "catalogs");
+    console.log('Loaded categories for', categories_count, 'catalogs');
 })
 .then(function() {
     return create_index().then(function() {
@@ -384,7 +377,7 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             var asset_promise = cip.get_asset(cip_client, catalog_alias, asset_id)
             .then(function(assets) {
                 if(assets.length === 1) {
-                    console.log("Logging asset ", assets[0].fields.id);
+                    console.log('Logging asset ', assets[0].fields.id);
                     return handle_asset(cip_client, assets[0], catalog_alias);
                 } else {
                     throw new Error( 'No asset with id ' +asset_id+ ' was found in the ' +catalog_alias+ ' catalog.' );
@@ -404,8 +397,4 @@ main_queue
     console.log('=== All done ===');
     // We are ready to die ..
     process.exit(0);
-})
-.fail(function (error) {
-    console.error("An error occurred");
-    console.error(error);
 });
