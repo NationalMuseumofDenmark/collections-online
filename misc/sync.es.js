@@ -258,7 +258,7 @@ function handle_result_page(cip_client, catalog, result, page_index) {
     var total_pages = Math.ceil(result.total_rows / ASSETS_PER_REQUEST);
     console.log('Queuing page number', page_index+1, 'of', total_pages+1, 'in the', catalog.alias, 'catalog.');
 
-    result.get(ASSETS_PER_REQUEST, page_index, function(assets_on_page) {
+    result.get(ASSETS_PER_REQUEST, page_index * ASSETS_PER_REQUEST, function(assets_on_page) {
         console.log('Got metadata of page ' +(page_index+1)+ ' from the ' +result.catalog.alias+ ' catalog.');
         var asset_promises = [];
         for(var a in assets_on_page) {
