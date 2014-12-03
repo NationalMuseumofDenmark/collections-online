@@ -79,6 +79,9 @@ try {
                     'ex: ES-1234');
             }
         }
+        return false;
+    } else {
+        return true;
     }
 } catch( err ) {
     console.error( err.message );
@@ -332,6 +335,8 @@ function handle_next_result_page(cip_client, catalog, result) {
     } else {
         return true; // No more pages in the result.
     }
+    var all_asset_promises = Q.all(asset_promises);
+    return all_asset_promises;
 }
 
 var ADDITIONAL_FIELDS = [
