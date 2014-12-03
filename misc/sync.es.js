@@ -9,12 +9,6 @@ var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
-var sync_all = false;
-
-// Aliases of specific catalogs that are to be synced.
-var sync_catalogs_whitelist = false;
-var categories = {};
-
 var ASSETS_PER_REQUEST = 100;
 
 /*=== Defining modes to run the syncronization in ===*/
@@ -70,43 +64,6 @@ if(!mode) {
     // and the asset ID, eg. DNT/101
     for(var r in reference) {
         reference[r] = reference[r].split('-');
-    }
-}
-
-function is_relevant_catalog(catalog_alias) {
-    if(mode === MODES.catalog) {
-        // Are there any of the split catalogs that maches?
-        for(var c in reference) {
-            if(reference[c] === catalog_alias) {
-                return true;
-            }
-        }
-        return false;
-    } else if(mode === MODES.single) {
-        for(var r in reference) {
-            if(reference[r][0] == catalog_alias) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        return true;
-    }
-}
-
-function is_relevant_asset(catalog_alias, asset_id) {
-    if(mode === MODES.single) {
-        // Are there any of the split Catalog/ID 2-tuples that matches?
-        for(var r in reference) {
-            var referenced_catalog_alias = reference[r][0];
-            var referenced_asset_id = parseInt(reference[r][1], 10);
-            if(referenced_catalog_alias === catalog_alias && referenced_asset_id === asset_id) {
-                return true;
-            }
-        }
-        return false;
-    } else {
-        return is_relevant_catalog(catalog_alias);
     }
 }
 
@@ -189,16 +146,16 @@ function handle_asset(cip_client, asset, catalog_alias) {
     var formatted_result = asset_mapping.format_result(asset.fields);
     formatted_result.catalog = catalog_alias;
 
-    if(!is_relevant_asset(catalog_alias, formatted_result.id)) {
-        console.log('Looks like an irrelevant asset', catalog_alias, formatted_result.id);
-        return false;
-    }
-
+    // TODO: Consider making the registration of new asset mappings more
+    // maintainable.
     return Q.all([
         asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
         determine_searchability(cip_client, asset, formatted_result)
     ])
     .spread(function(formatted_result, is_searchable) {
+        // TODO: Consider having a field for the values that are checked in the
+        // call to determine_searchability, but have the web application decide
+        // if it wants to display these or not.
         formatted_result.searchable = is_searchable;
 
         if(formatted_result.modification_time !== undefined) {
@@ -235,7 +192,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
         return formatted_result;
     })
     .then(function(formatted_result) {
-        var es_id = catalog_alias + '-' + formatted_result.id;
+        var es_id = formatted_result.catalog + '-' + formatted_result.id;
         return client.index({
             index: 'assets',
             type: 'asset',
@@ -303,7 +260,7 @@ function handle_catalog(cip_client, catalog) {
     .then(function(result) {
         // Reset the counter.
         catalog_page_index[catalog.alias] = 0;
-        return Q.when(handle_next_result_page(result, catalog, result), function() {
+        return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
             console.log('Done parsing catalog', catalog.alias);
         });
     });
@@ -377,7 +334,7 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             var asset_promise = cip.get_asset(cip_client, catalog_alias, asset_id)
             .then(function(assets) {
                 if(assets.length === 1) {
-                    console.log('Logging asset ', assets[0].fields.id);
+                    console.log('Queuing asset', assets[0].fields.id, 'from the', catalog_alias, 'catalog.');
                     return handle_asset(cip_client, assets[0], catalog_alias);
                 } else {
                     throw new Error( 'No asset with id ' +asset_id+ ' was found in the ' +catalog_alias+ ' catalog.' );
