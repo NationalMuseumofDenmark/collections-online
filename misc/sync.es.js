@@ -146,8 +146,8 @@ function handle_asset(cip_client, asset, catalog_alias) {
     var formatted_result = asset_mapping.format_result(asset.fields);
     formatted_result.catalog = catalog_alias;
 
-    // TODO: Consider making the registration of new asset mappings more
-    // maintainable.
+    // TODO: Consider making the registration of extenstions to assets metadata
+    // more maintainable.
     return Q.all([
         asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
         determine_searchability(cip_client, asset, formatted_result)
@@ -155,7 +155,8 @@ function handle_asset(cip_client, asset, catalog_alias) {
     .spread(function(formatted_result, is_searchable) {
         // TODO: Consider having a field for the values that are checked in the
         // call to determine_searchability, but have the web application decide
-        // if it wants to display these or not.
+        // if it wants to display these or not. Alternatively have publication
+        // status reflected in this .searchable field.
         formatted_result.searchable = is_searchable;
 
         if(formatted_result.modification_time !== undefined) {
@@ -227,6 +228,9 @@ function handle_result_page(cip_client, catalog, result, page_index) {
             // Resolve the page promise once all assets on the page has been resolved.
             deferred.resolve( true );
         });
+    }, function(err) {
+        console.error( 'An error occurred while getting the page', err );
+        deferred.resolve( false );
     });
 
     return deferred.promise;
@@ -263,6 +267,9 @@ function handle_catalog(cip_client, catalog) {
         return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
             console.log('Done parsing catalog', catalog.alias);
         });
+    }, function(err) {
+        console.error('An error occurred getting overview from the catalog');
+        return false;
     });
 }
 
@@ -323,6 +330,11 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             // All catalogs are relevant catalogs.
             relevant_catalogs = catalogs;
         }
+        var catalog_aliases = [];
+        for(var c in relevant_catalogs) {
+            catalog_aliases.push(relevant_catalogs[c].alias);
+        }
+        console.log("Indexing from these catalogs:", catalog_aliases.join(","));
         return handle_next_catalog(cip_client, relevant_catalogs);
     });
 } else {
@@ -348,8 +360,16 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
 
 main_queue
 .fail(function (error) {
-    console.error('An error occurred');
-    console.error(error.stack);
+    console.error('An error occurred:');
+    if(error !== null && error !== undefined) {
+        if(error.stack) {
+            console.error( error.stack );
+        } else {
+            console.error( error );
+        }
+    } else {
+        console.error( 'No details was provided.' );
+    }
 }).finally(function() {
     console.log('=== All done ===');
     // We are ready to die ..
