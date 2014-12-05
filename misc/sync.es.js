@@ -229,8 +229,7 @@ function handle_result_page(cip_client, catalog, result, page_index) {
             deferred.resolve( true );
         });
     }, function(err) {
-        console.error( 'An error occurred while getting the page', err );
-        deferred.resolve( false );
+        deferred.reject( err );
     });
 
     return deferred.promise;
@@ -243,6 +242,10 @@ function handle_next_result_page(cip_client, catalog, result) {
     if(page_index * ASSETS_PER_REQUEST < result.total_rows) {
         catalog_page_index[catalog.alias]++;
         return handle_result_page(cip_client, catalog, result, page_index)
+        .fail(function(err) {
+            console.error('An error happened parsing result page #', page_index, '- skipping this');
+            console.error(err.stack ? err.stack : err);
+        })
         .then(function() {
             return handle_next_result_page(cip_client, catalog, result);
         });
@@ -267,7 +270,7 @@ function handle_catalog(cip_client, catalog) {
         return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
             console.log('Done parsing catalog', catalog.alias);
         });
-    }, function(err) {
+    }, function() {
         console.error('An error occurred getting overview from the catalog');
         return false;
     });
