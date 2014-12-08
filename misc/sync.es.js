@@ -246,6 +246,7 @@ function handle_next_result_page(cip_client, catalog, result) {
             console.error('An error happened parsing result page #', page_index, '- skipping this');
             console.error(err.stack ? err.stack : err);
         })
+        .then(function() { cip.init_session(true); }) // Re authenticate the session, to keep it alive.
         .then(function() {
             return handle_next_result_page(cip_client, catalog, result);
         });
