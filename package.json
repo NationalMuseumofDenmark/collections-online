@@ -20,7 +20,8 @@
     "elasticsearch": "~2.2.0",
     "q": "~1.0.1",
     "jpegtran-bin": "~0.2.7",
-    "gifsicle": "~0.1.6"
+    "gifsicle": "~0.1.6",
+    "iconv": "~2.1.4"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
