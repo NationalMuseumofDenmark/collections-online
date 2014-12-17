@@ -18,13 +18,17 @@ var MODES = {
     recent: 'recent',
     all: 'all',
     catalog: 'catalog',
-    single: 'single'
+    single: 'single',
+    rotation_ranks: 'rotation_ranks'
 };
 var MODE_DESCRIPTIONS = {
     recent: 'Syncronize the most recently changed assets.',
     all: 'Syncronize all assets across all catalogs.',
-    catalog: 'Syncronize only a single catalog or a set of comma seperated catalogs.',
-    single: 'Syncronize only a single asset or a comma seperated list of assets.'
+    catalog: 'Syncronize only a single catalog or a set of comma seperated ' +
+        'catalogs.',
+    single: 'Syncronize only a single asset or a comma seperated list of assets.',
+    rotation_ranks: 'Update all ranks of artifact rotation assets, this is ' +
+        'automatically done at the end of the "all" mode.'
 };
 var mode, reference;
 
@@ -36,6 +40,14 @@ function is_valid_mode(suggested_mode) {
         }
     }
     return false;
+}
+
+function print_usage_and_exit() {
+    console.error('Invalid mode - please select from:');
+    for(var m in MODES) {
+        console.error(' * ' +MODES[m]+ ': '+MODE_DESCRIPTIONS[m]);
+    }
+    process.exit(1);
 }
 
 var args = process.argv;
@@ -52,22 +64,31 @@ if(args && args.length <= 2) {
     }
 }
 
-// Report any runtime errors on mode selection.
-if(!mode) {
-    console.error('Invalid mode - please select from:');
-    for(var m in MODES) {
-        console.error(' * ' +MODES[m]+ ': '+MODE_DESCRIPTIONS[m]);
+try {
+    // Report any runtime errors on mode selection.
+    if(!mode) {
+        throw new Error( 'Unrecognized mode.' );
+    } else if(mode === MODES.single) {
+        // In the single mode, each asset is a combination of a catalog alias
+        // and the asset ID, eg. DNT/101
+        for(var r in reference) {
+            reference[r] = reference[r].split('-');
+            if(reference[r].length !== 2) {
+                throw new Error( 'Every reference in the single mode must '+
+                    'contain a catalog alias seperated by a dash (-), '+
+                    'ex: ES-1234');
+            }
+        }
     }
-    process.exit(1);
-} else if(mode === MODES.single) {
-    // In the single mode, each asset is a combination of a catalog alias
-    // and the asset ID, eg. DNT/101
-    for(var r in reference) {
-        reference[r] = reference[r].split('-');
-    }
+} catch( err ) {
+    console.error( err.message );
+    print_usage_and_exit();
 }
 
 /*=== END: Defining modes to run the syncronization in ===*/
+
+// An array of exceptions and errors thrown when parsing assets.
+var asset_exceptions = [];
 
 // Creates the index in the Elasticsearch index.
 function create_index() {
@@ -99,124 +120,189 @@ function clean_string(str) {
     return str;
 }
 
-// Determines wether or not an asset should be visible to the user when searching.
-function determine_searchability(cip_client, asset, formatted_result) {
-    // First of all - we wouldn't like to have search results on assets
-    // which have been cropped into seperate assets.
-    if(formatted_result.cropping_status && formatted_result.cropping_status.id === 2) {
-        return false;
-    } else {
-        // Second - We wouldn't like assets which are related to assets that are in the
-        // "Rotationsbilleder" category - as these are side-views of an object which will be
-        // reachable through the front-facing master asset.
-        return cip.get_related_assets(asset, 'isalternateof')
-        .then(function parse_relations(related_assets) {
-            var related_asset_promises = [];
-            for(var i in related_assets.ids) {
-                var related_asset_id = related_assets.ids[i];
-                var related_asset_promise = cip.get_asset(cip_client, formatted_result.catalog, related_asset_id);
-                related_asset_promises.push( related_asset_promise );
-            }
-            return Q.all(related_asset_promises).then(function(related_assets) {
-                for(var r in related_assets) {
-                    for(var a in related_assets[r]) {
-                        var related_asset = related_assets[r][a];
-                        var formatted_asset = asset_mapping.format_result(related_asset.fields);
-                        for(var c in formatted_asset.categories) {
-                            var category = formatted_asset.categories[c];
-                            if(category.name === 'Rotationsbilleder') {
-                                return false;
-                            }
-                        }
-                    }
-                }
-                // None of the related assets was a part of the rotational images category.
-                return true;
-            });
-        });
-    }
-}
-
 var categories = {};
 var catalog_page_index = {};
 var catalog_index = 0;
 
-// Handle a specific asset from a result page.
-function handle_asset(cip_client, asset, catalog_alias) {
-    var formatted_result = asset_mapping.format_result(asset.fields);
-    formatted_result.catalog = catalog_alias;
+var DATA_REGEXP = new RegExp('\\d+');
 
-    // TODO: Consider making the registration of extenstions to assets metadata
-    // more maintainable.
-    return Q.all([
-        asset_mapping.extend_metadata(cip_client, catalog_alias, asset, formatted_result),
-        determine_searchability(cip_client, asset, formatted_result)
-    ])
-    .spread(function(formatted_result, is_searchable) {
-        // TODO: Consider having a field for the values that are checked in the
-        // call to determine_searchability, but have the web application decide
-        // if it wants to display these or not. Alternatively have publication
-        // status reflected in this .searchable field.
-        formatted_result.searchable = is_searchable;
-
-        if(formatted_result.modification_time !== undefined) {
-            var re = new RegExp('\\d+');
-            var re_result = re.exec(formatted_result.modification_time);
-            if(re_result && re_result.length > 0) {
-                formatted_result.modification_time = parseInt(re_result[0], 10);
-            }
+// This list of transformations are a list of functions that takes two
+// arguments (cip_client, metadata) and returns a mutated metadata, which
+// is passed on to the next function in the list.
+var METADATA_TRANSFORMATIONS = [
+    function transform_field_names(cip_client, metadata) {
+        var transformed_metadata = asset_mapping.format_result( metadata );
+        // The catalog will be removed when formatting.
+        transformed_metadata.catalog = metadata.catalog;
+        return transformed_metadata;
+    },
+    function transform_modification_time(cip_client, metadata) {
+        var re_result = DATA_REGEXP.exec(metadata.modification_time);
+        if(re_result && re_result.length > 0) {
+            metadata.modification_time = parseInt(re_result[0], 10);
         }
+        return metadata;
+    },
+    function transform_categories_and_derive_suggest(cip_client, metadata) {
+        // Transforms the categories.
+        if(metadata.categories !== undefined) {
+            metadata.categories_int = [];
+            metadata.suggest = {'input': []};
 
-        if(formatted_result.categories !== undefined) {
-            formatted_result.categories_int = [];
-            formatted_result.suggest = {'input': []};
-
-            for(var j=0; j < formatted_result.categories.length; ++j) {
-                if(formatted_result.categories[j].path.indexOf('$Categories') !== 0) {
+            for(var j=0; j < metadata.categories.length; ++j) {
+                if(metadata.categories[j].path.indexOf('$Categories') !== 0) {
                     continue;
                 }
-
-                var path = categories[catalog_alias].get_path(formatted_result.categories[j].id);
+                var path = categories[metadata.catalog].get_path(metadata.categories[j].id);
                 if(path) {
                     for(var k=0; k < path.length; k++) {
-                        formatted_result.categories_int.push(path[k].id);
+                        metadata.categories_int.push(path[k].id);
 
                         if(path[k].name.indexOf('$Categories') === 0) {
                             continue;
                         }
 
-                        formatted_result.suggest.input.push(clean_string(path[k].name));
+                        metadata.suggest.input.push(clean_string(path[k].name));
                     }
                 }
             }
         }
-        return formatted_result;
-    })
-    .then(function(formatted_result) {
-        var es_id = formatted_result.catalog + '-' + formatted_result.id;
+        return metadata;
+    },
+    function transform_relations(cip_client, metadata) {
+        // Transforms the binary representations of each relation.
+        metadata.related_master_assets = cip.parse_binary_relations(
+            metadata.related_master_assets);
+        metadata.related_sub_assets = cip.parse_binary_relations(
+            metadata.related_sub_assets);
+        return metadata;
+    },
+    function derive_in_artifact_rotation_series(cip_client, metadata) {
+        // Let's assume it's not.
+        metadata.in_artifact_rotation_series = false;
+        // Finds out if this asset is in a rotation series.
+        // Initially looking at the assets categories - is this the front
+        // facing asset in the rotation series?
+        for(var c in metadata.categories) {
+            var category = metadata.categories[c];
+            if(category.name === 'Rotationsbilleder') {
+                metadata.in_artifact_rotation_series = true;
+                // The asset in Rotationsbilleder is always rank 0.
+                metadata.artifact_rotation_series_rank = 0;
+                return metadata;
+            }
+        }
+        // Loop through the assets related master assets to find if a
+        // master asset is in fact in the correct category to make this
+        // asset a part of an artifact rotation series.
+        for(var r in metadata.related_master_assets) {
+            var master_asset = metadata.related_master_assets[r];
+            if(master_asset.relation === '9ed0887f-40e8-4091-a91c-de356c869251') {
+                // Get the asset's metadata, to check it's categories.
+                return cip.get_asset(cip_client, metadata.catalog, master_asset.id)
+                .then(function(master_assets) {
+                    if(master_assets.length !== 1) {
+                        throw new Error( 'Expected a single master asset, got '+
+                        master_assets.length );
+                        console.error(master_assets);
+                    }
+                    var master_asset = master_assets[0];
+                    var master_asset_metadata = master_asset.fields;
+                    master_asset_metadata = asset_mapping.format_result(
+                        master_asset_metadata );
+                    for(var c in master_asset_metadata.categories) {
+                        var category = master_asset_metadata.categories[c];
+                        if(category.name === 'Rotationsbilleder') {
+                            metadata.in_artifact_rotation_series = true;
+                            return metadata;
+                        }
+                    }
+                    return metadata;
+                });
+            }
+        }
+        return metadata;
+    },
+    function extend_from_master(cip_client, metadata) {
+        return asset_mapping.extend_from_master(cip_client, metadata);
+    },
+    function derive_is_searchable(cip_client, metadata) {
+        // Compute a value on if it's drafted, part of a rotational series
+        // or an original that has more representable croppings.
+        // Adds an is_searchable field to the metadata.
+        metadata.is_searchable = true; // Let's assume that it is.
+        if(metadata.cropping_status &&
+            metadata.cropping_status.id === 2) {
+            // The croping status is 'has been cropped' / 'Er friskåret'
+            metadata.is_searchable = false;
+        } else if(!metadata.review_state ||
+            (metadata.review_state.id !== 3 && metadata.review_state.id !== 4 ) ) {
+            // The asset's review state is neither 3 or 4 (public).
+            metadata.is_searchable = false;
+        } else if(metadata.in_artifact_rotation_series &&
+            metadata.artifact_rotation_series_rank !== 0) {
+            // The asset is part of a rotation series but it's not the front.
+            metadata.is_searchable = false;
+        }
+        // Return the updated metedata.
+        return metadata;
+    }
+];
+
+// Runs the metadata transformations.
+function transform_metadata( cip_client, metadata, t ) {
+    if(t === undefined) {
+        t = 0; // Base case
+    } else if(t >= METADATA_TRANSFORMATIONS.length) {
+        return metadata; // Ensures termination
+    }
+
+    var transformation = METADATA_TRANSFORMATIONS[t](cip_client, metadata);
+    return Q.when(transformation, function(metadata) {
+        return transform_metadata(cip_client, metadata, t+1);
+    });
+}
+
+// Handle a specific asset from a result page.
+function handle_asset(cip_client, asset, catalog_alias) {
+    // Starting with the metadata being the raw fields from the CIP
+    var metadata = asset.fields;
+    // Adding the catalog alias to the assets metadata.
+    metadata.catalog = catalog_alias;
+    // Perform additional transformations and index the result.
+    return transform_metadata( cip_client, metadata )
+    .then(function( metadata ) {
+        var es_id = metadata.catalog + '-' + metadata.id;
         return client.index({
             index: 'assets',
             type: 'asset',
             id: es_id,
-            body: formatted_result
+            body: metadata
         });
     })
     .then(function(resp) {
         console.log('Successfully indexed ' + resp._id);
     })
     .fail(function(err) {
-        console.error( 'Something went wrong indexing an asset' );
+        // Push this to the list of asset exceptions.
+        asset_exceptions.push({
+            asset_id: metadata.id,
+            catalog_alias: catalog_alias,
+            err: err
+        });
+        console.error( 'Error indexing the asset ' +catalog_alias+ '-' +
+                        metadata.id );
         console.error( err.stack );
     });
 }
 
 // Handle a specific result page, with assets.
 function handle_result_page(cip_client, catalog, result, page_index) {
-    var deferred = Q.defer();
     var total_pages = Math.ceil(result.total_rows / ASSETS_PER_REQUEST);
-    console.log('Queuing page number', page_index+1, 'of', total_pages+1, 'in the', catalog.alias, 'catalog.');
+    console.log('Queuing page number', page_index+1, 'of', total_pages, 'in the', catalog.alias, 'catalog.');
 
-    result.get(ASSETS_PER_REQUEST, page_index * ASSETS_PER_REQUEST, function(assets_on_page) {
+    return get_next_result_page(result, page_index*ASSETS_PER_REQUEST, ASSETS_PER_REQUEST)
+    .then(function(assets_on_page) {
         console.log('Got metadata of page ' +(page_index+1)+ ' from the ' +result.catalog.alias+ ' catalog.');
         var asset_promises = [];
         for(var a in assets_on_page) {
@@ -224,15 +310,8 @@ function handle_result_page(cip_client, catalog, result, page_index) {
             var asset_promise = handle_asset(cip_client, asset, catalog.alias);
             asset_promises.push( asset_promise );
         }
-        Q.all(asset_promises).then(function() {
-            // Resolve the page promise once all assets on the page has been resolved.
-            deferred.resolve( true );
-        });
-    }, function(err) {
-        deferred.reject( err );
+        return Q.all(asset_promises);
     });
-
-    return deferred.promise;
 }
 
 // Recursively handle the assets on pages, giving a breath first traversal
@@ -253,6 +332,40 @@ function handle_next_result_page(cip_client, catalog, result) {
     } else {
         return true; // No more pages in the result.
     }
+}
+
+var ADDITIONAL_FIELDS = [
+    '{af4b2e71-5f6a-11d2-8f20-0000c0e166dc}', // Related Sub Assets
+    '{af4b2e72-5f6a-11d2-8f20-0000c0e166dc}' // Related Master Assets
+];
+
+function get_next_result_page(result, pointer, num_rows) {
+    var deferred = Q.defer();
+
+    result.cip.ciprequest( [
+            'metadata',
+            'getfieldvalues',
+            'web'
+        ], {
+            collection: result.collection_id,
+            startindex: pointer,
+            maxreturned: num_rows,
+            field: ADDITIONAL_FIELDS
+        }, function(response) {
+            if(response == null) {
+                deferred.reject( new Error('The request for field values returned a null result.') );
+            } else {
+                var returnvalue = [];
+                for (var i = 0; i<response.items.length; i++) {
+                    var asset = new cip_asset.CIPAsset(this, response.items[i], result.catalog);
+                    returnvalue.push( asset );
+                }
+                deferred.resolve( returnvalue );
+            }
+        }, deferred.reject
+    );
+
+    return deferred.promise;
 }
 
 // Handle a specific catalog.
@@ -290,6 +403,33 @@ function handle_next_catalog(cip_client, catalogs) {
     } else {
         return true; // No more catalogs.
     }
+}
+
+// Handle a specific asset (when in single mode).
+function handle_single_asset(cip_client, catalog, asset_id) {
+    // Precondition: The catalog has it's alias defined.
+    if(catalog === undefined || catalog.alias === undefined) {
+        throw new Error('The catalog´s alias was undefined');
+    }
+    if(asset_id === undefined) {
+        throw new Error('The asset´s id was undefined');
+    }
+    console.log('Queuing single asset in catalog', catalog.alias, 'asset id =', asset_id);
+
+    // Request a single asset based on it's catalog and id and use the
+    // handle_next_result_page method to handle the result.
+    var deferred = Q.defer();
+
+    var id_string = 'ID is "' + asset_id + '"';
+    cip_client.criteriasearch({
+        catalog: catalog
+    }, id_string, null, function(result) {
+        catalog_page_index[catalog.alias] = 0;
+        var result_handle_promise = handle_next_result_page(cip_client, catalog, result);
+        deferred.resolve( result_handle_promise );
+    }, deferred.reject);
+
+    return deferred.promise;
 }
 
 // Let's get started.
@@ -341,25 +481,25 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
         console.log("Indexing from these catalogs:", catalog_aliases.join(","));
         return handle_next_catalog(cip_client, relevant_catalogs);
     });
-} else {
+} else if(mode === MODES.single) {
     main_queue = main_queue.then(function(cip_client) {
         var asset_promises = [];
         for(var a in reference) {
             var catalog_alias = reference[a][0];
             var asset_id = reference[a][1];
-            var asset_promise = cip.get_asset(cip_client, catalog_alias, asset_id)
-            .then(function(assets) {
-                if(assets.length === 1) {
-                    console.log('Queuing asset', assets[0].fields.id, 'from the', catalog_alias, 'catalog.');
-                    return handle_asset(cip_client, assets[0], catalog_alias);
-                } else {
-                    throw new Error( 'No asset with id ' +asset_id+ ' was found in the ' +catalog_alias+ ' catalog.' );
-                }
-            });
+            var asset_promise = handle_single_asset(
+                cip_client,
+                {alias: catalog_alias},
+                asset_id
+            );
             asset_promises.push( asset_promise );
         }
         return Q.all(asset_promises);
     });
+} else if(mode === MODES.rotation_ranks) {
+    // TODO: Implement a mode that queries the elasticsearch index to find
+    // assets that are not a part of 
+    throw new Error('The rotation_ranks mode is not implemented yet.');
 }
 
 main_queue
@@ -376,6 +516,15 @@ main_queue
     }
 }).finally(function() {
     console.log('=== All done ===');
+    if(asset_exceptions.length > 0) {
+        console.error('Some errors occurred indexing assets:');
+        for(var e = 0; e < asset_exceptions.length; e++) {
+            var ex = asset_exceptions[e];
+            console.error('--- Exception '+(e+1)+'/'+asset_exceptions.length+' ('+
+                ex.catalog_alias+'-'+ex.asset_id+') ---');
+            console.error(ex.err.stack);
+        }
+    }
     // We are ready to die ..
     process.exit(0);
 });
