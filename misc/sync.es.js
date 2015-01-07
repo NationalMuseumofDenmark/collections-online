@@ -219,8 +219,6 @@ var METADATA_TRANSFORMATIONS = [
                             metadata.in_artifact_rotation_series = true;
                             return metadata;
                         }
-
-                        formatted_result.suggest.input.push(clean_string(path[k].name));
                     }
                     return metadata;
                 });
