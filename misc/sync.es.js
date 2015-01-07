@@ -79,9 +79,6 @@ try {
                     'ex: ES-1234');
             }
         }
-        return false;
-    } else {
-        return true;
     }
 } catch( err ) {
     console.error( err.message );
@@ -205,9 +202,9 @@ var METADATA_TRANSFORMATIONS = [
                 return cip.get_asset(cip_client, metadata.catalog, master_asset.id)
                 .then(function(master_assets) {
                     if(master_assets.length !== 1) {
+                        console.error( master_assets );
                         throw new Error( 'Expected a single master asset, got '+
                         master_assets.length );
-                        console.error(master_assets);
                     }
                     var master_asset = master_assets[0];
                     var master_asset_metadata = master_asset.fields;
@@ -335,8 +332,6 @@ function handle_next_result_page(cip_client, catalog, result) {
     } else {
         return true; // No more pages in the result.
     }
-    var all_asset_promises = Q.all(asset_promises);
-    return all_asset_promises;
 }
 
 var ADDITIONAL_FIELDS = [
@@ -357,11 +352,12 @@ function get_next_result_page(result, pointer, num_rows) {
             maxreturned: num_rows,
             field: ADDITIONAL_FIELDS
         }, function(response) {
-            if(response == null) {
+            if(response === null) {
                 deferred.reject( new Error('The request for field values returned a null result.') );
             } else {
                 var returnvalue = [];
                 for (var i = 0; i<response.items.length; i++) {
+                    // TODO: Consider if this even works - where is cip_asset defined?
                     var asset = new cip_asset.CIPAsset(this, response.items[i], result.catalog);
                     returnvalue.push( asset );
                 }
@@ -454,7 +450,10 @@ var main_queue = cip_categories.load_categories()
         console.log('Index created');
     }, function(err) {
         // TODO: Add a recursive check for this message.
-        if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
+        if(err.message === 'No Living connections') {
+            throw new Error( 'Is the Elasticsearch server running?' );
+
+        } else if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
             return; // No worries ...
         }
         console.log('Failed to create the index:', err);
@@ -480,10 +479,10 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             relevant_catalogs = catalogs;
         }
         var catalog_aliases = [];
-        for(var c in relevant_catalogs) {
-            catalog_aliases.push(relevant_catalogs[c].alias);
+        for(var rc in relevant_catalogs) {
+            catalog_aliases.push(relevant_catalogs[rc].alias);
         }
-        console.log("Indexing from these catalogs:", catalog_aliases.join(","));
+        console.log('Indexing from these catalogs: ', catalog_aliases.join(','));
         return handle_next_catalog(cip_client, relevant_catalogs);
     });
 } else if(mode === MODES.single) {
