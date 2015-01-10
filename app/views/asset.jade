@@ -187,3 +187,7 @@ block content
                     | #{item.license.displaystring}
                 - else
                   | -
+          .related-assets
+            each asset in related_assets
+              a.related-asset.col-md-3(style='background-image:url(#{asset.src})',
+                href=asset.href)

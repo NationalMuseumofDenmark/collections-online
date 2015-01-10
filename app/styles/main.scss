@@ -446,6 +446,12 @@ p.description {
       }
     }
   }
+  .related-asset {
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+  }
   h1, h2 {
     color: $brand-primary;
   }
