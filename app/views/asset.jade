@@ -187,16 +187,16 @@ block content
                     | #{item.license.displaystring}
                 - else
                   | -
-          - if(related_assets.visible.length > 0)
-            .related-assets
+          .related-assets
+            each asset in related_assets.visible
+              a.related-asset(style='background-image:url(#{asset.src})',
+                href=asset.href)
+            - if(related_assets.additional.length > 0)
               h2.additional-related-header
                 a(href='#{path}#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
                   +icon('minus-2-icon')
                   +icon('plus-2-icon')
-                  | Relaterede
-              each asset in related_assets.visible
-                a.related-asset(style='background-image:url(#{asset.src})',
-                  href=asset.href)
+                  | Flere relaterede
               div#additional-related.collapse
                 each asset in related_assets.additional
                   a.related-asset(style='background-image:url(#{asset.src})',
