@@ -19,6 +19,7 @@ var MODES = {
     all: 'all',
     catalog: 'catalog',
     single: 'single',
+    clear: 'clear',
     rotation_ranks: 'rotation_ranks'
 };
 var MODE_DESCRIPTIONS = {
@@ -27,6 +28,8 @@ var MODE_DESCRIPTIONS = {
     catalog: 'Syncronize only a single catalog or a set of comma seperated ' +
         'catalogs.',
     single: 'Syncronize only a single asset or a comma seperated list of assets.',
+    clear: 'Deletes the entire index - use this before an all mode sync, to' +
+        ' remove old indecies.',
     rotation_ranks: 'Update all ranks of artifact rotation assets, this is ' +
         'automatically done at the end of the "all" mode.'
 };
@@ -90,12 +93,21 @@ try {
 // An array of exceptions and errors thrown when parsing assets.
 var asset_exceptions = [];
 
-// Creates the index in the Elasticsearch index.
+// Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
         index: 'assets'
     }).then(function() {
-        console.log('Index created');
+        console.log('Index created.');
+    });
+}
+
+// Deletes the index in the Elasticsearch service.
+function delete_index() {
+    return client.indices.delete({
+        index: 'assets'
+    }).then(function() {
+        console.log('Index deleted.');
     });
 }
 
@@ -446,9 +458,7 @@ var main_queue = cip_categories.load_categories()
     console.log('Loaded categories for', categories_count, 'catalogs');
 })
 .then(function() {
-    return create_index().then(function() {
-        console.log('Index created');
-    }, function(err) {
+    return create_index().then(undefined, function(err) {
         // TODO: Add a recursive check for this message.
         if(err.message === 'No Living connections') {
             throw new Error( 'Is the Elasticsearch server running?' );
@@ -504,6 +514,8 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
     // TODO: Implement a mode that queries the elasticsearch index to find
     // assets that are not a part of 
     throw new Error('The rotation_ranks mode is not implemented yet.');
+} else if(mode === MODES.clear) {
+    main_queue = main_queue.then( delete_index() );
 }
 
 main_queue
