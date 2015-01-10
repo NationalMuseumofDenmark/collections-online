@@ -365,6 +365,7 @@ function get_next_result_page(result, pointer, num_rows) {
             maxreturned: num_rows,
             field: ADDITIONAL_FIELDS
         }, function(response) {
+            console.log(response);
             if(response === null) {
                 deferred.reject( new Error('The request for field values returned a null result.') );
             } else {
