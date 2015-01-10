@@ -182,6 +182,7 @@ var METADATA_TRANSFORMATIONS = [
         return metadata;
     },
     function transform_relations(cip_client, metadata) {
+        console.log(metadata);
         // Transforms the binary representations of each relation.
         metadata.related_master_assets = cip.parse_binary_relations(
             metadata.related_master_assets);
