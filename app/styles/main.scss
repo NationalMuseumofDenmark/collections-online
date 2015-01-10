@@ -414,7 +414,7 @@ p.description {
   .asset-block {
     margin-bottom: $line-height-computed;
   }
-  .additional-info-header {
+  .additional-info-header, .additional-related-header {
     a {
       color:$brand-primary;
       display: block;
@@ -446,11 +446,18 @@ p.description {
       }
     }
   }
-  .related-asset {
-    height: 100px;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: 50% 50%;
+  .related-assets {
+    margin-bottom: 15px;
+    .related-asset {
+      display: inline-block;
+      width: 23%;
+      height: 100px;
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: 50% 50%;
+      margin: 1%;
+      border: 1px solid $brand-primary;
+    }
   }
   h1, h2 {
     color: $brand-primary;
