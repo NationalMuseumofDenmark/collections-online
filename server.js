@@ -1,11 +1,9 @@
 'use strict';
 
 var express = require('express'),
-    path = require('path'),
-    fs = require('fs'),
     cip = require('./lib/cip-methods.js'),
     cip_categories = require('./lib/cip-categories.js'),
-    elasticsearch = require('elasticsearch');;
+    elasticsearch = require('elasticsearch');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -18,6 +16,17 @@ require('./lib/routes')(app);
 var es_client = new elasticsearch.Client({host: config.es_host});
 app.set('es_client', es_client);
 app.set('site_title', config.site_title);
+
+es_client.count({
+    index: 'assets'
+}).then(function(response) {
+    console.log('The assets index is created and contains', response.count, 'documents.');
+}, function(e) {
+    // We have an error in the communication with the Elasticsearch server
+    // I is probably not started.
+    console.error('Is the elasticsearch service started?');
+    process.exit(1);
+})
 
 var categories = {};
 
