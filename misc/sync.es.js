@@ -182,7 +182,6 @@ var METADATA_TRANSFORMATIONS = [
         return metadata;
     },
     function transform_relations(cip_client, metadata) {
-        console.log(metadata);
         // Transforms the binary representations of each relation.
         metadata.related_master_assets = cip.parse_binary_relations(
             metadata.related_master_assets);
@@ -365,7 +364,6 @@ function get_next_result_page(result, pointer, num_rows) {
             maxreturned: num_rows,
             field: ADDITIONAL_FIELDS
         }, function(response) {
-            console.log(response);
             if(response === null) {
                 deferred.reject( new Error('The request for field values returned a null result.') );
             } else {
