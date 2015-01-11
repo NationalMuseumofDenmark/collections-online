@@ -189,7 +189,7 @@ block content
                   | -
           .related-assets
             each asset in related_assets.visible
-              a.related-asset(style='background-image:url(#{asset.src})',
+              a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
                 href=asset.href)
             - if(related_assets.additional.length > 0)
               h2.additional-related-header
@@ -199,5 +199,5 @@ block content
                   | Flere relaterede
               div#additional-related.collapse
                 each asset in related_assets.additional
-                  a.related-asset(style='background-image:url(#{asset.src})',
+                  a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
                     href=asset.href)
