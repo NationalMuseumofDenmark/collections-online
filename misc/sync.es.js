@@ -11,6 +11,8 @@ var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
 
 var ASSETS_PER_REQUEST = 100;
 
+var CM_PR_IN = 2.54;
+
 /*=== Defining modes to run the syncronization in ===*/
 
 // What modes can we run the elasticsearch script in?
@@ -138,11 +140,18 @@ var catalog_index = 0;
 
 var DATA_REGEXP = new RegExp('\\d+');
 
+function related_filename_comparison(asset_a, asset_b) {
+    var filename_a = asset_a.filename;
+    var filename_b = asset_b.filename;
+    return filename_a.localeCompare(filename_b);
+}
+
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
     function transform_field_names(cip_client, metadata) {
+        console.log(metadata);
         var transformed_metadata = asset_mapping.format_result( metadata );
         // The catalog will be removed when formatting.
         transformed_metadata.catalog = metadata.catalog;
@@ -179,6 +188,7 @@ var METADATA_TRANSFORMATIONS = [
                 }
             }
         }
+        console.log(metadata.categories);
         return metadata;
     },
     function transform_relations(cip_client, metadata) {
@@ -187,6 +197,9 @@ var METADATA_TRANSFORMATIONS = [
             metadata.related_master_assets);
         metadata.related_sub_assets = cip.parse_binary_relations(
             metadata.related_sub_assets);
+        // Sort these by their filename.
+        metadata.related_master_assets.sort( related_filename_comparison );
+        metadata.related_sub_assets.sort( related_filename_comparison );
         return metadata;
     },
     function derive_in_artifact_rotation_series(cip_client, metadata) {
@@ -237,6 +250,11 @@ var METADATA_TRANSFORMATIONS = [
     },
     function extend_from_master(cip_client, metadata) {
         return asset_mapping.extend_from_master(cip_client, metadata);
+    },
+    function derive_dimensions_in_cm(cip_client, metadata) {
+        metadata.width_cm = metadata.width_in * CM_PR_IN;
+        metadata.height_cm = metadata.height_in * CM_PR_IN;
+        return metadata;
     },
     function derive_is_searchable(cip_client, metadata) {
         // Compute a value on if it's drafted, part of a rotational series
