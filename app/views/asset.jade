@@ -99,8 +99,13 @@ block content
             tr
               th Størrelse (pixel):
               td
-                if item.img_width && item.img_height
-                  | (b) #{item.img_width.toFixed(3) || '-'}, (h) #{item.img_height.toFixed(3) || '-'}
+                if item.width_px && item.height_px
+                  | #{item.width_px.toFixed(0) || '-'} &times; #{item.height_px.toFixed(0) || '-'}
+            tr
+              th Størrelse (cm):
+              td
+                if item.width_cm && item.height_cm
+                  | #{item.width_cm.toFixed(1) || '-'} &times; #{item.height_cm.toFixed(1) || '-'}
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'
