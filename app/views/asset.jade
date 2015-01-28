@@ -100,12 +100,12 @@ block content
               th Størrelse (pixel):
               td
                 if item.width_px && item.height_px
-                  | #{item.width_px.toFixed(0) || '-'} &times; #{item.height_px.toFixed(0) || '-'}
+                | #{helpers.format_number(item.width_px, 0) || '-'} &times; #{helpers.format_number(item.height_px, 0) || '-'}
             tr
               th Størrelse (cm):
               td
                 if item.width_cm && item.height_cm
-                  | #{item.width_cm.toFixed(1) || '-'} &times; #{item.height_cm.toFixed(1) || '-'}
+                | #{helpers.format_number(item.width_cm, 1) || '-'} &times; #{helpers.format_number(item.height_cm, 1) || '-'}
             tr
               th Opløsning (DPI):
               td= item.dpi || '-'
