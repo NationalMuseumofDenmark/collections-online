@@ -151,7 +151,6 @@ function related_filename_comparison(asset_a, asset_b) {
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
     function transform_field_names(cip_client, metadata) {
-        console.log(metadata);
         var transformed_metadata = asset_mapping.format_result( metadata );
         // The catalog will be removed when formatting.
         transformed_metadata.catalog = metadata.catalog;
@@ -188,7 +187,6 @@ var METADATA_TRANSFORMATIONS = [
                 }
             }
         }
-        console.log(metadata.categories);
         return metadata;
     },
     function transform_relations(cip_client, metadata) {
