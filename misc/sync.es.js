@@ -9,7 +9,7 @@ var asset_mapping = require('../lib/asset-mapping.js');
 
 var client = new elasticsearch.Client({
     requestTimeout: 30 * 60 * 1000,
-    host: process.env.ES_HOST ? process.env.ES_HOST : 'localhost:9200'
+    host: process.env.ES_HOST || 'localhost:9200'
 });
 
 var ASSETS_PER_REQUEST = 100;
@@ -101,7 +101,7 @@ var asset_exceptions = [];
 // Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
-        index: process.env.ES_INDEX ? process.env.ES_INDEX : 'assets'
+        index: process.env.ES_INDEX || 'assets'
     }).then(function() {
         console.log('Index created.');
     });
@@ -110,7 +110,7 @@ function create_index() {
 // Deletes the index in the Elasticsearch service.
 function delete_index() {
     return client.indices.delete({
-        index: 'assets'
+        index: process.env.ES_INDEX || 'assets'
     }).then(function() {
         console.log('Index deleted.');
     });
