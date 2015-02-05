@@ -100,7 +100,7 @@ var asset_exceptions = [];
 // Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
-        index: process.env.ES_ASSETS_INDEX || 'assets'
+        index: 'assets'
     }).then(function() {
         console.log('Index created.');
     });
@@ -109,7 +109,7 @@ function create_index() {
 // Deletes the index in the Elasticsearch service.
 function delete_index() {
     return client.indices.delete({
-        index: process.env.ES_ASSETS_INDEX || 'assets'
+        index: 'assets'
     }).then(function() {
         console.log('Index deleted.');
     });
@@ -304,7 +304,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
     .then(function( metadata ) {
         var es_id = metadata.catalog + '-' + metadata.id;
         return client.index({
-            index: process.env.ES_ASSETS_INDEX || 'assets',
+            index: 'assets',
             type: 'asset',
             id: es_id,
             body: metadata
