@@ -7,7 +7,10 @@ var cip = require('../lib/cip-methods.js');
 var cip_categories = require('../lib/cip-categories.js');
 var asset_mapping = require('../lib/asset-mapping.js');
 
-var client = new elasticsearch.Client({requestTimeout: 30 * 60 * 1000 });
+var client = new elasticsearch.Client({
+    requestTimeout: 30 * 60 * 1000,
+    host: process.env.ES_HOST ? process.env.ES_HOST : 'localhost:9200'
+});
 
 var ASSETS_PER_REQUEST = 100;
 
@@ -96,7 +99,7 @@ var asset_exceptions = [];
 // Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
-        index: 'assets'
+        index: process.env.ES_INDEX ? process.env.ES_INDEX : 'assets'
     }).then(function() {
         console.log('Index created.');
     });
