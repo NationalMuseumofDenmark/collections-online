@@ -18,7 +18,7 @@ app.set('es_client', es_client);
 app.set('site_title', config.site_title);
 
 es_client.count({
-    index: 'assets'
+    index: config.es_assets_index
 }).then(function(response) {
     console.log('Connecting to the Elasticsearch host', config.es_host);
     console.log('The assets index is created and contains', response.count, 'documents.');
