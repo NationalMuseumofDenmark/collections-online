@@ -6,10 +6,12 @@ $(function() {
 	var $container = $('#masonry-container');
 
 	$container.imagesLoaded(function(){
-		var masonry = new Masonry( $container.get(0), {
-			itemSelector: '.box'
+		$container.each(function() {
+			var masonry = new Masonry( this, {
+				itemSelector: '.box'
+			});
+			$container.data('masonry', masonry);
 		});
-		$container.data('masonry', masonry);
 	});
 
 	$container.infinitescroll({
