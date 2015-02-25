@@ -100,7 +100,7 @@ var asset_exceptions = [];
 // Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
-        index: 'assets'
+        index: process.env.ES_INDEX ? process.env.ES_INDEX : 'assets'
     }).then(function() {
         console.log('Index created.');
     });
@@ -304,7 +304,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
     .then(function( metadata ) {
         var es_id = metadata.catalog + '-' + metadata.id;
         return client.index({
-            index: 'assets',
+            index: process.env.ES_INDEX || 'assets',
             type: 'asset',
             id: es_id,
             body: metadata
