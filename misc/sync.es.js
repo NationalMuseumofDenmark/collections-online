@@ -100,7 +100,7 @@ var asset_exceptions = [];
 // Creates the index in the Elasticsearch service.
 function create_index() {
     return client.indices.create({
-        index: process.env.ES_INDEX ? process.env.ES_INDEX : 'assets'
+        index: process.env.ES_INDEX || 'assets'
     }).then(function() {
         console.log('Index created.');
     });
@@ -109,7 +109,7 @@ function create_index() {
 // Deletes the index in the Elasticsearch service.
 function delete_index() {
     return client.indices.delete({
-        index: 'assets'
+        index: process.env.ES_INDEX || 'assets'
     }).then(function() {
         console.log('Index deleted.');
     });
