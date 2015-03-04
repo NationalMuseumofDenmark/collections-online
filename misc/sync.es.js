@@ -24,8 +24,7 @@ var MODES = {
     all: 'all',
     catalog: 'catalog',
     single: 'single',
-    clear: 'clear',
-    rotation_ranks: 'rotation_ranks'
+    clear: 'clear'
 };
 var MODE_DESCRIPTIONS = {
     recent: 'Syncronize the most recently changed assets.',
@@ -34,9 +33,7 @@ var MODE_DESCRIPTIONS = {
         'catalogs.',
     single: 'Syncronize only a single asset or a comma seperated list of assets.',
     clear: 'Deletes the entire index - use this before an all mode sync, to' +
-        ' remove old indecies.',
-    rotation_ranks: 'Update all ranks of artifact rotation assets, this is ' +
-        'automatically done at the end of the "all" mode.'
+        ' remove old indecies.'
 };
 var mode, reference;
 
@@ -100,8 +97,20 @@ var asset_exceptions = [];
 
 // Creates the index in the Elasticsearch service.
 function create_index() {
+    var index = process.env.ES_ASSETS_INDEX || 'assets';
     return client.indices.create({
-        index: process.env.ES_INDEX || 'assets'
+        index: index,
+        body: {
+            mappings: {
+                asset: {
+                    properties: {
+                        suggest: {
+                            type: 'completion'
+                        }
+                    }
+                }
+            }
+        }
     }).then(function() {
         console.log('Index created.');
     });
@@ -110,7 +119,7 @@ function create_index() {
 // Deletes the index in the Elasticsearch service.
 function delete_index() {
     return client.indices.delete({
-        index: process.env.ES_INDEX || 'assets'
+        index: process.env.ES_ASSETS_INDEX || 'assets'
     }).then(function() {
         console.log('Index deleted.');
     });
@@ -305,7 +314,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
     .then(function( metadata ) {
         var es_id = metadata.catalog + '-' + metadata.id;
         return client.index({
-            index: process.env.ES_INDEX || 'assets',
+            index: process.env.ES_ASSETS_INDEX || 'assets',
             type: 'asset',
             id: es_id,
             body: metadata
@@ -466,89 +475,77 @@ function handle_single_asset(cip_client, catalog, asset_id) {
 // Let's get started.
 console.log('Running in mode: ' + MODE_DESCRIPTIONS[mode]);
 
-var main_queue = cip_categories.load_categories()
-.then(function(result) {
-    // The categories pr catalog has been fetched from Cumulus.
-    for(var i=0; i < result.length; ++i) {
-        categories[result[i].id] = result[i];
-    }
-    var categories_count = Object.keys(categories).length;
-    console.log('Loaded categories for', categories_count, 'catalogs');
-})
-.then(function() {
-    return create_index().then(undefined, function(err) {
-        // TODO: Add a recursive check for this message.
-        if(err.message === 'No Living connections') {
-            throw new Error( 'Is the Elasticsearch server running?' );
-
-        } else if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
-            return; // No worries ...
+var main_queue;
+if(mode === MODES.clear) {
+    var main_queue = delete_index();
+} else {
+    var main_queue = cip_categories.load_categories()
+    .then(function(result) {
+        // The categories pr catalog has been fetched from Cumulus.
+        for(var i=0; i < result.length; ++i) {
+            categories[result[i].id] = result[i];
         }
-        console.log('Failed to create the index:', err);
-    });
-})
-.then(cip.init_session);
-
-if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
-    main_queue = main_queue.then(function(cip_client) {
-        return [cip_client, cip.get_catalogs(cip_client)];
+        var categories_count = Object.keys(categories).length;
+        console.log('Loaded categories for', categories_count, 'catalogs');
     })
-    .spread(function(cip_client, catalogs) {
-        var relevant_catalogs = [];
-        if(mode === MODES.catalog) {
-            for(var c in catalogs) {
-                var catalog = catalogs[c];
-                if(reference.indexOf(catalog.alias) !== -1) {
-                    relevant_catalogs.push(catalog);
-                }
+    .then(function() {
+        return create_index().then(undefined, function(err) {
+            // TODO: Add a recursive check for this message.
+            if(err.message === 'No Living connections') {
+                throw new Error( 'Is the Elasticsearch server running?' );
+
+            } else if(err.message === 'IndexAlreadyExistsException[[assets] already exists]') {
+                return; // No worries ...
             }
-        } else {
-            // All catalogs are relevant catalogs.
-            relevant_catalogs = catalogs;
-        }
-        var catalog_aliases = [];
-        for(var rc in relevant_catalogs) {
-            catalog_aliases.push(relevant_catalogs[rc].alias);
-        }
-        console.log('Indexing from these catalogs: ', catalog_aliases.join(','));
-        return handle_next_catalog(cip_client, relevant_catalogs);
-    });
-} else if(mode === MODES.single) {
-    main_queue = main_queue.then(function(cip_client) {
-        var asset_promises = [];
-        for(var a in reference) {
-            var catalog_alias = reference[a][0];
-            var asset_id = reference[a][1];
-            var asset_promise = handle_single_asset(
-                cip_client,
-                {alias: catalog_alias},
-                asset_id
-            );
-            asset_promises.push( asset_promise );
-        }
-        return Q.all(asset_promises);
-    });
-} else if(mode === MODES.rotation_ranks) {
-    // TODO: Implement a mode that queries the elasticsearch index to find
-    // assets that are not a part of 
-    throw new Error('The rotation_ranks mode is not implemented yet.');
-} else if(mode === MODES.clear) {
-    main_queue = main_queue.then( delete_index() );
+            console.log('Failed to create the index:', err);
+        });
+    })
+    .then(cip.init_session);
+
+    if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
+        main_queue = main_queue.then(function(cip_client) {
+            return [cip_client, cip.get_catalogs(cip_client)];
+        })
+        .spread(function(cip_client, catalogs) {
+            var relevant_catalogs = [];
+            if(mode === MODES.catalog) {
+                for(var c in catalogs) {
+                    var catalog = catalogs[c];
+                    if(reference.indexOf(catalog.alias) !== -1) {
+                        relevant_catalogs.push(catalog);
+                    }
+                }
+            } else {
+                // All catalogs are relevant catalogs.
+                relevant_catalogs = catalogs;
+            }
+            var catalog_aliases = [];
+            for(var rc in relevant_catalogs) {
+                catalog_aliases.push(relevant_catalogs[rc].alias);
+            }
+            console.log('Indexing from these catalogs: ', catalog_aliases.join(','));
+            return handle_next_catalog(cip_client, relevant_catalogs);
+        });
+    } else if(mode === MODES.single) {
+        main_queue = main_queue.then(function(cip_client) {
+            var asset_promises = [];
+            for(var a in reference) {
+                var catalog_alias = reference[a][0];
+                var asset_id = reference[a][1];
+                var asset_promise = handle_single_asset(
+                    cip_client,
+                    {alias: catalog_alias},
+                    asset_id
+                );
+                asset_promises.push( asset_promise );
+            }
+            return Q.all(asset_promises);
+        });
+    }
 }
 
 main_queue
-.fail(function (error) {
-    console.error('An error occurred:');
-    if(error !== null && error !== undefined) {
-        if(error.stack) {
-            console.error( error.stack );
-        } else {
-            console.error( error );
-        }
-    } else {
-        console.error( 'No details was provided.' );
-    }
-}).finally(function() {
+.then(function() {
     console.log('=== All done ===');
     if(asset_exceptions.length > 0) {
         console.error('Some errors occurred indexing assets:');
@@ -561,4 +558,15 @@ main_queue
     }
     // We are ready to die ..
     process.exit(0);
+}, function (error) {
+    console.error('An error occurred:');
+    if(error !== null && error !== undefined) {
+        if(error.stack) {
+            console.error( error.stack );
+        } else {
+            console.error( error );
+        }
+    } else {
+        console.error( 'No details was provided.' );
+    }
 });

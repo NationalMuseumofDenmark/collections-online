@@ -18,15 +18,17 @@ app.set('es_client', es_client);
 app.set('site_title', config.site_title);
 
 es_client.count({
-    index: 'assets'
+    index: config.es_assets_index
 }).then(function(response) {
+    console.log('Connecting to the Elasticsearch host', config.es_host);
     console.log('The assets index is created and contains', response.count, 'documents.');
-}, function(e) {
+}, function() {
+    console.log('Could not connect to the Elasticsearch host', config.es_host);
     // We have an error in the communication with the Elasticsearch server
     // I is probably not started.
     console.error('Is the elasticsearch service started?');
     process.exit(1);
-})
+});
 
 var categories = {};
 
