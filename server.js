@@ -16,6 +16,9 @@ require('./lib/routes')(app);
 var es_client = new elasticsearch.Client({host: config.es_host});
 app.set('es_client', es_client);
 app.set('site_title', config.site_title);
+// Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
+// the app (See http://expressjs.com/api.html#app.set)
+app.set('trust proxy', 'loopback');
 
 es_client.count({
     index: config.es_assets_index
