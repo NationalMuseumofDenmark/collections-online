@@ -1,24 +1,24 @@
 'use strict';
 
 var express = require('express'),
+    elasticsearch = require('elasticsearch'),
     cip = require('./lib/cip-methods.js'),
-    cip_categories = require('./lib/cip-categories.js'),
-    elasticsearch = require('elasticsearch');
+    cip_categories = require('./lib/cip-categories.js');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var config = require('./lib/config/config');
-
 var app = express();
 require('./lib/config/express')(app);
-require('./lib/routes')(app);
 
-var es_client = new elasticsearch.Client({host: config.es_host});
+var es_client = new elasticsearch.Client({ host: config.es_host });
 app.set('es_client', es_client);
 app.set('site_title', config.site_title);
 // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
 // the app (See http://expressjs.com/api.html#app.set)
 app.set('trust proxy', 'loopback');
+
+require('./lib/routes')(app);
 
 es_client.count({
     index: config.es_assets_index
