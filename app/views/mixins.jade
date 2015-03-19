@@ -73,6 +73,19 @@ mixin sidebarmenu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
   .gray-overlay
 
+mixin recursiveCategoryItem(catalog, category)
+  li.row
+    if category.children.length > 0
+      a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
+      a.col-xs-2.expand-menu(href='')
+        +icon('plus-2-icon')
+        +icon('minus-2-icon')
+      ul.nav.menu-hidden
+        each childCategory in category.children
+          +recursiveCategoryItem(catalog, childCategory)
+    else
+      a.col-xs-12(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
+
 mixin header
   header.header
     .natmus
@@ -242,30 +255,6 @@ mixin addPlace(item, alias)
   - var leaf_category = helpers.leaf_category_by_tag(categories, 'Lokalitet');
   - if(leaf_category)
     a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
-  - else
-    | -
-
-//mixin addDating(item, alias)
-  - var categories_time = helpers.category_by_tag(categories, 'Tid');
-  - if(categories_time.length > 0 || item.year)
-    ul.categories
-      - if(item.year)
-        li.year= item.year
-      each category in categories_time
-        - if(category.name[0] != '$')
-          li
-            a(href='http://' + req.get('host') + '/' + alias + '?cat=' + category.id)= category.name
-  - else
-    | -
-
-//mixin addPlace(item, alias)
-  - var categories_place = helpers.category_by_tag(categories, 'Lokalitet');
-  - if(categories_place.length > 0)
-    ul.categories
-      each category in categories_place
-        - if(category.name[0] != '$')
-          li
-            a(href='http://' + req.get('host') + '/' + alias + '?cat=' + category.id)= category.name
   - else
     | -
 

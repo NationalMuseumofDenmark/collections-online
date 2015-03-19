@@ -31,7 +31,7 @@ body {
 
     .categories-menu {
       z-index: 9999;
-      ul.nav { // Menu list
+      ul.dropdown-menu-right { // Menu list
         z-index: 9999;
         left:0;
       }
@@ -179,6 +179,15 @@ svg {
 /* Category menu */
 .categories-menu {
   ul.nav {
+    clear: both;
+    padding: 0;
+    padding-left: 5px;
+    li.row {
+      margin: 0px;
+    }
+  }
+  ul.dropdown-menu-right {
+    padding: 0 10px 0 10px;
     background: #000;
     display: block;
     height: 100%;
@@ -187,7 +196,6 @@ svg {
     clear:both;
     overflow-x: hidden;
     overflow-y:scroll;
-    padding: 0 10px 0 10px;
     position: fixed;
     top: 0;
     bottom:0;
@@ -221,8 +229,27 @@ svg {
     .top-border {
       border-top:1px solid $gray;
     }
+    li.expanded > a.expand-menu {
+      svg.plus-icon {
+        display: none;
+      }
+      svg.minus-icon {
+        display: inline;
+      }
+    }
+    li:not(.expanded) > a.expand-menu {
+      svg.plus-icon {
+        display: inline;
+      }
+      svg.minus-icon {
+        display: none;
+      }
+    }
   }
 
+  .menu-hidden { display:none; }
+
+  /*
   // First childern & last
   .menu-childern-first, .menu-childern-last {
     float: left;
@@ -244,14 +271,13 @@ svg {
     }
   }
 
-  .menu-hidden { display:none; }
-
   .menu-childern-first a, .menu-childern-first a.col-xs-10 {
     padding: 7px 20px;
   }
   .categories-menu ul.nav .menu-childern-first a.col-xs-2 {
     padding:7px 2px;
   }
+  */
 
   .menu-childern-last a {
     padding: 7px 25px;

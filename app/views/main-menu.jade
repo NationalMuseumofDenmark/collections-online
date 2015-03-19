@@ -3,28 +3,14 @@ include mixins
 li
   a.col-xs-12.first-menu.top-border(href='/') Alle samlinger
 
-each nav in results
+each catalog in catalogs
   li
-    a.col-xs-10.top-border(href='/#{nav.alias}') #{nav.name}
-    a.col-xs-2.top-border(href='', class='expand-menu')
+    a.col-xs-10.top-border(href='/#{catalog.alias}') #{catalog.name}
+    a.col-xs-2.top-border.expand-menu(href='')
       +icon('plus-2-icon')
-    ul(class='menu-childern-first menu-hidden', data-menu-child=nav.name)
-      each child in nav.children.children
-        if child.children[0]
-          li
-            a.col-xs-10(href='/#{nav.alias}?cat=#{child.id}') #{child.name}
-            a.col-xs-2(href='', class='expand-menu')
-              +icon('plus-2-icon')
-            ul(class='menu-childern-last menu-hidden', data-menu-child=nav.name)
-              each lastchild in child.children
-                li
-                  a.col-xs-12(href='/#{nav.alias}?cat=#{lastchild.id}') #{lastchild.name}
-        else
-          li
-            a.col-xs-12(href='/#{nav.alias}?cat=#{child.id}') #{child.name}
-            ul(class='menu-childern-last', data-menu-child=nav.name)
-              each lastchild in child.children
-                li
-                  a.col-xs-12(href='/#{lastchild.id}') #{lastchild.name}
+      +icon('minus-2-icon')
+    ul.nav.menu-hidden
+      each category in catalog.categoryRoot.children
+        +recursiveCategoryItem(catalog, category)
 li
   a.col-xs-12.top-border(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online
