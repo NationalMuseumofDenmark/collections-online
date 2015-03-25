@@ -353,7 +353,11 @@ function handle_next_result_page(cip_client, catalog, result) {
         return handle_result_page(cip_client, catalog, result, page_index)
         .fail(function(err) {
             console.error('An error happened parsing result page #', page_index, '- skipping this');
-            console.error(err.stack ? err.stack : err);
+            if(err) {
+                console.error(err.stack ? err.stack : err);
+            } else {
+                console.error('No details provided.');
+            }
         })
         .then(function() {
             return handle_next_result_page(cip_client, catalog, result);
