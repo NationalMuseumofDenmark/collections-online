@@ -39,8 +39,11 @@ cip_categories.load_categories().then(function(result) {
     for(var i=0; i < result.length; ++i) {
         categories[result[i].id] = result[i];
     }
-
-    app.set('cip_categories', categories);
+    // Fetch the number of assets in the category.
+    return cip_categories.fetch_category_counts(es_client, categories)
+    .then(function(categoriesWithCounts) {
+        app.set('cip_categories', categoriesWithCounts);
+    });
 }).then(function() {
     cip.init_session().then(function(nm) {
         cip.get_catalogs(nm).then(function(catalogs) {
