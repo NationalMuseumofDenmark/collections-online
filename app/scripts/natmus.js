@@ -55,10 +55,10 @@ $(function() {
   $.ajax({url: '/catalogs', // Append path to mark active
   })
   .done(function(data) {
-    var menu = $('.categories-menu .nav');
-    menu.html(data);
+    var $menu = $('.categories-menu .dropdown-menu-right');
+    $menu.html(data);
     
-    menu.niceScroll({
+    $menu.niceScroll({
       cursorcolor:'#555',
       background: '',
       cursorwidth: '7px',
@@ -69,15 +69,22 @@ $(function() {
     });
 
     // Expand menus
-    $('.categories-menu ul a.col-xs-2').click(function(e) {
+    $('.categories-menu ul a.expand-menu').click(function(e) {
       e.preventDefault();
-      $(this).next('ul').slideToggle(300);
+      console.log(e);
+      var $toggleButton = $(this);
+      $toggleButton.next('ul').slideToggle(300, function() {
+        // Update the scrollbar
+        $menu.getNiceScroll().resize();
+        // Update the icon on the toggle button
+        var expanded = $(this).is(':visible');
+        $toggleButton.closest('li').toggleClass('expanded', expanded);
+      });
 
-      menu.getNiceScroll().resize();
     });
   })
   .fail(function(data) {
-    $('.categories-menu .nav').html('<li><a href="' + window.location.pathname + '" class="col-xs-12">Uups, der skete en fejl. Prøv at genindlæse siden...</a></li>');
+    $('.categories-menu .dropdown-menu-right').html('<li><a href="' + window.location.pathname + '" class="col-xs-12">Uups, der skete en fejl. Prøv at genindlæse siden...</a></li>');
   });
 });
 
