@@ -21,7 +21,8 @@
     "q": "~1.0.1",
     "jpegtran-bin": "~0.2.7",
     "gifsicle": "~0.1.6",
-    "iconv": "~2.1.4"
+    "iconv": "~2.1.4",
+    "keep-alive-agent": "0.0.1"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
