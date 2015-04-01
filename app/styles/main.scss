@@ -536,6 +536,21 @@ p.description {
     background-color: $white;
     border: none;
     padding:0;
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      padding-bottom: 75%; // Maintaining the 4:3 aspect ratio
+      background: $gray;
+      .icon {
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        background: url('/images/film-projector.svg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 10%;
+      }
+    }
   }
   a {
     color: $black;
