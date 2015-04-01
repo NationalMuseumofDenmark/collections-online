@@ -135,11 +135,17 @@ block content
                   th Filnavn:
                   td= item.filename || '-'
                 tr
-                  th Arkivalienr.:
+                  th Filstørrelse:
+                  td= item.file_size ? item.file_size.displaystring : '-'
+                tr
+                  th Arkivalie nr.:
                   td= item.archiveno || '-'
                 tr
-                  th Genstandsnr.:
-                  td= item.unitno || '-'
+                  th Genstands nr.:
+                  td= item.object_number || '-'
+                tr
+                  th Inventar nr.:
+                  td= item.inventory_number || '-'
                 tr
                   th Arkivnavn:
                   td= item.archivename ? item.archivename.displaystring : '-'
