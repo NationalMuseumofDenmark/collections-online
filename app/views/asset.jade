@@ -14,7 +14,7 @@ block content
   article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
     - var title = item.short_title || 'Ingen titel'
     .row
-      .col-md-6.pull-right.text-row
+      .col-md-6.col-xs-12.pull-right.text-row
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
@@ -151,7 +151,7 @@ block content
                   th Topnr.:
                   td= item.topno || '-'
       
-      .col-md-6.image-row
+      .col-md-6.col-xs-12.image-row
           - var filename = item.filename.toLowerCase();
           - if(player === "image-single")
             .bleed.asset-image
