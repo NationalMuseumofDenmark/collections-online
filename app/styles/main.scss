@@ -232,6 +232,11 @@ svg {
     .top-border {
       border-top:1px solid $gray;
     }
+    li {
+      /* This is needed, because an expanded li is otherwise placing itself
+      ontop of the menu items above it. */
+      overflow: hidden;
+    }
     li.expanded > a.expand-menu {
       svg.plus-icon {
         display: none;
