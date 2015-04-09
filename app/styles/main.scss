@@ -533,9 +533,12 @@ p.description {
 /* Search results */
 .search-results {
   .thumbnail {
+    position: relative;
     background-color: $white;
     border: none;
     padding:0;
+
+    /* Video thumbnail */
     .video-thumbnail {
       position: relative;
       width: 100%;
@@ -551,19 +554,40 @@ p.description {
         margin: 10%;
       }
     }
-  }
-  a {
-    color: $black;
-    &:hover {
-      text-decoration: none;
-      background-color: $white;
-      color:$link-hover-color;
-      border: none;
+
+    /* The actual image */
+    .image {
+      display: block;
+      text-align: center;
+      .overlay {
+        position: relative;
+        display: inline-block;
+        img {
+          max-width: 100%;
+        }
+        .rotation-icon {
+          position: absolute;
+          opacity: 0.75;
+          bottom: 1em;
+          right: 1em;
+          width: 3em;
+        }
+      }
     }
-  }
-  .cat-link a {
-    text-decoration:underline;
-    font-size: 97%;
+    a {
+      display: block;
+      color: $black;
+      &:hover {
+        text-decoration: none;
+        background-color: $white;
+        color:$link-hover-color;
+        border: none;
+      }
+    }
+    .cat-link a {
+      text-decoration:underline;
+      font-size: 97%;
+    }
   }
 }
 

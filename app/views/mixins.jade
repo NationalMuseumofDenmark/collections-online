@@ -329,7 +329,11 @@ mixin searchResultAsset(asset)
           div.video-thumbnail
             div.icon
         else
-          img(src='#{asset.thumbnail_url}')
+          div.image
+            div.overlay
+              img(src='#{asset.thumbnail_url}')
+              if asset.type == 'image-rotation'
+                img(src="/images/rotation-icon.svg", class="rotation-icon")
         if asset.title
           h2.h4 #{asset.title}
         else
