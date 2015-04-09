@@ -38,18 +38,7 @@ block content
 
     div(id="masonry-container" class="search-results")
       each result in results.results
-        div(class='col-lg-3 box')
-          .thumbnail
-            a(href='#{result.url}')
-              if result.title
-                img(src='#{result.thumbnail_url}')
-                h2.h4 #{result.title}
-              else
-                img(src='#{result.thumbnail_url}')
-                h2(class='h4') Ingen titel
-              p.description #{result.description}
-            p.cat-link
-              a(href='#{result.catalog_url}') #{result.catalog}
+        +searchResultAsset(result)
   div(id='page-nav')
     a(href='#{infinitepath}')
 
