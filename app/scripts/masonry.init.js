@@ -65,7 +65,7 @@ $(function() {
 	// trigger Masonry as a callback
 	function( newElements, opts ) {
 		// Change the history entry to carry the search result and page count.
-		if(history) {
+		if(history && history.replaceState) {
 			// We need to clone this, for the reset of css to not affect the dom.
 			var $searchResult = $container.clone();
 			// Reset the CSS position, left and top properties.
