@@ -5,14 +5,50 @@ $(function() {
 
 	var $container = $('#masonry-container');
 
-	$container.imagesLoaded(function(){
-		$container.each(function() {
-			var masonry = new Masonry( this, {
+	// This method replaces the search result with one loaded from the
+	// history state.
+	function replaceSearchResult(page, search_result) {
+		$container
+			.empty()
+			.html(search_result)
+			.children()
+			.css({ opacity: 0 });
+		// Make sure to change the infinitescroll page.
+		$container.infinitescroll('update', {state: {currPage: page}});
+		// Tell masonry to reorganise the results.
+		$container.imagesLoaded(function() {
+			/*
+			// Destroy and recreate the masonry plugin.
+			var masonry = $container.data('masonry');
+			masonry.destroy();
+			*/
+			var masonry = new Masonry( $container.get(0), {
 				itemSelector: '.box'
-			});
+			} );
 			$container.data('masonry', masonry);
+			// Show the search results when they have been rearranged.
+			$container
+				.children()
+				.css({ opacity: 1 });
 		});
-	});
+	}
+
+	// Window.popstate is not reliable
+	if(history && history.state && history.state.page && history.state.search_result) {
+		replaceSearchResult(history.state.page,
+		                    history.state.search_result);
+	} else {
+		// We do not have a history object with a state - let's just initialize
+		// Masonry when the images have all loaded.
+		$container.imagesLoaded(function(){
+			$container.each(function() {
+				var masonry = new Masonry( this, {
+					itemSelector: '.box'
+				});
+				$container.data('masonry', masonry);
+			});
+		});
+	}
 
 	$container.infinitescroll({
 		navSelector  : '#page-nav',    // selector for the paged navigation
@@ -28,7 +64,7 @@ $(function() {
 	},
 	// trigger Masonry as a callback
 	function( newElements, opts ) {
-		// Change the location hash
+		// Change the history entry to carry the search result and page count.
 		if(history) {
 			// We need to clone this, for the reset of css to not affect the dom.
 			var $searchResult = $container.clone();
@@ -45,7 +81,7 @@ $(function() {
 				search_result: $searchResult.html()
 			};
 			// Push this state to the history.
-			history.replaceState(state);
+			history.replaceState(state, document.title, '');
 		}
 
 		// hide new items while they are loading
@@ -69,36 +105,5 @@ $(function() {
 			$container.infinitescroll('retrieve');
 			return false;
 	});
-
-	// When navigating back to a search that has already paginated.
-	window.onpopstate = function(event) {
-		var page = event.state.page;
-		var search_result = event.state.search_result;
-		// If we have a page and a search result
-		if(search_result && page) {
-			// Substitude the loaded search result.
-			$container
-				.empty()
-				.html(search_result)
-				.children()
-				.css({ opacity: 0 });
-			// Make sure to change the infinitescroll page.
-			$container.infinitescroll('update', {state: {currPage: page}});
-			// Tell masonry to reorganise the results.
-			$container.imagesLoaded(function() {
-				// Destroy and recreate the masonry plugin.
-				var masonry = $container.data('masonry');
-				masonry.destroy();
-				masonry = new Masonry( $container.get(0), {
-					itemSelector: '.box'
-				} );
-				$container.data('masonry', masonry);
-				// Show the search results when they have been rearranged.
-				$container
-					.children()
-					.css({ opacity: 1 });
-			});
-		}
-	};
 
 });
