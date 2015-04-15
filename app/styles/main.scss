@@ -567,6 +567,7 @@ p.description {
       .overlay {
         position: relative;
         display: inline-block;
+        max-width: 100%;
         img {
           max-width: 100%;
         }
