@@ -27,7 +27,6 @@ $(function() {
 				state.page = currentSearchResultPage;
 				state.searchResult = $searchResultClone.html();
 
-				console.log('storeSearchResultInHistoryState fired');
 				history.replaceState(state, document.title, '');
 			}
 		}
@@ -48,7 +47,7 @@ $(function() {
 					// Let's assume that we're on the first page of the infinitescroll.
 					storeSearchResultInHistoryState(1);
 				}
-				console.log('storeScrollOffsetInHistoryState fired');
+
 				history.replaceState(state, document.title, '');
 			}
 		}
