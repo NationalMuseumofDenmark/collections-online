@@ -108,7 +108,10 @@ block content
                 | #{helpers.format_number(item.width_cm, 1) || '-'} &times; #{helpers.format_number(item.height_cm, 1) || '-'}
             tr
               th Opløsning (DPI):
-              td= item.dpi || '-'
+              td= helpers.format_number(item.dpi) || '-'
+            tr
+              th Filstørrelse:
+              td= helpers.filesize_mb(item.file_size) || '-'
             tr
               th Rettighedshaver:
               td
@@ -134,9 +137,6 @@ block content
                 tr
                   th Filnavn:
                   td= item.filename || '-'
-                tr
-                  th Filstørrelse:
-                  td= item.file_size ? item.file_size.displaystring : '-'
                 tr
                   th Arkivalie nr.:
                   td= item.archiveno || '-'
