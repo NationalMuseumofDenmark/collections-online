@@ -386,6 +386,7 @@ function get_next_result_page(result, pointer, num_rows) {
             field: ADDITIONAL_FIELDS
         }, function(response) {
             if(response === null || typeof(response.items) === 'undefined') {
+                console.error('Unexpected response:', response);
                 deferred.reject( new Error('The request for field values returned a null / empty result.') );
             } else {
                 var returnvalue = [];
