@@ -385,11 +385,11 @@ function get_next_result_page(result, pointer, num_rows) {
             maxreturned: num_rows,
             field: ADDITIONAL_FIELDS
         }, function(response) {
-            if(response === null) {
-                deferred.reject( new Error('The request for field values returned a null result.') );
+            if(response === null || typeof(response.items) === 'undefined') {
+                deferred.reject( new Error('The request for field values returned a null / empty result.') );
             } else {
                 var returnvalue = [];
-                for (var i = 0; i<response.items.length; i++) {
+                for (var i = 0; i < response.items.length; i++) {
                     // TODO: Consider if this even works - where is cip_asset defined?
                     var asset = new cip_asset.CIPAsset(this, response.items[i], result.catalog);
                     returnvalue.push( asset );
