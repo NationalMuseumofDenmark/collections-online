@@ -225,13 +225,7 @@ var METADATA_TRANSFORMATIONS = [
             if(master_asset.relation === '9ed0887f-40e8-4091-a91c-de356c869251') {
                 // Get the asset's metadata, to check it's categories.
                 return cip.get_asset(cip_client, metadata.catalog, master_asset.id)
-                .then(function(master_assets) {
-                    if(master_assets.length !== 1) {
-                        console.error( master_assets );
-                        throw new Error( 'Expected a single master asset, got '+
-                        master_assets.length );
-                    }
-                    var master_asset = master_assets[0];
+                .then(function(master_asset) {
                     var master_asset_metadata = master_asset.fields;
                     master_asset_metadata = asset_mapping.format_result(
                         master_asset_metadata );
@@ -409,8 +403,10 @@ function handle_catalog(cip_client, catalog) {
     if(catalog === undefined || catalog.alias === undefined) {
         throw new Error('The catalog´s alias was undefined');
     }
+
     console.log('Queuing catalog', catalog.alias);
     var modified_since = (mode === MODES.recent ? '$today-2d' : '2003-04-24');
+
     // Let's find out how many pages of assets we have in this catalog.
     return cip.get_recent_assets(cip_client, catalog, modified_since )
     .then(function(result) {
@@ -427,6 +423,10 @@ function handle_catalog(cip_client, catalog) {
 
 // Recursively handle the catalogs, giving a breath first traversal
 // of the CIP webservice.
+// 
+// TODO: Consider popping catalogs from the array insead of using a global
+// catalog_index
+// 
 function handle_next_catalog(cip_client, catalogs) {
     if(catalog_index < catalogs.length) {
         var catalog = catalogs[catalog_index];
