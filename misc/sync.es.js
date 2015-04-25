@@ -220,30 +220,50 @@ var METADATA_TRANSFORMATIONS = [
         // Loop through the assets related master assets to find if a
         // master asset is in fact in the correct category to make this
         // asset a part of an artifact rotation series.
+        var rotational_master_asset = undefined;
         for(var r in metadata.related_master_assets) {
             var master_asset = metadata.related_master_assets[r];
             if(master_asset.relation === '9ed0887f-40e8-4091-a91c-de356c869251') {
-                // Get the asset's metadata, to check it's categories.
-                return cip.get_asset(cip_client, metadata.catalog, master_asset.id)
-                .then(function(master_asset) {
-                    var master_asset_metadata = master_asset.fields;
-                    master_asset_metadata = asset_mapping.format_result(
-                        master_asset_metadata );
-                    for(var c in master_asset_metadata.categories) {
-                        var category = master_asset_metadata.categories[c];
-                        if(category.name === 'Rotationsbilleder') {
-                            metadata.in_artifact_rotation_series = true;
-                            return metadata;
-                        }
-                    }
-                    return metadata;
-                });
+                rotational_master_asset = master_asset;
             }
         }
-        return metadata;
+
+        // If we found a rotational master asset.
+        if(rotational_master_asset) {
+            // Get the asset's metadata, to check it's categories.
+            return cip.get_asset(cip_client, metadata.catalog, master_asset.id)
+            .then(function(master_asset) {
+                var master_asset_metadata = master_asset.fields;
+                master_asset_metadata = asset_mapping.format_result(
+                    master_asset_metadata );
+                for(var c in master_asset_metadata.categories) {
+                    var category = master_asset_metadata.categories[c];
+                    if(category.name === 'Rotationsbilleder') {
+                        metadata.in_artifact_rotation_series = true;
+                        return metadata;
+                    }
+                }
+                return metadata;
+            });
+        } else {
+            return metadata;
+        }
     },
     function extend_from_master(cip_client, metadata) {
-        return asset_mapping.extend_from_master(cip_client, metadata);
+        var deferred = Q.defer();
+
+        // We don't know if the extend_from_master returns a promise or
+        // the actual metadata.
+        Q.when( asset_mapping.extend_from_master(cip_client, metadata) )
+        .then(function(extendedMetadata) {
+            deferred.resolve(extendedMetadata);
+        }, function(reason) {
+            console.error('Could not extend metadata from master: ' + reason);
+            // Simply stick to the metadata that we already have.
+            deferred.resolve(metadata);
+        });
+
+        return deferred.promise;
     },
     function derive_dimensions_in_cm(cip_client, metadata) {
         metadata.width_cm = metadata.width_in * CM_PR_IN;
