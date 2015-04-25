@@ -133,10 +133,15 @@ $(function() {
 			});
 		}
 
+		/*
+		// TODO: Find a less intrusive method - possibly storing the offset at
+		// the event of the user navigating away (either as an event fired by the
+		// history API or some click event on links).
 		$(window).on('scroll', function() {
 			// Store the window's vertical offset in the state.
 			storeScrollOffsetInHistoryState();
 		})
+		*/
 
 		// We are not interested in the infinite scrolling working automatically.
 		$searchResult.infinitescroll('unbind');
