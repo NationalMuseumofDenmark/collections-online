@@ -1,6 +1,10 @@
 {
   "name": "natmus-samlinger",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/NationalMuseumofDenmark/natmus-samlinger"
+  },
   "dependencies": {
     "express": "~4.0.0",
     "morgan": "~1.0.0",
