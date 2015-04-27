@@ -86,6 +86,22 @@ try {
                     'ex: ES-1234');
             }
         }
+    } else if(mode === MODES.catalog) {
+        // In the catalog mode, each catalog is a combination of a catalog alias
+        // and an optional page offset in the catalog traversing.
+        for(var r in reference) {
+            reference[r] = reference[r].split('+');
+            if(reference[r].length === 1) {
+                reference[r][1] = 0;
+            } else if (reference[r].length === 2) {
+                // Let's make this nummeric.
+                reference[r][1] = parseInt(reference[r][1], 10);
+            } else {
+                throw new Error( 'Every reference in the catalog mode must '+
+                    'contain a catalog alias optionally seperated by a plus (+), '+
+                    'ex: ES+10, for the tenth page offset of the ES catalog.');
+            }
+        }
     }
 } catch( err ) {
     console.error( err.message );
@@ -430,8 +446,10 @@ function handle_catalog(cip_client, catalog) {
     // Let's find out how many pages of assets we have in this catalog.
     return cip.get_recent_assets(cip_client, catalog, modified_since )
     .then(function(result) {
-        // Reset the counter.
-        catalog_page_index[catalog.alias] = 0;
+        // Reset the counter - might not be needed, if it's already set.
+        if(typeof(catalog_page_index[catalog.alias]) === 'undefined') {
+            catalog_page_index[catalog.alias] = 0;
+        }
         return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
             console.log('Done parsing catalog', catalog.alias);
         });
@@ -522,8 +540,13 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
         if(mode === MODES.catalog) {
             for(var c in catalogs) {
                 var catalog = catalogs[c];
-                if(reference.indexOf(catalog.alias) !== -1) {
-                    relevant_catalogs.push(catalog);
+                for(var r in reference) {
+                    var referenced_catalog = reference[r][0];
+                    var referenced_offset = reference[r][1];
+                    if(catalog.alias === referenced_catalog) {
+                        relevant_catalogs.push(catalog);
+                        catalog_page_index[catalog.alias] = referenced_offset;
+                    }
                 }
             }
         } else {
