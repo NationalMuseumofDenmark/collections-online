@@ -142,6 +142,9 @@ $(function() {
 			storeScrollOffsetInHistoryState();
 		})
 		*/
+		window.onbeforeunload = function() {
+			storeScrollOffsetInHistoryState();
+		};
 
 		// We are not interested in the infinite scrolling working automatically.
 		$searchResult.infinitescroll('unbind');
