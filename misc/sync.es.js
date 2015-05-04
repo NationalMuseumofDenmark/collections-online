@@ -33,9 +33,7 @@ var MODE_DESCRIPTIONS = {
         'catalogs.',
     single: 'Syncronize only a single asset or a comma seperated list of assets.',
     clear: 'Deletes the entire index - use this before an all mode sync, to' +
-        ' remove old indecies.',
-    rotation_ranks: 'Update all ranks of artifact rotation assets, this is ' +
-        'automatically done at the end of the "all" mode.'
+        ' remove old indecies.'
 };
 var mode, reference;
 
@@ -112,6 +110,8 @@ try {
 
 // An array of exceptions and errors thrown when parsing assets.
 var asset_exceptions = [];
+// An array of assets indexed during the process.
+var assets_indexed = [];
 
 // Creates the index in the Elasticsearch service.
 function create_index() {
@@ -244,6 +244,8 @@ var METADATA_TRANSFORMATIONS = [
             }
         }
 
+        // TODO: Implement this as a post-processing step reading asset metadata
+        // of related assets from the index instead of from the CIP.
         // If we found a rotational master asset.
         if(rotational_master_asset) {
             // Get the asset's metadata, to check it's categories.
@@ -264,7 +266,7 @@ var METADATA_TRANSFORMATIONS = [
         } else {
             return metadata;
         }
-    },
+    },/*
     function extend_from_master(cip_client, metadata) {
         var deferred = Q.defer();
 
@@ -280,7 +282,7 @@ var METADATA_TRANSFORMATIONS = [
         });
 
         return deferred.promise;
-    },
+    },*/
     function derive_dimensions_in_cm(cip_client, metadata) {
         metadata.width_cm = metadata.width_in * CM_PR_IN;
         metadata.height_cm = metadata.height_in * CM_PR_IN;
@@ -342,6 +344,7 @@ function handle_asset(cip_client, asset, catalog_alias) {
     })
     .then(function(resp) {
         console.log('Successfully indexed ' + resp._id);
+        return resp._id;
     })
     .fail(function(err) {
         // Push this to the list of asset exceptions.
@@ -376,7 +379,11 @@ function handle_result_page(cip_client, catalog, result, page_index) {
 
 // Recursively handle the assets on pages, giving a breath first traversal
 // of the CIP webservice.
-function handle_next_result_page(cip_client, catalog, result) {
+function handle_next_result_page(cip_client, catalog, result, indexedAssetIds) {
+    // If the function was called without a value for the indexedAssetIds.
+    if(!indexedAssetIds) {
+        indexedAssetIds = [];
+    }
     var page_index = catalog_page_index[catalog.alias];
     if(page_index * ASSETS_PER_REQUEST < result.total_rows) {
         catalog_page_index[catalog.alias]++;
@@ -389,11 +396,15 @@ function handle_next_result_page(cip_client, catalog, result) {
                 console.error('No details provided.');
             }
         })
-        .then(function() {
-            return handle_next_result_page(cip_client, catalog, result);
+        .then(function(newIndexedAssetIds) {
+            // Let's concat the newly index asset ids.
+            indexedAssetIds = indexedAssetIds.concat(newIndexedAssetIds);
+            return handle_next_result_page(cip_client, catalog, result, indexedAssetIds);
         });
     } else {
-        return true; // No more pages in the result.
+        // No more pages in the result, let's return the final array of indexed
+        // asset ids.
+        return indexedAssetIds;
     }
 }
 
@@ -450,8 +461,10 @@ function handle_catalog(cip_client, catalog) {
         if(typeof(catalog_page_index[catalog.alias]) === 'undefined') {
             catalog_page_index[catalog.alias] = 0;
         }
-        return Q.when(handle_next_result_page(cip_client, catalog, result), function() {
+        var indexAssetIds = handle_next_result_page(cip_client, catalog, result);
+        return Q.when(indexAssetIds, function(value) {
             console.log('Done parsing catalog', catalog.alias);
+            return value;
         });
     }, function() {
         console.error('An error occurred getting overview from the catalog');
@@ -465,16 +478,21 @@ function handle_catalog(cip_client, catalog) {
 // TODO: Consider popping catalogs from the array insead of using a global
 // catalog_index
 // 
-function handle_next_catalog(cip_client, catalogs) {
+function handle_next_catalog(cip_client, catalogs, indexedAssetIds) {
+    if(!indexedAssetIds) {
+        indexedAssetIds = [];
+    }
     if(catalog_index < catalogs.length) {
         var catalog = catalogs[catalog_index];
         catalog_index++;
         return handle_catalog(cip_client, catalog)
-        .then(function() {
-            return handle_next_catalog(cip_client, catalogs);
+        .then(function(newIndexedAssetIds) {
+            indexedAssetIds = indexedAssetIds.concat(newIndexedAssetIds);
+            return handle_next_catalog(cip_client, catalogs, indexedAssetIds);
         });
     } else {
-        return true; // No more catalogs.
+        // No more catalogs - let's return all the indexed assets.
+        return indexedAssetIds;
     }
 }
 
@@ -498,8 +516,8 @@ function handle_single_asset(cip_client, catalog, asset_id) {
         catalog: catalog
     }, id_string, null, function(result) {
         catalog_page_index[catalog.alias] = 0;
-        var result_handle_promise = handle_next_result_page(cip_client, catalog, result);
-        deferred.resolve( result_handle_promise );
+        handle_next_result_page(cip_client, catalog, result)
+        .then(deferred.resolve);
     }, deferred.reject);
 
     return deferred.promise;
@@ -573,15 +591,133 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
             );
             asset_promises.push( asset_promise );
         }
-        return Q.all(asset_promises);
+        return Q.all(asset_promises).then(function(indexedAssetIds) {
+            // Concat all arrays into one.
+            return Array.prototype.concat.apply([], indexedAssetIds);
+        });
     });
-} else if(mode === MODES.rotation_ranks) {
-    // TODO: Implement a mode that queries the elasticsearch index to find
-    // assets that are not a part of 
-    throw new Error('The rotation_ranks mode is not implemented yet.');
 } else if(mode === MODES.clear) {
     main_queue = main_queue.then( delete_index() );
 }
+
+// Functionality to extend the metadata of an asset from it's master asset.
+function extendAssetMetadata(subAssetMetadata, masterAssetMetadata) {
+    console.log('Extending', subAssetMetadata.id, 'from', masterAssetMetadata.id);
+
+    var extendedMetadata = asset_mapping.extend_metadata(subAssetMetadata, masterAssetMetadata);
+
+    // Index the extended metadata and return the promise.
+    var es_id = subAssetMetadata.catalog + '-' + subAssetMetadata.id;
+    return client.index({
+        index: process.env.ES_INDEX || 'assets',
+        type: 'asset',
+        id: es_id,
+        body: extendedMetadata
+    });
+}
+
+main_queue = main_queue.then(function(indexedAssetIds) {
+    console.log('=== Done updating metadata from the CIP ===');
+    console.log('Updating metadata inheritance of',
+                indexedAssetIds.length,
+                'asset(s), based on the index.');
+
+    indexedAssetIds = indexedAssetIds.filter(function(id) {
+        // This filters out any undefined values from failing assets.
+        return typeof(id) === 'string';
+    });
+
+    var deferred = Q.defer();
+    // Get a ton of metadata in a single request.
+    client.mget({
+        index: process.env.ES_INDEX || 'assets',
+        type: 'asset',
+        body: {
+            ids: indexedAssetIds
+        }
+    }, function (error, response) {
+        var extendedAssetPromises = [];
+        if(response && response.docs) {
+            response.docs.forEach(function(asset) {
+                var assetMetadata = asset._source;
+                // Extend from it's master assets xor extend it's sub assets.
+                // If this is both a master and a sub asset - throw an error
+                // for now. This might change.
+                if('related_master_assets' in assetMetadata &&
+                   'related_sub_assets' in assetMetadata) {
+                    var masterAssets = assetMetadata.related_master_assets;
+                    var subAssets = assetMetadata.related_sub_assets;
+                    if(masterAssets.length > 0 && subAssets.length > 0) {
+                        console.error('Skipping an asset ('+assetMetadata.id+
+                                      ') that is both a master and a sub asset '+
+                                      'of another asset.');
+                        /*
+                        throw new Error('Unable to extend metadata from an '+
+                                        'asset that is both master and sub '+
+                                        'asset of another asset.');
+                        */
+                    } else if(masterAssets.length === 1) {
+                        // Extend from it's master.
+                        var masterAssetPromise = client.get({
+                            index: process.env.ES_INDEX || 'assets',
+                            type: 'asset',
+                            id: assetMetadata.catalog+'-'+masterAssets[0].id
+                        }).then(function(response) {
+                            if(response && response._source) {
+                                var masterAssetMetadata = response._source;
+                                return extendAssetMetadata(assetMetadata, masterAssetMetadata);
+                            } else {
+                                throw new Error('Expected a non-empty response.');
+                            }
+                        });
+                        extendedAssetPromises.push(masterAssetPromise);
+                    } else if(masterAssets.length > 1) {
+                        console.log('Skipping inherit metadata from an asset '+
+                                    'with multiple master assets.');
+                    } else if(subAssets.length > 0) {
+                        // Extend it's sub-assets from this master asset.
+                        // Remember to skip these sub-assets if they was also
+                        // indexed in this run of the ES syncronization.
+                        var subAssetIds = subAssets.map(function(subAsset) {
+                            return assetMetadata.catalog+'-'+subAsset.id;
+                        });
+
+                        //console.log('Fetching sub assets', subAssetIds);
+                        var subAssetsPromise = client.mget({
+                            index: process.env.ES_INDEX || 'assets',
+                            type: 'asset',
+                            body: {
+                                ids: subAssetIds
+                            }
+                        }).then(function(response) {
+                            var extendedAssetPromises = [];
+                            if(response && response.docs) {
+                                response.docs.forEach(function(subAsset) {
+                                    var subAssetMetadata = subAsset._source;
+                                    var extendedAssetPromise = extendAssetMetadata(subAssetMetadata, assetMetadata);
+                                    extendedAssetPromises.push(extendedAssetPromise);
+                                });
+                            }
+                            return Q.all(extendedAssetPromises);
+                        });
+
+                        extendedAssetPromises.push(subAssetsPromise);
+                    } else {
+                        // All good - skipping an asset without relations.
+                        console.log('Skipping asset', assetMetadata.id, 'with '+
+                                    'no related assets.');
+                    }
+                } else {
+                    throw new Error('Malformed metadata, expected two fields: '+
+                                    'related_master_assets and related_sub_assets');
+                }
+            });
+        }
+        Q.all(extendedAssetPromises).then(deferred.resolve);
+    });
+
+    return deferred.promise;
+});
 
 main_queue
 .fail(function (error) {
