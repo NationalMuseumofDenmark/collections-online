@@ -634,6 +634,10 @@ function updateMetadataFromRelations(assetMetadata) {
             return assetMetadata.catalog+'-'+subAsset.id;
         });
 
+        // Let's wrap this in a promise, so we can take over any failed
+        // promises, when returning it.
+        subAssetIds = new Q(subAssetIds);
+
         if(masterAssets.length === 1) {
             var masterAssetId = assetMetadata.catalog+'-'+masterAssets[0].id;
             // Extend from it's master.
@@ -658,7 +662,7 @@ function updateMetadataFromRelations(assetMetadata) {
                               assetMetadata.catalog+'-'+assetMetadata,
                               'because:',
                               reason);
-                return [];
+                return subAssetIds;
             });
         } else if(masterAssets.length > 1) {
             console.log('Skipping inherit metadata from asset',
@@ -775,6 +779,9 @@ main_queue
     } else {
         console.error( 'No details was provided.' );
     }
+    // TODO: Change this to a positive integer to indicate an error, when the
+    // CIP is no longer referencing missing assets.
+    process.exit(0);
 }).finally(function() {
     console.log('=== All done ===');
 
