@@ -727,7 +727,8 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                     if(newlyIndexAssetIds.length > 0) {
                         console.log("Adding",
                                     newlyIndexAssetIds.length,
-                                    "assets to the queue.");
+                                    "assets to the queue, from",
+                                    assetId);
                     }
                     // Concatinate the new IDs to the queue.
                     indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
