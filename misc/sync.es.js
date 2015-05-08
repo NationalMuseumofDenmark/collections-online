@@ -673,14 +673,14 @@ main_queue = main_queue.then(function(indexedAssetIds) {
         // This filters out any undefined values from failing assets.
         return typeof(id) === 'string';
     });
-    
+
     console.log('Updating metadata inheritance of',
                 indexedAssetIds.length,
                 'asset(s), based on the index.');
 
     var deferred = Q.defer();
 
-    function updateNextAssetFromRelations() {
+    function updateNextAssetFromRelations(indexedAssetIds) {
 
         // Let's pop one from front of the queue.
         var assetId = indexedAssetIds.shift();
@@ -697,6 +697,7 @@ main_queue = main_queue.then(function(indexedAssetIds) {
             }
 
             var newlyIndexAssetIds = updateMetadataFromRelations(assetMetadata);
+
             Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
                 if(newlyIndexAssetIds.length > 0) {
                     console.log("Adding",
@@ -710,9 +711,10 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                 if(indexedAssetIds.length > 0) {
                     // Let's take the next one.
                     setTimeout(function() {
-                        updateNextAssetFromRelations();
+                        updateNextAssetFromRelations(indexedAssetIds);
                     }, 0); // The timeout is to prevent stack size exceeding.
                 } else {
+                    console.log('No more indexed assets to process.');
                     deferred.resolve();
                 }
             });
@@ -720,7 +722,7 @@ main_queue = main_queue.then(function(indexedAssetIds) {
     }
 
     // Let's start the madness.
-    updateNextAssetFromRelations();
+    updateNextAssetFromRelations(indexedAssetIds);
 
     return deferred.promise;
 });
@@ -739,6 +741,7 @@ main_queue
     }
 }).finally(function() {
     console.log('=== All done ===');
+
     if(asset_exceptions.length > 0) {
         console.error('Some errors occurred indexing assets:');
         for(var e = 0; e < asset_exceptions.length; e++) {
@@ -758,6 +761,10 @@ main_queue
             console.error(ex.err.stack);
         }
     }
-    // We are ready to die ..
-    process.exit(0);
+
+    setTimeout(function() {
+        console.log('Bye bye ...');
+        // We are ready to die ..
+        process.exit(0);
+    }, 1000);
 });
