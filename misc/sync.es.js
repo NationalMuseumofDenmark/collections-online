@@ -604,7 +604,10 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
 // - Extend the metadata of an asset from it's master asset.
 // - Re-index the sub asset in Elasticsearch.
 function extendAndIndexAsset(subAssetMetadata, masterAssetMetadata) {
-    console.log('Extending', subAssetMetadata.id, 'from', masterAssetMetadata.id);
+    console.log('Extending',
+                subAssetMetadata.catalog +'-'+ subAssetMetadata.id,
+                'from',
+                masterAssetMetadata.catalog +'-'+ masterAssetMetadata.id);
 
     var extendedMetadata = asset_mapping.extend_metadata(subAssetMetadata, masterAssetMetadata);
 
@@ -717,30 +720,6 @@ main_queue = main_queue.then(function(indexedAssetIds) {
 
     // Let's start the madness.
     updateNextAssetFromRelations();
-
-    /*
-    // Get a ton of metadata in a single request.
-    client.mget({
-        index: process.env.ES_INDEX || 'assets',
-        type: 'asset',
-        body: {
-            ids: indexedAssetIds
-        }
-    }, function (error, response) {
-        var extendedAssetPromises = [];
-        if(response && response.docs) {
-
-            console.log('Received metadata for',
-                        response.docs.length,
-                        'asset(s).');
-
-            response.docs.forEach(function(asset) {
-                updateMetadataFromRelations(asset._source);
-            });
-        }
-        Q.all(extendedAssetPromises).then(deferred.resolve);
-    });
-    */
 
     return deferred.promise;
 });
