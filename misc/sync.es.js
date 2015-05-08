@@ -392,23 +392,24 @@ function handle_next_result_page(cip_client, catalog, result, indexedAssetIds) {
     if(page_index * ASSETS_PER_REQUEST < result.total_rows) {
         catalog_page_index[catalog.alias]++;
         return handle_result_page(cip_client, catalog, result, page_index)
-        .fail(function(err) {
+        .then(function(newIndexedAssetIds) {
+            // Let's concat the newly index asset ids.
+            indexedAssetIds = indexedAssetIds.concat(newIndexedAssetIds);
+            return handle_next_result_page(cip_client, catalog, result, indexedAssetIds);
+        }, function(err) {
             console.error('An error happened parsing result page #', page_index, '- skipping this');
             if(err) {
                 console.error(err.stack ? err.stack : err);
             } else {
                 console.error('No details provided.');
             }
-        })
-        .then(function(newIndexedAssetIds) {
-            // Let's concat the newly index asset ids.
-            indexedAssetIds = indexedAssetIds.concat(newIndexedAssetIds);
-            return handle_next_result_page(cip_client, catalog, result, indexedAssetIds);
+            // Let's just return the indexed asset id's so far.
+            return new Q(indexedAssetIds);
         });
     } else {
         // No more pages in the result, let's return the final array of indexed
         // asset ids.
-        return indexedAssetIds;
+        return new Q(indexedAssetIds);
     }
 }
 
@@ -707,7 +708,7 @@ main_queue = main_queue.then(function(indexedAssetIds) {
 
     var deferred = Q.defer();
 
-    function updateNextAssetFromRelations(indexedAssetIds) {
+    function updateNextAssetFromRelations() {
 
         // Let's pop one from front of the queue.
         var assetId = indexedAssetIds.shift();
@@ -719,7 +720,7 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                         handledAssetIds[assetId],
                         'times.');
             // Skip the asset.
-            return updateNextAssetFromRelations(indexedAssetIds);
+            return updateNextAssetFromRelations();
         } else {
             // Fetch the asset metadata related to the asset.
             client.get({
@@ -754,20 +755,30 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                     if(indexedAssetIds.length > 0) {
                         // Let's take the next one.
                         setTimeout(function() {
-                            updateNextAssetFromRelations(indexedAssetIds);
+                            updateNextAssetFromRelations();
                         }, 0); // The timeout is to prevent stack size exceeding.
                     } else {
                         console.log('No more indexed assets to process.');
                         deferred.resolve();
                     }
                 });
-            }, deferred.reject);
+            }, function(reason) {
+                console.error('Failed fetching newly indexed asset',
+                             assetId,
+                             'reason:',
+                             reason.message || reason || 'Not given.');
+                if(reason.stack) {
+                    console.error(reason.stack);
+                }
+                // Next asset please ...
+                return updateNextAssetFromRelations();
+            });
         }
     }
 
     if(indexedAssetIds.length > 0) {
         // Let's start the madness.
-        updateNextAssetFromRelations(indexedAssetIds);
+        updateNextAssetFromRelations();
     } else {
         deferred.resolve();
     }
