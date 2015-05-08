@@ -600,8 +600,10 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
     main_queue = main_queue.then( delete_index() );
 }
 
-// Functionality to extend the metadata of an asset from it's master asset.
-function extendAssetMetadata(subAssetMetadata, masterAssetMetadata) {
+// Given a sub asset's and a master asset's metadata:
+// - Extend the metadata of an asset from it's master asset.
+// - Re-index the sub asset in Elasticsearch.
+function extendAndIndexAsset(subAssetMetadata, masterAssetMetadata) {
     console.log('Extending', subAssetMetadata.id, 'from', masterAssetMetadata.id);
 
     var extendedMetadata = asset_mapping.extend_metadata(subAssetMetadata, masterAssetMetadata);
@@ -616,6 +618,51 @@ function extendAssetMetadata(subAssetMetadata, masterAssetMetadata) {
     });
 }
 
+function updateMetadataFromRelations(assetMetadata) {
+    // Extend from it's master assets xor extend it's sub assets.
+    // If this is both a master and a sub asset - throw an error
+    // for now. This might change.
+    if('related_master_assets' in assetMetadata &&
+       'related_sub_assets' in assetMetadata) {
+        var masterAssets = assetMetadata.related_master_assets;
+        var subAssets = assetMetadata.related_sub_assets;
+
+        var subAssetIds = subAssets.map(function(subAsset) {
+            return assetMetadata.catalog+'-'+subAsset.id;
+        });
+
+        if(masterAssets.length === 1) {
+            // Extend from it's master.
+            return client.get({
+                index: process.env.ES_INDEX || 'assets',
+                type: 'asset',
+                id: assetMetadata.catalog+'-'+masterAssets[0].id
+            }).then(function(response) {
+                if(response && response._source) {
+                    var masterAssetMetadata = response._source;
+                    return extendAndIndexAsset(assetMetadata, masterAssetMetadata);
+                } else {
+                    throw new Error('Expected a non-empty response.');
+                }
+            }).then(function() {
+                // This returns the assets sub asset ids.
+                return subAssetIds;
+            });
+        } else if(masterAssets.length > 1) {
+            console.log('Skipping inherit metadata from asset',
+                        assetMetadata.catalog +'-'+ assetMetadata.id,
+                        'with multiple master assets.');
+        }
+
+        // Return the sub asset ids.
+        return subAssetIds;
+    } else {
+        throw new Error('Malformed metadata, expected two fields: '+
+                        'related_master_assets and related_sub_assets');
+    }
+}
+
+// Let's update the assets metadata based on their relations.
 main_queue = main_queue.then(function(indexedAssetIds) {
     console.log('=== Done updating metadata from the CIP ===');
     console.log('Updating metadata inheritance of',
@@ -628,6 +675,50 @@ main_queue = main_queue.then(function(indexedAssetIds) {
     });
 
     var deferred = Q.defer();
+
+    function updateNextAssetFromRelations() {
+
+        // Let's pop one from front of the queue.
+        var assetId = indexedAssetIds.shift();
+
+        // Fetch the asset metadata related to the asset.
+        client.get({
+            index: process.env.ES_INDEX || 'assets',
+            type: 'asset',
+            id: assetId
+        }).then(function(response) {
+            var assetMetadata = response._source;
+            if(!assetMetadata) {
+                deferred.reject('Got an asset without metadata: ', assetId);
+            }
+
+            var newlyIndexAssetIds = updateMetadataFromRelations(assetMetadata);
+            Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
+                if(newlyIndexAssetIds.length > 0) {
+                    console.log("Adding",
+                                newlyIndexAssetIds.length,
+                                "assets to the queue.");
+                }
+                // Concatinate the new IDs to the queue.
+                indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
+
+                // If the queue of newly indexed asset id's is not empty.
+                if(indexedAssetIds.length > 0) {
+                    // Let's take the next one.
+                    setTimeout(function() {
+                        updateNextAssetFromRelations();
+                    }, 0); // The timeout is to prevent stack size exceeding.
+                } else {
+                    deferred.resolve();
+                }
+            });
+        }, deferred.reject);
+    }
+
+    // Let's start the madness.
+    updateNextAssetFromRelations();
+
+    /*
     // Get a ton of metadata in a single request.
     client.mget({
         index: process.env.ES_INDEX || 'assets',
@@ -638,83 +729,18 @@ main_queue = main_queue.then(function(indexedAssetIds) {
     }, function (error, response) {
         var extendedAssetPromises = [];
         if(response && response.docs) {
+
+            console.log('Received metadata for',
+                        response.docs.length,
+                        'asset(s).');
+
             response.docs.forEach(function(asset) {
-                var assetMetadata = asset._source;
-                // Extend from it's master assets xor extend it's sub assets.
-                // If this is both a master and a sub asset - throw an error
-                // for now. This might change.
-                if('related_master_assets' in assetMetadata &&
-                   'related_sub_assets' in assetMetadata) {
-                    var masterAssets = assetMetadata.related_master_assets;
-                    var subAssets = assetMetadata.related_sub_assets;
-                    if(masterAssets.length > 0 && subAssets.length > 0) {
-                        console.error('Skipping an asset ('+assetMetadata.id+
-                                      ') that is both a master and a sub asset '+
-                                      'of another asset.');
-                        /*
-                        throw new Error('Unable to extend metadata from an '+
-                                        'asset that is both master and sub '+
-                                        'asset of another asset.');
-                        */
-                    } else if(masterAssets.length === 1) {
-                        // Extend from it's master.
-                        var masterAssetPromise = client.get({
-                            index: process.env.ES_INDEX || 'assets',
-                            type: 'asset',
-                            id: assetMetadata.catalog+'-'+masterAssets[0].id
-                        }).then(function(response) {
-                            if(response && response._source) {
-                                var masterAssetMetadata = response._source;
-                                return extendAssetMetadata(assetMetadata, masterAssetMetadata);
-                            } else {
-                                throw new Error('Expected a non-empty response.');
-                            }
-                        });
-                        extendedAssetPromises.push(masterAssetPromise);
-                    } else if(masterAssets.length > 1) {
-                        console.log('Skipping inherit metadata from an asset '+
-                                    'with multiple master assets.');
-                    } else if(subAssets.length > 0) {
-                        // Extend it's sub-assets from this master asset.
-                        // Remember to skip these sub-assets if they was also
-                        // indexed in this run of the ES syncronization.
-                        var subAssetIds = subAssets.map(function(subAsset) {
-                            return assetMetadata.catalog+'-'+subAsset.id;
-                        });
-
-                        //console.log('Fetching sub assets', subAssetIds);
-                        var subAssetsPromise = client.mget({
-                            index: process.env.ES_INDEX || 'assets',
-                            type: 'asset',
-                            body: {
-                                ids: subAssetIds
-                            }
-                        }).then(function(response) {
-                            var extendedAssetPromises = [];
-                            if(response && response.docs) {
-                                response.docs.forEach(function(subAsset) {
-                                    var subAssetMetadata = subAsset._source;
-                                    var extendedAssetPromise = extendAssetMetadata(subAssetMetadata, assetMetadata);
-                                    extendedAssetPromises.push(extendedAssetPromise);
-                                });
-                            }
-                            return Q.all(extendedAssetPromises);
-                        });
-
-                        extendedAssetPromises.push(subAssetsPromise);
-                    } else {
-                        // All good - skipping an asset without relations.
-                        console.log('Skipping asset', assetMetadata.id, 'with '+
-                                    'no related assets.');
-                    }
-                } else {
-                    throw new Error('Malformed metadata, expected two fields: '+
-                                    'related_master_assets and related_sub_assets');
-                }
+                updateMetadataFromRelations(asset._source);
             });
         }
         Q.all(extendedAssetPromises).then(deferred.resolve);
     });
+    */
 
     return deferred.promise;
 });
@@ -737,8 +763,18 @@ main_queue
         console.error('Some errors occurred indexing assets:');
         for(var e = 0; e < asset_exceptions.length; e++) {
             var ex = asset_exceptions[e];
-            console.error('--- Exception '+(e+1)+'/'+asset_exceptions.length+' ('+
-                ex.catalog_alias+'-'+ex.asset_id+') ---');
+
+            var message = '--- Exception ';
+            message += (e+1);
+            message += '/';
+            message += asset_exceptions.length;
+            message += ' (';
+            message += ex.catalog_alias;
+            message += '-';
+            message += ex.asset_id;
+            message += ') ---';
+
+            console.error(message);
             console.error(ex.err.stack);
         }
     }
