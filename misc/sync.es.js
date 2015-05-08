@@ -635,11 +635,12 @@ function updateMetadataFromRelations(assetMetadata) {
         });
 
         if(masterAssets.length === 1) {
+            var masterAssetId = assetMetadata.catalog+'-'+masterAssets[0].id;
             // Extend from it's master.
             return client.get({
                 index: process.env.ES_INDEX || 'assets',
                 type: 'asset',
-                id: assetMetadata.catalog+'-'+masterAssets[0].id
+                id: masterAssetId
             }).then(function(response) {
                 if(response && response._source) {
                     var masterAssetMetadata = response._source;
@@ -650,6 +651,14 @@ function updateMetadataFromRelations(assetMetadata) {
             }).then(function() {
                 // This returns the assets sub asset ids.
                 return subAssetIds;
+            }, function(reason) {
+                console.error('Failed fetching the master asset',
+                              masterAssetId,
+                              'referenced by',
+                              assetMetadata.catalog+'-'+assetMetadata,
+                              'because:',
+                              reason);
+                return [];
             });
         } else if(masterAssets.length > 1) {
             console.log('Skipping inherit metadata from asset',
@@ -729,9 +738,9 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                                     newlyIndexAssetIds.length,
                                     "assets to the queue, from",
                                     assetId);
+                        // Concatinate the new IDs to the queue.
+                        indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
                     }
-                    // Concatinate the new IDs to the queue.
-                    indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
 
                     // If the queue of newly indexed asset id's is not empty.
                     if(indexedAssetIds.length > 0) {
