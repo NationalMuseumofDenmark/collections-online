@@ -597,7 +597,7 @@ if(mode === MODES.recent || mode === MODES.all || mode === MODES.catalog) {
         });
     });
 } else if(mode === MODES.clear) {
-    main_queue = main_queue.then( delete_index() );
+    main_queue = main_queue.then( delete_index );
 }
 
 // Given a sub asset's and a master asset's metadata:
@@ -668,14 +668,15 @@ function updateMetadataFromRelations(assetMetadata) {
 // Let's update the assets metadata based on their relations.
 main_queue = main_queue.then(function(indexedAssetIds) {
     console.log('=== Done updating metadata from the CIP ===');
-    console.log('Updating metadata inheritance of',
-                indexedAssetIds.length,
-                'asset(s), based on the index.');
 
     indexedAssetIds = indexedAssetIds.filter(function(id) {
         // This filters out any undefined values from failing assets.
         return typeof(id) === 'string';
     });
+    
+    console.log('Updating metadata inheritance of',
+                indexedAssetIds.length,
+                'asset(s), based on the index.');
 
     var deferred = Q.defer();
 
