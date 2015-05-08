@@ -660,8 +660,14 @@ function updateMetadataFromRelations(assetMetadata) {
         // Return the sub asset ids.
         return subAssetIds;
     } else {
+        console.error('Malformed metadata, expected two fields: '+
+                      'related_master_assets and related_sub_assets: ',
+                      assetMetadata);
+        return [];
+        /*
         throw new Error('Malformed metadata, expected two fields: '+
                         'related_master_assets and related_sub_assets');
+        */
     }
 }
 
@@ -674,6 +680,10 @@ main_queue = main_queue.then(function(indexedAssetIds) {
         return typeof(id) === 'string';
     });
 
+    var handledAssetIds = {};
+    // Let's not update the same asset more than this many times.
+    var MAX_RECURRANCES = 3;
+
     console.log('Updating metadata inheritance of',
                 indexedAssetIds.length,
                 'asset(s), based on the index.');
@@ -685,40 +695,56 @@ main_queue = main_queue.then(function(indexedAssetIds) {
         // Let's pop one from front of the queue.
         var assetId = indexedAssetIds.shift();
 
-        // Fetch the asset metadata related to the asset.
-        client.get({
-            index: process.env.ES_INDEX || 'assets',
-            type: 'asset',
-            id: assetId
-        }).then(function(response) {
-            var assetMetadata = response._source;
-            if(!assetMetadata) {
-                deferred.reject('Got an asset without metadata: ', assetId);
-            }
-
-            var newlyIndexAssetIds = updateMetadataFromRelations(assetMetadata);
-
-            Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
-                if(newlyIndexAssetIds.length > 0) {
-                    console.log("Adding",
-                                newlyIndexAssetIds.length,
-                                "assets to the queue.");
+        if(assetId in handledAssetIds && handledAssetIds[assetId] > MAX_RECURRANCES) {
+            console.log('Skipping asset',
+                        assetId,
+                        'as it was already updated',
+                        handledAssetIds[assetId],
+                        'times.');
+            // Skip the asset.
+            return updateNextAssetFromRelations(indexedAssetIds);
+        } else {
+            // Fetch the asset metadata related to the asset.
+            client.get({
+                index: process.env.ES_INDEX || 'assets',
+                type: 'asset',
+                id: assetId
+            }).then(function(response) {
+                var assetMetadata = response._source;
+                if(!assetMetadata) {
+                    deferred.reject('Got an asset without metadata: ', assetId);
                 }
-                // Concatinate the new IDs to the queue.
-                indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
 
-                // If the queue of newly indexed asset id's is not empty.
-                if(indexedAssetIds.length > 0) {
-                    // Let's take the next one.
-                    setTimeout(function() {
-                        updateNextAssetFromRelations(indexedAssetIds);
-                    }, 0); // The timeout is to prevent stack size exceeding.
-                } else {
-                    console.log('No more indexed assets to process.');
-                    deferred.resolve();
-                }
-            });
-        }, deferred.reject);
+                var newlyIndexAssetIds = updateMetadataFromRelations(assetMetadata);
+
+                Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
+                    // Increment the number of times we've handled this asset.
+                    if(!(assetId in handledAssetIds)) {
+                        handledAssetIds[assetId] = 0;
+                    }
+                    handledAssetIds[assetId]++;
+
+                    if(newlyIndexAssetIds.length > 0) {
+                        console.log("Adding",
+                                    newlyIndexAssetIds.length,
+                                    "assets to the queue.");
+                    }
+                    // Concatinate the new IDs to the queue.
+                    indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
+
+                    // If the queue of newly indexed asset id's is not empty.
+                    if(indexedAssetIds.length > 0) {
+                        // Let's take the next one.
+                        setTimeout(function() {
+                            updateNextAssetFromRelations(indexedAssetIds);
+                        }, 0); // The timeout is to prevent stack size exceeding.
+                    } else {
+                        console.log('No more indexed assets to process.');
+                        deferred.resolve();
+                    }
+                });
+            }, deferred.reject);
+        }
     }
 
     // Let's start the madness.
