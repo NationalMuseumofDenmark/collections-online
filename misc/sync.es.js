@@ -262,6 +262,10 @@ var METADATA_TRANSFORMATIONS = [
                     }
                 }
                 return metadata;
+            }, function(reason) {
+                console.error('Could not get the master asset:', reason);
+                // Let's return a new promise to overwrite the failed.
+                return new Q(metadata);
             });
         } else {
             return metadata;
@@ -659,9 +663,9 @@ function updateMetadataFromRelations(assetMetadata) {
                 console.error('Failed fetching the master asset',
                               masterAssetId,
                               'referenced by',
-                              assetMetadata.catalog+'-'+assetMetadata,
+                              assetMetadata.catalog+'-'+assetMetadata.id,
                               'because:',
-                              reason);
+                              reason.message || reason || 'No reason given.');
                 return subAssetIds;
             });
         } else if(masterAssets.length > 1) {
@@ -761,8 +765,12 @@ main_queue = main_queue.then(function(indexedAssetIds) {
         }
     }
 
-    // Let's start the madness.
-    updateNextAssetFromRelations(indexedAssetIds);
+    if(indexedAssetIds.length > 0) {
+        // Let's start the madness.
+        updateNextAssetFromRelations(indexedAssetIds);
+    } else {
+        deferred.resolve();
+    }
 
     return deferred.promise;
 });
@@ -779,9 +787,8 @@ main_queue
     } else {
         console.error( 'No details was provided.' );
     }
-    // TODO: Change this to a positive integer to indicate an error, when the
-    // CIP is no longer referencing missing assets.
-    process.exit(0);
+    // Let's fail in a way that the process fails as a whole.
+    process.exit(2);
 }).finally(function() {
     console.log('=== All done ===');
 
