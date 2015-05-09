@@ -709,6 +709,9 @@ main_queue = main_queue.then(function(indexedAssetIds) {
     var deferred = Q.defer();
 
     function updateNextAssetFromRelations() {
+        if(indexedAssetIds.length === 0) {
+            return; // Let's not do anything, if the queue is empty.
+        }
 
         // Let's pop one from front of the queue.
         var assetId = indexedAssetIds.shift();
