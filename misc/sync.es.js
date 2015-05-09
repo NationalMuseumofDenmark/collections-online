@@ -710,6 +710,7 @@ main_queue = main_queue.then(function(indexedAssetIds) {
 
     function updateNextAssetFromRelations() {
         if(indexedAssetIds.length === 0) {
+            deferred.resolve();
             return; // Let's not do anything, if the queue is empty.
         }
 
@@ -754,16 +755,10 @@ main_queue = main_queue.then(function(indexedAssetIds) {
                         indexedAssetIds = indexedAssetIds.concat(newlyIndexAssetIds);
                     }
 
-                    // If the queue of newly indexed asset id's is not empty.
-                    if(indexedAssetIds.length > 0) {
-                        // Let's take the next one.
-                        setTimeout(function() {
-                            updateNextAssetFromRelations();
-                        }, 0); // The timeout is to prevent stack size exceeding.
-                    } else {
-                        console.log('No more indexed assets to process.');
-                        deferred.resolve();
-                    }
+                    // Let's take the next one - if any.
+                    setTimeout(function() {
+                        updateNextAssetFromRelations();
+                    }, 0); // The timeout is to prevent stack size exceeding.
                 });
             }, function(reason) {
                 console.error('Failed fetching newly indexed asset',
