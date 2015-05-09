@@ -63,3 +63,4 @@ In case you find bugs please open [an issue](https://github.com/NationalMuseumof
 
 Please fork the repository into your own github account and create a pull request whenever you are done with
 your changes. Ideally, you should rebase your branch before creating the pull request in case of upstream changes.
+
