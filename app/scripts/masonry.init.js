@@ -27,7 +27,7 @@ $(function() {
 				state.page = currentSearchResultPage;
 				state.searchResult = $searchResultClone.html();
 
-				history.replaceState(state, document.title, '');
+				history.replaceState(state, document.title);
 			}
 		}
 
@@ -48,7 +48,7 @@ $(function() {
 					storeSearchResultInHistoryState(1);
 				}
 
-				history.replaceState(state, document.title, '');
+				history.replaceState(state, document.title);
 			}
 		}
 
