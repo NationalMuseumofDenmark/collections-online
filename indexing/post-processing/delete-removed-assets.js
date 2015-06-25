@@ -42,7 +42,6 @@ function deleteRemovedAssets(state) {
 			}
 		}).then(function(idsToBeRemoved) {
 			console.log('Removing', idsToBeRemoved.length, 'assets from the index.');
-			/*
 			return state.es.deleteByQuery({
 				index: index,
 				body: {
@@ -53,7 +52,6 @@ function deleteRemovedAssets(state) {
 					}
 				}
 			});
-			*/
 		}).then(function() {
 			return state;
 		});

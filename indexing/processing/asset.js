@@ -186,7 +186,7 @@ function transformMetadata(state, metadata) {
 }
 
 function processAsset(state, metadata) {
-	console.log('Processing an asset.');
+	//console.log('Processing an asset.');
 	// Perform additional transformations and index the result.
 	return transformMetadata( state, metadata )
 	.then(function( metadata ) {
