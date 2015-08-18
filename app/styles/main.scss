@@ -760,7 +760,5 @@ ul.categories {
   }
 }
 
-// /* Importing the magic360 */
-// @import "magic360.css";
-// This is probably not needed, as all the .css files are concatinated into
-// the dist folder, by grunt.
+/* Importing the magic360 */
+@import "magic360.css";
