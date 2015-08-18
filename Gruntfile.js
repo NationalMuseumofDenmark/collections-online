@@ -163,7 +163,8 @@ module.exports = function (grunt) {
     },
 
     // Automatically inject Bower components into the app
-    'bowerInstall': {
+    // The grunt-bower-install was renamed to wiredep.
+    wiredep: {
       app: {
         src: '<%= yeoman.app %>/views/index.jade',
         ignorePath: '<%= yeoman.app %>/',
@@ -427,7 +428,7 @@ module.exports = function (grunt) {
     if (target === 'debug') {
       return grunt.task.run([
         'clean:server',
-        'bowerInstall',
+        'wiredep',
         'concurrent:server',
         'autoprefixer',
         'concurrent:debug'
@@ -436,7 +437,7 @@ module.exports = function (grunt) {
 
     grunt.task.run([
       'clean:server',
-      // 'bowerInstall',
+      'wiredep',
       'concurrent:server',
       'autoprefixer',
       'express:dev',
@@ -453,7 +454,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', [
     'clean:dist',
-    // 'bowerInstall',
+    'wiredep',
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
