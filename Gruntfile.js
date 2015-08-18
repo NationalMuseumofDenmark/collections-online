@@ -48,9 +48,10 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
-      compass: {
+      sass: {
+        // TODO: Add the task needed for libsass to compile the .sass files
         files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-        tasks: ['compass:server', 'autoprefixer']
+        tasks: ['autoprefixer']
       },
       gruntfile: {
         files: ['Gruntfile.js']
@@ -177,6 +178,7 @@ module.exports = function (grunt) {
     },
 
     // Compiles Sass to CSS and generates necessary files if requested
+    /*
     compass: {
       options: {
         sassDir: '<%= yeoman.app %>/styles',
@@ -201,6 +203,17 @@ module.exports = function (grunt) {
       server: {
         options: {
           debugInfo: true
+        }
+      }
+    },
+    */
+    sass: {
+      options: {
+        sourceMap: true
+      },
+      dist: {
+        files: {
+          '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
         }
       }
     },
