@@ -207,6 +207,7 @@ module.exports = function (grunt) {
       }
     },
     */
+    // This replaces compass as it has Ruby dependencies.
     sass: {
       options: {
         sourceMap: true
