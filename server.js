@@ -18,6 +18,11 @@ app.set('site_title', config.site_title);
 // the app (See http://expressjs.com/api.html#app.set)
 app.set('trust proxy', 'loopback');
 
+require('./lib/services/natmus-api').config({
+    baseURL: config.natmusApiBaseURL,
+    maxSockets: config.natmusApiMaxSockets,
+});
+
 require('./lib/routes')(app);
 
 es_client.count({
