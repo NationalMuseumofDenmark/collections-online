@@ -2,159 +2,156 @@
 
 // Initiate masonry & infinite scroll on relevant pages
 $(function() {
+    var $searchResult = $('#masonry-container');
 
-	var $searchResult = $('#masonry-container');
+    // Replaces the current state in history with one that includes the 
+    function storeSearchResultInHistoryState(currentSearchResultPage) {
+        // Change the history entry to carry the search result and page count.
+        if(history && history.replaceState) {
+            // We need to clone this, for the reset of css to not affect the dom.
+            var $searchResultClone = $searchResult.clone();
+            // Reset the CSS position, left and top properties.
+            $searchResultClone.children().each(function() {
+                $(this).css({
+                    position: '',
+                    left: '',
+                    top: ''
+                });
+            });
+            var state = history.state || {};
+            state.page = currentSearchResultPage;
+            state.searchResult = $searchResultClone.html();
 
-	// If we are on the seach result page.
-	var onSearchResultPage = $searchResult.hasClass('search-results');
-	if(onSearchResultPage) {
+            history.replaceState(state, document.title);
+        }
+    }
 
-		// Replaces the current state in history with one that includes the 
-		function storeSearchResultInHistoryState(currentSearchResultPage) {
-			// Change the history entry to carry the search result and page count.
-			if(history && history.replaceState) {
-				// We need to clone this, for the reset of css to not affect the dom.
-				var $searchResultClone = $searchResult.clone();
-				// Reset the CSS position, left and top properties.
-				$searchResultClone.children().each(function() {
-					$(this).css({
-						position: '',
-						left: '',
-						top: ''
-					});
-				});
-				var state = history.state || {};
-				state.page = currentSearchResultPage;
-				state.searchResult = $searchResultClone.html();
+    // Replaces the current state in history with one that includes the vertical
+    // scroll offset. This is needed because we cannot rely on the browsers
+    // implementation of scrolling down the page when navigating back in history.
+    // The reason for this is probably that we load the images after the 
+    // window.load event fires.
+    function storeScrollOffsetInHistoryState() {
+        // Change the history entry to carry the search result and page count.
+        if(history && history.replaceState) {
+            var state = history.state || {};
+            state.scrollTop = $(window).scrollTop();
 
-				history.replaceState(state, document.title);
-			}
-		}
+            // If the search result has not yet been stored in the state.
+            if(!state.searchResult) {
+                // Let's assume that we're on the first page of the infinitescroll.
+                storeSearchResultInHistoryState(1);
+            }
 
-		// Replaces the current state in history with one that includes the vertical
-		// scroll offset. This is needed because we cannot rely on the browsers
-		// implementation of scrolling down the page when navigating back in history.
-		// The reason for this is probably that we load the images after the 
-		// window.load event fires.
-		function storeScrollOffsetInHistoryState() {
-			// Change the history entry to carry the search result and page count.
-			if(history && history.replaceState) {
-				var state = history.state || {};
-				state.scrollTop = $(window).scrollTop();
+            history.replaceState(state, document.title);
+        }
+    }
 
-				// If the search result has not yet been stored in the state.
-				if(!state.searchResult) {
-					// Let's assume that we're on the first page of the infinitescroll.
-					storeSearchResultInHistoryState(1);
-				}
+    // This method replaces the search result with one loaded from the
+    // history state.
+    function replaceSearchResult(searchResult, page, scrollTop) {
+        if(searchResult) {
+            $searchResult
+                .empty()
+                .html(searchResult)
+                .children()
+                .css({ opacity: 0 });
 
-				history.replaceState(state, document.title);
-			}
-		}
+            // Tell masonry to reorganise the results.
+            $searchResult.imagesLoaded(function() {
+                var masonry = new Masonry( $searchResult.get(0), {
+                    itemSelector: '.box'
+                } );
 
-		// This method replaces the search result with one loaded from the
-		// history state.
-		function replaceSearchResult(searchResult, page, scrollTop) {
+                $searchResult.data('masonry', masonry);
+                // Show the search results when they have been rearranged.
+                $searchResult
+                    .children()
+                    .css({ opacity: 1 });
+                // Tell the browser to scroll down.
+                if(scrollTop) {
+                    $(window).scrollTop(scrollTop);
+                }
+            });
+        
+            if(page) {
+                // Make sure to change the infinitescroll page.
+                $searchResult.infinitescroll('update', {state: {currPage: page}});
+            }
+        }
+    }
 
-			if(searchResult) {
-				$searchResult
-					.empty()
-					.html(searchResult)
-					.children()
-					.css({ opacity: 0 });
+    // If we are on the seach result page.
+    var onSearchResultPage = $searchResult.hasClass('search-results');
+    if(onSearchResultPage) {
+        $searchResult.infinitescroll({
+            navSelector  : '#page-nav',    // selector for the paged navigation
+            nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
+            itemSelector : '.box',     // selector for all items you'll retrieve
+            loading: {
+                finishedMsg: 'Ikke flere resultater...',
+                img: '/images/loading.gif',
+                msgText: 'Henter flere resultater...',
+                speed: 0,
+            },
+            animate:false
+        },
+        // trigger Masonry as a callback
+        function( newElements, opts ) {
+            // Set this variable to be used when the user clicks a link.
+            storeSearchResultInHistoryState(opts.state.currPage);
+            // hide new items while they are loading
+            var $newElems = $( newElements ).css({ opacity: 0 });
+            // ensure that images load before adding to masonry layout
+            $newElems.imagesLoaded(function(){
+                // show elems now they're ready
+                $newElems.animate({ opacity: 1 });
+                var masonry = $searchResult.data('masonry');
+                masonry.appended( $newElems, true );
+                $('#more').show();
+            });
+        });
 
-				// Tell masonry to reorganise the results.
-				$searchResult.imagesLoaded(function() {
-					var masonry = new Masonry( $searchResult.get(0), {
-						itemSelector: '.box'
-					} );
+        // Window.popstate is not reliable
+        if(history && history.state && history.state.searchResult) {
+            replaceSearchResult(history.state.searchResult,
+                                history.state.page,
+                                history.state.scrollTop);
+        } else {
+            // We do not have a history object with a state - let's just initialize
+            // Masonry when the images have all loaded.
+            $searchResult.imagesLoaded(function(){
+                $searchResult.each(function() {
+                    var masonry = new Masonry(this, {
+                        itemSelector: '.box'
+                    });
+                    $searchResult.data('masonry', masonry);
+                });
+            });
+        }
 
-					$searchResult.data('masonry', masonry);
-					// Show the search results when they have been rearranged.
-					$searchResult
-						.children()
-						.css({ opacity: 1 });
-					// Tell the browser to scroll down.
-					if(scrollTop) {
-						$(window).scrollTop(scrollTop);
-					}
-				});
-			
-				if(page) {
-					// Make sure to change the infinitescroll page.
-					$searchResult.infinitescroll('update', {state: {currPage: page}});
-				}
-			}
-		}
+        /*
+        // TODO: Find a less intrusive method - possibly storing the offset at
+        // the event of the user navigating away (either as an event fired by the
+        // history API or some click event on links).
+        $(window).on('scroll', function() {
+            // Store the window's vertical offset in the state.
+            storeScrollOffsetInHistoryState();
+        })
+        */
+        window.onbeforeunload = function() {
+            storeScrollOffsetInHistoryState();
+        };
 
-		$searchResult.infinitescroll({
-			navSelector  : '#page-nav',    // selector for the paged navigation
-			nextSelector : '#page-nav a',  // selector for the NEXT link (to page 2)
-			itemSelector : '.box',     // selector for all items you'll retrieve
-			loading: {
-				finishedMsg: 'Ikke flere resultater...',
-				img: '/images/loading.gif',
-				msgText: 'Henter flere resultater...',
-				speed: 0,
-			},
-			animate:false
-		},
-		// trigger Masonry as a callback
-		function( newElements, opts ) {
-			// Set this variable to be used when the user clicks a link.
-			storeSearchResultInHistoryState(opts.state.currPage);
-			// hide new items while they are loading
-			var $newElems = $( newElements ).css({ opacity: 0 });
-			// ensure that images load before adding to masonry layout
-			$newElems.imagesLoaded(function(){
-				// show elems now they're ready
-				$newElems.animate({ opacity: 1 });
-				var masonry = $searchResult.data('masonry');
-				masonry.appended( $newElems, true );
-				$('#more').show();
-			});
-		});
+        // We are not interested in the infinite scrolling working automatically.
+        $searchResult.infinitescroll('unbind');
 
-		// Window.popstate is not reliable
-		if(history && history.state && history.state.searchResult) {
-			replaceSearchResult(history.state.searchResult,
-			                    history.state.page,
-			                    history.state.scrollTop);
-		} else {
-			// We do not have a history object with a state - let's just initialize
-			// Masonry when the images have all loaded.
-			$searchResult.imagesLoaded(function(){
-				$searchResult.each(function() {
-					var masonry = new Masonry(this, {
-						itemSelector: '.box'
-					});
-					$searchResult.data('masonry', masonry);
-				});
-			});
-		}
-
-		/*
-		// TODO: Find a less intrusive method - possibly storing the offset at
-		// the event of the user navigating away (either as an event fired by the
-		// history API or some click event on links).
-		$(window).on('scroll', function() {
-			// Store the window's vertical offset in the state.
-			storeScrollOffsetInHistoryState();
-		})
-		*/
-		window.onbeforeunload = function() {
-			storeScrollOffsetInHistoryState();
-		};
-
-		// We are not interested in the infinite scrolling working automatically.
-		$searchResult.infinitescroll('unbind');
-
-		$("#more").click(function(){
-				$('#more').hide();
-				var $searchResult = $('#masonry-container');
-				$searchResult.infinitescroll('retrieve');
-				return false;
-		});
-	}
+        $('#more').click(function(){
+            $('#more').hide();
+            var $searchResult = $('#masonry-container');
+            $searchResult.infinitescroll('retrieve');
+            return false;
+        });
+    }
 
 });
