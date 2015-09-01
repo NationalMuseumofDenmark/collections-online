@@ -208,7 +208,7 @@ module.exports = function (grunt) {
         sass: {
             dist: {
                 files: {
-                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+                    '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
                 }
             }
         },
@@ -235,7 +235,7 @@ module.exports = function (grunt) {
                 '<%= yeoman.app %>/views/index.jade'],
             options: {
                 dest: '<%= yeoman.dist %>/public',
-                root: '<%= yeoman.app %>'
+                root: '.tmp'
             }
         },
 
@@ -323,10 +323,29 @@ module.exports = function (grunt) {
                     src: [
                         '*.{ico,png,txt}',
                         '.htaccess',
-                        // 'bower_components/**/*',
-                        'images/{,*/}*.{webp,png,jpeg,jpg,svg,gif,cur}',
-                        'fonts/**/*',
-                        // 'scripts/**/*'
+                        'images/{,*/}*.{webp,png,jpeg,jpg,svg,gif,cur}'
+                    ]
+                }, {
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: [
+                        'bower_components/**/*',
+                        'scripts/**/*',
+                        'styles/*.css'
+                    ]
+                }, {
+                    expand: true,
+                    flatten: true,
+                    dot: true,
+                    cwd: '<%= yeoman.app %>/bower_components/',
+                    dest: '<%= yeoman.dist %>/public/styles/fonts/',
+                    src: [
+                        '**/fonts/{bootstrap/,}*.eot',
+                        '**/fonts/{bootstrap/,}*.svg',
+                        '**/fonts/{bootstrap/,}*.ttf',
+                        '**/fonts/{bootstrap/,}*.woff',
                     ]
                 }, {
                     expand: true,
@@ -355,12 +374,6 @@ module.exports = function (grunt) {
                         'lib/**/*'
                     ]
                 }]
-            },
-            styles: {
-                expand: true,
-                cwd: '<%= yeoman.app %>/styles',
-                dest: '.tmp/styles/',
-                src: '{,*/}*.css'
             }
         },
 
@@ -386,31 +399,33 @@ module.exports = function (grunt) {
             ]
         },
 
+
         // By default, your `index.html`'s <!-- Usemin block --> will take care of
         // minification. These next options are pre-configured if you do not wish
         // to use the Usemin blocks.
-        cssmin: {
-            dist: {
-                files: {
-                    '<%= yeoman.dist %>/public/styles/main.css': [
-                        '.tmp/styles/{,*/}*.css',
-                        '<%= yeoman.app %>/styles/{,*/}*.css'
-                    ]
-                }
-            }
-        },
-        uglify: {
-            dist: {
-                files: {
-                    '<%= yeoman.dist %>/public/scripts/main.js': [
-                        '<%= yeoman.dist %>/public/scripts/main.js'
-                    ]
-                }
-            }
-        },
-        concat: {
-            dist: { }
-        }
+
+        // cssmin: {
+        //     dist: {
+        //         files: {
+        //             '<%= yeoman.dist %>/public/styles/main.css': [
+        //                 '.tmp/styles/{,*/}*.css',
+        //                 '<%= yeoman.app %>/styles/{,*/}*.css'
+        //             ]
+        //         }
+        //     }
+        // },
+        // uglify: {
+        //     dist: {
+        //         files: {
+        //             '<%= yeoman.dist %>/public/scripts/main.js': [
+        //                 '<%= yeoman.dist %>/public/scripts/main.js'
+        //             ]
+        //         }
+        //     }
+        // },
+        // concat: {
+        //     dist: { }
+        // }
     });
 
     // Used for delaying livereload until after server has restarted
@@ -467,9 +482,9 @@ module.exports = function (grunt) {
         'useminPrepare',
         'concurrent:dist',
         'autoprefixer',
+        'copy:dist',
         'concat',
         // 'ngmin',
-        'copy:dist',
         // 'cdnify',
         'cssmin',
         'uglify',
