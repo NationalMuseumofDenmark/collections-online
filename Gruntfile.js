@@ -237,7 +237,8 @@ module.exports = function (grunt) {
             html: ['<%= yeoman.app %>/views/index.html',
                 '<%= yeoman.app %>/views/index.jade'],
             options: {
-                dest: '<%= yeoman.dist %>/public'
+                dest: '<%= yeoman.dist %>/public',
+                root: '<%= yeoman.app %>'
             }
         },
 
@@ -404,8 +405,8 @@ module.exports = function (grunt) {
         uglify: {
             dist: {
                 files: {
-                    '<%= yeoman.dist %>/public/scripts/scripts.js': [
-                        '<%= yeoman.dist %>/public/scripts/scripts.js'
+                    '<%= yeoman.dist %>/public/scripts/main.js': [
+                        '<%= yeoman.dist %>/public/scripts/main.js'
                     ]
                 }
             }
