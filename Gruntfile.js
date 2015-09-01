@@ -206,12 +206,9 @@ module.exports = function (grunt) {
         */
         // This replaces compass as it has Ruby dependencies.
         sass: {
-            options: {
-                sourceMap: true
-            },
             dist: {
                 files: {
-                    '.tmp/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
+                    '<%= yeoman.app %>/styles/main.css': '<%= yeoman.app %>/styles/main.scss'
                 }
             }
         },
@@ -412,7 +409,7 @@ module.exports = function (grunt) {
             }
         },
         concat: {
-            dist: {}
+            dist: { }
         }
     });
 

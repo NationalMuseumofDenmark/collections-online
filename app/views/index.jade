@@ -5,13 +5,13 @@ doctype html
 html(lang='da').no-js
   head
     +head()
-    <!-- build:css /styles/main.css -->
+    <!-- build:css /styles/styles.css -->
     link(rel='stylesheet', href='/styles/main.css')
     link(rel='stylesheet', href='/styles/magic360.css')
-    <!-- endbuild -->
     // bower:css
     link(rel='stylesheet', href='/bower_components/FlexSlider/flexslider.css')
     // endbower
+    <!-- endbuild -->
     block header
     +analytics()
     <!--[if lt IE 9]><script src="/bower_components/html5shiv/dist/html5shiv.js"></script><![endif]-->
@@ -25,7 +25,7 @@ html(lang='da').no-js
       +footer()
       a#toTop
 
-    <!-- build:js /scripts/main.js -->
+    <!-- build:js /scripts/scripts.js -->
     // bower:js
     script(src='/bower_components/jquery/dist/jquery.js')
     script(src='/bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js')
