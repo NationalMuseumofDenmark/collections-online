@@ -20,6 +20,7 @@ app.set('trust proxy', 'loopback');
 
 require('./lib/services/natmus-api').config({
     baseURL: config.natmusApiBaseURL,
+    version: config.natmusApiVersion,
     maxSockets: config.natmusApiMaxSockets,
 });
 
