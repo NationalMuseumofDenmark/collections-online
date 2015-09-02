@@ -7,23 +7,6 @@
 // Alter asset rows order
 $('.asset .text-row').insertAfter('.asset .image-row');
 
-// Open / close main menu nav
-$(function() {
-    $('#heading-categories-menu a, .gray-overlay').click(function() {
-        // Show/hide scroll bars with delay due to css animations
-        if ($('body').hasClass('categories-menu-open')) {
-            $('.nicescroll-rails').hide();
-        } else {
-            $('.nicescroll-rails').delay(700).fadeIn(300);
-        }
-
-        $('body').toggleClass('categories-menu-open');
-
-        return false;
-    });
-});
-
-
 // Typehead autosuggest for search field
 $(function() {
     var searchSuggest = new Bloodhound({
@@ -52,27 +35,44 @@ $(function() {
 
 // Retrieve the main menu and its childern
 $(function() {
+    var $menu = $('.categories-menu .dropdown-menu-right');
+
+    $menu.niceScroll({
+        cursorcolor:'#555',
+        background: '',
+        cursorwidth: '7px',
+        cursorborder: 'none',
+        autohidemode: false,
+        horizrailenabled: false,
+        zindex: 999999
+    });
+    
+    // Open / close main menu nav
+    $('#heading-categories-menu a, .gray-overlay').click(function() {
+        // Show/hide scroll bars with delay due to css animations
+        if ($('body').hasClass('categories-menu-open')) {
+            $('.nicescroll-rails').hide();
+        } else {
+            $('.nicescroll-rails').delay(700).hide(function() {
+                // Nice scroll is ready to be resized
+                $menu.getNiceScroll().resize();
+            }).fadeIn(300);
+        }
+
+        $('body').toggleClass('categories-menu-open');
+
+        return false;
+    });
+
     $.ajax({url: '/catalogs', // Append path to mark active
     })
     .done(function(data) {
-        var $menu = $('.categories-menu .dropdown-menu-right');
         $menu.html(data);
-
-        $menu.niceScroll({
-            cursorcolor:'#555',
-            background: '',
-            cursorwidth: '7px',
-            cursorborder: 'none',
-            autohidemode: false,
-            horizrailenabled: false,
-            zindex: 999999
-        });
 
         // Expand menus
         $('.categories-menu ul a.expand-menu').click(function(e) {
             e.preventDefault();
-            console.log(e);
-            var $toggleButton = $(this);
+            var $toggleButton = $(e.currentTarget);
             $toggleButton.next('ul').slideToggle(300, function() {
                 // Update the scrollbar
                 $menu.getNiceScroll().resize();

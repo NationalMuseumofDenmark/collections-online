@@ -11,7 +11,7 @@
     "typeahead.js": "~0.10.2",
     "scrollToTop": "1.0.3",
     "html5shiv": "3.7.2",
-    "jquery-nicescroll": "*",
+    "jquery-nicescroll": "git@github.com:babadofar/jquery.nicescroll.git",
     "FlexSlider": "*"
   },
   "devDependencies": {
