@@ -22,6 +22,8 @@
 	}
 }
 
+// This is probably not needed when the flexslider is initialized with
+// controlNav: false
 .flex-control-nav {
 	display:none;
 }
@@ -198,7 +200,7 @@ html[xmlns] .slides {
     overflow: hidden;
     opacity: 0;
     cursor: pointer;
-    text-indent:-9999px;
+    text-indent:-9999px; // TODO: Fix this hack using the flexslider options.
     color: rgba(0,0,0,0.8);
     text-shadow: 1px 1px 0 rgba(255,255,255,0.3);
     -webkit-transition: all .3s ease;
@@ -333,6 +335,10 @@ html[xmlns] .slides {
 .flex-control-thumbs .flex-active {
     opacity: 1;
     cursor: default;
+}
+
+.flex-direction-nav .flex-next {
+    text-align: left; // Otherwise the negative text-indent hack breaks.
 }
 
 @media screen and (max-width: 860px) {
