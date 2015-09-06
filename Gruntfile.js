@@ -49,7 +49,7 @@ module.exports = function (grunt) {
             sass: {
                 // TODO: Add the task needed for libsass to compile the .sass files
                 files: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}'],
-                tasks: ['autoprefixer']
+                tasks: ['sass', 'autoprefixer']
             },
             gruntfile: {
                 files: ['Gruntfile.js']
