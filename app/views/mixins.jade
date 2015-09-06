@@ -341,3 +341,9 @@ mixin searchResultAsset(asset)
         p.description #{asset.description}
       p.cat-link
         a(href='#{asset.catalog_url}') #{asset.catalog}
+
+mixin assetIcon(small)
+  if small
+    span.asset-icon.glyphicon.glyphicon-picture.small
+  else
+    span.asset-icon.glyphicon.glyphicon-picture

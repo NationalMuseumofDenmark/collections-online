@@ -11,9 +11,70 @@ append header
   +shareThisJS()
 
 block content
-  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
+  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset item')
     - var title = item.short_title || 'Ingen titel'
     .row
+      .col-md-6.col-xs-12.image-row
+          - var filename = item.filename.toLowerCase();
+          - if(player === "image-single")
+            .bleed.primary-asset
+              +responsiveImage(title, item, sources)
+          - else if(player === "image-rotation")
+            .bleed.primary-asset
+              +rotationImage(title, item, sources)
+          - else if(player === "audio")
+             audio(controls)
+               source(src=sources.audio)
+          - else if(player === "video")
+            video(width="100%", controls)
+              source(src=sources.video, type="video/mp4")
+
+
+
+          .asset-tools
+            .btn-group.dropup
+              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+                +icon('download-icon')
+              ul.dropdown-menu(role='menu')
+                - if(filename.match('.tif$') || filename.match('.tiff$'))
+                  li
+                    a(href='#{sources.image_set.download_800}') Lille
+                  li.divider
+                  li
+                    a(href='#{sources.image_set.download_1200}') Mellem
+                  li.divider
+                  li
+                    a(href='#{sources.image_set.download_2000}') Stor
+                  li.divider
+                li
+                  a(href='#{sources.download}') Original
+            +shareThisHTML()
+            span.licens
+              span.title Licens:
+              - if(item.license)
+                  - var license = helpers.license_tag(item.license.id);
+                  - if(license)
+                    a(href=license.url, rel='license', target='_blank')
+                      img(src=license.img, alt='Creative Commons licens')
+                  - else
+                    | #{item.license.displaystring}
+                - else
+                  | -
+          .related-assets
+            each asset in related_assets.visible
+              a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+                href=asset.href)
+            - if(related_assets.additional.length > 0)
+              h2.additional-related-header
+                a(href='#{path}#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
+                  +icon('minus-2-icon')
+                  +icon('plus-2-icon')
+                  | Flere relaterede
+              div#additional-related.collapse
+                each asset in related_assets.additional
+                  a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+                    href=asset.href)
+
       .col-md-6.col-xs-12.pull-right.text-row
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
@@ -124,7 +185,7 @@ block content
 
         // Additional info
         .asset-block
-          h2.additional-info-header
+          h2.collapsable-section-header
             - var path = req.path
             a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
               +icon('minus-2-icon')
@@ -156,64 +217,3 @@ block content
                 tr
                   th Topnr.:
                   td= item.topno || '-'
-      
-      .col-md-6.col-xs-12.image-row
-          - var filename = item.filename.toLowerCase();
-          - if(player === "image-single")
-            .bleed.asset-image
-              +responsiveImage(title, item, sources)
-          - else if(player === "image-rotation")
-            .bleed.asset-image
-              +rotationImage(title, item, sources)
-          - else if(player === "audio")
-             audio(controls)
-               source(src=sources.audio)
-          - else if(player === "video")
-            video(width="100%", controls)
-              source(src=sources.video, type="video/mp4")
-
-
-
-          .asset-tools
-            .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('download-icon')
-              ul.dropdown-menu(role='menu')
-                - if(filename.match('.tif$') || filename.match('.tiff$'))
-                  li
-                    a(href='#{sources.image_set.download_800}') Lille
-                  li.divider
-                  li
-                    a(href='#{sources.image_set.download_1200}') Mellem
-                  li.divider
-                  li
-                    a(href='#{sources.image_set.download_2000}') Stor
-                  li.divider
-                li
-                  a(href='#{sources.download}') Original
-            +shareThisHTML()
-            span.licens
-              span.title Licens:
-              - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
-                - else
-                  | -
-          .related-assets
-            each asset in related_assets.visible
-              a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                href=asset.href)
-            - if(related_assets.additional.length > 0)
-              h2.additional-related-header
-                a(href='#{path}#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                  +icon('minus-2-icon')
-                  +icon('plus-2-icon')
-                  | Flere relaterede
-              div#additional-related.collapse
-                each asset in related_assets.additional
-                  a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                    href=asset.href)

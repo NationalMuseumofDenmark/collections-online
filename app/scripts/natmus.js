@@ -4,9 +4,6 @@
 // JS file containing logic used a cross the site //
 ////////////////////////////////////////////////////
 
-// Alter asset rows order
-$('.asset .text-row').insertAfter('.asset .image-row');
-
 // Typehead autosuggest for search field
 $(function() {
     var searchSuggest = new Bloodhound({
@@ -90,7 +87,8 @@ $(function() {
 
 // Toogle asset images - zome in and out
 $(function() {
-    $('.asset-image').click(function() {
+    // We only want zooming on asset's primary images.
+    $('.asset .primary-asset').click(function() {
         if ($(this).parent('div').hasClass('col-md-6')) {
             $(this).parent('div').removeClass('col-md-6');
             $(this).parent('div').addClass('col-md-12');
