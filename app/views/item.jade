@@ -16,7 +16,7 @@ block content
       .col-md-6.col-xs-12.image-row
         - if(item.assets.primary)
           .bleed.primary-asset
-            - if(item.assets.primary.insertAnchor)
+            - if(item.assets.primary.href)
               a(href=item.assets.primary.href)
                 img(src=item.assets.primary.src, alt=title)
                 +assetIcon()
