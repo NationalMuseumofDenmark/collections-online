@@ -374,6 +374,19 @@ module.exports = function (grunt) {
                         'lib/**/*'
                     ]
                 }]
+            },
+            temp: {
+                expand: true,
+                flatten: true,
+                dot: true,
+                cwd: '<%= yeoman.app %>/bower_components/',
+                dest: '.tmp/styles/fonts/',
+                src: [
+                    '**/fonts/{bootstrap/,}*.eot',
+                    '**/fonts/{bootstrap/,}*.svg',
+                    '**/fonts/{bootstrap/,}*.ttf',
+                    '**/fonts/{bootstrap/,}*.woff',
+                ]
             }
         },
 
@@ -461,6 +474,8 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'copy:temp',
+            'sass',
             'wiredep',
             'concurrent:server',
             'autoprefixer',
