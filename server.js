@@ -31,6 +31,7 @@ es_client.count({
 }).then(function(response) {
     console.log('Connecting to the Elasticsearch host', config.es_host);
     console.log('The assets index is created and contains', response.count, 'documents.');
+    console.log('Loading categories...');
 }, function() {
     console.log('Could not connect to the Elasticsearch host', config.es_host);
     // We have an error in the communication with the Elasticsearch server
@@ -51,8 +52,8 @@ cip_categories.load_categories().then(function(result) {
         app.set('cip_categories', categoriesWithCounts);
     });
 }).then(function() {
-    cip.init_session().then(function(nm) {
-        cip.get_catalogs(nm).then(function(catalogs) {
+  return cip.init_session().then(function(nm) {
+        return cip.get_catalogs(nm).then(function(catalogs) {
             app.set('cip_catalogs', catalogs);
         });
     });
@@ -61,7 +62,7 @@ cip_categories.load_categories().then(function(result) {
     app.listen(config.port, config.ip, function () {
         console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
     });
-});
+}, console.error );
 
 // Expose app
 exports = module.exports = app;
