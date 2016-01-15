@@ -85,8 +85,8 @@ block content
 
         // Description
         - if(item.description)
-          h2.sr-only Beskrivelse
-          h2(itemprop='description',
+          p.sr-only Beskrivelse
+          p(itemprop='description',
             class='lead')= item.description
 
         // Time and period
@@ -138,13 +138,13 @@ block content
                   | -
             tr
               th Koordinater:
-              td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
+              td= has_coordinates ? item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5) : '-'
 
             - if(has_coordinates)
               tr
                 td(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' + item.longitude + ',' + item.latitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.longitude + ',' + item.latitude, target='blank')
-                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.longitude + ',' + item.latitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
+                  a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
+                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
             tr
               th Noter:
               td= item.locationnote || '-'
