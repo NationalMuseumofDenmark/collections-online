@@ -16,7 +16,7 @@ block content
     .row
       .col-md-6.col-xs-12.image-row
           - var filename = item.filename.toLowerCase();
-          - if(player === "image-single")
+          - if(player === "image-single" || player === "image-single-animated")
             .bleed.primary-asset
               +responsiveImage(title, item, sources)
           - else if(player === "image-rotation")
