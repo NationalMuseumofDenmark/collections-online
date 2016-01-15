@@ -440,6 +440,7 @@ p.description {
     img {
       @include img-responsive();
       @include center-block(); // Center tall asset images
+      min-width: 100%;
     }
     /*
     a {
