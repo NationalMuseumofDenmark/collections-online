@@ -400,29 +400,11 @@ svg {
   #search-input{
     font-family: 'Nationale', 'open-sans'
   }
-  #search-input::-webkit-input-placeholder { /* Safari, Chrome and Opera */
-    color: #DDE2DB;
-    }
 
-  #search-input:-moz-placeholder { /* Firefox 18- */
-      color: #DDE2DB;
-    }
+  #search-input::placeholder { /* Standard one last! */
+    color: #999;
+  }
 
-  #search-input::-moz-placeholder { /* Firefox 19+ */
-      color: #DDE2DB;
-    }
-
-  #search-input:-ms-input-placeholder { /* IE 10+ */
-      color: #DDE2DB;
-    }
-
-  #search-input::-ms-input-placeholder { /* Edge */
-      color: #DDE2DB;
-    }
-
-  #search-input:placeholder-shown { /* Standard one last! */
-      color: #DDE2DB;
-    }
   .input-group-btn {
     vertical-align:top;
     position: absolute;
