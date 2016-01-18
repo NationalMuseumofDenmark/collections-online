@@ -393,6 +393,9 @@ svg {
     width: 20px;
     height: 20px;
   }
+  #search-input{
+    font-family: 'Nationale', 'open-sans'
+  }
   #search-input::-webkit-input-placeholder { /* Safari, Chrome and Opera */
     color: #DDE2DB;
     }
@@ -426,6 +429,7 @@ svg {
 
     .btn-search {
       border: 0px;
+      text-align: right;
     }
   }
   /* Autosuggest */
