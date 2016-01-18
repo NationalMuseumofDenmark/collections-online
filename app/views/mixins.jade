@@ -128,23 +128,21 @@ mixin footer
 mixin samlingerHeader()
   header.header
     hgroup.container-fluid
-      .row
-        .col-xs-10.col-sm-9
-          .row
-            .col-xs-2.col-sm-1.menu-container
-              h2#heading-categories-menu
-                a(href='#')
-                  span.sr-only Kataloger og kategorier
-                  +icon('menu-icon')
-            - if(catalog)
-              .col-sm-3.hidden-xs
+      .row          
+        .col-xs-10.col-md-9
+          h2#heading-categories-menu
+            a(href='#')
+              span.sr-only Kataloger og kategorier
+              +icon('burger-icon')
+          - if(catalog)
+              .catalog-name.hidden-xs
                 p #{catalog.name}
-            .col-xs-10.col-sm-6
-              +searchBox()
-        .col-xs-2.col-sm-3
+                .seperator
+          +searchBox()
+        .col-xs-2.col-md-3
           a.pull-right(href='/')
             +icon('logo-icon')
-          span.logo-text.pull-right.hidden-xs Samlinger online
+          span.logo-text.pull-right.hidden-xs.hidden-sm Samlinger online
 mixin searchBox()
   - var path = (req.path).split('/')
   .form-group
@@ -161,6 +159,14 @@ mixin searchBox()
 
 mixin icon(id)
   case id
+    when 'burger-icon'
+      svg(width="22px" height="17px" viewBox="0 0 22 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns")
+          g(id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage")
+              g(id="Object-+-asset-Copy" sketch:type="MSArtboardGroup" transform="translate(-29.000000, -42.000000)" stroke-linecap="square" stroke="#FFFFFF" stroke-width="2")
+                  g(id="Line-+-Line-Copy-2-+-Line-Copy-3-Copy-Copy" sketch:type="MSLayerGroup" transform="translate(30.000000, 42.000000)")
+                      path(d="M-5.55111512e-17,1.5 L20,1.5" id="Line" sketch:type="MSShapeGroup")
+                      path(d="M-5.55111512e-17,8.5 L20,8.5" id="Line-Copy-2" sketch:type="MSShapeGroup")
+                      path(d="M-5.55111512e-17,15.5 L20,15.5" id="Line-Copy-3" sketch:type="MSShapeGroup")
     when 'logo-icon'
       svg(viewBox="0 0 200 200" fill='white')
         path(d="M104 80V0h48v168h-44l-28-39v71H32v-8h40v-74l-8-11v77H16v-8h40V96l-8-12v84H0V0h44zm80-48v168h-48v-8h40V32h8zm-64 144h40V16h8v168h-48v-8zm24-16V8h-32v96L40 8H8v152h32V59l72 101h32z")

@@ -5,7 +5,8 @@
 ////////////////////////////////////////////////////
 
 // Typehead autosuggest for search field
-$(function() {
+// Currently not functioning
+/*$(function() {
     var searchSuggest = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
@@ -28,7 +29,7 @@ $(function() {
             suggestion: function (data) { return data.text; }
         }
     });
-});
+});*/
 
 // Retrieve the main menu and its childern
 $(function() {
@@ -43,7 +44,7 @@ $(function() {
         horizrailenabled: false,
         zindex: 999999
     });
-    
+
     // Open / close main menu nav
     $('#heading-categories-menu a, .gray-overlay').click(function() {
         // Show/hide scroll bars with delay due to css animations
@@ -109,5 +110,3 @@ $(function() {
 $(function() {
     $('#toTop').scrollToTop(400);
 });
-
-

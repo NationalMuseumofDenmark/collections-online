@@ -64,11 +64,8 @@ body {
         left:0;
       }
     }
-    #heading-categories-menu a { // Menu toggle button
-      color: $gray;
-      #menu-icon {
-        fill: $gray;
-      }
+    #heading-categories-menu{
+      float: left;
     }
     .uv-popover, .user-voice-feedback {
       display:none; // Hide user vocie
@@ -137,6 +134,37 @@ svg {
     margin: 0;
   }
 
+  #heading-categories-menu{
+    float: left;
+    margin-right: 15px;
+
+    svg{
+      height: 25px;
+      width: 25px;
+      margin-top: 7.5px;
+    }
+  }
+
+  .catalog-name{
+    font-family: 'Nationale', 'sans-serif';
+    font-size: 20px;
+    color: $white;
+    float: left;
+    margin-top: 7px;
+
+    p{
+      float: left;
+    }
+
+    .seperator{
+      background-color: #868686;
+      float: right;
+      height: 30px;
+      width: 2px;
+      margin: -1px 15px;
+    }
+  }
+
   .logo-text{
     color:white;
     padding-right: 5px;
@@ -165,6 +193,8 @@ svg {
     }
     .form-group{
       margin-top: 5px;
+      float: left;
+      width: 30%;
     }
     h2 {
       margin: 0;
@@ -342,7 +372,6 @@ svg {
 
 .search-box {
   width: 100%;
-
   .input-group-text { // Added to box-in input field and typeahead
     position: relative;
 
@@ -350,11 +379,6 @@ svg {
       border: 0px;
       border-radius: 0px;
     }
-
-    .form-control:placeholder-shown{
-      color:orange;
-    }
-
   }
   .dropdown-menu { // typeahead dropdown menu
     width: 100%;
@@ -369,9 +393,29 @@ svg {
     width: 20px;
     height: 20px;
   }
-  #search-input {
-    //border-radius:4px 0 0 4px;
-  }
+  #search-input::-webkit-input-placeholder { /* Safari, Chrome and Opera */
+    color: #DDE2DB;
+    }
+
+  #search-input:-moz-placeholder { /* Firefox 18- */
+      color: #DDE2DB;
+    }
+
+  #search-input::-moz-placeholder { /* Firefox 19+ */
+      color: #DDE2DB;
+    }
+
+  #search-input:-ms-input-placeholder { /* IE 10+ */
+      color: #DDE2DB;
+    }
+
+  #search-input::-ms-input-placeholder { /* Edge */
+      color: #DDE2DB;
+    }
+
+  #search-input:placeholder-shown { /* Standard one last! */
+      color: #DDE2DB;
+    }
   .input-group-btn {
     vertical-align:top;
     position: absolute;
@@ -772,6 +816,11 @@ ul.categories {
   margin-top:25px !important;
   position: fixed !important;
 }
+@media screen and (max-width: 768px) {
+  .form-group{
+    width: 80% !important;
+  }
+}
 
 /* Responsive: Landscape tablets and up */
 @media screen and (min-width: $screen-md-min) {
@@ -817,13 +866,13 @@ ul.categories {
   }
 }
 
-/* Disable zoom on IOS tweak */
+/* Disable zoom on IOS tweak
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   #search-input:focus {
     font-size: 16px;
     background:$white;
   }
-}
+}*/
 
 /* Responsive masonry boxes */
 .box {
