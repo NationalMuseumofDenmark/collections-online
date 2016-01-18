@@ -133,11 +133,13 @@ mixin samlingerHeader()
           h2#heading-categories-menu
             a(href='#')
               span.sr-only Kataloger og kategorier
-              +icon('burger-icon')
-          - if(catalog)
-              .catalog-name.hidden-xs
+              +icon('burger-icon')    
+          .catalog-name.hidden-xs
+            - if(catalog)
                 p #{catalog.name}
-                .seperator
+            - else
+                p Samlinger Online
+            .seperator
           +searchBox()
         .col-xs-2.col-md-3
           a.pull-right(href='/')
