@@ -16,7 +16,11 @@ unless(has_coordinates)
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
 
 block content
-  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset item')
+  article(itemscope,
+          itemtype='http://schema.org/CreativeWork',
+          class='asset item',
+          data-catalog-alias=catalog.alias,
+          data-item-id=item.id)
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6.col-xs-12.image-row
