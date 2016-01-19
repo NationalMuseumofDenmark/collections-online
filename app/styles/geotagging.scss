@@ -1,6 +1,14 @@
 .geotagging {
   margin-bottom: 17px;
-  .map {
+
+  #geotagging-map {
     background: #eee;
+    height: 500px;
+  }
+
+  .save-coordinates{
+    position: absolute;
+    right: 20px;
+    top: 50px;
   }
 }

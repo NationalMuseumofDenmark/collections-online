@@ -10,6 +10,11 @@ append header
   +assetMeta(item, sources)
   +shareThisJS()
 
+- var has_coordinates = item.longitude && item.latitude;
+unless(has_coordinates)
+  append javascript
+    script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
+
 block content
   article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset item')
     - var title = item.short_title || 'Ingen titel'
@@ -76,7 +81,8 @@ block content
                     href=asset.href)
 
       .col-md-6.col-xs-12.pull-right.text-row
-        include geotagging.jade
+        unless(has_coordinates)
+          include geotagging.jade
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
@@ -109,7 +115,6 @@ block content
 
         // Place
         h2 Sted
-        - var has_coordinates = item.longitude && item.latitude;
         table
           tbody
             tr
