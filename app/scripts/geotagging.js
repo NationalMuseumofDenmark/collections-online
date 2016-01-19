@@ -8,20 +8,21 @@
     }
   }
 
-  // resize google map to match asset image on load and on window resize
-  $( window ).resize(function() {
-    resizeMap();
-  }).trigger('resize');
-
   $('.call-to-action .btn').click(function() {
     $('.map-container').slideDown('slow');
     $(this).hide();
-    google.maps.event.trigger(map, 'resize');
+
+    // resize google map to match asset image on load and on window resize
+    $( window ).bind("resize",function() {
+      resizeMap();
+    }).trigger('resize');
   });
 
   $('.map-buttons .hide-map').click(function() {
     $('.map-container').slideUp('slow');
     $('.call-to-action .btn').show();
+
+    $( window ).unbind('resize');
   });
 
   $('.map-buttons .save-coordinates').click(function() {
