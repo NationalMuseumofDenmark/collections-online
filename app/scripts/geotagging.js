@@ -4,16 +4,23 @@
   });
 
   $('.save-coordinates .btn').click(function() {
+    var data = {};
     if(map.getStreetView().getVisible()){
-      console.log(map.getStreetView().getPosition().lat());
-      console.log(map.getStreetView().getPosition().lng());
-      console.log(map.getStreetView().getPov());
+      data.latitude = map.getStreetView().getPosition().lat();
+      data.longitude = map.getStreetView().getPosition().lng();
+      data.pov = map.getStreetView().getPov();
+    } else{
+      data.latitude = marker.getPosition().lat();
+      data.longitude = marker.getPosition().lng();
     }
-    else{
-      console.log(marker.getPosition().lat());
-      console.log(marker.getPosition().lng());
-    }
-
+    var $item = $('.item');
+    var catalogAlias = $item.data('catalog-alias');
+    var itemId = $item.data('item-id');
+    console.log('Saving geo-tag', catalogAlias, itemId, data);
+    var url = '/' + catalogAlias + '/' + itemId + '/save-geotag';
+    $.post(url, data, function(response) {
+      console.log(response);
+    });
   });
 })(jQuery);
 
