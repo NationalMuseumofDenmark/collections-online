@@ -3,8 +3,10 @@ div.geotagging
     div.form-control.btn.btn-primary
       span.glyphicon.glyphicon-map-marker
       | Hjælp os med at placere dette billede på kortet!
-  div#geotagging-map
-    | ..
-  div.save-coordinates
-    div.btn.btn-primary
-      | Gem koordinat!
+  div.map-container
+    div#geotagging-map.closed
+    div.map-buttons
+      div.btn.btn-primary.save-coordinates
+        | Gem placering!
+      div.btn.btn-primary.hide-map
+        | Anuller

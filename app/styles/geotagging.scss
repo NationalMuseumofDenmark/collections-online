@@ -1,14 +1,24 @@
 .geotagging {
-  margin-bottom: 17px;
+  margin: 0 -15px 17px -15px;
 
-  #geotagging-map {
-    background: #eee;
-    height: 500px;
-  }
+  .map-container{
+    display: none;
+    position: relative;
 
-  .save-coordinates{
-    position: absolute;
-    right: 20px;
-    top: 50px;
+    #geotagging-map {
+      background: #eee;
+      height: 500px;
+    }
+    .map-buttons{
+      position: absolute;
+      text-align: center;
+      width: 40%;
+      bottom: 10%;
+      left: 30%;
+
+      .btn{
+        margin: 5px;
+      }
+    }
   }
 }
