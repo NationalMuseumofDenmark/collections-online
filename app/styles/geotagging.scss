@@ -1,7 +1,14 @@
 .geotagging {
   margin: 0 -15px 17px -15px;
+  min-height: $input-height-base;
 
-  .map-container{
+  .call-to-action {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .map-container {
     display: none;
     position: relative;
     height: auto;
@@ -10,14 +17,14 @@
       background: #eee;
       max-height: 500px;
     }
-    .map-buttons{
+    .map-buttons {
       position: absolute;
       text-align: center;
       width: 80%;
       bottom: 3%;
       left: 10%;
 
-      .btn{
+      .btn {
         margin: 5px;
       }
     }
