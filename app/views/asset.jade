@@ -10,8 +10,7 @@ append header
   +assetMeta(item, sources)
   +shareThisJS()
 
-- var has_coordinates = item.longitude && item.latitude;
-unless(has_coordinates)
+if(showGeotagging)
   append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
 
@@ -85,7 +84,7 @@ block content
                     href=asset.href)
 
       .col-md-6.col-xs-12.pull-right.text-row
-        unless(has_coordinates)
+        if(showGeotagging)
           include geotagging.jade
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
@@ -146,11 +145,10 @@ block content
                     | #{city}
                 - else
                   | -
-            tr
-              th Koordinater:
-              td= has_coordinates ? item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5) : '-'
-
-            - if(has_coordinates)
+            - if(item.longitude && item.latitude)
+              tr
+                th Koordinater:
+                td= item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
               tr
                 td(colspan='2')
                   a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
