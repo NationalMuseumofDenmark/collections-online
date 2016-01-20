@@ -41,6 +41,8 @@ $icon-font-path: "/styles/fonts/";
 
 @import 'asset';
 @import 'search-results';
+@import 'topbar';
+@import 'footer';
 
 body {
   // For category menu
@@ -121,118 +123,6 @@ svg {
   height: 40px;
 }
 
-.header {
-  padding-top: 20px;
-  height: 80px;
-  background-color: #333333;
-  margin-bottom: 20px;
-
-  a {
-    color: $black;
-    &:hover,
-    &:focus {
-      text-decoration: none;
-    }
-  }
-  h1 {
-    margin: 0;
-  }
-
-  #heading-categories-menu{
-    float: left;
-    margin-right: 15px;
-
-    svg{
-      height: 25px;
-      width: 25px;
-      margin-top: 7.5px;
-    }
-  }
-
-  .catalog-name{
-    font-family: 'Nationale', 'sans-serif';
-    font-size: 20px;
-    color: $white;
-    float: left;
-    margin-top: 7px;
-
-    p{
-      float: left;
-    }
-
-    .seperator{
-      background-color: #868686;
-      float: right;
-      height: 30px;
-      width: 2px;
-      margin: -1px 15px;
-    }
-  }
-
-  .logo-text{
-    color:white;
-    padding-right: 5px;
-    font-family: 'Nationale', 'Open-Serif';
-    font-weight: 600;
-  }
-  .natmus {
-    margin-bottom: 20px;
-    height: 30px;
-    background: $black;
-    color: $white;
-    a {
-      line-height: 30px;
-      vertical-align: middle;
-      color: $white;
-    }
-  }
-  img {
-    width: auto;
-    max-width: 100%;
-    max-height: 50px;
-  }
-  hgroup {
-    .row {
-      margin-bottom: 20px;
-    }
-    .form-group{
-      margin-top: 5px;
-      float: left;
-      width: 25%;
-    }
-    h2 {
-      margin: 0;
-    }
-  }
-}
-
-/* Custom page footer */
-.footer {
-  .footer-title {
-    font-size: 18px;
-  }
-  @extend .text-center;
-  padding: 15px;
-  background: $black;
-  color: $white;
-  border-top: 1px solid $gray-lighter;
-  address {
-    font-weight: 600;
-    span {
-      display: block;
-    }
-    a {
-      color: $white;
-      background: $black;
-      text-decoration: underline;
-    }
-  }
-  svg {
-    path {
-      fill: $white;
-    }
-  }
-}
 
 /* Category menu link */
 .menu-container{
@@ -372,73 +262,6 @@ svg {
 /* hide the scroll bar by default */
 .nicescroll-rails {
   display:none;
-}
-
-.search-box {
-  width: 100%;
-  .input-group-text { // Added to box-in input field and typeahead
-    position: relative;
-
-    .form-control {
-      border: 0px;
-      border-radius: 0px;
-    }
-  }
-  .dropdown-menu { // typeahead dropdown menu
-    width: 100%;
-  }
-  button[type=submit] {
-    background: $white;
-    width: 50px;
-    height: 31px;
-  }
-  svg {
-    fill:#A5A5A5;
-    width: 20px;
-    height: 20px;
-  }
-  #search-input{
-    font-family: 'Nationale', 'open-sans'
-  }
-
-  #search-input::placeholder { /* Standard one last! */
-    color: #999;
-  }
-
-  .input-group-btn {
-    vertical-align:top;
-    position: absolute;
-    width: 20px;
-    right: 20px;
-    top: 0px;
-    z-index: 1000;
-
-    .btn-search {
-      border: 0px;
-      text-align: right;
-    }
-  }
-  /* Autosuggest */
-  .twitter-typeahead {
-    width:100%;
-  }
-  .tt-dropdown-menu {
-    width: 100%;
-  }
-  .tt-suggestions {
-    @extend .list-group;
-  }
-  .tt-suggestion {
-    @extend .list-group-item;
-    &.tt-cursor {
-      background-color: $gray-light;
-    }
-  }
-  .tt-dropdown-menu {
-    .tt-suggestion p {
-      margin:0;
-    }
-  }
 }
 
 .bleed {

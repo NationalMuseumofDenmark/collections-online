@@ -1,0 +1,26 @@
+.footer {
+  .footer-title {
+    font-size: 18px;
+  }
+  @extend .text-center;
+  padding: 15px;
+  background: $black;
+  color: $white;
+  border-top: 1px solid $gray-lighter;
+  address {
+    font-weight: 600;
+    span {
+      display: block;
+    }
+    a {
+      color: $white;
+      background: $black;
+      text-decoration: underline;
+    }
+  }
+  svg {
+    path {
+      fill: $white;
+    }
+  }
+}

@@ -1,0 +1,89 @@
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  height: 80px;
+  margin-bottom: 20px;
+  background-color: #333333;
+
+  #heading-categories-menu {
+    margin: 0 10px;
+
+    svg {
+      height: 25px;
+      width: 25px;
+    }
+  }
+
+  .catalog-name p {
+      font-family: 'Nationale', 'sans-serif';
+      font-size: 20px;
+      color: $white;
+      margin: 0;
+  }
+
+  .seperator {
+    background-color: #868686;
+    float: right;
+    height: 30px;
+    width: 2px;
+    margin: -1px 15px;
+  }
+
+  .logo {
+    color: $white;
+    font-family: 'Nationale', 'sans-serif';
+    margin-left: auto;
+    margin-right: 5px;
+
+    .logo-text{
+      margin-right: 2px;
+    }
+  }
+
+  .search-box {
+    flex-grow: 1;
+    position: relative;
+    margin-right: 15px;
+    .input-group-text { // Added to box-in input field and typeahead
+      position: relative;
+
+      .form-control {
+        border: 0px;
+        border-radius: 0px;
+      }
+    }
+    button[type=submit] {
+      background: $white;
+      width: 50px;
+      height: 31px;
+    }
+    svg {
+      fill:#A5A5A5;
+      width: 20px;
+      height: 20px;
+    }
+    #search-input{
+      font-family: 'Nationale', 'open-sans'
+    }
+
+    #search-input::placeholder { /* Standard one last! */
+      color: #999;
+    }
+
+    .input-group-btn {
+      vertical-align:top;
+      position: absolute;
+      width: 20px;
+      right: 20px;
+      top: 0px;
+      z-index: 1000;
+
+      .btn-search {
+        border: 0px;
+        text-align: right;
+      }
+    }
+  }
+}
