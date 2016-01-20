@@ -25,6 +25,10 @@ var resizeMap;
     });
   });
 
+  $('.overlay .close-overlay').click(function() {
+    $('.overlay').hide();
+  });
+
   $('.map-buttons .save-coordinates').click(function() {
     var data = {};
     if(map.getStreetView().getVisible()){
