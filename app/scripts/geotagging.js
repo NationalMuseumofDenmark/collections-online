@@ -1,30 +1,28 @@
-(function($) {
-  var resizeMap = function(){
-    var assetImgHeight = $('.primary-asset img').height()
-    $('#geotagging-map').height(assetImgHeight);
+var resizeMap;
 
-    if($('.map-container').is(':visible')){
-      google.maps.event.trigger(map, 'resize');
-    }
+(function($) {
+  // Let's define a global function, to be called when initializing or when
+  // the window resizes.
+  resizeMap = function() {
+    var assetImgHeight = $('.primary-asset img').height();
+    $('#geotagging-map').height(assetImgHeight);
+    google.maps.event.trigger(map, 'resize');
   }
 
-  resizeMap();
-
   $('.call-to-action .btn').click(function() {
-    $('.map-container').slideDown('slow');
     $(this).hide();
-
-    // resize google map to match asset image on load and on window resize
-    $( window ).bind('resize',function() {
-      resizeMap();
-    }).trigger('resize');
+    $('.map-container').slideDown('slow', function() {
+      // resize google map to match asset image on load and on window resize
+      $( window ).bind('resize', resizeMap).trigger('resize');
+      map.setCenter(marker.getPosition());
+    });
   });
 
   $('.map-buttons .hide-map').click(function() {
-    $('.map-container').slideUp('slow');
-    $('.call-to-action .btn').show();
-
-    $( window ).unbind('resize');
+    $('.map-container').slideUp('slow', function() {
+      $('.call-to-action .btn').show();
+      $( window ).unbind('resize', resizeMap);
+    });
   });
 
   $('.map-buttons .save-coordinates').click(function() {
@@ -51,15 +49,15 @@
 var map;
 var marker;
 function initMap() {
-  var myLatlng = new google.maps.LatLng(55.6776555,	12.5691513);
+  var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
-    center: myLatlng,
+    center: initialPosition,
     zoom: 12
   });
 
   // Place a draggable marker on the map
   marker = new google.maps.Marker({
-    position: myLatlng,
+    position: initialPosition,
     map: map,
     draggable:true
   });
@@ -67,4 +65,6 @@ function initMap() {
   google.maps.event.addListener(map, 'click', function(event) {
     marker.setPosition(event.latLng);
   });
+
+  resizeMap();
 }
