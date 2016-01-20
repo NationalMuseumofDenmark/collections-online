@@ -1,17 +1,68 @@
 .geotagging {
   margin: 0 -15px 17px -15px;
   min-height: $input-height-base;
+  position: relative;
+
+  .btn {
+    color: white;
+    border: none;
+    background-color: #9E0B0F;
+    font-family: 'Nationale', sans-serif;
+    box-shadow: 0px 1px 3px 0px rgba(51,51,3,1);
+    border-radius: 0px;
+    font-size: 15px;
+  }
+
+  .btn:hover {
+    background-color: #BF0D13;
+  }
 
   .call-to-action {
     position: absolute;
     top: 0;
     width: 100%;
+
+    .btn {
+      width: 100%;
+      span {
+        margin-right: 5px;
+        vertical-align: text-top;
+      }
+    }
   }
 
   .map-container {
     display: none;
     position: relative;
     height: auto;
+
+    .overlay {
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      width: 100%;
+      height: 100%;
+      padding: 30px 40px;
+
+      color: white;
+      background-color: #333;
+      opacity: 0.95;
+      z-index: 1;
+
+      font-size: 15px;
+
+      h2 {
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      .btn{
+        bottom: 3%;
+        position: absolute;
+        width: 20%;
+        left: 40%;
+      }
+    }
 
     #geotagging-map {
       background: #eee;
@@ -39,6 +90,21 @@
   .geotagging {
     #geotagging-map{
       max-height: 66vh !important;
+    }
+
+    .overlay {
+      padding: 10px 10px !important;
+      p {
+        font-size: 8px;
+      }
+
+      h2 {
+        font-size: 12px;
+      }
+    }
+
+    .btn {
+      font-size: 10px;
     }
   }
 }

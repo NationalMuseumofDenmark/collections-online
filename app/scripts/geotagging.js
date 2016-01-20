@@ -12,7 +12,7 @@ var resizeMap;
   $('.call-to-action .btn').click(function() {
     $(this).hide();
     $('.map-container').slideDown('slow', function() {
-      // resize google map to match asset image on load and on window resize
+      // resize google map to match asset image on click and on window resize
       $( window ).bind('resize', resizeMap).trigger('resize');
       map.setCenter(marker.getPosition());
     });
@@ -23,6 +23,10 @@ var resizeMap;
       $('.call-to-action .btn').show();
       $( window ).unbind('resize', resizeMap);
     });
+  });
+
+  $('.overlay .close-overlay').click(function() {
+    $('.overlay').hide();
   });
 
   $('.map-buttons .save-coordinates').click(function() {
