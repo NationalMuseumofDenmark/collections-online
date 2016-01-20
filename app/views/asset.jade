@@ -10,8 +10,8 @@ append header
   +assetMeta(item, sources)
   +shareThisJS()
 
-if(showGeotagging)
-  append javascript
+append javascript
+  if(showGeotagging)
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
 
 block content
@@ -145,7 +145,7 @@ block content
                     | #{city}
                 - else
                   | -
-            - if(item.longitude && item.latitude)
+            if(item.longitude && item.latitude)
               tr
                 th Koordinater:
                 td= item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
