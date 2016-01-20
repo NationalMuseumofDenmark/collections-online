@@ -1,0 +1,73 @@
+
+/* Search results */
+.search-results {
+  .thumbnail {
+    position: relative;
+    background-color: $white;
+    border: none;
+    padding:0;
+
+    /* Video thumbnail */
+    .video-thumbnail {
+      position: relative;
+      width: 100%;
+      padding-bottom: 75%; // Maintaining the 4:3 aspect ratio
+      background: $gray;
+      .icon {
+        position: absolute;
+        width: 80%;
+        height: 80%;
+        background: url('/images/film-projector.svg');
+        background-repeat: no-repeat;
+        background-size: contain;
+        margin: 10%;
+      }
+    }
+
+    /* The actual image */
+    .image {
+      display: block;
+      text-align: center;
+      .overlay {
+        position: relative;
+        display: inline-block;
+        max-width: 100%;
+        img {
+          max-width: 100%;
+        }
+        .rotation-icon {
+          position: absolute;
+          opacity: 0.75;
+          bottom: 1em;
+          right: 1em;
+          width: 3em;
+        }
+      }
+    }
+    a {
+      display: block;
+      color: $black;
+      &:hover {
+        text-decoration: none;
+        background-color: $white;
+        color:$link-hover-color;
+        border: none;
+      }
+    }
+    .cat-link a {
+      text-decoration:underline;
+      font-size: 97%;
+    }
+  }
+}
+
+/* More button */
+#more {
+  @include clearfix;
+  clear:both;
+  border:2px solid $brand-primary;
+  margin-right: 15px;
+  text-decoration: none;
+  font-weight: bold;
+  color:$brand-primary;
+}

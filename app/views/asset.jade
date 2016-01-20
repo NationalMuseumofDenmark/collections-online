@@ -10,8 +10,16 @@ append header
   +assetMeta(item, sources)
   +shareThisJS()
 
+append javascript
+  if(showGeotagging)
+    script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
+
 block content
-  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset item')
+  article(itemscope,
+          itemtype='http://schema.org/CreativeWork',
+          class='asset item',
+          data-catalog-alias=catalog.alias,
+          data-item-id=item.id)
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6.col-xs-12.image-row
@@ -76,6 +84,8 @@ block content
                     href=asset.href)
 
       .col-md-6.col-xs-12.pull-right.text-row
+        if(showGeotagging)
+          include geotagging.jade
         p.catalog
           a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
 
@@ -108,8 +118,7 @@ block content
 
         // Place
         h2 Sted
-        - var has_coordinates = item.longitude && item.latitude;
-        table
+        table.place
           tbody
             tr
               th Område:
@@ -136,11 +145,10 @@ block content
                     | #{city}
                 - else
                   | -
-            tr
-              th Koordinater:
-              td= has_coordinates ? item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5) : '-'
-
-            - if(has_coordinates)
+            if(item.longitude && item.latitude)
+              tr
+                th Koordinater:
+                td= item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
               tr
                 td(colspan='2')
                   a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')

@@ -19,12 +19,12 @@ html(lang='da').no-js
   body
     +sidebarmenu()
     div.main-wrapper
-      +samlingerHeader()
+      +topbar()
       .container
         block content
       +footer()
       a#toTop
-
+    
     <!-- build:js /scripts/scripts.js -->
     // bower:js
     script(src='/bower_components/jquery/dist/jquery.js')
@@ -62,6 +62,7 @@ html(lang='da').no-js
     script(src='/scripts/natmus.js')
     script(src='/scripts/masonry.init.js')
     script(src='/scripts/magic360.js')
+    script(src='/scripts/geotagging.js')
     <!-- endbuild -->
     script.
         Magic360.lang = {

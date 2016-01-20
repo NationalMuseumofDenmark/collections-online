@@ -1,0 +1,18 @@
+extends search-results
+
+include frontpage-slider
+
+prepend content
+  +FrontPageSlider()
+
+append javascript
+  script.
+    $(window).load(function() {
+       $('.slider').flexslider({
+        animation: "slide",
+        controlNav: false,
+        start: function(slider) {
+          $(window).trigger('resize');
+        }
+      });
+    });

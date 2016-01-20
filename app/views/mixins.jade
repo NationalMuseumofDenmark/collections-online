@@ -89,16 +89,6 @@ mixin recursiveCategoryItem(catalog, category)
         a.col-xs-12(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
           span.count  (#{category.count})
 
-mixin header
-  header.header
-    .natmus
-      .container
-        .row
-          p.col-xs-12
-            a(href='http://natmus.dk')
-              | Natmus.dk
-    +samlingerHeader()
-
 mixin footer
   footer
     .footer
@@ -124,40 +114,37 @@ mixin footer
               a(href='http://www.youtube.com/user/natmusdk')
                 span.sr-only YouTube
                 +icon('youtube-4-icon')
-
-mixin samlingerHeader()
-  header.header
-    hgroup.container-fluid
-      .row          
-        .col-xs-10.col-md-9
-          h2#heading-categories-menu
-            a(href='#')
-              span.sr-only Kataloger og kategorier
-              +icon('burger-icon')    
-          .catalog-name.hidden-xs
-            - if(catalog)
-                p #{catalog.name}
-            - else
-                p Samlinger Online
-            .seperator
-          +searchBox()
-        .col-xs-2.col-md-3
-          a.pull-right(href='/')
-            +icon('logo-icon')
-          span.logo-text.pull-right.hidden-xs.hidden-sm Samlinger online
+  
+mixin topbar()
+  header.topbar
+    span#heading-categories-menu
+      a(href='#')
+        span.sr-only Kataloger og kategorier
+        +icon('burger-icon')
+    .catalog-name.hidden-xs
+      - if(catalog)
+          p #{catalog.name}
+      - else
+          p Samlinger Online
+    .seperator.hidden-xs
+    +searchBox()
+    .logo
+      span.logo-text.hidden-xs.hidden-sm Samlinger online
+      a.pull-right(href='/')
+        +icon('logo-icon')
+    
 mixin searchBox()
   - var path = (req.path).split('/')
-  .form-group
-      form(class='input-group search-box form-inline', method="get", action="/")
-        .input-group-text
-          input(type='text', id="search-input", class='form-control', placeholder='Søg på samlinger.natmus.dk', name='q',
-                autocomplete="off",
-                typeahead='term.text for term in suggestions'
-                value=req.param('q'))
-        .input-group-btn
-          button(type="submit", class="btn-search", ng-click='doSearch()')
-            span.sr-only Søg
-            +icon('magnifier-2-icon')
+  form(class='search-box', method="get", action="/")
+    .input-group-text
+      input(type='text', id="search-input", class='form-control', placeholder='Søg på samlinger.natmus.dk', name='q',
+            autocomplete="off",
+            typeahead='term.text for term in suggestions'
+            value=req.param('q'))
+    .input-group-btn
+      button(type="submit", class="btn-search", ng-click='doSearch()')
+        span.sr-only Søg
+        +icon('magnifier-2-icon')
 
 mixin icon(id)
   case id
