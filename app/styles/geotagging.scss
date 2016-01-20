@@ -2,10 +2,31 @@
   margin: 0 -15px 17px -15px;
   min-height: $input-height-base;
 
+  .btn {
+    color: white;
+    border: none;
+    background-color: #9E0B0F;
+    font-family: 'Nationale', sans-serif;
+    box-shadow: 0px 1px 3px 0px rgba(51,51,3,1);
+    border-radius: 0px;
+    font-size: 15px;
+  }
+
+  .btn:hover {
+    background-color: #BF0D13;
+  }
+
   .call-to-action {
     position: absolute;
     top: 0;
     width: 100%;
+
+    .btn {
+      width: 100%;
+      span {
+        margin-right: 5px;
+      }
+    }
   }
 
   .map-container {
