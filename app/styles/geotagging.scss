@@ -4,21 +4,30 @@
   .map-container{
     display: none;
     position: relative;
+    height: auto;
 
     #geotagging-map {
       background: #eee;
-      height: 300px;
+      max-height: 500px;
     }
     .map-buttons{
       position: absolute;
       text-align: center;
-      width: 40%;
-      bottom: 10%;
-      left: 30%;
+      width: 80%;
+      bottom: 3%;
+      left: 10%;
 
       .btn{
         margin: 5px;
       }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .geotagging {
+    #geotagging-map{
+      max-height: 66vh !important;
     }
   }
 }

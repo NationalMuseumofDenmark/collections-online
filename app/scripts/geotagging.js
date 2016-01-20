@@ -3,17 +3,19 @@
     var assetImgHeight = $('.primary-asset img').height()
     $('#geotagging-map').height(assetImgHeight);
 
-    if($('#geotagging-map').is(':visible')){
+    if($('.map-container').is(':visible')){
       google.maps.event.trigger(map, 'resize');
     }
   }
+
+  resizeMap();
 
   $('.call-to-action .btn').click(function() {
     $('.map-container').slideDown('slow');
     $(this).hide();
 
     // resize google map to match asset image on load and on window resize
-    $( window ).bind("resize",function() {
+    $( window ).bind('resize',function() {
       resizeMap();
     }).trigger('resize');
   });
