@@ -114,37 +114,6 @@ mixin footer
               a(href='http://www.youtube.com/user/natmusdk')
                 span.sr-only YouTube
                 +icon('youtube-4-icon')
-  
-mixin topbar()
-  header.topbar
-    span#heading-categories-menu
-      a(href='#')
-        span.sr-only Kataloger og kategorier
-        +icon('burger-icon')
-    .catalog-name.hidden-xs
-      - if(catalog)
-          p #{catalog.name}
-      - else
-          p Samlinger Online
-    .seperator.hidden-xs
-    +searchBox()
-    .logo
-      span.logo-text.hidden-xs.hidden-sm Samlinger online
-      a.pull-right(href='/')
-        +icon('logo-icon')
-    
-mixin searchBox()
-  - var path = (req.path).split('/')
-  form(class='search-box', method="get", action="/")
-    .input-group-text
-      input(type='text', id="search-input", class='form-control', placeholder='Søg på samlinger.natmus.dk', name='q',
-            autocomplete="off",
-            typeahead='term.text for term in suggestions'
-            value=req.param('q'))
-    .input-group-btn
-      button(type="submit", class="btn-search", ng-click='doSearch()')
-        span.sr-only Søg
-        +icon('magnifier-2-icon')
 
 mixin icon(id)
   case id
