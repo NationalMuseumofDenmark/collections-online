@@ -16,6 +16,10 @@
     #geotagging-map {
       background: #eee;
       max-height: 500px;
+      // TODO: Consider moving this to an option when initializing the map.
+      .gm-iv-address {
+        display: none;
+      }
     }
     .map-buttons {
       position: absolute;
