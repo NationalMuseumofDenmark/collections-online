@@ -380,7 +380,8 @@ module.exports = function (grunt) {
                     src: [
                         'package.json',
                         'server.js',
-                        'lib/**/*'
+                        'lib/**/*',
+                        'indexing/**'
                     ]
                 }]
             },
