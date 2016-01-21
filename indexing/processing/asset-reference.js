@@ -27,7 +27,7 @@ function assetReference(state, catalogAlias, assetId) {
 
 	var idString = 'ID is "' + assetId + '"';
 
-	state.cip.criteriasearch({
+	state.cip.criteriaSearch({
 		catalog: catalog
 	}, idString, null, function(result) {
 		// TODO: Consider checking that the result returned exactly one asset.

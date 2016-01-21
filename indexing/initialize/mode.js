@@ -47,13 +47,13 @@ function mode(state) {
 		// No arguments supplied, just node and the app script's path.
 		state.mode = MODES.recent;
 	} else if(args && args.length >= 3) {
-		var suggested_mode = args[2];
-		state.mode = isValidMode(suggested_mode);
+		var suggestedMode = args[2];
+		state.mode = isValidMode(suggestedMode);
 		if(args.length >= 4) {
 			state.reference = args[3].split(',');
 		}
 	}
-	
+
 	if(!state.mode) {
 		throw new Error('Unrecognized mode!' +'\n'+ usageMessage());
 	}

@@ -6,7 +6,7 @@
 
 var Q = require('q');
 var assetMapping = require('../../lib/asset-mapping.js');
-var cip = require('../../lib/cip-methods.js');
+var cip = require('../../lib/services/natmus-cip');
 
 var DATA_REGEXP = new RegExp('\\d+');
 var CM_PR_IN = 2.54;
@@ -82,9 +82,9 @@ var METADATA_TRANSFORMATIONS = [
 	},
 	function transform_relations(state, metadata) {
 		// Transforms the binary representations of each relation.
-		metadata.related_master_assets = cip.parse_binary_relations(
+		metadata.related_master_assets = cip.parseBinaryRelations(
 			metadata.related_master_assets);
-		metadata.related_sub_assets = cip.parse_binary_relations(
+		metadata.related_sub_assets = cip.parseBinaryRelations(
 			metadata.related_sub_assets);
 		// Sort these by their filename.
 		metadata.related_master_assets.sort( relatedFilenameComparison );
@@ -122,7 +122,7 @@ var METADATA_TRANSFORMATIONS = [
 		// If we found a rotational master asset.
 		if(rotationalMasterAsset) {
 			// Get the asset's metadata, to check it's categories.
-			return cip.get_asset(state.cip, metadata.catalog, rotationalMasterAsset.id)
+			return cip.getAsset(state.cip, metadata.catalog, rotationalMasterAsset.id)
 			.then(function(masterAsset) {
 				var masterAssetMetadata = masterAsset.fields;
 				masterAssetMetadata = assetMapping.format_result( masterAssetMetadata );
