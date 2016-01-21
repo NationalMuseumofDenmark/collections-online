@@ -26,6 +26,7 @@ require('./lib/services/natmus-api').config({
 });
 
 require('./lib/routes')(app);
+require('./lib/errors')(app);
 
 es_client.count({
     index: config.es_assets_index
