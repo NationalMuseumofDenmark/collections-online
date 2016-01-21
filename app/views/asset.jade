@@ -37,8 +37,6 @@ block content
             video(width="100%", controls)
               source(src=sources.video, type="video/mp4")
 
-
-
           .asset-tools
             .btn-group.dropup
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
@@ -87,7 +85,8 @@ block content
         if(showGeotagging)
           include geotagging.jade
         p.catalog
-          a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
+          | Fra samlingen:
+          a(href='/#{catalog.alias}') #{catalog.name}
 
         // Title
         header

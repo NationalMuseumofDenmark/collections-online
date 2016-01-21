@@ -7,8 +7,15 @@
   margin-bottom: 20px;
   background-color: #333333;
 
-  #heading-categories-menu {
+  #heading-categories-menu,
+  .catalog-name,
+  .seperator,
+  .logo,
+  .logo-text {
     flex-shrink: 0;
+  }
+
+  #heading-categories-menu {
     margin: 0 10px;
 
     svg {
@@ -18,11 +25,10 @@
   }
 
   .catalog-name {
-      font-family: 'Nationale', 'sans-serif';
-      font-size: 20px;
-      color: $white;
-      margin: 0;
-      flex-shrink: 0;
+    font-family: 'Nationale', 'sans-serif';
+    font-size: 20px;
+    color: $white;
+    margin: 0;
   }
 
   .seperator {
@@ -31,18 +37,24 @@
     height: 30px;
     width: 2px;
     margin: -1px 15px;
-    flex-shrink: 0;
+  }
+
+  .logo-text {
+    float: right;
+    color: $white;
+    font-family: 'Nationale', 'sans-serif';
+    margin-right: 10px;
+    span {
+      display:block;
+    }
   }
 
   .logo {
-    color: $white;
-    font-family: 'Nationale', 'sans-serif';
+    float: right;
     margin-left: auto;
     margin-right: 5px;
-    flex-shrink: 0;
-
-    .logo-text {
-      margin-right: 5px;
+    svg {
+      vertical-align: middle;
     }
   }
 

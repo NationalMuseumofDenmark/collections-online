@@ -1,4 +1,6 @@
 var resizeMap;
+var map;
+var marker;
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -11,6 +13,9 @@ var resizeMap;
 
   $('.call-to-action .btn').click(function() {
     $(this).hide();
+    if(!window.localStorage.getItem('geotagging-overlay-closed')) {
+      $('.geotagging .overlay').show();
+    }
     $('.map-container').slideDown('slow', function() {
       // resize google map to match asset image on click and on window resize
       $( window ).bind('resize', resizeMap).trigger('resize');
@@ -26,7 +31,8 @@ var resizeMap;
   });
 
   $('.overlay .close-overlay').click(function() {
-    $('.overlay').hide();
+    window.localStorage.setItem('geotagging-overlay-closed', true);
+    $('.geotagging .overlay').hide();
   });
 
   $('.map-buttons .save-coordinates').click(function() {
@@ -50,8 +56,6 @@ var resizeMap;
   });
 })(jQuery);
 
-var map;
-var marker;
 function initMap() {
   var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
