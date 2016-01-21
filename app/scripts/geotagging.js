@@ -11,6 +11,12 @@ var marker;
     google.maps.event.trigger(map, 'resize');
   }
 
+  var showError = function(msg) {
+    $error = $('<div class="alert alert-danger">');
+    $error.text(msg);
+    $('.geotagging').append($error);
+  };
+
   $('.call-to-action .btn').click(function() {
     $(this).hide();
     if(!window.localStorage.getItem('geotagging-overlay-closed')) {
@@ -36,7 +42,10 @@ var marker;
   });
 
   $('.map-buttons .save-coordinates').click(function() {
-    var data = {};
+    $(this).addClass('disabled');
+    var data = {
+      force: location.search.indexOf('forceGeotagging') !== -1
+    };
     if(map.getStreetView().getVisible()){
       data.latitude = map.getStreetView().getPosition().lat();
       data.longitude = map.getStreetView().getPosition().lng();
@@ -50,8 +59,22 @@ var marker;
     var itemId = $item.data('item-id');
     console.log('Saving geo-tag', catalogAlias, itemId, data);
     var url = '/' + catalogAlias + '/' + itemId + '/save-geotag';
-    $.post(url, data, function(response) {
-      console.log(response);
+    $.ajax({
+      type: 'post',
+      url: url,
+      data: data,
+      dataType: 'json',
+      success: function(response) {
+        if(response.success) {
+          location.reload();
+        } else {
+          showError('Der skete en fejl - prøv igen');
+        }
+      },
+      error: function(response) {
+        var err = response.responseJSON;
+        showError(err.message || 'Der skete en uventet fejl.');
+      }
     });
   });
 })(jQuery);
