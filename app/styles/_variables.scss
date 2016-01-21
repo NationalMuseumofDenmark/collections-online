@@ -22,7 +22,7 @@ $gray:                   #555; //lighten(#000, 33.5%) !default; // #555
 $gray-light:             #f5f5f5; //lighten(#000, 60%) !default;   // #999
 $gray-lighter:           #f5f5f5; //lighten(#000, 93.5%) !default; // #eee
 
-$brand-primary:         #971623; //#428bca !default;
+$brand-primary:         #9e0b0f; // #971623; //#428bca !default;
 // $brand-success:         #5cb85c !default;
 // $brand-info:            #5bc0de !default;
 // $brand-warning:         #f0ad4e !default;
@@ -48,7 +48,7 @@ $link-hover-color:      darken($link-color, 15%) !default;
 // //
 // //## Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:  "Open Sans", sans-serif;
+$font-family-sans-serif: 'Nationale', sans-serif;
 // $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 // //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
 // $font-family-monospace:   Menlo, Monaco, Consolas, "Courier New", monospace !default;
@@ -108,9 +108,9 @@ $headings-font-weight:    600;
 // $line-height-large:         1.33 !default;
 // $line-height-small:         1.5 !default;
 
-// $border-radius-base:        4px !default;
-// $border-radius-large:       6px !default;
-// $border-radius-small:       3px !default;
+$border-radius-base:        0px !default;
+$border-radius-large:       0px !default;
+$border-radius-small:       0px !default;
 
 // //** Global color for active items (e.g., navs or dropdowns).
 // $component-active-color:    #fff !default;
@@ -148,7 +148,7 @@ $headings-font-weight:    600;
 // //
 // //## For each of Bootstrap's buttons, define text, background and border color.
 
-// $btn-font-weight:                normal !default;
+$btn-font-weight:                bold !default;
 
 // $btn-default-color:              #333 !default;
 // $btn-default-bg:                 #fff !default;

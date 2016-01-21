@@ -66,7 +66,7 @@ mixin head
   meta(charset='utf-8')
   meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
-  meta(name='viewport', content='width=device-width, initial-scale=1.0')
+  meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0')
 
 mixin sidebarmenu
   nav.categories-menu
@@ -114,37 +114,6 @@ mixin footer
               a(href='http://www.youtube.com/user/natmusdk')
                 span.sr-only YouTube
                 +icon('youtube-4-icon')
-  
-mixin topbar()
-  header.topbar
-    span#heading-categories-menu
-      a(href='#')
-        span.sr-only Kataloger og kategorier
-        +icon('burger-icon')
-    .catalog-name.hidden-xs
-      - if(catalog)
-          p #{catalog.name}
-      - else
-          p Samlinger Online
-    .seperator.hidden-xs
-    +searchBox()
-    .logo
-      span.logo-text.hidden-xs.hidden-sm Samlinger online
-      a.pull-right(href='/')
-        +icon('logo-icon')
-    
-mixin searchBox()
-  - var path = (req.path).split('/')
-  form(class='search-box', method="get", action="/")
-    .input-group-text
-      input(type='text', id="search-input", class='form-control', placeholder='Søg på samlinger.natmus.dk', name='q',
-            autocomplete="off",
-            typeahead='term.text for term in suggestions'
-            value=req.param('q'))
-    .input-group-btn
-      button(type="submit", class="btn-search", ng-click='doSearch()')
-        span.sr-only Søg
-        +icon('magnifier-2-icon')
 
 mixin icon(id)
   case id
@@ -159,9 +128,6 @@ mixin icon(id)
     when 'logo-icon'
       svg(viewBox="0 0 200 200" fill='white')
         path(d="M104 80V0h48v168h-44l-28-39v71H32v-8h40v-74l-8-11v77H16v-8h40V96l-8-12v84H0V0h44zm80-48v168h-48v-8h40V32h8zm-64 144h40V16h8v168h-48v-8zm24-16V8h-32v96L40 8H8v152h32V59l72 101h32z")
-    when 'menu-icon'
-      svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
-        path(id="#{id}", d="M462 163.5H50v-65h412V163.5z M462 223.5H50v65h412V223.5z M462 348.5H50v65h412V348.5z" fill="white")
     when 'download-icon'
       svg(xmlns="http://www.w3.org/2000/svg", xmlns:xlink="http://www.w3.org/1999/xlink", version="1.1", x="0px", y="0px", viewBox="0 0 512 512", enable-background="new 0 0 512 512", xml:space="preserve")
         g(transform="rotate(90 256 256)")

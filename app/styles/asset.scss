@@ -77,10 +77,6 @@
       }
     }
   }
-  .catalog {
-    font-weight: bold;
-    a { color:#000; }
-  }
   .place .map {
     @include img-responsive();
     width: 100%;
@@ -143,14 +139,14 @@
     font-size: 16px;
     margin:15px 0 6.5px 0;
   }
-  a {
+  /*a {
     color: $black;
     text-decoration: underline;
     &:hover,
     &:focus {
       color:$link-hover-color;
     }
-  }
+  }*/
   table {
     width: 100%;
     tr {

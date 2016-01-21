@@ -7,6 +7,14 @@
   margin-bottom: 20px;
   background-color: #333333;
 
+  #heading-categories-menu,
+  .catalog-name,
+  .seperator,
+  .logo,
+  .logo-text {
+    flex-shrink: 0;
+  }
+
   #heading-categories-menu {
     margin: 0 10px;
 
@@ -16,11 +24,11 @@
     }
   }
 
-  .catalog-name p {
-      font-family: 'Nationale', 'sans-serif';
-      font-size: 20px;
-      color: $white;
-      margin: 0;
+  .catalog-name {
+    font-family: 'Nationale', 'sans-serif';
+    font-size: 20px;
+    color: $white;
+    margin: 0;
   }
 
   .seperator {
@@ -31,14 +39,22 @@
     margin: -1px 15px;
   }
 
-  .logo {
+  .logo-text {
+    float: right;
     color: $white;
     font-family: 'Nationale', 'sans-serif';
+    margin-right: 10px;
+    span {
+      display:block;
+    }
+  }
+
+  .logo {
+    float: right;
     margin-left: auto;
     margin-right: 5px;
-
-    .logo-text{
-      margin-right: 2px;
+    svg {
+      vertical-align: middle;
     }
   }
 
@@ -46,50 +62,37 @@
     flex-grow: 1;
     position: relative;
     margin-right: 15px;
-    .input-group-text { // Added to box-in input field and typeahead
-      position: relative;
 
-      .form-control {
-        border: 0px;
-        border-radius: 0px;
-      }
-    }
-    button[type=submit] {
-      background: $white;
-      width: 50px;
-      height: 31px;
-    }
     svg {
       fill:#A5A5A5;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
+      margin: -3px;
     }
-    #search-input{
-      font-family: 'Nationale', 'open-sans'
+
+    .form-control:focus {
+      box-shadow: none;
+    }
+
+    #search-input {
+      font-family: 'Nationale', 'open-sans';
+      border: 0;
+      border-radius: 0;
     }
 
     #search-input::placeholder { /* Standard one last! */
       color: #999;
     }
 
-    .input-group-btn {
-      vertical-align:top;
-      position: absolute;
-      width: 20px;
-      right: 20px;
-      top: 0px;
-      z-index: 1000;
-
-      .btn-search {
-        border: 0px;
-        text-align: right;
-      }
+    .input-group-btn .btn {
+      border: 1px solid white;
+      border-radius: 0;
     }
   }
 }
 
 @media (max-width: 768px) {
-  .topbar{
+  .topbar {
     margin-bottom: 0px !important;
   }
 }
