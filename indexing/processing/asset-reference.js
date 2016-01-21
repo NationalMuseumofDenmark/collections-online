@@ -11,7 +11,6 @@ var processResult = require('./result');
 function assetReference(state, catalogAlias, assetId) {
 	// Request a single asset based on it's catalog and id and use the
 	// handle_next_result_page method to handle the result.
-	var deferred = Q.defer();
 
 	// Precondition: The catalog has it's alias defined.
 	if(catalogAlias === undefined) {
@@ -27,18 +26,16 @@ function assetReference(state, catalogAlias, assetId) {
 
 	var idString = 'ID is "' + assetId + '"';
 
-	state.cip.criteriaSearch({
+	return state.cip.criteriaSearch({
 		catalog: catalog
-	}, idString, null, function(result) {
+	}, idString, null).then(function(result) {
 		// TODO: Consider checking that the result returned exactly one asset.
 		result.pageIndex = 0;
 		// Hang on to the result.
 		result.catalog = catalog;
 		// Process the next page in the search result.
-		processResult(state, result).then(deferred.resolve);
-	}, deferred.reject);
-
-	return deferred.promise;
+		return processResult(state, result);
+	});
 }
 
 module.exports = assetReference;
