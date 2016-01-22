@@ -44,6 +44,8 @@ var address;
 
   $('.map-buttons .save-coordinates').click(function() {
     $(this).addClass('disabled');
+    $(this).text('Gemmer placering');
+    $('.map-buttons .hide-map').hide();
     var data = {
       force: location.search.indexOf('forceGeotagging') !== -1
     };
