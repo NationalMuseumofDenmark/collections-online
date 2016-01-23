@@ -9,6 +9,9 @@ var Q = require('q');
 var processAssetReference = require('../processing/asset-reference');
 
 function parseReference(reference) {
+  if(typeof(reference) === 'string') {
+    reference = reference.split(',');
+  }
 	// In the single mode, each asset is a combination of a catalog alias
 	// and the asset ID, eg. DNT/101
 	for(var r in reference) {
@@ -35,7 +38,7 @@ function single(state) {
 		var assetPromise = processAssetReference(state, catalogAlias, assetId);
 		assetPromises.push( assetPromise );
 	}
-	
+
 	return Q.all(assetPromises).then(function(indexedAssetIdsOrErrors) {
 		// Concat all arrays into one.
 		Array.prototype.concat.apply([], indexedAssetIdsOrErrors).forEach(function(idOrError) {

@@ -1,0 +1,71 @@
+extends index
+
+append header
+  - siteTitle = req.app.get('site_title');
+  if item.title
+    title= item.title + ' - ' + siteTitle
+  else
+    title= 'Ingen titel - ' + siteTitle
+
+  +shareThisJS()
+
+block content
+  article(itemscope, itemtype='http://schema.org/CreativeWork', class='object item')
+    - var title = item.title || 'Ingen titel'
+    .row
+      .col-md-6.col-xs-12.image-row
+        - if(item.assets.primary)
+          .bleed.primary-asset
+            - if(item.assets.primary.href)
+              a(href=item.assets.primary.href)
+                img(src=item.assets.primary.src, alt=title)
+                +assetIcon()
+            - else
+              img(src=item.assets.primary.src, alt=title)
+              +assetIcon()
+        - else
+          p Intet billede tilgængeligt
+        .related-assets
+          each asset in item.assets.visible
+            a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})', href=asset.href)
+              +assetIcon(true)
+          - if(item.assets.extra.length > 0)
+            h2.additional-related-header
+              a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
+                +icon('minus-2-icon')
+                +icon('plus-2-icon')
+                | Flere relaterede
+            div#additional-related.collapse
+              each asset in item.assets.extra
+                a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})', href=asset.href)
+                  +assetIcon(true)
+
+      .col-md-6.col-xs-12.pull-right.text-row
+        // TODO: Consider adding a link for a search filtered on the collection
+        p.collection Fra samlingen #{item.collectionName}
+
+        // Title
+        header
+          h1(itemprop='name')= title
+
+        // Description
+        - if(item.description)
+          h2.sr-only Beskrivelse
+          h2(itemprop='description', class='lead') #{item.description}
+
+        each section, section_id in item.metadataSections
+          - if(section.collapsable)
+            h2.collapsable-section-header
+              a(href='#'+section_id, data-toggle='collapse', data-target='#'+section_id).collapsed
+                +icon('minus-2-icon')
+                +icon('plus-2-icon')
+                = section.name
+          - else
+            h2= section.name
+          - var section_class = (section.collapsable && section.initiallyCollapsed ? 'collapse' : '')
+          table(id=section_id, class=section_class)
+            tbody
+              each field in section.fields
+                tr(title=field.description || undefined)
+                  th= field.name + ':'
+                  td= field.value || '-'

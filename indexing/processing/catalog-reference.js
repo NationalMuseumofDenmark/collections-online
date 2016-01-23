@@ -29,7 +29,7 @@ function catalogReference(state, catalogAlias, offset, modifiedSince) {
 
 	console.log('Queuing a catalog', catalog.alias, 'offset =', offset);
 
-	state.cip.criteriasearch({
+	state.cip.criteriaSearch({
 		catalog: catalog
 	}, querystring, null, function(result) {
 		// TODO: Consider checking that the result returned exactly one asset.

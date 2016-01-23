@@ -1,3 +1,4 @@
+/app/styles/main.css
 node_modules
 public
 .tmp
@@ -7,4 +8,5 @@ heroku
 /views
 dist
 elasticsearch
-
+# Atom build settings
+.atom-build.json

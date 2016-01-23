@@ -55,7 +55,8 @@ append javascript
       $(window).load(function() {
          $('.slider').flexslider({
           animation: "slide",
-          start: function(slider){
+          controlNav: false,
+          start: function(slider) {
             $(window).trigger('resize');
           }
         });

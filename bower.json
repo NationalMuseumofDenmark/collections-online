@@ -2,18 +2,25 @@
   "name": "natmus-samlinger",
   "version": "0.0.1",
   "dependencies": {
-    "jquery": "~1.11.0",
     "bootstrap-sass-official": "~3.1.1",
-    "picturefill": "~2.2.0",
-    "masonry": "~3.1.5",
-    "imagesloaded": "~3.1.8",
-    "jquery-infinite-scroll": "~2.0.2",
-    "typeahead.js": "~0.10.2",
-    "scrollToTop": "1.0.3",
+    "FlexSlider": "*",
     "html5shiv": "3.7.2",
-    "jquery-nicescroll": "*",
-    "FlexSlider": "*"
+    "imagesloaded": "~3.1.8",
+    "jquery": "~1.11.0",
+    "jquery-infinite-scroll": "~2.0.2",
+    "jquery.nicescroll": "https://github.com/babadofar/jquery.nicescroll.git#fe96934065b2ec66d4459a3b39aa5edae81a9586",
+    "masonry": "~3.1.5",
+    "picturefill": "~2.2.0",
+    "scrollToTop": "1.0.3",
+    "typeahead.js": "~0.10.2"
   },
-  "devDependencies": {
+  "devDependencies": {},
+  "overrides": {
+    "outlayer": {
+      "main": [
+        "item.js",
+        "outlayer.js"
+      ]
+    }
   }
 }

@@ -6,12 +6,12 @@
 
 var Q = require('q');
 
-var cip = require('../../lib/cip-methods.js');
+var cip = require('../../lib/services/natmus-cip');
 var processCatalogReference = require('../processing/catalog-reference');
 
 function all(state, modifiedSince) {
 	// First - let's grab all catalogs from the CIP.
-	return cip.get_catalogs(state.cip).then(function(catalogs) {
+	return cip.getCatalogs(state.cip).then(function(catalogs) {
 		var catalogAliases = catalogs.map(function(catalog) {
 			return catalog.alias;
 		});

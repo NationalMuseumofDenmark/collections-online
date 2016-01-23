@@ -15,38 +15,28 @@ var ADDITIONAL_FIELDS = [
 	'{af4b2e72-5f6a-11d2-8f20-0000c0e166dc}' // Related Master Assets
 ];
 
-function getResultPage(result, pointer, num_rows) {
-	var deferred = Q.defer();
-
-	result.cip.ciprequest( [
-			'metadata',
-			'getfieldvalues',
-			'web'
-		], {
-			collection: result.collection_id,
-			startindex: pointer,
-			maxreturned: num_rows,
-			field: ADDITIONAL_FIELDS
-		}, function(response) {
-			if(response === null || typeof(response.items) === 'undefined') {
-				console.error('Unexpected response:', response);
-				deferred.reject( new Error('The request for field values returned a null / empty result.') );
-			} else {
-				var returnvalue = [];
-				for (var i = 0; i < response.items.length; i++) {
-					// TODO: Consider if this even works - where is cip_asset defined?
-					/*
-					var asset = new cip_asset.CIPAsset(this, response.items[i], result.catalog);
-					returnvalue.push( asset );
-					*/
-					returnvalue.push(response.items[i]);
-				}
-				deferred.resolve( returnvalue );
+function getResultPage(state, result, pointer, num_rows) {
+	return state.cip.request( [
+		'metadata',
+		'getfieldvalues',
+		'web'
+	], {
+		collection: result.collection_id,
+		startindex: pointer,
+		maxreturned: num_rows,
+		field: ADDITIONAL_FIELDS
+	}).then(function(response) {
+		if(response === null || typeof(response.body.items) === 'undefined') {
+			console.error('Unexpected response:', response);
+			throw new Error('The request for field values returned a null / empty result.');
+		} else {
+			var result = [];
+			for (var i = 0; i < response.body.items.length; i++) {
+				result.push(response.body.items[i]);
 			}
-		}, deferred.reject
-	);
-
-	return deferred.promise;
+			return result;
+		}
+	});
 }
 
 /**
@@ -58,7 +48,7 @@ function processResultPage(state, result, pageIndex) {
 	var totalPages = Math.ceil(result.total_rows / ASSETS_PER_REQUEST);
 	console.log('Queuing page number', pageIndex+1, 'of', totalPages, 'in the', catalog.alias, 'catalog.');
 
-	return getResultPage(result, pageIndex * ASSETS_PER_REQUEST, ASSETS_PER_REQUEST)
+	return getResultPage(state, result, pageIndex * ASSETS_PER_REQUEST, ASSETS_PER_REQUEST)
 	.then(function(assetsOnPage) {
 		console.log('Got metadata of page ' +(pageIndex+1)+ ' from the ' +result.catalog.alias+ ' catalog.');
 		var assetPromises = assetsOnPage.map(function(asset) {

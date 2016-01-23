@@ -1,0 +1,98 @@
+.topbar {
+  width: 100%;
+  display: flex;
+  align-items: center;
+
+  height: 80px;
+  margin-bottom: 20px;
+  background-color: #333333;
+
+  #heading-categories-menu,
+  .catalog-name,
+  .seperator,
+  .logo,
+  .logo-text {
+    flex-shrink: 0;
+  }
+
+  #heading-categories-menu {
+    margin: 0 10px;
+
+    svg {
+      height: 25px;
+      width: 25px;
+    }
+  }
+
+  .catalog-name {
+    font-family: 'Nationale', 'sans-serif';
+    font-size: 20px;
+    color: $white;
+    margin: 0;
+  }
+
+  .seperator {
+    background-color: #868686;
+    float: right;
+    height: 30px;
+    width: 2px;
+    margin: -1px 15px;
+  }
+
+  .logo-text {
+    float: right;
+    color: $white;
+    font-family: 'Nationale', 'sans-serif';
+    margin-right: 10px;
+    span {
+      display:block;
+    }
+  }
+
+  .logo {
+    float: right;
+    margin-left: auto;
+    margin-right: 5px;
+    svg {
+      vertical-align: middle;
+    }
+  }
+
+  .search-box {
+    flex-grow: 1;
+    position: relative;
+    margin-right: 15px;
+
+    svg {
+      fill:#A5A5A5;
+      width: 18px;
+      height: 18px;
+      margin: -3px;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+    }
+
+    #search-input {
+      font-family: 'Nationale', 'open-sans';
+      border: 0;
+      border-radius: 0;
+    }
+
+    #search-input::placeholder { /* Standard one last! */
+      color: #999;
+    }
+
+    .input-group-btn .btn {
+      border: 1px solid white;
+      border-radius: 0;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .topbar {
+    margin-bottom: 0px !important;
+  }
+}

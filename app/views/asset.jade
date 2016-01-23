@@ -10,160 +10,25 @@ append header
   +assetMeta(item, sources)
   +shareThisJS()
 
+append javascript
+  if(showGeotagging)
+    script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + google_maps_api_key + "&callback=initMap")
+
 block content
-  article(itemscope, itemtype='http://schema.org/CreativeWork', class='asset')
+  article(itemscope,
+          itemtype='http://schema.org/CreativeWork',
+          class='asset item',
+          data-catalog-alias=catalog.alias,
+          data-item-id=item.id)
     - var title = item.short_title || 'Ingen titel'
     .row
-      .col-md-6.col-xs-12.pull-right.text-row
-        p.catalog
-          a(href='/#{catalog.alias}') Fra samlingen #{catalog.name}
-
-        // Title
-        header
-          h1(itemprop='name')= title
-
-        // Description
-        - if(item.description)
-          h2.sr-only Beskrivelse
-          h2(itemprop='description',
-            class='lead')= item.description
-
-        // Time and period
-        h2 Tidsperiode og årstal
-        table
-          tbody
-            tr
-              th Datering:
-              td
-                +addDating(item, catalog.alias)
-            tr
-              th Optagelsestid:
-              td(itemprop='dateCreated', class='date')
-                +formatDate(item.acceptance_time_from, item.acceptance_time_to)
-            tr
-              th Fremstillingstid:
-              td
-                +formatDate(item.creation_time_from, item.creation_time_to)
-
-        // Place
-        h2 Sted
-        - var has_coordinates = item.longitude && item.latitude;
-        table
-          tbody
-            tr
-              th Område:
-              td
-                +addPlace(item, catalog.alias)
-            tr
-              th Adresse:
-              td
-                - var address = item.address || item.street;
-                - var zipcode = item.zipcode;
-                - var city = item.city;
-
-                - if(address || zipcode || city)
-                  - if(address)
-                    | #{address}
-
-                  - if(zipcode)
-                    - if(address)
-                      | ,
-                    | #{zipcode}
-                  - if(city)
-                    - if(address || zipcode)
-                      | ,
-                    | #{city}
-                - else
-                  | -
-            tr
-              th Koordinater:
-              td= has_coordinates ? item.longitude.toFixed(5) + ',' + item.latitude.toFixed(5) : '-'
-
-            - if(has_coordinates)
-              tr
-                td(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' + item.longitude + ',' + item.latitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.longitude + ',' + item.latitude, target='blank')
-                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.longitude + ',' + item.latitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
-            tr
-              th Noter:
-              td= item.locationnote || '-'
-
-
-        // Technical info
-        h2 Tekniske oplysninger
-        table
-          tbody
-            tr
-              th Fil-ID:
-              td= id || '-'
-            tr
-              th Størrelse (pixel):
-              td
-                if item.width_px && item.height_px
-                | #{helpers.format_number(item.width_px, 0) || '-'} &times; #{helpers.format_number(item.height_px, 0) || '-'}
-            tr
-              th Størrelse (cm):
-              td
-                if item.width_cm && item.height_cm
-                | #{helpers.format_number(item.width_cm, 1) || '-'} &times; #{helpers.format_number(item.height_cm, 1) || '-'}
-            tr
-              th Opløsning (DPI):
-              td= helpers.format_number(item.dpi) || '-'
-            tr
-              th Filstørrelse:
-              td= helpers.filesize_mb(item.file_size) || '-'
-            tr
-              th Rettighedshaver:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-            tr
-              th Fotograf:
-                td
-                  span(itemprop='creator')= item.creator || '-'
-
-
-        // Additional info
-        .asset-block
-          h2.additional-info-header
-            - var path = req.path
-            a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
-              +icon('minus-2-icon')
-              +icon('plus-2-icon')
-              | Yderligere information
-
-          div#additional-info.collapse
-            table
-              tbody
-                tr
-                  th Filnavn:
-                  td= item.filename || '-'
-                tr
-                  th Arkivalie nr.:
-                  td= item.archiveno || '-'
-                tr
-                  th Genstands nr.:
-                  td= item.object_number || '-'
-                tr
-                  th Inventar nr.:
-                  td= item.inventory_number || '-'
-                tr
-                  th Arkivnavn:
-                  td= item.archivename ? item.archivename.displaystring : '-'
-                tr
-                  th Tidsnote:
-                  td= item.timenote || '-'
-
-                tr
-                  th Topnr.:
-                  td= item.topno || '-'
-      
       .col-md-6.col-xs-12.image-row
           - var filename = item.filename.toLowerCase();
-          - if(player === "image-single")
-            .bleed.asset-image
+          - if(player === "image-single" || player === "image-single-animated")
+            .bleed.primary-asset
               +responsiveImage(title, item, sources)
           - else if(player === "image-rotation")
-            .bleed.asset-image
+            .bleed.primary-asset
               +rotationImage(title, item, sources)
           - else if(player === "audio")
              audio(controls)
@@ -171,8 +36,6 @@ block content
           - else if(player === "video")
             video(width="100%", controls)
               source(src=sources.video, type="video/mp4")
-
-
 
           .asset-tools
             .btn-group.dropup
@@ -217,3 +80,147 @@ block content
                 each asset in related_assets.additional
                   a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
                     href=asset.href)
+
+      .col-md-6.col-xs-12.pull-right.text-row
+        if(showGeotagging)
+          include geotagging.jade
+        p.catalog
+          | Fra samlingen: 
+          a(href='/#{catalog.alias}') #{catalog.name}
+
+        // Title
+        header
+          h1(itemprop='name')= title
+
+        // Description
+        - if(item.description)
+          p.sr-only Beskrivelse
+          p(itemprop='description',
+            class='lead')= item.description
+
+        // Time and period
+        h2 Tidsperiode og årstal
+        table
+          tbody
+            tr
+              th Datering:
+              td
+                +addDating(item, catalog.alias)
+            tr
+              th Optagelsestid:
+              td(itemprop='dateCreated', class='date')
+                +formatDate(item.acceptance_time_from, item.acceptance_time_to)
+            tr
+              th Fremstillingstid:
+              td
+                +formatDate(item.creation_time_from, item.creation_time_to)
+
+        // Place
+        h2 Sted
+        table.place
+          tbody
+            tr
+              th Område:
+              td
+                +addPlace(item, catalog.alias)
+            tr
+              th Adresse:
+              td#address
+                - var address = item.address || item.street;
+                - var zipcode = item.zipcode;
+                - var city = item.city;
+
+                - if(address || zipcode || city)
+                  - if(address)
+                    | #{address}
+
+                  - if(zipcode)
+                    - if(address)
+                      | ,
+                    | #{zipcode}
+                  - if(city)
+                    - if(address || zipcode)
+                      | ,
+                    | #{city}
+                - else
+                  | -
+            if(item.longitude && item.latitude)
+              tr
+                th Koordinater:
+                td= item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
+              tr
+                td(colspan='2')
+                  a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
+                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
+            tr
+              th Noter:
+              td= item.locationnote || '-'
+
+
+        // Technical info
+        h2 Tekniske oplysninger
+        table
+          tbody
+            tr
+              th Fil-ID:
+              td= id || '-'
+            tr
+              th Størrelse (pixel):
+              td
+                if item.width_px && item.height_px
+                | #{helpers.format_number(item.width_px, 0) || '-'} &times; #{helpers.format_number(item.height_px, 0) || '-'}
+            tr
+              th Størrelse (cm):
+              td
+                if item.width_cm && item.height_cm
+                | #{helpers.format_number(item.width_cm, 1) || '-'} &times; #{helpers.format_number(item.height_cm, 1) || '-'}
+            tr
+              th Opløsning (DPI):
+              td= helpers.format_number(item.dpi) || '-'
+            tr
+              th Filstørrelse:
+              td= helpers.filesize_mb(item.file_size) || '-'
+            tr
+              th Rettighedshaver:
+              td
+                span(itemprop='copyrightHolder')= item.copyright || '-'
+            tr
+              th Fotograf:
+                td
+                  span(itemprop='creator')= item.creator || '-'
+
+
+        // Additional info
+        .asset-block
+          h2.collapsable-section-header
+            - var path = req.path
+            a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
+              +icon('minus-2-icon')
+              +icon('plus-2-icon')
+              | Yderligere information
+
+          div#additional-info.collapse
+            table
+              tbody
+                tr
+                  th Filnavn:
+                  td= item.filename || '-'
+                tr
+                  th Arkivalie nr.:
+                  td= item.archiveno || '-'
+                tr
+                  th Genstands nr.:
+                  td= item.object_number || '-'
+                tr
+                  th Inventar nr.:
+                  td= item.inventory_number || '-'
+                tr
+                  th Arkivnavn:
+                  td= item.archivename ? item.archivename.displaystring : '-'
+                tr
+                  th Tidsnote:
+                  td= item.timenote || '-'
+
+                tr
+                  th Topnr.:
+                  td= item.topno || '-'
