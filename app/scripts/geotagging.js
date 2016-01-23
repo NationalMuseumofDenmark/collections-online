@@ -1,6 +1,7 @@
 var resizeMap;
 var map;
 var marker;
+var address;
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -43,6 +44,8 @@ var marker;
 
   $('.map-buttons .save-coordinates').click(function() {
     $(this).addClass('disabled');
+    $(this).text('Gemmer placering');
+    $('.map-buttons .hide-map').hide();
     var data = {
       force: location.search.indexOf('forceGeotagging') !== -1
     };
@@ -80,13 +83,27 @@ var marker;
 })(jQuery);
 
 function initMap() {
-  var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
+  var initialPosition = new google.maps.LatLng(55.6747, 12.5747); // The National Museums coordinates
+  var address = $('#address').text();
+
+  geocoder = new google.maps.Geocoder();
+
+  geocoder.geocode({ 'address': address }, function(results, status) {
+      if (status == google.maps.GeocoderStatus.OK) {
+        var geocodeLocation = results[0].geometry.location;
+        var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
+
+        map.setCenter(geocodeLatLng);
+        marker.setPosition(geocodeLatLng);
+        google.maps.event.trigger(map, 'resize');
+      }
+  });
+
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
     zoom: 12
   });
 
-  // Place a draggable marker on the map
   marker = new google.maps.Marker({
     position: initialPosition,
     map: map,
