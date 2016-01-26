@@ -47,7 +47,7 @@ Export CIP username and password to environment variables
 
 Now feed elasticsearch with data from CIP using the following command:
 
-    $ node misc/sync.es.js all
+    $ node indexing/run.js all
 
 Running the webapp is simple:
 
