@@ -3,6 +3,7 @@ var map;
 var marker;
 var headingMarker;
 
+
 (function($) {
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
