@@ -1,5 +1,7 @@
 var resizeMap;
 var map;
+var marker;
+var headingMarker;
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -104,12 +106,12 @@ function initMap() {
     zoom: 16
   });
 
-  var marker = new google.maps.Marker({
+  marker = new google.maps.Marker({
     map: map,
     draggable: true
   });
 
-  var headingMarker = new google.maps.Marker({
+  headingMarker = new google.maps.Marker({
     map: map,
     icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     draggable:true
