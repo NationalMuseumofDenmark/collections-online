@@ -9,9 +9,7 @@ var Q = require('q');
 var processResult = require('./result');
 
 function catalogReference(state, catalogAlias, offset, modifiedSince) {
-	// Request a single asset based on it's catalog and id and use the
-	// handle_next_result_page method to handle the result.
-	var deferred = Q.defer();
+	// Request a single catalog based on it's alias.
 
 	// Precondition: The catalog has it's alias defined.
 	if(catalogAlias === undefined) {
@@ -27,20 +25,18 @@ function catalogReference(state, catalogAlias, offset, modifiedSince) {
 
 	var catalog = {alias: catalogAlias};
 
-	console.log('Queuing a catalog', catalog.alias, 'offset =', offset);
+	console.log('Queuing the', catalog.alias, 'catalog with offset', offset);
 
-	state.cip.criteriaSearch({
+	return state.cip.criteriaSearch({
 		catalog: catalog
-	}, querystring, null, function(result) {
+	}, querystring, null).then(function(result) {
 		// TODO: Consider checking that the result returned exactly one asset.
 		result.pageIndex = offset;
 		// Hang on to the result.
 		result.catalog = catalog;
 		// Process the next page in the search result.
-		processResult(state, result).then(deferred.resolve);
-	}, deferred.reject);
-
-	return deferred.promise;
+		return processResult(state, result);
+	});
 }
 
 module.exports = catalogReference;

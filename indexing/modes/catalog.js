@@ -10,6 +10,7 @@ var Q = require('q');
 var processCatalogReference = require('../processing/catalog-reference');
 
 function parseReference(reference) {
+	reference = reference.split(',');
 	// In the catalog mode, each catalog is a combination of a catalog alias
 	// and an optional page offset in the catalog traversing.
 	for(var r in reference) {
