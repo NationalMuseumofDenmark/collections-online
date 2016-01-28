@@ -35,7 +35,7 @@ function updateMetadataFromRelations(state, assetMetadata) {
 	// If this is both a master and a sub asset - throw an error
 	// for now. This might change.
 	if('related_master_assets' in assetMetadata &&
-	   'related_sub_assets' in assetMetadata) {
+		 'related_sub_assets' in assetMetadata) {
 		var masterAssets = assetMetadata.related_master_assets;
 		var subAssets = assetMetadata.related_sub_assets;
 
@@ -66,11 +66,11 @@ function updateMetadataFromRelations(state, assetMetadata) {
 				return subAssetIds;
 			}, function(reason) {
 				console.error('Failed fetching the master asset',
-							  masterAssetId,
-							  'referenced by',
-							  assetMetadata.catalog+'-'+assetMetadata.id,
-							  'because:',
-							  reason.message || reason || 'No reason given.');
+								masterAssetId,
+								'referenced by',
+								assetMetadata.catalog+'-'+assetMetadata.id,
+								'because:',
+								reason.message || reason || 'No reason given.');
 				return subAssetIds;
 			});
 		} else if(masterAssets.length > 1) {
@@ -83,8 +83,8 @@ function updateMetadataFromRelations(state, assetMetadata) {
 		return subAssetIds;
 	} else {
 		console.error('Malformed metadata, expected two fields: '+
-					  'related_master_assets and related_sub_assets: ',
-					  assetMetadata);
+						'related_master_assets and related_sub_assets: ',
+						assetMetadata);
 		return [];
 		/*
 		throw new Error('Malformed metadata, expected two fields: '+

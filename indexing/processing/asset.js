@@ -32,9 +32,9 @@ function cleanCategoryString(str) {
 }
 
 function relatedFilenameComparison(assetA, assetB) {
-    var filenameA = assetA.filename;
-    var filenameB = assetB.filename;
-    return filenameA.localeCompare(filenameB);
+		var filenameA = assetA.filename;
+		var filenameB = assetB.filename;
+		return filenameA.localeCompare(filenameB);
 }
 
 // This list of transformations are a list of functions that takes two
