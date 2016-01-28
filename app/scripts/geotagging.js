@@ -1,7 +1,8 @@
 var resizeMap;
 var map;
 var marker;
-var address;
+var headingMarker;
+
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -9,7 +10,9 @@ var address;
   resizeMap = function() {
     var assetImgHeight = $('.primary-asset img').height();
     $('#geotagging-map').height(assetImgHeight);
+    var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
+    map.setCenter(center);
   }
 
   var showError = function(msg) {
@@ -26,7 +29,6 @@ var address;
     $('.map-container').slideDown('slow', function() {
       // resize google map to match asset image on click and on window resize
       $( window ).bind('resize', resizeMap).trigger('resize');
-      map.setCenter(marker.getPosition());
     });
   });
 
@@ -83,36 +85,65 @@ var address;
 })(jQuery);
 
 function initMap() {
-  var initialPosition = new google.maps.LatLng(55.6747, 12.5747); // The National Museums coordinates
+  var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   var address = $('#address').text();
 
-  geocoder = new google.maps.Geocoder();
+  if(address){
+    geocoder = new google.maps.Geocoder();
 
-  geocoder.geocode({ 'address': address }, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        var geocodeLocation = results[0].geometry.location;
-        var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
+    geocoder.geocode({ 'address': address }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var geocodeLocation = results[0].geometry.location;
+          var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
 
-        map.setCenter(geocodeLatLng);
-        marker.setPosition(geocodeLatLng);
-        google.maps.event.trigger(map, 'resize');
-      }
-  });
+          map.setCenter(geocodeLatLng);
+          resizeMap();
+        }
+    });
+  }
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
-    zoom: 12
+    zoom: 16
   });
 
   marker = new google.maps.Marker({
-    position: initialPosition,
     map: map,
+    draggable: true
+  });
+
+  headingMarker = new google.maps.Marker({
+    map: map,
+    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     draggable:true
   });
 
-  google.maps.event.addListener(map, 'click', function(event) {
-    marker.setPosition(event.latLng);
+  var headingLine = new google.maps.Polyline({
+    map: map,
+    strokeColor: '#9E0B0F'
   });
+
+  map.addListener('click', function(event) {
+    // Ensure that the relative distance between markers is the same on every zoom level
+    latIncrease = 100 * Math.pow(0.5, map.getZoom());
+    headingMarkerPosition = new google.maps.LatLng(event.latLng.lat() + latIncrease, event.latLng.lng());
+
+    marker.setPosition(event.latLng);
+    headingMarker.setPosition(headingMarkerPosition);
+    headingLine.setPath([event.latLng, headingMarkerPosition]);
+  });
+
+  marker.addListener('drag', function(event) {
+    recalculateLine();
+  });
+
+  headingMarker.addListener('drag', function(event) {
+    recalculateLine();
+  });
+
+  function recalculateLine(){
+    headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
+  }
 
   resizeMap();
 }
