@@ -1,31 +1,33 @@
 header.topbar
-  span#heading-categories-menu
-    a(href='#')
-      span.sr-only Kataloger og kategorier
-      +icon('burger-icon')
-  .catalog-name.hidden-xs
-    if(catalog)
-      = catalog.name
-    else
-      | Samlinger Online
-  .seperator.hidden-xs
-  - var path = (req.path).split('/')
-  form.search-box(method='get', action='/')
-    .input-group
-      input.form-control(
-        type='text',
-        id='search-input',
-        placeholder='Søg på samlinger.natmus.dk',
-        name='q',
-        autocomplete="off",
-        value=req.param('q'))
-      span.input-group-btn
-        button.btn.btn-default.btn-search
-          span.sr-only Søg
-          +icon('magnifier-2-icon')
-  .logo-text.hidden-xs
-    span Nationalmuseets
-    span Samlinger Online
-  .logo
-    a(href='/')
-      +icon('logo-icon')
+  nav.navbar.navbar-default.navbar-static-top
+    .container
+      span#heading-categories-menu
+        a(href='#')
+          span.sr-only Kataloger og kategorier
+          +icon('burger-icon')
+      .catalog-name.hidden-xs
+        if(catalog)
+          = catalog.name
+        else
+          | Samlinger Online
+      .seperator.hidden-xs
+      - var path = (req.path).split('/')
+      form.search-box(method='get', action='/')
+        .input-group
+          input.form-control(
+            type='text',
+            id='search-input',
+            placeholder='Søg på samlinger.natmus.dk',
+            name='q',
+            autocomplete="off",
+            value=req.param('q'))
+          span.input-group-btn
+            button.btn.btn-default.btn-search
+              span.sr-only Søg
+              +icon('magnifier-2-icon')
+      .logo-text.hidden-xs
+        span Nationalmuseets
+        span Samlinger Online
+      .logo
+        a(href='/')
+          +icon('logo-icon')
