@@ -1,0 +1,46 @@
+This is ApacheBench, Version 2.3 <$Revision: 655654 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking beta.samlinger.natmus.dk (be patient).....done
+
+
+Server Software:        nginx/1.4.6
+Server Hostname:        beta.samlinger.natmus.dk
+Server Port:            80
+
+Document Path:          /FHM/25757/save-geotag
+Document Length:        16 bytes
+
+Concurrency Level:      1
+Time taken for tests:   2.446 seconds
+Complete requests:      10
+Failed requests:        0
+Write errors:           0
+Total transferred:      2190 bytes
+Total POSTed:           2650
+HTML transferred:       160 bytes
+Requests per second:    4.09 [#/sec] (mean)
+Time per request:       244.589 [ms] (mean)
+Time per request:       244.589 [ms] (mean, across all concurrent requests)
+Transfer rate:          0.87 [Kbytes/sec] received
+                        1.06 kb/s sent
+                        1.93 kb/s total
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        2    2   0.2      2       2
+Processing:   237  242   4.4    243     250
+Waiting:      237  242   4.4    243     250
+Total:        239  245   4.5    245     252
+
+Percentage of the requests served within a certain time (ms)
+  50%    245
+  66%    246
+  75%    247
+  80%    251
+  90%    252
+  95%    252
+  98%    252
+  99%    252
+ 100%    252 (longest request)
