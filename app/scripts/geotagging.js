@@ -2,6 +2,7 @@ var resizeMap;
 var map;
 var marker;
 var headingMarker;
+var mapHeading;
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -132,6 +133,27 @@ function initMap() {
     headingLine.setPath([event.latLng, headingMarkerPosition]);
   });
 
+  map.getStreetView().addListener('visible_changed', function(event){
+    marker.setVisible(!this.getVisible());
+    headingMarker.setVisible(!this.getVisible());
+
+    if(this.getVisible()){
+      pov = this.getPov();
+      pov.heading = mapHeading;
+      this.setPov(pov);
+    } else {
+      mapHeading = this.getPov().heading;
+      offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
+      marker.setPosition(this.getPosition());
+      headingMarker.setPosition(offset);
+
+      map.setZoom(16);
+      map.setCenter(this.getPosition());
+
+      recalculateLine();
+    }
+  });
+
   marker.addListener('drag', function(event) {
     recalculateLine();
   });
@@ -141,6 +163,7 @@ function initMap() {
   });
 
   function recalculateLine(){
+    mapHeading = google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
     headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
   }
 
