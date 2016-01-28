@@ -172,24 +172,46 @@ var METADATA_TRANSFORMATIONS = [
 		// Return the updated metedata.
 		return metadata;
 	},
+	function derive_latitude_and_longitude(state, metadata) {
+		var coordinates;
+		if(metadata.google_maps_coordinates) {
+			coordinates = metadata.google_maps_coordinates;
+		} else if(metadata.google_maps_coordinates_crowd) {
+			coordinates = metadata.google_maps_coordinates_crowd;
+		}
+		if(coordinates) {
+			coordinates = coordinates.split(',').map(parseFloat);
+			if(coordinates.length !== 2) {
+				throw new Error('Encountered an unexpected format when parsing coordinates.');
+			} else {
+				metadata.latitude = coordinates[0];
+				metadata.longitude = coordinates[1];
+			}
+		}
+		return metadata;
+	},
 	/*function cracy_fails(state, metadata) {
 		throw new Error('Catch me if you can ... ' + metadata.id);
 	}*/
 ];
 
-function transformMetadata(state, metadata) {
-	return METADATA_TRANSFORMATIONS.reduce(function(metadata, transformation) {
+function transformMetadata(state, metadata, transformations) {
+	return transformations.reduce(function(metadata, transformation) {
 		return Q.when(metadata).then(function(metadata) {
 			return transformation(state, metadata);
 		});
 	}, new Q(metadata));
 }
 
-function processAsset(state, metadata) {
+function processAsset(state, metadata, transformations) {
 	//console.log('Processing an asset.');
+	// Use all transformations by default.
+	if(typeof(transformations) === 'undefined') {
+		transformations = METADATA_TRANSFORMATIONS;
+	}
 	// Perform additional transformations and index the result.
-	return transformMetadata( state, metadata )
-	.then(function( metadata ) {
+	return transformMetadata(state, metadata, transformations)
+	.then(function(metadata) {
 		var es_id = metadata.catalog + '-' + metadata.id;
 		return state.es.index({
 			index: process.env.ES_INDEX || 'assets',
@@ -210,3 +232,4 @@ function processAsset(state, metadata) {
 }
 
 module.exports = processAsset;
+module.exports.METADATA_TRANSFORMATIONS = METADATA_TRANSFORMATIONS;
