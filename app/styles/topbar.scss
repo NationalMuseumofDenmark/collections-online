@@ -26,7 +26,6 @@
   }
 
   .catalog-name {
-    font-family: 'Nationale', 'sans-serif';
     font-size: 20px;
     color: $white;
     margin: 0;
@@ -36,7 +35,6 @@
   .logo-text {
     float: right;
     color: $white;
-    font-family: 'Nationale', 'sans-serif';
     margin-right: 10px;
     span {
       display:block;
@@ -57,30 +55,34 @@
     position: relative;
     margin-right: 15px;
 
-    svg {
-      fill:#A5A5A5;
-      width: 18px;
-      height: 18px;
-      margin: -3px;
+    .btn-search {
+      @extend .btn;
+      @extend .btn-primary;
+      svg {
+        fill: white;
+        width: 18px;
+        height: 18px;
+        margin: -3px;
+      }
     }
 
-    .form-control:focus {
-      box-shadow: none;
+    .btn, .form-control {
+      height: $input-height-base + 2;
+      border: 0;
+      border-radius: 0;
+      &:focus, &:active, &:focus {
+        box-shadow: none;
+        outline: none;
+      }
     }
 
     #search-input {
-      font-family: 'Nationale', 'open-sans';
       border: 0;
       border-radius: 0;
     }
 
     #search-input::placeholder { /* Standard one last! */
       color: #999;
-    }
-
-    .input-group-btn .btn {
-      border: 1px solid white;
-      border-radius: 0;
     }
   }
 }
