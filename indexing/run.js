@@ -46,8 +46,8 @@ if(module.id === '.') {
 
     setTimeout(function() {
       console.log('Bye bye ...');
-      // We are ready to die ..
-      process.exit(0);
+      // We are ready to die .. with an error code
+      process.exit(1);
     }, 1000);
   }).finally(function() {
     setTimeout(function() {
