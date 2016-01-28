@@ -34,6 +34,7 @@ function catalog(state) {
 
 	var summary = 'Running in the catalog mode: ';
 	var catalogSummaries = [];
+
 	state.reference.forEach(function(catalog) {
 		if(catalog[1] === 0) {
 			catalogSummaries.push(catalog[0]);
@@ -50,7 +51,7 @@ function catalog(state) {
 		var catalogPromise = processCatalogReference(state, catalogAlias, offset);
 		catalogPromises.push( catalogPromise );
 	}
-	
+
 	return Q.all(catalogPromises).then(function(indexedAssetIdsOrErrors) {
 		// Concat all arrays into one.
 		Array.prototype.concat.apply([], indexedAssetIdsOrErrors).forEach(function(idOrError) {
