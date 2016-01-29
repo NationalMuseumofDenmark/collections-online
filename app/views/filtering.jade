@@ -1,8 +1,10 @@
 .filtering.row
   .filter-catalogs
   form.filter-geotags.col-md-12
-    input(type='hidden', name='q', value=filters.freetext)
-    input(type='hidden', name='cat', value=filters.params.category)
+    if filters.freetext
+      input(type='hidden', name='q', value=filters.freetext)
+    if filters.params.category
+      input(type='hidden', name='cat', value=filters.params.category)
     p Filtrering på geo-koordinat:
     .buttons
       button.btn(class=typeof(filters.params.geotagged)==='undefined' ? 'active' : null) Alle
