@@ -19,8 +19,8 @@ function initializeCipCategories(state) {
 			state.categories[result[i].id] = result[i];
 		}
 
-		var categories_count = Object.keys(state.categories).length;
-		console.log('Loaded categories for', categories_count, 'catalogs');
+		var categoriesCount = Object.keys(state.categories).length;
+		console.log('Loaded categories for', categoriesCount, 'catalogs');
 		return state;
 	});
 }

@@ -9,7 +9,7 @@ var all = require('./all');
 function recent(state) {
 	var timeDelta;
 	if(state.reference) {
-		timeDelta = state.reference[0];
+		timeDelta = state.reference;
 	} else {
 		timeDelta = '1d';
 	}

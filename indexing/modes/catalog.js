@@ -10,6 +10,7 @@ var Q = require('q');
 var processCatalogReference = require('../processing/catalog-reference');
 
 function parseReference(reference) {
+	reference = reference.split(',');
 	// In the catalog mode, each catalog is a combination of a catalog alias
 	// and an optional page offset in the catalog traversing.
 	for(var r in reference) {
@@ -34,6 +35,7 @@ function catalog(state) {
 
 	var summary = 'Running in the catalog mode: ';
 	var catalogSummaries = [];
+
 	state.reference.forEach(function(catalog) {
 		if(catalog[1] === 0) {
 			catalogSummaries.push(catalog[0]);
@@ -50,7 +52,7 @@ function catalog(state) {
 		var catalogPromise = processCatalogReference(state, catalogAlias, offset);
 		catalogPromises.push( catalogPromise );
 	}
-	
+
 	return Q.all(catalogPromises).then(function(indexedAssetIdsOrErrors) {
 		// Concat all arrays into one.
 		Array.prototype.concat.apply([], indexedAssetIdsOrErrors).forEach(function(idOrError) {
