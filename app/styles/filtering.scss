@@ -1,0 +1,31 @@
+.filtering {
+  margin-top: -20px;
+  padding: 20px;
+  background-color: #525252;
+
+  .filter-geotags {
+    color: white;
+
+    p {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+
+      button {
+        font-family: 'Nationale', sans-serif;
+        font-weight: normal;
+        margin-right: 7px;
+        background-color: #C4C0C1;
+
+        &:hover {
+          background-color: #333333;
+          color: white;
+        }
+      }
+    }
+  }
+}
