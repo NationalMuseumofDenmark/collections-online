@@ -1,5 +1,6 @@
 var resizeMap;
 var map;
+var streetView;
 var marker;
 var headingMarker;
 var mapHeading;
@@ -51,13 +52,14 @@ var mapHeading;
     var data = {
       force: location.search.indexOf('forceGeotagging') !== -1
     };
-    if(map.getStreetView().getVisible()){
-      data.latitude = map.getStreetView().getPosition().lat();
-      data.longitude = map.getStreetView().getPosition().lng();
-      data.pov = map.getStreetView().getPov();
-    } else{
+    if(streetView.getVisible()){
+      data.latitude = streetView.getPosition().lat();
+      data.longitude = streetView.getPosition().lng();
+      data.heading = mapHeading;
+    } else {
       data.latitude = marker.getPosition().lat();
       data.longitude = marker.getPosition().lng();
+      data.heading = mapHeading;
     }
     var $item = $('.item');
     var catalogAlias = $item.data('catalog-alias');
@@ -107,14 +109,28 @@ function initMap() {
     zoom: 16
   });
 
+  streetView = map.getStreetView();
+
   marker = new google.maps.Marker({
     map: map,
+    /*icon: {
+      path: 'M268.7 0h-235C14.8 0 0 15 0 33.6v235c0 18.5 15 33.7 33.6 33.7h67.2l50.3 50.3 50.5-50.4h67.2c18.4 0 33.6-15 33.6-33.5v-235C302.3 15 287 0 268.6 0z M151.7 127.6c15.6 0 28.2 12.6 28.2 28.2S167.2 184 151.6 184c-19.5 0-28.3-16.6-28.3-28.2 0-15.6 12.7-28.2 28.3-28.2zm-26.5-60L109 85H81c-9.7 0-17.6 8-17.6 17.6v106c0 9.7 8 17.7 17.6 17.7h141.3c9.7 0 17.7-8 17.7-17.7v-106c0-9.7-8-17.6-17.7-17.6h-28l-16-17.7h-53zM151.7 200c-24.4 0-44.2-19.8-44.2-44.2s19.8-44 44.2-44c24.4 0 44 19.7 44 44 0 24.4-19.6 44.2-44 44.2z',
+      scale: 0.1,
+      fillColor: 'black',
+      fillOpacity: 1,
+      anchor: new google.maps.Point(150,370)
+    },*/
     draggable: true
   });
 
   headingMarker = new google.maps.Marker({
     map: map,
-    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    /*icon: {
+      path: 'M268.7 0h-235C14.8 0 0 15 0 33.6v235c0 18.5 15 33.7 33.6 33.7h67.2l50.3 50.3 50.5-50.4h67.2c18.4 0 33.6-15 33.6-33.5v-235C302.3 15 287 0 268.6 0z M129.4 79.4c0 13.5-11 24.4-24.4 24.4-13.5 0-24.4-11-24.4-24.4C80.6 66 91.6 55 105 55c13.5 0 24.4 11 24.4 24.4zM193 131L134.4 207l-42-50.6-58.7 75.6h235L193 131z',
+      scale: 0.1,
+      fillColor: '#fff',
+      anchor: new google.maps.Point(150,370)
+    },*/
     draggable:true
   });
 
@@ -131,18 +147,18 @@ function initMap() {
     marker.setPosition(event.latLng);
     headingMarker.setPosition(headingMarkerPosition);
     headingLine.setPath([event.latLng, headingMarkerPosition]);
+    mapHeading = calculateHeading();
   });
 
-  map.getStreetView().addListener('visible_changed', function(event){
+  streetView.addListener('pov_changed', function(e){
+    mapHeading = this.getPov().heading;
+  });
+
+  streetView.addListener('visible_changed', function(e) {
     marker.setVisible(!this.getVisible());
     headingMarker.setVisible(!this.getVisible());
 
-    if(this.getVisible()){
-      pov = this.getPov();
-      pov.heading = mapHeading;
-      this.setPov(pov);
-    } else {
-      mapHeading = this.getPov().heading;
+    if(!this.getVisible()){
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
@@ -155,15 +171,24 @@ function initMap() {
   });
 
   marker.addListener('drag', function(event) {
+    mapHeading = calculateHeading();
     recalculateLine();
   });
 
   headingMarker.addListener('drag', function(event) {
+    mapHeading = calculateHeading();
     recalculateLine();
   });
 
-  function recalculateLine(){
-    mapHeading = google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
+  function calculateHeading() {
+    return google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
+  }
+
+  function recalculateLine() {
+    tempPov = streetView.getPov();
+    tempPov.heading = mapHeading;
+
+    streetView.setPov(tempPov);
     headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
   }
 
