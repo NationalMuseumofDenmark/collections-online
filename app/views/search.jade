@@ -7,6 +7,8 @@ append header
     +searchMeta(results, metadata)
 
 block content
+  unless results.is_front
+    include filtering.jade
   section.section-wrapper
     if results.is_front
       +FrontPageSlider()
