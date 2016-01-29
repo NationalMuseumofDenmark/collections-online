@@ -1,5 +1,6 @@
 var resizeMap;
 var map;
+var streetView;
 var marker;
 var headingMarker;
 var mapHeading;
@@ -51,13 +52,14 @@ var mapHeading;
     var data = {
       force: location.search.indexOf('forceGeotagging') !== -1
     };
-    if(map.getStreetView().getVisible()){
-      data.latitude = map.getStreetView().getPosition().lat();
-      data.longitude = map.getStreetView().getPosition().lng();
-      data.pov = map.getStreetView().getPov();
-    } else{
+    if(streetView.getVisible()){
+      data.latitude = streetView.getPosition().lat();
+      data.longitude = streetView.getPosition().lng();
+      data.heading = mapHeading;
+    } else {
       data.latitude = marker.getPosition().lat();
       data.longitude = marker.getPosition().lng();
+      data.heading = mapHeading;
     }
     var $item = $('.item');
     var catalogAlias = $item.data('catalog-alias');
@@ -107,20 +109,23 @@ function initMap() {
     zoom: 16
   });
 
+  streetView = map.getStreetView();
+
   marker = new google.maps.Marker({
     map: map,
+    icon: '/images/camera_pin_green.png',
     draggable: true
   });
 
   headingMarker = new google.maps.Marker({
     map: map,
-    icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    icon: '/images/heading_pin_red.png',
     draggable:true
   });
 
   var headingLine = new google.maps.Polyline({
     map: map,
-    strokeColor: '#9E0B0F'
+    strokeColor: '#333333'
   });
 
   map.addListener('click', function(event) {
@@ -131,18 +136,18 @@ function initMap() {
     marker.setPosition(event.latLng);
     headingMarker.setPosition(headingMarkerPosition);
     headingLine.setPath([event.latLng, headingMarkerPosition]);
+    mapHeading = calculateHeading();
   });
 
-  map.getStreetView().addListener('visible_changed', function(event){
+  streetView.addListener('pov_changed', function(e){
+    mapHeading = this.getPov().heading;
+  });
+
+  streetView.addListener('visible_changed', function(e) {
     marker.setVisible(!this.getVisible());
     headingMarker.setVisible(!this.getVisible());
 
-    if(this.getVisible()){
-      pov = this.getPov();
-      pov.heading = mapHeading;
-      this.setPov(pov);
-    } else {
-      mapHeading = this.getPov().heading;
+    if(!this.getVisible()){
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
@@ -155,15 +160,24 @@ function initMap() {
   });
 
   marker.addListener('drag', function(event) {
+    mapHeading = calculateHeading();
     recalculateLine();
   });
 
   headingMarker.addListener('drag', function(event) {
+    mapHeading = calculateHeading();
     recalculateLine();
   });
 
-  function recalculateLine(){
-    mapHeading = google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
+  function calculateHeading() {
+    return google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
+  }
+
+  function recalculateLine() {
+    tempPov = streetView.getPov();
+    tempPov.heading = mapHeading;
+
+    streetView.setPov(tempPov);
     headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
   }
 
