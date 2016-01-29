@@ -8,7 +8,7 @@ block content
   section.section-wrapper
 
     if results.is_search
-      h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
+      h1.page-header Søgning på "#{filters.freetext}" (#{results.total_results} poster)
     //if results.is_front
     //  h1.page-header Alle samlinger (#{results.total_results} poster)
     if results.is_category
