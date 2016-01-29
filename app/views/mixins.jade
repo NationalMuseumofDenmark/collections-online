@@ -227,7 +227,7 @@ mixin searchMeta(results, metadata)
   - siteTitle = req.app.get('site_title');
   - baseUrl = 'http://' + req.get('host')
   if results.is_search
-    - title= 'Søgning på "' + freetext +   '" (' + results.total_results + ' poster) - ' + siteTitle
+    - title= 'Søgning på "' + filters.freetext +   '" (' + results.total_results + ' poster) - ' + siteTitle
     title #{title}
     meta(property="og:title", content="#{title}")
     meta(itemprop="name", content="#{title}")

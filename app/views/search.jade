@@ -7,16 +7,16 @@ append header
     +searchMeta(results, metadata)
 
 block content
-  unless results.is_front
-    include filtering.jade
   section.section-wrapper
     if results.is_front
       +FrontPageSlider()
+    else
+      include filtering
 
     .clearfix
 
     if results.is_search
-      h1.page-header Søgning på "#{freetext}" (#{results.total_results} poster)
+      h1.page-header Søgning på "#{filters.freetext}" (#{results.total_results} poster)
     if results.is_front
       h1.page-header Alle samlinger (#{results.total_results} poster)
     if results.is_category

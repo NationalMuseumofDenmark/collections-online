@@ -1,8 +1,16 @@
-.filtering
+.filtering.row
   .filter-catalogs
-  .filter-geotags
+  form.filter-geotags.col-md-12
+    input(type='hidden', name='q', value=filters.freetext)
+    input(type='hidden', name='cat', value=filters.params.category)
     p Filtrering på geo-koordinat:
     .buttons
-      button.btn Alle
-      button.btn Taggede
-      button.btn Klar til at tagge
+      button.btn(class=typeof(filters.params.geotagged)==='undefined' ? 'active' : null) Alle
+      button.btn(
+        class=filters.params.geotagged===true ? 'active' : null,
+        name='geotagged',
+        value='true') Taggede
+      button.btn(
+        class=filters.params.geotagged===false ? 'active' : null,
+        name='geotagged',
+        value='false') Klar til at tagge

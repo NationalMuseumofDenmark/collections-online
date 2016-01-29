@@ -1,12 +1,12 @@
 .filtering {
   margin-top: -20px;
-  padding: 20px;
+  padding: 20px 0;
   background-color: #525252;
 
   .filter-geotags {
-    color: white;
 
     p {
+      color: white;
       font-size: 14px;
       font-weight: bold;
     }
@@ -16,12 +16,11 @@
       flex-wrap: wrap;
 
       button {
-        font-family: 'Nationale', sans-serif;
         font-weight: normal;
         margin-right: 7px;
         background-color: #C4C0C1;
 
-        &:hover {
+        &:hover, &.active {
           background-color: #333333;
           color: white;
         }
