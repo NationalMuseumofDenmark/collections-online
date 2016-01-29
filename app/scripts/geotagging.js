@@ -113,30 +113,19 @@ function initMap() {
 
   marker = new google.maps.Marker({
     map: map,
-    /*icon: {
-      path: 'M268.7 0h-235C14.8 0 0 15 0 33.6v235c0 18.5 15 33.7 33.6 33.7h67.2l50.3 50.3 50.5-50.4h67.2c18.4 0 33.6-15 33.6-33.5v-235C302.3 15 287 0 268.6 0z M151.7 127.6c15.6 0 28.2 12.6 28.2 28.2S167.2 184 151.6 184c-19.5 0-28.3-16.6-28.3-28.2 0-15.6 12.7-28.2 28.3-28.2zm-26.5-60L109 85H81c-9.7 0-17.6 8-17.6 17.6v106c0 9.7 8 17.7 17.6 17.7h141.3c9.7 0 17.7-8 17.7-17.7v-106c0-9.7-8-17.6-17.7-17.6h-28l-16-17.7h-53zM151.7 200c-24.4 0-44.2-19.8-44.2-44.2s19.8-44 44.2-44c24.4 0 44 19.7 44 44 0 24.4-19.6 44.2-44 44.2z',
-      scale: 0.1,
-      fillColor: 'black',
-      fillOpacity: 1,
-      anchor: new google.maps.Point(150,370)
-    },*/
+    icon: '/images/camera_pin_green.png',
     draggable: true
   });
 
   headingMarker = new google.maps.Marker({
     map: map,
-    /*icon: {
-      path: 'M268.7 0h-235C14.8 0 0 15 0 33.6v235c0 18.5 15 33.7 33.6 33.7h67.2l50.3 50.3 50.5-50.4h67.2c18.4 0 33.6-15 33.6-33.5v-235C302.3 15 287 0 268.6 0z M129.4 79.4c0 13.5-11 24.4-24.4 24.4-13.5 0-24.4-11-24.4-24.4C80.6 66 91.6 55 105 55c13.5 0 24.4 11 24.4 24.4zM193 131L134.4 207l-42-50.6-58.7 75.6h235L193 131z',
-      scale: 0.1,
-      fillColor: '#fff',
-      anchor: new google.maps.Point(150,370)
-    },*/
+    icon: '/images/heading_pin_red.png',
     draggable:true
   });
 
   var headingLine = new google.maps.Polyline({
     map: map,
-    strokeColor: '#9E0B0F'
+    strokeColor: '#333333'
   });
 
   map.addListener('click', function(event) {
