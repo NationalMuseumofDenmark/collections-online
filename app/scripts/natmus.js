@@ -48,7 +48,7 @@ $(function() {
     // Open / close main menu nav
     $('#heading-categories-menu a, .gray-overlay').click(function() {
         // Show/hide scroll bars with delay due to css animations
-        if ($('body').hasClass('categories-menu-open')) {
+        if($('body').hasClass('categories-menu-open')) {
             $('.nicescroll-rails').hide();
         } else {
             $('.nicescroll-rails').delay(700).hide(function() {

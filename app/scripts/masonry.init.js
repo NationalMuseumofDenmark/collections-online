@@ -4,7 +4,7 @@
 $(function() {
     var $searchResult = $('#masonry-container');
 
-    // Replaces the current state in history with one that includes the 
+    // Replaces the current state in history with one that includes the
     function storeSearchResultInHistoryState(currentSearchResultPage) {
         // Change the history entry to carry the search result and page count.
         if(history && history.replaceState) {
@@ -29,7 +29,7 @@ $(function() {
     // Replaces the current state in history with one that includes the vertical
     // scroll offset. This is needed because we cannot rely on the browsers
     // implementation of scrolling down the page when navigating back in history.
-    // The reason for this is probably that we load the images after the 
+    // The reason for this is probably that we load the images after the
     // window.load event fires.
     function storeScrollOffsetInHistoryState() {
         // Change the history entry to carry the search result and page count.
@@ -73,7 +73,7 @@ $(function() {
                     $(window).scrollTop(scrollTop);
                 }
             });
-        
+
             if(page) {
                 // Make sure to change the infinitescroll page.
                 $searchResult.infinitescroll('update', {state: {currPage: page}});
