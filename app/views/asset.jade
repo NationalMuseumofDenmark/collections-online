@@ -19,7 +19,10 @@ block content
           itemtype='http://schema.org/CreativeWork',
           class='asset item',
           data-catalog-alias=catalog.alias,
-          data-item-id=item.id)
+          data-item-id=item.id,
+          data-latitude=item.latitude,
+          data-longitude=item.longitude,
+          data-address=item.address)
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6.col-xs-12.image-row
@@ -82,6 +85,7 @@ block content
                     href=asset.href)
 
       .col-md-6.col-xs-12.pull-right.text-row
+        #geotagging-anchor
         if(showGeotagging)
           include geotagging.jade
         p.catalog
@@ -147,7 +151,11 @@ block content
             if(item.longitude && item.latitude)
               tr
                 th Koordinater:
-                td= item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
+                td
+                  = item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
+                  if(showGeotagging)
+                    a
+                      +icon('pencil-icon')
               tr
                 td(colspan='2')
                   a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')

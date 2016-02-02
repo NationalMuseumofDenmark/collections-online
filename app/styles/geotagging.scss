@@ -1,6 +1,4 @@
 .geotagging {
-  margin: 0 -15px 17px -15px;
-  min-height: $input-height-base;
   position: relative;
 
   .btn {
@@ -16,8 +14,8 @@
   }
 
   .call-to-action {
-    position: absolute;
-    top: 0;
+    margin-bottom: 17px;
+    min-height: $input-height-base;
     width: 100%;
 
     .btn {
