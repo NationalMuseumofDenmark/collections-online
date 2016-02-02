@@ -100,8 +100,9 @@ var mapHeading;
 function initMap() {
   var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   var address = $('#address').text();
-  var latitude = $('.asset').data('latitude');
+  var latitude  = $('.asset').data('latitude');
   var longitude = $('.asset').data('longitude');
+  mapHeading = $('.asset').data('heading');
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
@@ -127,10 +128,10 @@ function initMap() {
     strokeColor: '#333333'
   });
 
-  mapHeading = 10;
   if(latitude && longitude) {
     var latLng = new google.maps.LatLng(latitude, longitude);
     marker.setPosition(latLng);
+    map.setCenter(latLng);
 
     if(mapHeading) {
       headingLatLng = google.maps.geometry.spherical.computeOffset(latLng, 100, mapHeading);
@@ -138,7 +139,6 @@ function initMap() {
       recalculateLine();
     }
 
-    map.setCenter(latLng);
   } else if (address) {
     geocoder = new google.maps.Geocoder();
 
