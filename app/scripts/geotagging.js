@@ -100,20 +100,8 @@ var mapHeading;
 function initMap() {
   var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   var address = $('#address').text();
-
-  if(address){
-    geocoder = new google.maps.Geocoder();
-
-    geocoder.geocode({ 'address': address }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var geocodeLocation = results[0].geometry.location;
-          var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
-
-          map.setCenter(geocodeLatLng);
-          resizeMap();
-        }
-    });
-  }
+  var latitude = $('.asset').data('latitude');
+  var longitude = $('.asset').data('longitude');
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
@@ -138,6 +126,32 @@ function initMap() {
     map: map,
     strokeColor: '#333333'
   });
+
+  mapHeading = 10;
+  if(latitude && longitude) {
+    var latLng = new google.maps.LatLng(latitude, longitude);
+    marker.setPosition(latLng);
+
+    if(mapHeading) {
+      headingLatLng = google.maps.geometry.spherical.computeOffset(latLng, 100, mapHeading);
+      headingMarker.setPosition(headingLatLng);
+      recalculateLine();
+    }
+
+    map.setCenter(latLng);
+  } else if (address) {
+    geocoder = new google.maps.Geocoder();
+
+    geocoder.geocode({ 'address': address }, function(results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+          var geocodeLocation = results[0].geometry.location;
+          var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
+
+          map.setCenter(geocodeLatLng);
+          resizeMap();
+        }
+    });
+  }
 
   map.addListener('click', function(event) {
     // Ensure that the relative distance between markers is the same on every zoom level

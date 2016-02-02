@@ -19,7 +19,10 @@ block content
           itemtype='http://schema.org/CreativeWork',
           class='asset item',
           data-catalog-alias=catalog.alias,
-          data-item-id=item.id)
+          data-item-id=item.id,
+          data-latitude=item.latitude,
+          data-longitude=item.longitude,
+          data-address=item.address)
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6.col-xs-12.image-row
