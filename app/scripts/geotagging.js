@@ -3,7 +3,7 @@ var map;
 var streetView;
 var marker;
 var headingMarker;
-var mapHeading;
+var mapHeading = 0;
 
 (function($) {
   // Let's define a global function, to be called when initializing or when
@@ -49,6 +49,10 @@ var mapHeading;
       $('.call-to-action .btn').show();
       $( window ).unbind('resize', resizeMap);
     });
+  });
+
+  $('.map-buttons .back-to-map').click(function() {
+    streetView.setVisible(false);
   });
 
   $('.overlay .close-overlay').click(function() {
@@ -102,14 +106,24 @@ function initMap() {
   var address = $('#address').text();
   var latitude  = $('.asset').data('latitude');
   var longitude = $('.asset').data('longitude');
-  mapHeading = $('.asset').data('heading');
+  var heading = $('.asset').data('heading');
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
-    zoom: 16
+    zoom: 16,
+    styles: [{
+      featureType: "transit",
+      stylers: [{ visibility: "off" }]
+    }]
   });
 
   streetView = map.getStreetView();
+  streetView.setOptions({
+    disableDefaultUI: true,
+    disableDoubleClickZoom: false,
+    scrollwheel: false,
+    clickToGo: true
+  });
 
   marker = new google.maps.Marker({
     map: map,
@@ -133,7 +147,8 @@ function initMap() {
     marker.setPosition(latLng);
     map.setCenter(latLng);
 
-    if(mapHeading) {
+    if(heading) {
+      mapHeading = heading;
       headingLatLng = google.maps.geometry.spherical.computeOffset(latLng, 100, mapHeading);
       headingMarker.setPosition(headingLatLng);
       recalculateLine();
@@ -171,6 +186,10 @@ function initMap() {
   streetView.addListener('visible_changed', function(e) {
     marker.setVisible(!this.getVisible());
     headingMarker.setVisible(!this.getVisible());
+
+    $('.map-buttons .hide-map').toggle(!this.getVisible());
+    $('.map-buttons .save-coordinates').toggle(!this.getVisible());
+    $('.map-buttons .back-to-map').toggle(this.getVisible());
 
     if(!this.getVisible()){
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
