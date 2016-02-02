@@ -16,6 +16,16 @@ var mapHeading;
     map.setCenter(center);
   }
 
+  var showMap = function() {
+    if(!window.localStorage.getItem('geotagging-overlay-closed')) {
+      $('.geotagging .overlay').show();
+    }
+    $('.map-container').slideDown('slow', function() {
+      // resize google map to match asset image on click and on window resize
+      $( window ).bind('resize', resizeMap).trigger('resize');
+    });
+  };
+
   var showError = function(msg) {
     $error = $('<div class="alert alert-danger">');
     $error.text(msg);
@@ -24,13 +34,14 @@ var mapHeading;
 
   $('.call-to-action .btn').click(function() {
     $(this).hide();
-    if(!window.localStorage.getItem('geotagging-overlay-closed')) {
-      $('.geotagging .overlay').show();
-    }
-    $('.map-container').slideDown('slow', function() {
-      // resize google map to match asset image on click and on window resize
-      $( window ).bind('resize', resizeMap).trigger('resize');
-    });
+    showMap();
+  });
+
+  $('.place .pencil-icon').click(function(){
+    $('html, body').animate({
+        scrollTop: $("#geotagging-anchor").offset().top - 100
+    }, 400);
+    showMap();
   });
 
   $('.map-buttons .hide-map').click(function() {

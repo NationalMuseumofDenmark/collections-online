@@ -1,4 +1,4 @@
-div.geotagging
+div.geotagging#geotagging
   div.map-container
     div.overlay
       h2 Hjælp os med at placere dette billede på kortet!
@@ -13,8 +13,8 @@ div.geotagging
         | Annuller
       div.btn.save-coordinates
         | Gem placering
-      
-  div.call-to-action
-    div.btn.btn-primary
-      span.glyphicon.glyphicon-map-marker
-      | Hjælp os med at placere dette billede på kortet!
+  if(showCallToAction)
+    div.call-to-action
+      div.btn.btn-primary
+        span.glyphicon.glyphicon-map-marker
+        | Hjælp os med at placere dette billede på kortet!
