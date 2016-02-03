@@ -65,7 +65,8 @@ var mapHeading = 0;
     $(this).text('Gemmer placering');
     $('.map-buttons .hide-map').hide();
     var data = {
-      force: location.search.indexOf('forceGeotagging') !== -1
+      //force: location.search.indexOf('forceGeotagging') !== -1
+      force: true
     };
     if(streetView.getVisible()){
       data.latitude = streetView.getPosition().lat();

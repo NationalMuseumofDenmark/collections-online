@@ -57,7 +57,7 @@
         bottom: 3%;
         position: absolute;
         width: 25%;
-        left: 37.5%;
+        left: 25%;
       }
     }
 
@@ -72,13 +72,22 @@
     .map-buttons {
       position: absolute;
       text-align: center;
-      width: 80%;
+      width: 100%;
       bottom: 3%;
-      left: 10%;
+      pointer-events: none;
 
       .btn {
+        pointer-events: auto;
         margin: 5px;
       }
+
+      .back-to-map {
+        float: right;
+      }
+    }
+
+    .gm-iv-container {
+      display: none;
     }
   }
 }
