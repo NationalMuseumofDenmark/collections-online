@@ -181,13 +181,9 @@ var METADATA_TRANSFORMATIONS = [
 		}
 		if(coordinates) {
 			coordinates = coordinates.split(',').map(parseFloat);
-			if(coordinates.length == 2) {
+			if(coordinates.length >= 2) {
 				metadata.latitude = coordinates[0];
 				metadata.longitude = coordinates[1];
-			} else if(coordinates.length == 3) {
-				metadata.latitude = coordinates[0];
-				metadata.longitude = coordinates[1];
-				metadata.heading = coordinates[2];
 			} else {
 				throw new Error('Encountered unexpected format when parsing coordinates.');
 			}
