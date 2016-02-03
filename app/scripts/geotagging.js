@@ -107,7 +107,7 @@ function initMap() {
   var address = $('#address').text();
   var latitude  = $('.asset').data('latitude');
   var longitude = $('.asset').data('longitude');
-  var heading = $('.asset').data('heading');
+  var heading   = $('.asset').data('heading');
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
