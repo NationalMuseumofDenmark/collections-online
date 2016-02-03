@@ -64,6 +64,7 @@ var mapHeading = 0;
     $(this).addClass('disabled');
     $(this).text('Gemmer placering');
     $('.map-buttons .hide-map').hide();
+    $('.map-buttons .loader').css('display','inline-block');
     var data = {
       //force: location.search.indexOf('forceGeotagging') !== -1
       force: true
@@ -97,6 +98,10 @@ var mapHeading = 0;
       error: function(response) {
         var err = response.responseJSON;
         showError(err.message || 'Der skete en uventet fejl.');
+        $(this).removeClass('disabled');
+        $(this).text('Gem placering');
+        $('.map-buttons .hide-map').show();
+        $('.map-buttons .loader').hide();
       }
     });
   });
