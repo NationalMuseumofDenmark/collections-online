@@ -143,6 +143,10 @@ function initMap() {
     strokeColor: '#333333'
   });
 
+  var input = $('#pac-input')[0];
+  var searchBox = new google.maps.places.SearchBox(input);
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
   if(latitude && longitude) {
     var latLng = new google.maps.LatLng(latitude, longitude);
     marker.setPosition(latLng);
@@ -225,6 +229,30 @@ function initMap() {
     streetView.setPov(tempPov);
     headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
   }
+
+  map.addListener('bounds_changed', function() {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  searchBox.addListener('places_changed', function() {
+    var places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    // For each place, get the icon, name and location.
+    var bounds = new google.maps.LatLngBounds();
+    places.forEach(function(place) {
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+    map.setZoom(16);
+  });
 
   resizeMap();
 }
