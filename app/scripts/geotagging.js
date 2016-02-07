@@ -6,6 +6,8 @@ var headingMarker;
 var mapHeading = 0;
 
 (function($) {
+  var GA_EVENT_CATEGORY = 'Geotagging';
+
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
@@ -30,14 +32,17 @@ var mapHeading = 0;
     $error = $('<div class="alert alert-danger">');
     $error.text(msg);
     $('.geotagging').append($error);
+    ga('send', 'event', GA_EVENT_CATEGORY, 'error', msg);
   };
 
   $('.call-to-action .btn').click(function() {
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Via call-to-action');
     $(this).hide();
     showMap();
   });
 
   $('.place .pencil-icon').click(function(){
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Editing');
     $('html, body').animate({
         scrollTop: $("#geotagging-anchor").offset().top - 100
     }, 400);
@@ -45,6 +50,7 @@ var mapHeading = 0;
   });
 
   $('.map-buttons .hide-map').click(function() {
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
     $('.map-container').slideUp('slow', function() {
       $('.call-to-action .btn').show();
       $( window ).unbind('resize', resizeMap);
@@ -61,6 +67,13 @@ var mapHeading = 0;
   });
 
   $('.map-buttons .save-coordinates').click(function() {
+    var inStreetView = streetView.getVisible();
+    ga('send',
+       'event',
+       GA_EVENT_CATEGORY,
+       'Started saving',
+       inStreetView ? 'In street view' : 'Not in street view');
+
     $(this).addClass('disabled');
     $(this).text('Gemmer placering');
     $('.map-buttons .hide-map').hide();
@@ -69,7 +82,7 @@ var mapHeading = 0;
       //force: location.search.indexOf('forceGeotagging') !== -1
       force: true
     };
-    if(streetView.getVisible()){
+    if(inStreetView){
       data.latitude = streetView.getPosition().lat();
       data.longitude = streetView.getPosition().lng();
       data.heading = mapHeading;
@@ -90,7 +103,14 @@ var mapHeading = 0;
       dataType: 'json',
       success: function(response) {
         if(response.success) {
-          location.reload();
+          ga('send',
+             'event',
+             GA_EVENT_CATEGORY,
+             'Saved', catalogAlias + '-' + itemId, {
+               hitCallback: function() {
+                 location.reload();
+               }
+             });
         } else {
           showError('Der skete en fejl - prøv igen');
         }
@@ -140,7 +160,7 @@ function initMap() {
   headingMarker = new google.maps.Marker({
     map: map,
     icon: '/images/heading_pin_red.png',
-    draggable:true
+    draggable: true
   });
 
   var headingLine = new google.maps.Polyline({
