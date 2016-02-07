@@ -428,29 +428,3 @@ ul.categories {
     background:$white;
   }
 }*/
-
-/* Responsive masonry boxes */
-.box {
-  float:left;
-  box-sizing: border-box;
-  padding:0 10px;
-  min-height: 1px;
-  width:100%;
-
-  @media all and (max-width: 420px) {
-    width:100%;
-    padding:0;
-  }
-
-  @media all and (max-width: 635px) and (min-width: 420px) {
-    width:50%;
-  }
-
-  @media all and (max-width: 992px) and (min-width: 635px) {
-    width:33.3333%;
-  }
-
-  @media all and (min-width: 992px) {
-    width:25%;
-  }
-}

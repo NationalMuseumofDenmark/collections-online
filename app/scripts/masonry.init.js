@@ -55,19 +55,17 @@ $(function() {
                 .empty()
                 .html(searchResult)
                 .children()
-                .css({ opacity: 0 });
+                .css('opacity', 0);
 
             // Tell masonry to reorganise the results.
             $searchResult.imagesLoaded(function() {
-                var masonry = new Masonry( $searchResult.get(0), {
-                    itemSelector: '.box'
-                } );
-
+                var masonry = new Masonry($searchResult.get(0), {
+                    itemSelector: '.box',
+                    transitionDuration: 0
+                });
                 $searchResult.data('masonry', masonry);
                 // Show the search results when they have been rearranged.
-                $searchResult
-                    .children()
-                    .css({ opacity: 1 });
+                $searchResult.children().css('opacity', 1);
                 // Tell the browser to scroll down.
                 if(scrollTop) {
                     $(window).scrollTop(scrollTop);
@@ -98,16 +96,14 @@ $(function() {
         },
         // trigger Masonry as a callback
         function( newElements, opts ) {
+            var $newElements = $(newElements);
             // Set this variable to be used when the user clicks a link.
             storeSearchResultInHistoryState(opts.state.currPage);
             // hide new items while they are loading
-            var $newElems = $( newElements ).css({ opacity: 0 });
             // ensure that images load before adding to masonry layout
-            $newElems.imagesLoaded(function(){
-                // show elems now they're ready
-                $newElems.animate({ opacity: 1 });
+            $newElements.imagesLoaded(function() {
                 var masonry = $searchResult.data('masonry');
-                masonry.appended( $newElems, true );
+                masonry.appended($newElements, true);
                 $('#more').show();
             });
         });
@@ -123,7 +119,8 @@ $(function() {
             $searchResult.imagesLoaded(function(){
                 $searchResult.each(function() {
                     var masonry = new Masonry(this, {
-                        itemSelector: '.box'
+                        itemSelector: '.box',
+                        transitionDuration: 0
                     });
                     $searchResult.data('masonry', masonry);
                 });

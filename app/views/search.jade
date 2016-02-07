@@ -41,7 +41,7 @@ block content
       h1.page-header
         a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name} (#{results.total_results} poster)
 
-    div(id="masonry-container" class="search-results")
+    div.search-results.row(id="masonry-container")
       each result in results.results
         +searchResultAsset(result)
   div(id='page-nav')
