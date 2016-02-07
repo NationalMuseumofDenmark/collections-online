@@ -67,30 +67,22 @@ var mapHeading = 0;
   });
 
   $('.map-buttons .save-coordinates').click(function() {
-    var inStreetView = streetView.getVisible();
     ga('send',
        'event',
        GA_EVENT_CATEGORY,
        'Started saving',
-       inStreetView ? 'In street view' : 'Not in street view');
+       streetView.getVisible() ? 'In street view' : 'Not in street view');
 
     $(this).addClass('disabled');
     $(this).text('Gemmer placering');
     $('.map-buttons .hide-map').hide();
     $('.map-buttons .loader').css('display','inline-block');
     var data = {
-      //force: location.search.indexOf('forceGeotagging') !== -1
-      force: true
+      heading: mapHeading,
+      latitude: marker.getPosition().lat(),
+      longitude: marker.getPosition().lng()
     };
-    if(inStreetView){
-      data.latitude = streetView.getPosition().lat();
-      data.longitude = streetView.getPosition().lng();
-      data.heading = mapHeading;
-    } else {
-      data.latitude = marker.getPosition().lat();
-      data.longitude = marker.getPosition().lng();
-      data.heading = mapHeading;
-    }
+
     var $item = $('.item');
     var catalogAlias = $item.data('catalog-alias');
     var itemId = $item.data('item-id');
@@ -221,14 +213,15 @@ function initMap() {
     $('.map-buttons .save-coordinates').toggle(!this.getVisible());
     $('.map-buttons .back-to-map').toggle(this.getVisible());
 
-    if(!this.getVisible() && this.getPosition()){
+    if(this.getPosition()) {
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
+    }
 
+    if(!this.getVisible()){
       map.setZoom(16);
       map.setCenter(this.getPosition());
-
       recalculateLine();
     }
   });
