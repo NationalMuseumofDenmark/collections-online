@@ -97,7 +97,7 @@ body {
 }
 
 /* Boostrap style modifications */
-.container section h1.page-header {
+.content section h1.page-header {
   font-size: 18px;
   color:$brand-primary;
   a {
@@ -106,7 +106,7 @@ body {
 }
 
 // Avoid detached footer
-.container section {
+.content section {
   // min-height: 450px;
   @media all and (min-height: 1000px) {
     min-height:600px;
@@ -118,6 +118,13 @@ body {
   color: $black;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
 }
+
+@media (min-width: $screen-md) {
+  .content {
+    margin-top: 20px;
+  }
+}
+
 svg {
   width: 40px;
   height: 40px;
@@ -403,7 +410,7 @@ ul.categories {
   }
 
   /* Boostrap style modifications */
-  .container section h1.page-header {
+  .content section h1.page-header {
     margin-top:34px;
     font-size: 28px;
   }

@@ -20,7 +20,8 @@ html(lang='da').no-js
     +sidebarmenu()
     div.main-wrapper
       include topbar
-      .container
+      block before-content
+      .content.container
         block content
       +footer()
       a#toTop
