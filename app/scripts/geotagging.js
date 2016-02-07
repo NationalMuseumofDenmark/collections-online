@@ -217,12 +217,12 @@ function initMap() {
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
+      recalculateLine();
     }
 
-    if(!this.getVisible()){
+    if(!this.getVisible() && this.getPosition()){
       map.setZoom(16);
       map.setCenter(this.getPosition());
-      recalculateLine();
     }
   });
 
