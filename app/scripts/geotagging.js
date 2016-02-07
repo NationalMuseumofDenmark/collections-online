@@ -201,7 +201,7 @@ function initMap() {
     $('.map-buttons .save-coordinates').toggle(!this.getVisible());
     $('.map-buttons .back-to-map').toggle(this.getVisible());
 
-    if(!this.getVisible()){
+    if(!this.getVisible() && this.getPosition()){
       offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
