@@ -212,7 +212,7 @@ mixin addPlace(item, alias)
   - else
     | -
 
-mixin searchMeta(results, metadata)
+mixin searchMeta(results, catalog, breadcrumbs)
   - siteTitle = req.app.get('site_title');
   - baseUrl = 'http://' + req.get('host')
   if results.is_search
@@ -230,34 +230,34 @@ mixin searchMeta(results, metadata)
     meta(property="og:url", content="#{baseUrl}")
 
   if results.is_category
-    if metadata.breadcrumbs
-      if metadata.breadcrumbs.second
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} &gt; #{metadata.breadcrumbs.second.name} (#{results.total_results} poster) - #{siteTitle}
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " > " + metadata.breadcrumbs.second.name + " (" + results.total_results + " poster) > " + " - " + siteTitle
+    if breadcrumbs
+      if breadcrumbs.second
+        title #{catalog.name} &gt; #{breadcrumbs.first.name} &gt; #{breadcrumbs.second.name} (#{results.total_results} poster) - #{siteTitle}
+        - title= catalog.name + " > " + breadcrumbs.first.name + " > " + breadcrumbs.second.name + " (" + results.total_results + " poster) > " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
-        meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.second.id}")
+        meta(property="og:url", content="#{baseUrl}/#{catalog.alias}?cat=#{breadcrumbs.second.id}")
       else
-        title #{metadata.name} &gt; #{metadata.breadcrumbs.first.name} (#{results.total_results} poster) - #{siteTitle}
-        - title= metadata.name + " > " + metadata.breadcrumbs.first.name + " (" + results.total_results + " poster) " + " - " + siteTitle
+        title #{catalog.name} &gt; #{breadcrumbs.first.name} (#{results.total_results} poster) - #{siteTitle}
+        - title= catalog.name + " > " + breadcrumbs.first.name + " (" + results.total_results + " poster) " + " - " + siteTitle
         meta(property="og:title", content="#{title}")
         meta(itemprop="name", content="#{title}")
         meta(name="twitter:title", content="#{title}")
-        meta(property="og:url", content="#{baseUrl}/#{metadata.alias}?cat=#{metadata.breadcrumbs.first.id}")
+        meta(property="og:url", content="#{baseUrl}/#{catalog.alias}?cat=#{breadcrumbs.first.id}")
     else
-      title #{metadata.name} &gt; Ingen titel - #{siteTitle}
-      meta(property="og:title", content="Ingen titel - #{metadata.name}")
-      meta(itemprop="name", content="Ingen titel - #{metadata.name}")
-      meta(name="twitter:title", content="Ingen titel - #{metadata.name}")
+      title #{catalog.name} &gt; Ingen titel - #{siteTitle}
+      meta(property="og:title", content="Ingen titel - #{catalog.name}")
+      meta(itemprop="name", content="Ingen titel - #{catalog.name}")
+      meta(name="twitter:title", content="Ingen titel - #{catalog.name}")
 
 
   if results.is_catalog
-    title #{metadata.name} (#{results.total_results} poster) - #{siteTitle}
-    meta(property="og:title", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(itemprop="name", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(name="twitter:title", content="#{metadata.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(property="og:url", content="#{baseUrl}/#{metadata.alias}")
+    title #{catalog.name} (#{results.total_results} poster) - #{siteTitle}
+    meta(property="og:title", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
+    meta(itemprop="name", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
+    meta(name="twitter:title", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
+    meta(property="og:url", content="#{baseUrl}/#{catalog.alias}")
 
   //- Default for all search pages
   meta(property="og:type", content="website")
