@@ -10,7 +10,7 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var config = require('./lib/config/config');
 var app = express();
 require('./lib/config/express')(app);
-app.locals.google_maps_api_key = config.google_maps_api_key;
+app.locals.config = config;
 
 var es_client = new elasticsearch.Client({ host: config.es_host });
 app.set('es_client', es_client);
