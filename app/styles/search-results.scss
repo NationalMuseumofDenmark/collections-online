@@ -16,7 +16,10 @@
 
     @media all and (max-width: 420px) {
       width:100%;
-      padding:0;
+      padding: 0;
+      h2, p {
+        padding:0 10px;
+      }
     }
 
     @media all and (max-width: 635px) and (min-width: 420px) {
