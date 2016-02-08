@@ -35,30 +35,9 @@
 $(function() {
     var $menu = $('.categories-menu .dropdown-menu-right');
 
-    $menu.niceScroll({
-        cursorcolor:'#555',
-        background: '',
-        cursorwidth: '7px',
-        cursorborder: 'none',
-        autohidemode: false,
-        horizrailenabled: false,
-        zindex: 999999
-    });
-
     // Open / close main menu nav
-    $('#heading-categories-menu a, .gray-overlay').click(function() {
-        // Show/hide scroll bars with delay due to css animations
-        if($('body').hasClass('categories-menu-open')) {
-            $('.nicescroll-rails').hide();
-        } else {
-            $('.nicescroll-rails').delay(700).hide(function() {
-                // Nice scroll is ready to be resized
-                $menu.getNiceScroll().resize();
-            }).fadeIn(300);
-        }
-
+    $('#heading-categories-menu, .gray-overlay').click(function() {
         $('body').toggleClass('categories-menu-open');
-
         return false;
     });
 
@@ -72,8 +51,6 @@ $(function() {
             e.preventDefault();
             var $toggleButton = $(e.currentTarget);
             $toggleButton.next('ul').slideToggle(300, function() {
-                // Update the scrollbar
-                $menu.getNiceScroll().resize();
                 // Update the icon on the toggle button
                 var expanded = $(this).is(':visible');
                 $toggleButton.closest('li').toggleClass('expanded', expanded);

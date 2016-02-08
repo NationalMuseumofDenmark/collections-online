@@ -136,9 +136,12 @@ function initMap() {
   });
 
   streetView = map.getStreetView();
+  // https://developers.google.com/maps/documentation/javascript/controls
+  https://developers.google.com/maps/documentation/javascript/examples/streetview-controls
   streetView.setOptions({
-    disableDefaultUI: true,
+    zoomControl: false,
     disableDoubleClickZoom: false,
+    panControl: false,
     scrollwheel: false,
     clickToGo: true
   });
