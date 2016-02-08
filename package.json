@@ -22,7 +22,7 @@
     "natmus-js": "git+https://github.com/NationalMuseumofDenmark/natmus.js#feature/promises",
     "memory-cache": "~0.0.5",
     "cheerio": "~0.16.0",
-    "elasticsearch": "~3.1.3",
+    "elasticsearch": "~10.1.3",
     "q": "~1.0.1",
     "jpegtran-bin": "~0.2.7",
     "gifsicle": "~0.1.6",
@@ -30,6 +30,7 @@
     "agentkeepalive": "~1.2.1"
   },
   "devDependencies": {
+    "bower": "^1.7.7",
     "chalk": "^0.4.0",
     "connect-livereload": "~0.3.0",
     "grunt": "~0.4.1",
@@ -50,7 +51,6 @@
     "grunt-google-cdn": "~0.2.0",
     "grunt-newer": "~0.5.4",
     "grunt-ngmin": "~0.0.2",
-    "grunt-node-inspector": "~0.1.3",
     "grunt-nodemon": "~0.2.0",
     "grunt-open": "~0.2.0",
     "grunt-rev": "~0.1.0",
