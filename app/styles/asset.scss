@@ -113,19 +113,19 @@
         margin: 0 .2em 0 0;
         vertical-align: middle;
       }
-      .plus-icon {
+      .icon-plus {
         @extend .hidden;
       }
-      .minus-icon {
+      .icon-minus {
         @extend .show;
         visibility: visible !important;
       }
       &.collapsed {
-        .plus-icon {
+        .icon-plus {
           @extend .show;
           visibility: visible !important;
         }
-        .minus-icon {
+        .icon-minus {
           @extend .hidden;
         }
       }
