@@ -116,7 +116,7 @@
         background-color: transparent;
       }
       a {
-          -webkit-tap-highlight-color: $gray;
+          -webkit-tap-highlight-color: rgba(255,255,255,0.3);
       }
     }
   }
