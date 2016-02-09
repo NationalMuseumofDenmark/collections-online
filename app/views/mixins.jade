@@ -66,7 +66,7 @@ mixin recursiveCategoryItem(catalog, category)
           a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
             span  #{category.count}
           a.col-xs-2.expand-menu(href='')
-            +icon('icon-plus')
+            +icon('icon-plus-minus')
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
@@ -118,11 +118,14 @@ mixin icon(id)
     when 'icon-share'
       svg
         use(xlink:href='#icon-share')
-    when 'icon-minus'
+    when 'icon-plus-minus'
       svg
+        use(xlink:href='#icon-plus')
+    when 'icon-minus'
+      svg.icon-minus
         use(xlink:href='#icon-minus')
     when 'icon-plus'
-      svg
+      svg.icon-plus
         use(xlink:href='#icon-plus')
     when 'icon-facebook'
       svg
