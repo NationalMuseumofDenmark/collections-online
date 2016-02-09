@@ -1,6 +1,6 @@
 mixin analytics
   //- Tracking for live site (samlinger.natmus.dk)
-  - if(config.googleAnalyticsPropertyID)
+  if(config.googleAnalyticsPropertyID)
     script.
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -109,12 +109,12 @@ mixin icon(id)
         path(d="M0 0h24v24H0z" fill="none")
     when 'burger-icon'
       svg(width="22px" height="17px" viewBox="0 0 22 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns")
-          g(id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage")
-              g(id="Object-+-asset-Copy" sketch:type="MSArtboardGroup" transform="translate(-29.000000, -42.000000)" stroke-linecap="square" stroke="#FFFFFF" stroke-width="2")
-                  g(id="Line-+-Line-Copy-2-+-Line-Copy-3-Copy-Copy" sketch:type="MSLayerGroup" transform="translate(30.000000, 42.000000)")
-                      path(d="M-5.55111512e-17,1.5 L20,1.5" id="Line" sketch:type="MSShapeGroup")
-                      path(d="M-5.55111512e-17,8.5 L20,8.5" id="Line-Copy-2" sketch:type="MSShapeGroup")
-                      path(d="M-5.55111512e-17,15.5 L20,15.5" id="Line-Copy-3" sketch:type="MSShapeGroup")
+        g(id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage")
+            g(id="Object-+-asset-Copy" sketch:type="MSArtboardGroup" transform="translate(-29.000000, -42.000000)" stroke-linecap="square" stroke="#FFFFFF" stroke-width="2")
+                g(id="Line-+-Line-Copy-2-+-Line-Copy-3-Copy-Copy" sketch:type="MSLayerGroup" transform="translate(30.000000, 42.000000)")
+                    path(d="M-5.55111512e-17,1.5 L20,1.5" id="Line" sketch:type="MSShapeGroup")
+                    path(d="M-5.55111512e-17,8.5 L20,8.5" id="Line-Copy-2" sketch:type="MSShapeGroup")
+                    path(d="M-5.55111512e-17,15.5 L20,15.5" id="Line-Copy-3" sketch:type="MSShapeGroup")
     when 'logo-icon'
       svg(viewBox="0 0 200 200" fill='white')
         path(d="M104 80V0h48v168h-44l-28-39v71H32v-8h40v-74l-8-11v77H16v-8h40V96l-8-12v84H0V0h44zm80-48v168h-48v-8h40V32h8zm-64 144h40V16h8v168h-48v-8zm24-16V8h-32v96L40 8H8v152h32V59l72 101h32z")
@@ -149,9 +149,9 @@ mixin icon(id)
 mixin responsiveImage(title, item, sources)
   img(src=sources.image, alt=title)
 
-  - if(item.license)
-    - var license = helpers.license_tag(item.license.id);
-    - if(license)
+  if(item.license)
+    var license = helpers.license_tag(item.license.id);
+    if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
 
 mixin rotationImage(title, item, sources)
@@ -165,9 +165,9 @@ mixin rotationImage(title, item, sources)
     a.Magic360(data-magic360-options=helpers.magic360_options(sources.image_rotation_set))
       img(src=sources.image, alt=title)
 
-  - if(item.license)
-    - var license = helpers.license_tag(item.license.id);
-    - if(license)
+  if(item.license)
+    var license = helpers.license_tag(item.license.id);
+    if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
 
 mixin shareThisHTML()
@@ -189,36 +189,36 @@ mixin shareThisJS()
   <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
 
 mixin formatDate(from, to)
-  - if(from && to && from.day == to.day && from.month == to.month && from.day == to.day)
+  if(from && to && from.day == to.day && from.month == to.month && from.day == to.day)
     | #{from.day}/#{from.month}/#{from.year}
-  - else
-    - if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
+  else
+    if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
       | #{from.year}
-    - else
-      - if(from)
+    else
+      if(from)
         | #{from.day}/#{from.month}/#{from.year}
-      - if((from && to) || (!from && !to))
+      if((from && to) || (!from && !to))
         |  - 
-      - if(to)
+      if(to)
         | #{to.day}/#{to.month}/#{to.year}
 
 mixin addDating(item, alias)
   - var leaf_category = helpers.leaf_category_by_tag(categories, 'Tid');
-  - if(leaf_category)
+  if(leaf_category)
     a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
-  - else
+  else
     | -
 
 mixin addPlace(item, alias)
   - var leaf_category = helpers.leaf_category_by_tag(categories, 'Lokalitet');
-  - if(leaf_category)
+  if(leaf_category)
     a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
-  - else
+  else
     | -
 
 mixin searchMeta(results, catalog, breadcrumbs)
   - siteTitle = req.app.get('site_title');
-  - baseUrl = 'http://' + req.get('host')
+  - baseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'));
   if results.is_search
     - title= 'Søgning på "' + filters.freetext +   '" (' + results.total_results + ' poster) - ' + siteTitle
     title #{title}
