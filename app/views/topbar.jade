@@ -4,7 +4,7 @@ header.topbar
       .topbar-items
         a(href='#')#heading-categories-menu
           span.sr-only Kataloger og kategorier
-          +icon('burger-icon')
+          +icon('icon-menu')
           .catalog-name.hidden-xs
             if(catalog)
               = catalog.name
@@ -23,10 +23,10 @@ header.topbar
             span.input-group-btn
               button.btn-search
                 span.sr-only Søg
-                +icon('magnifier-2-icon')
+                +icon('icon-search')
         .logo-text.hidden-xs
           span Nationalmuseets
           span Samlinger Online
         .logo
           a(href='/')
-            +icon('logo-icon')
+            +icon('icon-logo')

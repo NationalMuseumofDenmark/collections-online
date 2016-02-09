@@ -49,19 +49,29 @@ $(function() {
         // Expand menus
         $('a.expand-menu').click(function(e) {
             e.preventDefault();
-            var $toggleButton = $(e.currentTarget);
-            $toggleButton.parent().next('ul').slideToggle(300, function() {
+        var $toggleButton = $(e.currentTarget);
+        var $use = $toggleButton.children().children();
+        var $icon = $use.attr('xlink:href');
+        if($icon === '#icon-plus'){
+          $use.attr('xlink:href', '#icon-minus');
+        } else {
+          $use.attr('xlink:href', '#icon-plus');
+        }
+        $toggleButton.parent().next('ul').slideToggle(100, function() {
                 // Update the icon on the toggle button
                 var expanded = $(this).is(':visible');
-                $toggleButton.closest('li').toggleClass('expanded', expanded);
+          $toggleButton.closest('li').toggleClass('expanded',
+            expanded);
             });
         });
     })
     .fail(function() {
-        $('.categories-menu .dropdown-menu-right').html('<li><a href="' + window.location.pathname + '" class="col-xs-12">Uups, der skete en fejl. Prøv at genindlæse siden...</a></li>');
+      $('.categories-menu .dropdown-menu-right').html('<li><a href="' +
+        window.location.pathname +
+        '" class="col-xs-12">Uups, der skete en fejl. Prøv at genindlæse siden...</a></li>'
+      );
     });
 });
-
 
 // Toogle asset images - zome in and out
 $(function() {

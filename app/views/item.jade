@@ -32,8 +32,8 @@ block content
           - if(item.assets.extra.length > 0)
             h2.additional-related-header
               a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                +icon('minus-2-icon')
-                +icon('plus-2-icon')
+                +icon('icon-minus')
+                +icon('icon-plus')
                 | Flere relaterede
             div#additional-related.collapse
               each asset in item.assets.extra
@@ -57,8 +57,8 @@ block content
           - if(section.collapsable)
             h2.collapsable-section-header
               a(href='#'+section_id, data-toggle='collapse', data-target='#'+section_id).collapsed
-                +icon('minus-2-icon')
-                +icon('plus-2-icon')
+                +icon('icon-minus')
+                +icon('icon-plus')
                 = section.name
           - else
             h2= section.name

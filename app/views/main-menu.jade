@@ -1,7 +1,7 @@
 include mixins
 
 li
-  a.col-xs-12.first-menu(href='/') Alle samlinger
+  a.col-xs-12(href='/') Alle samlinger
 
 each catalog in catalogs
   li
@@ -9,8 +9,7 @@ each catalog in catalogs
       a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
       if catalog.categoryRoot.children.length > 0
         a.col-xs-2.expand-menu(href='')
-          +icon('plus-2-icon')
-          +icon('minus-2-icon')
+          +icon('icon-plus')
     ul.nav.menu-hidden
       each category in catalog.categoryRoot.children
         +recursiveCategoryItem(catalog, category)

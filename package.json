@@ -55,6 +55,7 @@
     "grunt-open": "~0.2.0",
     "grunt-rev": "~0.1.0",
     "grunt-sass": "^1.0.0",
+    "grunt-svg-sprite": "^1.2.19",
     "grunt-svgmin": "~3.1.2",
     "grunt-usemin": "~3.1.1",
     "grunt-wiredep": "^2.0.0",

@@ -43,7 +43,7 @@ block content
           .asset-tools
             .btn-group.dropup
               a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('download-icon')
+                +icon('icon-download')
               ul.dropdown-menu(role='menu')
                 - if(filename.match('.tif$') || filename.match('.tiff$'))
                   li
@@ -76,8 +76,8 @@ block content
             - if(related_assets.additional.length > 0)
               h2.collapsable-section-header
                 a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                  +icon('minus-2-icon')
-                  +icon('plus-2-icon')
+                  +icon('icon-minus')
+                  +icon('icon-plus')
                   | Flere relaterede
               div#additional-related.collapse
                 each asset in related_assets.additional
@@ -203,8 +203,8 @@ block content
           h2.collapsable-section-header
             - var path = req.path
             a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
-              +icon('minus-2-icon')
-              +icon('plus-2-icon')
+              +icon('icon-minus')
+              +icon('icon-plus')
               | Yderligere information
 
           div#additional-info.collapse
