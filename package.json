@@ -59,7 +59,6 @@
     "grunt-svgmin": "~3.1.2",
     "grunt-usemin": "~3.1.1",
     "grunt-wiredep": "^2.0.0",
-    "jshint-stylish": "~2.1.0",
     "load-grunt-tasks": "~3.4.0",
     "open": "~0.0.4",
     "requirejs": "~2.1.10",
