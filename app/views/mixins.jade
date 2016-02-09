@@ -198,7 +198,7 @@ mixin formatDate(from, to)
       - if(from)
         | #{from.day}/#{from.month}/#{from.year}
       - if((from && to) || (!from && !to))
-        |  -
+        |  - 
       - if(to)
         | #{to.day}/#{to.month}/#{to.year}
 
