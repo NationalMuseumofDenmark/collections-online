@@ -1,36 +1,66 @@
+.gray-overlay {
+  background    : $topbar-color;
+  position      : absolute;
+  right         : 0;
+  top           : 0;
+  bottom        : 0;
+  left          : 0;
+  opacity       : 0;
+  z-index       : 9998;
+  text-align    : left;
+  pointer-events: none;
+  transition    : all $animation-default;
+}
+
+
+.categories-menu-open {
+  .gray-overlay {
+    opacity       : .8;
+    visibility    : visible;
+    pointer-events: all;
+    cursor        : pointer;
+  }
+
+
+  .categories-menu {
+    ul.dropdown-menu-right {
+      left      : 0;
+      box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
+    }
+  }
+}
+
+
 .categories-menu {
   ul.dropdown-menu-right {
+    z-index: 9999;
     clear     : both;
-    background: #000;
+    background: $topbar-color;
     display   : block;
-    height    : 100%;
-    left      : -280px;
+    left      : -$menu-width;
     height    : 100%;
     clear     : both;
     overflow-x: hidden;
     position  : fixed;
     top       : 0;
     bottom    : 0;
-    width     : 280px;
+    width     : $menu-width;
     box-sizing: content-box;
-    transition: all 400ms ease-in-out 0s;
+    box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
+    transition: all $animation-default;
 
+    > li:first-child {
+      margin-top: 10px;
+    }
 
     li > span {
       display    : flex;
       align-items: center;
     }
 
-
     ul li {
       margin-left: 15px;
     }
-
-
-    span.count {
-      color: $gray;
-    }
-
 
     a {
       display        : block;
@@ -40,7 +70,6 @@
       text-decoration: none;
       padding        : 10px 15px;
 
-
       &.col-xs-2 {
         @extend .text-center;
         padding: 10px 2px;
@@ -48,9 +77,16 @@
 
       &:hover,
       &:focus {
-        background-color: $gray;
+        background-color: $menu-highlight;
+        > span {
+          color: darken($gray,20%);
+        }
       }
 
+      > span {
+        color: $gray;
+        margin-left: 4px;
+      }
 
       svg {
         width : 12px;
@@ -60,47 +96,16 @@
       }
     }
 
-
-    .first-menu {
-      margin-top: 30px;
-    }
-
-
     li {
       /* This is needed, because an expanded li is otherwise placing itself
       ontop of the menu items above it. */
       overflow: hidden;
     }
-
-
-    li.expanded > span > a.expand-menu {
-      svg.plus-icon {
-        display: none;
-      }
-
-
-      svg.minus-icon {
-        display: inline;
-      }
-    }
-
-    li:not(.expanded) > span > a.expand-menu {
-      svg.plus-icon {
-        display: inline;
-      }
-
-
-      svg.minus-icon {
-        display: none;
-      }
-    }
   }
-
 
   .menu-hidden {
     display: none;
   }
-
 
   .menu-childern-last a {
     padding: 7px 25px;
@@ -111,11 +116,14 @@
 @media (pointer:coarse) {
   .categories-menu {
     ul.dropdown-menu-right {
-      a:hover, a:focus {
+      a:hover,
+      a:focus {
         background-color: transparent;
       }
+
+
       a {
-          -webkit-tap-highlight-color: rgba(255,255,255,0.3);
+        -webkit-tap-highlight-color: $menu-highlight;
       }
     }
   }

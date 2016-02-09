@@ -19,57 +19,9 @@ body {
   overflow-x: hidden; // Enable bleeds without horizontal scroll
   transition: margin 400ms ease-in-out 0s;
 
-
-  &.categories-menu-open {
-    // Menu toggle class
-    overflow    : hidden;
-    position    : fixed;
-    right       : 0;
-    left        : 0;
-    bottom      : 0;
-    top         : 0;
-    margin-left : 280px;
-    margin-right: -280px;
-
-
-    .gray-overlay {
-      display: block;
-    }
-
-
-    .categories-menu {
-      z-index: 9999;
-
-      ul.dropdown-menu-right {
-        // Menu list
-        z-index: 9999;
-        left   : 0;
-      }
-    }
-
-    .uv-popover,
-    .user-voice-feedback {
-      display: none; // Hide user vocie
-    }
-  }
-
   a {
     outline        : none !important;
     text-decoration: underline;
-  }
-
-
-  .gray-overlay {
-    display   : none;
-    background: $black;
-    bottom    : 0;
-    left      : 0;
-    opacity   : .5;
-    position  : absolute;
-    right     : 0;
-    top       : 0;
-    z-index   : 9998;
-    text-align: left;
   }
 }
 
@@ -77,6 +29,7 @@ body {
 .content section h1.page-header {
   font-size: 18px;
   color    : $brand-primary;
+
 
   a {
     text-decoration: underline !important;
@@ -135,24 +88,26 @@ p.description {
   }
 }
 
+// hide svg sprite
+.sprite {
+  display: none;
+}
 
 ul.categories {
+  display   : inline;
+  list-style: none;
+  padding   : 0;
+  margin    : 0;
   li:after {
     content: ' /';
   }
-
   li:last-child:after {
     content: '';
   }
-
   li {
     display      : inline;
     padding-right: 5px;
   }
-display   : inline;
-  list-style: none;
-  padding   : 0;
-  margin    : 0;
 }
 
 /* Infinte scroller */
@@ -212,11 +167,6 @@ display   : inline;
   }
 }
 
-.uv-popover {
-  margin-top: 25px !important;
-  position  : fixed !important;
-}
-
 @media screen and (max-width: 768px) {
   .form-group {
     width: 80% !important;
@@ -228,6 +178,7 @@ display   : inline;
   %pull-right {
     float: right !important;
   }
+
 
   body {
     // For category menu
@@ -241,6 +192,7 @@ display   : inline;
     }
   }
 
+
   .header {
     hgroup {
       .col-sm-4 {
@@ -248,6 +200,7 @@ display   : inline;
       }
     }
   }
+
 
   .bleed {
     margin-left : auto;
@@ -258,6 +211,7 @@ display   : inline;
   .item h1 {
     font-size: 31px;
   }
+
 
   .item h2 {
     font-size: 18px;

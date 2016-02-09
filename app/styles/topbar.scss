@@ -1,12 +1,16 @@
 $topbar-height: 80px;
 
 .topbar {
-  background-color: #333333;
+  background-color: $topbar-color;
 
   .topbar-items {
     display: flex;
     align-items: center;
     height: $topbar-height;
+  }
+
+  svg {
+    fill: white;
   }
 
   #heading-categories-menu,
@@ -17,8 +21,8 @@ $topbar-height: 80px;
   }
 
   #heading-categories-menu {
-    margin-left: 10px;
-    margin-right: 15px;
+    padding-left: 10px;
+    padding-right: 15px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -65,7 +69,6 @@ $topbar-height: 80px;
       @extend .btn;
       @extend .btn-primary;
       svg {
-        fill: white;
         width: 18px;
         height: 18px;
         margin: -3px;
