@@ -47,10 +47,10 @@ $(function() {
         $menu.html(data);
 
         // Expand menus
-        $('.categories-menu ul a.expand-menu').click(function(e) {
+        $('a.expand-menu').click(function(e) {
             e.preventDefault();
             var $toggleButton = $(e.currentTarget);
-            $toggleButton.next('ul').slideToggle(300, function() {
+            $toggleButton.parent().next('ul').slideToggle(300, function() {
                 // Update the icon on the toggle button
                 var expanded = $(this).is(':visible');
                 $toggleButton.closest('li').toggleClass('expanded', expanded);

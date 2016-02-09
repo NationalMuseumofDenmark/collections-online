@@ -1,0 +1,98 @@
+.categories-menu {
+  ul.dropdown-menu-right {
+    clear     : both;
+    background: #000;
+    display   : block;
+    height    : 100%;
+    left      : -280px;
+    height    : 100%;
+    clear     : both;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    position  : fixed;
+    top       : 0;
+    bottom    : 0;
+    width     : 280px;
+    box-sizing: content-box;
+    transition: all 400ms ease-in-out 0s;
+
+    li > span {
+      display    : flex;
+      align-items: center;
+    }
+
+    ul li {
+      margin-left: 15px;
+    }
+
+    span.count {
+      color: $gray;
+    }
+
+    a {
+      display        : block;
+      color          : $white;
+      font-size      : 13.5px;
+      line-height    : 20px;
+      text-decoration: none;
+      padding        : 10px 15px;
+
+      &.col-xs-2 {
+        @extend .text-center;
+        padding: 10px 2px;
+      }
+
+      &:hover,
+      &:focus {
+        background-color: $gray;
+      }
+
+      svg {
+        width : 12px;
+        height: 12px;
+        fill  : $white;
+        margin: 0 auto;
+      }
+    }
+
+    .first-menu {
+      margin-top: 30px;
+    }
+
+    li {
+      /* This is needed, because an expanded li is otherwise placing itself
+      ontop of the menu items above it. */
+      overflow: hidden;
+    }
+
+    li.expanded > span > a.expand-menu {
+      svg.plus-icon {
+        display: none;
+      }
+
+      svg.minus-icon {
+        display: inline;
+      }
+    }
+
+    li:not(.expanded) > span > a.expand-menu {
+      svg.plus-icon {
+        display: inline;
+      }
+
+      svg.minus-icon {
+        display: none;
+      }
+    }
+  }
+
+
+  .menu-hidden {
+    display: none;
+  }
+
+
+  .menu-childern-last a {
+    padding: 7px 25px;
+  }
+}

@@ -60,13 +60,14 @@ mixin sidebarmenu
 
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
-    li.row
+    li
       if category.children.length > 0
-        a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
-          span.count  (#{category.count})
-        a.col-xs-2.expand-menu(href='')
-          +icon('plus-2-icon')
-          +icon('minus-2-icon')
+        span
+          a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
+            span.count  (#{category.count})
+          a.col-xs-2.expand-menu(href='')
+            +icon('plus-2-icon')
+            +icon('minus-2-icon')
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)

@@ -1,16 +1,18 @@
 include mixins
 
 li
-  a.col-xs-12.first-menu.top-border(href='/') Alle samlinger
+  a.col-xs-12.first-menu(href='/') Alle samlinger
 
 each catalog in catalogs
   li
-    a.col-xs-10.top-border(href='/#{catalog.alias}') #{catalog.name}
-    a.col-xs-2.top-border.expand-menu(href='')
-      +icon('plus-2-icon')
-      +icon('minus-2-icon')
+    span
+      a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
+      if catalog.categoryRoot.children.length > 0
+        a.col-xs-2.expand-menu(href='')
+          +icon('plus-2-icon')
+          +icon('minus-2-icon')
     ul.nav.menu-hidden
       each category in catalog.categoryRoot.children
         +recursiveCategoryItem(catalog, category)
 li
-  a.col-xs-12.top-border(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online
+  a.col-xs-12(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online

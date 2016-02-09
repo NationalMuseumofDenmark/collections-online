@@ -22,6 +22,7 @@ body {
   // For category menu
   position: relative;
   overflow-x: hidden; // Enable bleeds without horizontal scroll
+  transition: margin 400ms ease-in-out 0s;
 
   &.categories-menu-open { // Menu toggle class
     overflow:hidden;
@@ -30,8 +31,8 @@ body {
     left:0;
     bottom:0;
     top:0;
-    padding-left:280px;
-    transition:all 400ms ease-in-out 0s;
+    margin-left: 280px;
+    margin-right: -280px;
 
     .gray-overlay {
       display:block;
