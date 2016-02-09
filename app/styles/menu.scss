@@ -96,3 +96,17 @@
     padding: 7px 25px;
   }
 }
+
+
+@media (pointer:coarse) {
+  .categories-menu {
+    ul.dropdown-menu-right {
+      a:hover, a:focus {
+        background-color: transparent;
+      }
+      a {
+          -webkit-tap-highlight-color: $gray;
+      }
+    }
+  }
+}
