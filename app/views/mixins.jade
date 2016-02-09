@@ -105,13 +105,15 @@ mixin icon(id)
     default
       span #{id} is not a valid icon ID
 
-mixin responsiveImage(title, item, sources)
-  img(src=sources.image, alt=title)
-
+mixin license()
   if(item.license)
-    var license = helpers.license_tag(item.license.id);
+    - var license = helpers.license_tag(item.license.id);
     if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
+
+mixin responsiveImage(title, item, sources)
+  img(src=sources.image, alt=title)
+  +license()
 
 mixin rotationImage(title, item, sources)
   picture(alt=title)
@@ -123,11 +125,7 @@ mixin rotationImage(title, item, sources)
     //[if IE 9]></video><![endif]
     a.Magic360(data-magic360-options=helpers.magic360_options(sources.image_rotation_set))
       img(src=sources.image, alt=title)
-
-  if(item.license)
-    var license = helpers.license_tag(item.license.id);
-    if(license)
-      a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
+  +license()
 
 mixin shareThisHTML()
   .btn-group.dropup
