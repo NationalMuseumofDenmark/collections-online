@@ -1,8 +1,12 @@
+'use strict';
+
 var resizeMap;
 var map;
 var streetView;
 var marker;
 var headingMarker;
+var google;
+var ga;
 var mapHeading = 0;
 
 (function($) {
@@ -16,35 +20,36 @@ var mapHeading = 0;
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(center);
-  }
+  };
 
   var showMap = function() {
-    if(!window.localStorage.getItem('geotagging-overlay-closed')) {
+    if (!window.localStorage.getItem('geotagging-overlay-closed')) {
       $('.geotagging .overlay').show();
     }
     $('.map-container').slideDown('slow', function() {
       // resize google map to match asset image on click and on window resize
-      $( window ).bind('resize', resizeMap).trigger('resize');
+      $(window).bind('resize', resizeMap).trigger('resize');
     });
   };
 
   var showError = function(msg) {
-    $error = $('<div class="alert alert-danger">');
+    var $error = $('<div class="alert alert-danger">');
     $error.text(msg);
     $('.geotagging').append($error);
     ga('send', 'event', GA_EVENT_CATEGORY, 'error', msg);
   };
 
   $('.call-to-action .btn').click(function() {
-    ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Via call-to-action');
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Show map',
+      'Via call-to-action');
     $(this).hide();
     showMap();
   });
 
-  $('.place .pencil-icon').click(function(){
+  $('.place .pencil-icon').click(function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Editing');
     $('html, body').animate({
-        scrollTop: $("#geotagging-anchor").offset().top - 100
+      scrollTop: $('#geotagging-anchor').offset().top - 100
     }, 400);
     showMap();
   });
@@ -53,7 +58,7 @@ var mapHeading = 0;
     ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
     $('.map-container').slideUp('slow', function() {
       $('.call-to-action .btn').show();
-      $( window ).unbind('resize', resizeMap);
+      $(window).unbind('resize', resizeMap);
     });
   });
 
@@ -68,15 +73,16 @@ var mapHeading = 0;
 
   $('.map-buttons .save-coordinates').click(function() {
     ga('send',
-       'event',
-       GA_EVENT_CATEGORY,
-       'Started saving',
-       streetView.getVisible() ? 'In street view' : 'Not in street view');
+      'event',
+      GA_EVENT_CATEGORY,
+      'Started saving',
+      streetView.getVisible() ? 'In street view' : 'Not in street view'
+    );
 
     $(this).addClass('disabled');
     $(this).text('Gemmer placering');
     $('.map-buttons .hide-map').hide();
-    $('.map-buttons .loader').css('display','inline-block');
+    $('.map-buttons .loader').css('display', 'inline-block');
     var data = {
       heading: mapHeading,
       latitude: marker.getPosition().lat(),
@@ -94,15 +100,15 @@ var mapHeading = 0;
       data: data,
       dataType: 'json',
       success: function(response) {
-        if(response.success) {
+        if (response.success) {
           ga('send',
-             'event',
-             GA_EVENT_CATEGORY,
-             'Saved', catalogAlias + '-' + itemId, {
-               hitCallback: function() {
-                 location.reload();
-               }
-             });
+            'event',
+            GA_EVENT_CATEGORY,
+            'Saved', catalogAlias + '-' + itemId, {
+              hitCallback: function() {
+                location.reload();
+              }
+            });
         } else {
           showError('Der skete en fejl - prøv igen');
         }
@@ -122,22 +128,24 @@ var mapHeading = 0;
 function initMap() {
   var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
   var address = $('#address').text();
-  var latitude  = $('.asset').data('latitude');
+  var latitude = $('.asset').data('latitude');
   var longitude = $('.asset').data('longitude');
-  var heading   = $('.asset').data('heading');
+  var heading = $('.asset').data('heading');
 
   map = new google.maps.Map(document.getElementById('geotagging-map'), {
     center: initialPosition,
     zoom: 16,
     styles: [{
-      featureType: "transit",
-      stylers: [{ visibility: "off" }]
+      featureType: 'transit',
+      stylers: [{
+        visibility: 'off'
+      }]
     }]
   });
 
   streetView = map.getStreetView();
   // https://developers.google.com/maps/documentation/javascript/controls
-  https://developers.google.com/maps/documentation/javascript/examples/streetview-controls
+  // https://developers.google.com/maps/documentation/javascript/examples/streetview-controls
   streetView.setOptions({
     zoomControl: false,
     disableDoubleClickZoom: false,
@@ -167,36 +175,54 @@ function initMap() {
   var searchBox = new google.maps.places.SearchBox(input);
   map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-  if(latitude && longitude) {
+  function calculateHeading() {
+    return google.maps.geometry.spherical.computeHeading(marker.getPosition(),
+      headingMarker.getPosition());
+  }
+
+  function recalculateLine() {
+    var tempPov = streetView.getPov();
+    tempPov.heading = mapHeading;
+
+    streetView.setPov(tempPov);
+    headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
+  }
+
+  if (latitude && longitude) {
     var latLng = new google.maps.LatLng(latitude, longitude);
     marker.setPosition(latLng);
     map.setCenter(latLng);
 
-    if(heading) {
+    if (heading) {
       mapHeading = heading;
-      headingLatLng = google.maps.geometry.spherical.computeOffset(latLng, 100, mapHeading);
+      var headingLatLng = google.maps.geometry.spherical.computeOffset(latLng,
+        100, mapHeading);
       headingMarker.setPosition(headingLatLng);
       recalculateLine();
     }
 
   } else if (address) {
-    geocoder = new google.maps.Geocoder();
+    var geocoder = new google.maps.Geocoder();
 
-    geocoder.geocode({ 'address': address }, function(results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-          var geocodeLocation = results[0].geometry.location;
-          var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(), geocodeLocation.lng());
+    geocoder.geocode({
+      'address': address
+    }, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        var geocodeLocation = results[0].geometry.location;
+        var geocodeLatLng = new google.maps.LatLng(geocodeLocation.lat(),
+          geocodeLocation.lng());
 
-          map.setCenter(geocodeLatLng);
-          resizeMap();
-        }
+        map.setCenter(geocodeLatLng);
+        resizeMap();
+      }
     });
   }
 
   map.addListener('click', function(event) {
     // Ensure that the relative distance between markers is the same on every zoom level
-    latIncrease = 100 * Math.pow(0.5, map.getZoom());
-    headingMarkerPosition = new google.maps.LatLng(event.latLng.lat() + latIncrease, event.latLng.lng());
+    var latIncrease = 100 * Math.pow(0.5, map.getZoom());
+    var headingMarkerPosition = new google.maps.LatLng(event.latLng.lat() +
+      latIncrease, event.latLng.lng());
 
     marker.setPosition(event.latLng);
     headingMarker.setPosition(headingMarkerPosition);
@@ -204,11 +230,11 @@ function initMap() {
     mapHeading = calculateHeading();
   });
 
-  streetView.addListener('pov_changed', function(e){
+  streetView.addListener('pov_changed', function() {
     mapHeading = this.getPov().heading;
   });
 
-  streetView.addListener('visible_changed', function(e) {
+  streetView.addListener('visible_changed', function() {
     marker.setVisible(!this.getVisible());
     headingMarker.setVisible(!this.getVisible());
 
@@ -216,40 +242,29 @@ function initMap() {
     $('.map-buttons .save-coordinates').toggle(!this.getVisible());
     $('.map-buttons .back-to-map').toggle(this.getVisible());
 
-    if(this.getPosition()) {
-      offset = google.maps.geometry.spherical.computeOffset(this.getPosition(), 100, mapHeading);
+    if (this.getPosition()) {
+      var offset = google.maps.geometry.spherical.computeOffset(this.getPosition(),
+        100, mapHeading);
       marker.setPosition(this.getPosition());
       headingMarker.setPosition(offset);
       recalculateLine();
     }
 
-    if(!this.getVisible() && this.getPosition()){
+    if (!this.getVisible() && this.getPosition()) {
       map.setZoom(16);
       map.setCenter(this.getPosition());
     }
   });
 
-  marker.addListener('drag', function(event) {
+  marker.addListener('drag', function() {
     mapHeading = calculateHeading();
     recalculateLine();
   });
 
-  headingMarker.addListener('drag', function(event) {
+  headingMarker.addListener('drag', function() {
     mapHeading = calculateHeading();
     recalculateLine();
   });
-
-  function calculateHeading() {
-    return google.maps.geometry.spherical.computeHeading(marker.getPosition(), headingMarker.getPosition());
-  }
-
-  function recalculateLine() {
-    tempPov = streetView.getPov();
-    tempPov.heading = mapHeading;
-
-    streetView.setPov(tempPov);
-    headingLine.setPath([marker.getPosition(), headingMarker.getPosition()]);
-  }
 
   map.addListener('bounds_changed', function() {
     searchBox.setBounds(map.getBounds());
@@ -258,7 +273,7 @@ function initMap() {
   searchBox.addListener('places_changed', function() {
     var places = searchBox.getPlaces();
 
-    if (places.length == 0) {
+    if (places.length === 0) {
       return;
     }
     // For each place, get the icon, name and location.
