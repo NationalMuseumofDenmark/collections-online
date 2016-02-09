@@ -41,7 +41,6 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['newer:jshint:all'],
                 options: {
                     livereload: true
                 }
@@ -71,29 +70,12 @@ module.exports = function (grunt) {
                     'server.js',
                     'lib/**/*.{js,json}'
                 ],
-                tasks: ['newer:jshint:server', 'express:dev', 'wait'],
+          tasks: ['express:dev', 'wait'],
                 options: {
                     livereload: true,
                     nospawn: true //Without this option specified express won't be reloaded
                 }
             }
-        },
-
-        // Make sure code styles are up to par and there are no obvious mistakes
-        jshint: {
-            options: {
-                jshintrc: '.jshintrc',
-                reporter: require('jshint-stylish')
-            },
-            server: {
-                options: {
-                    jshintrc: 'lib/.jshintrc'
-                },
-                src: [ 'lib/{,*/}*.js']
-            },
-            all: [
-                '<%= yeoman.app %>/scripts/{,*/}*.js'
-            ],
         },
 
         // Empties folders to start fresh
