@@ -248,14 +248,35 @@ module.exports = function (grunt) {
             }
         },
 
-        htmlmin: {
-            dist: {
+      svg_sprite: {
                 options: {
-                    //collapseWhitespace: true,
-                    //collapseBooleanAttributes: true,
-                    //removeCommentsFromCDATA: true,
-                    //removeOptionalTags: true
+          mode: {
+            symbol: {
+              sprite: 'sprite.svg'
+            }
+          },
+          shape: {
+            id: { // SVG shape ID related options
+              generator: function(name) {
+                // remove extension
+                name = name.substring(0, name.indexOf('.'));
+                // remove folder tree
+                name = name.split('/').pop();
+                // e.g. icon-download
+                return 'icon-' + name;
+            }
+          }
+        }
                 },
+      dist: {
+        expand: true,
+        src: ['<%= yeoman.app %>/images/icons/*.svg'],
+        dest: '.tmp/images',
+      }
+    },
+
+    htmlmin: {
+      dist: {
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.app %>/views',
@@ -341,12 +362,11 @@ module.exports = function (grunt) {
                     cwd: '<%= yeoman.app %>/includes',
                     dest: '<%= yeoman.dist %>/includes',
                     src: '**/*.jade'
-                },
-                {
+        }, {
                     expand: true,
                     cwd: '.tmp/images',
                     dest: '<%= yeoman.dist %>/public/images',
-                    src: ['generated/*']
+          src: ['generated/*', 'symbol/sprite.svg']
                 }, {
                     expand: true,
                     dest: '<%= yeoman.dist %>',
@@ -456,6 +476,7 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+    'svg_sprite:dist',
             'copy:temp',
             'sass',
             'wiredep',
