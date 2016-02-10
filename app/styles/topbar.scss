@@ -1,96 +1,125 @@
 $topbar-height: 80px;
 
+
 .topbar {
   background-color: $topbar-color;
 
+
   .topbar-items {
-    display: flex;
+    display    : flex;
     align-items: center;
-    height: $topbar-height;
+    height     : $topbar-height;
   }
+
 
   svg {
     fill: white;
   }
 
+
   #heading-categories-menu,
-  .seperator,
-  .logo,
-  .logo-text {
+  .logo-wrap {
     flex-shrink: 0;
   }
 
+
   #heading-categories-menu {
-    padding-left: 10px;
-    padding-right: 2px;
-    height: 100%;
-    display: flex;
-    align-items: center;
+    padding-left   : 10px;
+    padding-right  : 2px;
+    height         : 100%;
+    display        : flex;
+    align-items    : center;
     text-decoration: none;
+
     svg {
       height: 25px;
-      width: 25px;
+      width : 25px;
     }
+
 
     .catalog-name {
       font-size: 20px;
-      color: $white;
-      margin: 0 0 0 15px;
+      color    : $white;
+      margin   : 0 0 0 15px;
     }
   }
+
+
+  .logo-wrap {
+    display        : flex;
+    align-items    : center;
+    text-decoration: none;
+  }
+
+
+  .logo-text,
+  .logo {
+    display: inline-block;
+  }
+
 
   .logo-text {
-    float: right;
-    color: $white;
+    color       : $white;
     margin-right: 10px;
+
     span {
-      display:block;
+      display: block;
     }
   }
+
 
   .logo {
-    float: right;
-    margin-left: auto;
     margin-right: 10px;
+
     svg {
       vertical-align: middle;
-      width: 40px;
-      height: 40px;
+      width         : 40px;
+      height        : 40px;
     }
 
   }
+
 
   .search-box {
     flex-grow: 1;
-    position: relative;
-    margin: 0 10px;
+    position : relative;
+    margin   : 0 10px;
+
 
     .btn-search {
       @extend .btn;
       @extend .btn-primary;
+
       svg {
-        width: 18px;
+        width : 18px;
         height: 18px;
         margin: -3px;
       }
     }
 
-    .btn, .form-control {
-      height: $input-height-base + 2;
-      border: 0;
+
+    .btn,
+    .form-control {
+      height       : $input-height-base + 2;
+      border       : 0;
       border-radius: 0;
-      &:focus, &:active, &:focus {
+
+      &:focus,
+      &:active,
+      &:focus {
         box-shadow: none;
-        outline: none;
+        outline   : none;
       }
     }
 
+
     #search-input {
-      border: 0;
+      border       : 0;
       border-radius: 0;
     }
 
-    #search-input::placeholder { /* Standard one last! */
+    #search-input::placeholder {
+      /* Standard one last! */
       color: #999;
     }
   }
