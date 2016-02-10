@@ -47,6 +47,7 @@ mixin searchMeta(results, catalog, breadcrumbs)
 mixin meta(title,socialTitle,image,description)
   - siteTitle = req.app.get('site_title')
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
+  - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
   - twitter = '@Nationalmuseet'
   - twitterCard = 'summary_large_image'
@@ -69,9 +70,9 @@ mixin meta(title,socialTitle,image,description)
     - description += ', hvor du finder mange former for kulturhistoriske fotos.'
   
   if image
-    - image = baseUrl + image
+    - image = unsafeBaseUrl + image
   else
-    - image = baseUrl + '/images/defaultshare.jpg'
+    - image = unsafeBaseUrl + '/images/defaultshare.jpg'
   
   title #{title}
   meta(name='description', content='#{description}')
