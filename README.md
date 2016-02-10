@@ -22,6 +22,7 @@ The solution is built by [Headnet ApS](http://www.headnet.dk). Licensed under
 First ensure that you have a running version of node.js (~0.10.20) and also [npm](https://www.npmjs.org/),
 [bower](http://bower.io/) and [grunt](http://gruntjs.com/) installed. Also, download and unzip
 [elasticsearch](http://www.elasticsearch.org/).
+If you're on a mac it's easiest to install elasticsearch using homebrew which installs to `/usr/local/Cellar/elasticsearch/`
 
 Then run the following commands to fetch the code and the required resources:
 
