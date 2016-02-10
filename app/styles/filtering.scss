@@ -1,33 +1,35 @@
 .filtering {
-  padding: 20px 15px 10px 15px;
+  padding         : 20px 15px 10px 15px;
   background-color: #525252;
-
   .filter-geotags {
     p {
-      color: white;
-      font-size: 14px;
+      color      : white;
+      font-size  : 14px;
       font-weight: bold;
     }
 
+
     .buttons {
-      display: flex;
+      display  : flex;
       flex-wrap: wrap;
 
+
       button {
-        font-weight: normal;
-        margin-right: 7px;
+        font-weight     : normal;
+        margin-right    : 7px;
         background-color: #C4C0C1;
 
-        &:hover, &.active {
+        &:hover,
+        &.active {
           background-color: #333333;
-          color: white;
+          color           : white;
         }
       }
     }
   }
 }
 
-@media (max-width: 767px) {
+@media (max-width: $large-size) {
   .filtering {
     margin-left: -15px;
     margin-right: -15px;

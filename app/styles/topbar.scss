@@ -95,16 +95,3 @@ $topbar-height: 80px;
     }
   }
 }
-
-// Responsive stuff
-@media (min-width: $small-size) {
-  .topbar .container {
-    padding: 0;
-  }
-}
-
-@media (min-width: $medium-size) {
-  .topbar .container {
-    padding: 0 15px;
-  }
-}
