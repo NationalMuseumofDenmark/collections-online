@@ -17,6 +17,76 @@ mixin head
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0')
 
+mixin assetMeta(item, sources)
+  if item.short_title 
+    - title = item.short_title 
+  else 
+    - title = 'Ingen titel'
+  if item.description 
+    - description = item.description
+  if sources.image
+    - image = sources.image
+    
+  +meta(title,socialTitle,image,description)
+  
+mixin searchMeta(results, catalog, breadcrumbs)  
+  if results.is_search
+    - title = filters.freetext
+    - socialTitle = 'Søgning på "' + title + '"'
+    
+  if results.is_category
+    if breadcrumbs
+      - title = breadcrumbs.last.name
+    else 
+      - title = catalog.name
+  if results.is_catalog
+    - title = catalog.name
+
+  +meta(title,socialTitle)
+  
+mixin meta(title,socialTitle,image,description)
+  - siteTitle = req.app.get('site_title')
+  - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
+  - pageUrl = baseUrl + req.originalUrl
+  - twitter = '@Nationalmuseet'
+  - twitterCard = 'summary_large_image'
+  - facebook = 'nationalmuseet'
+  - facebookType = 'website'
+  - youtube = 'natmusdk'
+
+  if title 
+    - title += ' - ' + siteTitle
+  else
+    - title = siteTitle
+
+  if socialTitle
+    - socialTitle += ' - ' + siteTitle
+  else
+    - socialTitle = title
+
+  if !description
+    - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
+    - description += ', hvor du finder mange former for kulturhistoriske fotos'
+  
+  if image
+    - image = baseUrl + image
+  else
+    - image = baseUrl + '/images/defaultshare.jpg'
+  
+  title #{title}
+  meta(name='description', content='#{description}')
+  meta(name='twitter:card', content='#{twitterCard}')
+  meta(name='twitter:site', content='#{twitter}')
+  meta(name='twitter:title', content='#{socialTitle}')
+  meta(name='twitter:description', content='#{description}')
+  meta(name='twitter:image', content='#{image}')
+  meta(property='og:title', content='#{socialTitle}')
+  meta(property='og:type', content='#{facebookType}')
+  meta(property='og:url', content='#{pageUrl}')
+  meta(property='og:image', content='#{image}')
+  meta(property='og:description', content='#{description}')
+  meta(property='og:site_name', content='#{title}')
+
 mixin sidebarmenu
   nav.categories-menu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
@@ -175,74 +245,6 @@ mixin addPlace(item, alias)
     a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
   else
     | -
-
-mixin assetMeta(item)
-  if item.short_title 
-    - title = item.short_title 
-  else 
-    - title = 'Ingen titel'
-  if item.description 
-    - description = item.description
-  //- if item.assets.primary.src
-  //-   - image = item.assets.primary.src
-    
-  +meta(title,socialTitle,image,description)
-  
-mixin searchMeta(results, catalog, breadcrumbs)  
-  if results.is_search
-    - title = filters.freetext
-    - socialTitle = 'Søgning på "' + title + '"'
-    
-  if results.is_category
-    if breadcrumbs
-      - title = breadcrumbs.last.name
-    else 
-      - title = catalog.name
-  if results.is_catalog
-    - title = catalog.name
-
-  +meta(title,socialTitle)
-  
-mixin meta(title,socialTitle,image,description)
-  - siteTitle = req.app.get('site_title')
-  - baseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
-  - pageUrl = 'https://' + baseUrl + req.originalUrl
-  - twitter = '@Nationalmuseet'
-  - twitterCard = 'summary_large_image'
-  - facebook = 'nationalmuseet'
-  - facebookType = 'website'
-  - youtube = 'natmusdk'
-
-  if title 
-    - title += ' - ' + siteTitle
-  else
-    - title = siteTitle
-
-  if socialTitle
-    - socialTitle += ' - ' + siteTitle
-  else
-    - socialTitle = title
-
-  if !description
-    - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
-    - description += ', hvor du finder mange former for kulturhistoriske fotos'
-  
-  if !image
-    - image = baseUrl + '/images/defaultshare.jpg'
-  
-  title #{title}
-  meta(name='description', content='#{description}')
-  meta(name='twitter:card', content='#{twitterCard}')
-  meta(name='twitter:site', content='#{twitter}')
-  meta(name='twitter:title', content='#{socialTitle}')
-  meta(name='twitter:description', content='#{description}')
-  meta(name='twitter:image', content='#{image}')
-  meta(property='og:title', content='#{socialTitle}')
-  meta(property='og:type', content='#{facebookType}')
-  meta(property='og:url', content='#{pageUrl}')
-  meta(property='og:image', content='#{image}')
-  meta(property='og:description', content='#{description}')
-  meta(property='og:site_name', content='#{title}')
 
 mixin searchResultAsset(asset)
   div(class='col-lg-3 box')
