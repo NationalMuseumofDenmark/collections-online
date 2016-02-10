@@ -1,13 +1,7 @@
 extends index
 
 append header
-  - siteTitle = req.app.get('site_title');
-  if item.short_title
-    title= item.short_title + ' - ' + siteTitle
-  else
-    title= 'Ingen titel - ' + siteTitle
-
-  +assetMeta(item, sources)
+  +assetMeta(item)
   +shareThisJS()
 
 append javascript
