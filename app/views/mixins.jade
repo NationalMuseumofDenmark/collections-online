@@ -21,6 +21,9 @@ mixin sidebarmenu
   nav.categories-menu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
   .gray-overlay
+  
+mixin searchCount
+  span.search-count  #{results.total_results} poster
 
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0

@@ -1,18 +1,18 @@
-.filtering
-  .filter-catalogs
-  form.filter-geotags
-    if filters.freetext
-      input(type='hidden', name='q', value=filters.freetext)
-    if filters.params.category
-      input(type='hidden', name='cat', value=filters.params.category)
-    p Filtrering på geografisk placering:
-    .buttons
-      button.btn(class=filters.params.geotagged===null ? 'active' : null) Alle
-      button.btn(
-        class=filters.params.geotagged===true ? 'active' : null,
-        name='geotagged',
-        value='true') Har placering
-      button.btn(
-        class=filters.params.geotagged===false ? 'active' : null,
-        name='geotagged',
-        value='false') Mangler placering
+.container-fluid
+  .filtering
+    form.filter-geotags
+      if filters.freetext
+        input(type='hidden', name='q', value=filters.freetext)
+      if filters.params.category
+        input(type='hidden', name='cat', value=filters.params.category)
+      p Filtrering på geografisk placering:
+      .buttons
+        button.btn(class=filters.params.geotagged===null ? 'active' : null) Alle
+        button.btn(
+          class=filters.params.geotagged===true ? 'active' : null,
+          name='geotagged',
+          value='true') Har placering
+        button.btn(
+          class=filters.params.geotagged===false ? 'active' : null,
+          name='geotagged',
+          value='false') Mangler placering

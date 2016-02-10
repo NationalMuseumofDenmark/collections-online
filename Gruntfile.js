@@ -1,6 +1,8 @@
 // Generated on 2014-05-05 using generator-angular-fullstack 1.4.2
 'use strict';
 
+var path = require('path');
+
 module.exports = function(grunt) {
   // Load grunt tasks automatically
   require('load-grunt-tasks')(grunt);
@@ -232,7 +234,7 @@ module.exports = function(grunt) {
                 // remove extension
                 name = name.substring(0, name.indexOf('.'));
                 // remove folder tree
-                name = name.split('/').pop();
+                name = name.split(path.sep).pop();
                 // e.g. icon-download
                 return 'icon-' + name;
             }

@@ -7,7 +7,7 @@ each catalog in catalogs
   li
     span
       a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
-      if catalog.categoryRoot.children.length > 0
+      if catalog.count > 0
         a.col-xs-2.expand-menu(href='')
           +icon('icon-plus-minus')
     ul.nav.menu-hidden

@@ -14,6 +14,12 @@
 
 
 .categories-menu-open {
+  position: fixed;
+  top     : 0;
+  left    : 0;
+  right   : 0;
+
+
   .gray-overlay {
     opacity       : .8;
     visibility    : visible;
@@ -22,94 +28,96 @@
   }
 
 
-  .categories-menu {
-    ul.dropdown-menu-right {
-      left      : 0;
-      box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
-    }
+  ul.dropdown-menu-right {
+    right     : 0;
+    box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
   }
 }
 
 
-.categories-menu {
-  ul.dropdown-menu-right {
-    z-index: 9999;
-    clear     : both;
-    background: $topbar-color;
-    display   : block;
-    left      : -$menu-width;
-    height    : 100%;
-    clear     : both;
-    overflow-x: hidden;
-    position  : fixed;
-    top       : 0;
-    bottom    : 0;
-    width     : $menu-width;
-    box-sizing: content-box;
-    box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
-    transition: all $animation-default;
+ul.dropdown-menu-right {
+  position  : fixed;
+  top       : 0;
+  right     : -$menu-width;
+  z-index   : 9999;
+  width     : $menu-width;
+  height    : 100%;
+  overflow-y: auto;
+  box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
+  background: $topbar-color;
+  transition: all $animation-default;
 
-    > li:first-child {
-      margin-top: 10px;
+  > li:first-child {
+    margin-top: 10px;
+  }
+
+
+  li > span {
+    display    : flex;
+    align-items: center;
+  }
+
+
+  ul li {
+    margin-left: 15px;
+  }
+
+
+  a {
+    display        : block;
+    color          : $white;
+    font-size      : 13.5px;
+    line-height    : 20px;
+    text-decoration: none;
+    padding        : 10px 15px;
+
+
+    &.col-xs-2 {
+      @extend .text-center;
+      padding: 10px 2px;
     }
 
-    li > span {
-      display    : flex;
-      align-items: center;
-    }
+    &:hover,
+    &:focus {
+      background-color: $menu-highlight;
 
-    ul li {
-      margin-left: 15px;
-    }
-
-    a {
-      display        : block;
-      color          : $white;
-      font-size      : 13.5px;
-      line-height    : 20px;
-      text-decoration: none;
-      padding        : 10px 15px;
-
-      &.col-xs-2 {
-        @extend .text-center;
-        padding: 10px 2px;
-      }
-
-      &:hover,
-      &:focus {
-        background-color: $menu-highlight;
-        > span {
-          color: darken($gray,20%);
-        }
-      }
 
       > span {
-        color: $gray;
-        margin-left: 4px;
-      }
-
-      svg {
-        width : 12px;
-        height: 12px;
-        fill  : $white;
-        margin: 0 auto;
+        color: darken($gray,20%);
       }
     }
 
-    li {
-      /* This is needed, because an expanded li is otherwise placing itself
+
+    > span {
+      color      : $gray;
+      margin-left: 4px;
+    }
+
+
+    svg {
+      width : 12px;
+      height: 12px;
+      fill  : $white;
+      margin: 0 auto;
+    }
+  }
+
+
+  li {
+    /* This is needed, because an expanded li is otherwise placing itself
       ontop of the menu items above it. */
-      overflow: hidden;
-    }
+    overflow: hidden;
   }
+}
 
-  .menu-hidden {
-    display: none;
-  }
 
-  .menu-childern-last a {
-    padding: 7px 25px;
-  }
+.menu-hidden {
+  display: none;
+}
+
+
+.menu-childern-last a {
+  padding: 7px 25px;
 }
 
 
@@ -119,6 +127,11 @@
       a:hover,
       a:focus {
         background-color: transparent;
+
+
+        > span {
+          color: inherit;
+        }
       }
 
 

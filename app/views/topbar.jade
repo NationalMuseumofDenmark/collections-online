@@ -1,15 +1,13 @@
 header.topbar
-  .container
+  .container-fluid
     nav
       .topbar-items
-        a(href='#')#heading-categories-menu
-          span.sr-only Kataloger og kategorier
-          +icon('icon-menu')
-          .catalog-name.hidden-xs
-            if(catalog)
-              = catalog.name
-            else
-              | Samlinger Online
+        a.logo-wrap(href='/')
+          .logo
+            +icon('icon-logo')
+          .logo-text.hidden-sm.hidden-xs
+            span Nationalmuseets
+            span Samlinger Online
         - var path = (req.path).split('/')
         form.search-box(method='get', action='/')
           .input-group
@@ -24,9 +22,6 @@ header.topbar
               button.btn-search
                 span.sr-only Søg
                 +icon('icon-search')
-        .logo-text.hidden-xs
-          span Nationalmuseets
-          span Samlinger Online
-        .logo
-          a(href='/')
-            +icon('icon-logo')
+        a(href='#')#heading-categories-menu
+          span.sr-only Kataloger og kategorier
+          +icon('icon-menu')
