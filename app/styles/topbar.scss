@@ -22,7 +22,7 @@ $topbar-height: 80px;
 
   #heading-categories-menu {
     padding-left: 10px;
-    padding-right: 15px;
+    padding-right: 2px;
     height: 100%;
     display: flex;
     align-items: center;
@@ -63,7 +63,7 @@ $topbar-height: 80px;
   .search-box {
     flex-grow: 1;
     position: relative;
-    margin-right: 15px;
+    margin: 0 10px;
 
     .btn-search {
       @extend .btn;
@@ -96,9 +96,15 @@ $topbar-height: 80px;
   }
 }
 
-@media (max-width: 767px) {
-  nav {
-    margin-left: -15px;
-    margin-right: -15px;
+// Responsive stuff
+@media (min-width: $small-size) {
+  .topbar .container {
+    padding: 0;
+  }
+}
+
+@media (min-width: $medium-size) {
+  .topbar .container {
+    padding: 0 15px;
   }
 }
