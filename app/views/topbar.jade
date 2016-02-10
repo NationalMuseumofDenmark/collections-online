@@ -2,12 +2,12 @@ header.topbar
   .container-fluid
     nav
       .topbar-items
-        .logo
-          a(href='/')
+        a.logo-wrap(href='/')
+          .logo
             +icon('icon-logo')
-        .logo-text.hidden-sm.hidden-xs
-          span Nationalmuseets
-          span Samlinger Online
+          .logo-text.hidden-sm.hidden-xs
+            span Nationalmuseets
+            span Samlinger Online
         - var path = (req.path).split('/')
         form.search-box(method='get', action='/')
           .input-group
