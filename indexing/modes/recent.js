@@ -11,9 +11,9 @@ function recent(state) {
 	if(state.reference) {
 		timeDelta = state.reference;
 	} else {
-		timeDelta = '1d';
+		timeDelta = '10m';
 	}
-	return all(state, '$today-'+timeDelta);
+	return all(state, '$now-'+timeDelta);
 }
 
 module.exports = recent;
