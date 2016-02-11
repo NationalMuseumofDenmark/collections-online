@@ -1,5 +1,5 @@
 .gray-overlay {
-  background    : $topbar-color;
+  background    : rgba($topbar-color, 0.5);
   position      : absolute;
   right         : 0;
   top           : 0;
@@ -9,7 +9,7 @@
   z-index       : 9998;
   text-align    : left;
   pointer-events: none;
-  transition    : all $animation-default;
+  transition    : opacity $animation-default;
 }
 
 
@@ -20,9 +20,15 @@
   right   : 0;
 
 
+  .topbar, .content, footer {
+    filter:url(#blur);
+    filter:blur(2px);
+  }
+
+
   .gray-overlay {
-    opacity       : .8;
-    visibility    : visible;
+    opacity       : 1;
+    // box-shadow    : inset 0 0 5px black;
     pointer-events: all;
     cursor        : pointer;
   }

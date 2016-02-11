@@ -1,8 +1,7 @@
-$topbar-height: 80px;
-
-
 .topbar {
   background-color: $topbar-color;
+  margin          : -5px -5px 0;
+  padding-top     : 5px;
 
 
   .topbar-items {
@@ -30,6 +29,7 @@ $topbar-height: 80px;
     display        : flex;
     align-items    : center;
     text-decoration: none;
+
 
     svg {
       height: 25px;
@@ -62,6 +62,7 @@ $topbar-height: 80px;
     color       : $white;
     margin-right: 10px;
 
+
     span {
       display: block;
     }
@@ -70,6 +71,7 @@ $topbar-height: 80px;
 
   .logo {
     margin-right: 10px;
+
 
     svg {
       vertical-align: middle;
@@ -89,6 +91,7 @@ $topbar-height: 80px;
     .btn-search {
       @extend .btn;
       @extend .btn-primary;
+
 
       svg {
         width : 18px;

@@ -88,10 +88,16 @@ mixin meta(title,socialTitle,image,description)
   meta(property='og:description', content='#{description}')
   meta(property='og:site_name', content='#{title}')
 
-mixin sidebarmenu
+mixin sidebarMenu
   nav.categories-menu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
   .gray-overlay
+  
+mixin svgFilter
+  svg.sprite
+    defs
+      filter#blur
+        fegaussianblur(stddeviation='2')
   
 mixin searchCount
   span.search-count  #{results.total_results} poster
@@ -115,7 +121,7 @@ mixin recursiveCategoryItem(catalog, category)
 mixin footer
   footer
     .footer
-      .container
+      .container-fluid
         .row
           h4.footer-title Om Nationalmuseets Samlinger Online
           address.col-xs-12
