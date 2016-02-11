@@ -17,6 +17,77 @@ mixin head
   meta(http-equiv='X-UA-Compatible', content='IE=edge')
   meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0')
 
+mixin assetMeta(item, sources)
+  if item.short_title 
+    - title = item.short_title 
+  else 
+    - title = 'Ingen titel'
+  if item.description 
+    - description = item.description
+  if sources.image
+    - image = sources.image
+    
+  +meta(title,socialTitle,image,description)
+  
+mixin searchMeta(results, catalog, breadcrumbs)  
+  if results.is_search
+    - title = filters.freetext
+    - socialTitle = 'Søgning på "' + title + '"'
+    
+  if results.is_category
+    if breadcrumbs
+      - title = breadcrumbs.last.name
+    else 
+      - title = catalog.name
+  if results.is_catalog
+    - title = catalog.name
+
+  +meta(title,socialTitle)
+  
+mixin meta(title,socialTitle,image,description)
+  - siteTitle = req.app.get('site_title')
+  - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
+  - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
+  - pageUrl = baseUrl + req.originalUrl
+  - twitter = '@Nationalmuseet'
+  - twitterCard = 'summary_large_image'
+  - facebook = 'nationalmuseet'
+  - facebookType = 'website'
+  - youtube = 'natmusdk'
+
+  if title 
+    - title += ' - ' + siteTitle
+  else
+    - title = siteTitle
+
+  if socialTitle
+    - socialTitle += ' - ' + siteTitle
+  else
+    - socialTitle = title
+
+  if !description
+    - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
+    - description += ', hvor du finder mange former for kulturhistoriske fotos.'
+  
+  if image
+    - image = unsafeBaseUrl + image
+  else
+    - image = unsafeBaseUrl + '/images/defaultshare.jpg'
+  
+  title #{title}
+  meta(name='description', content='#{description}')
+  meta(name='twitter:card', content='#{twitterCard}')
+  meta(name='twitter:site', content='#{twitter}')
+  meta(name='twitter:title', content='#{socialTitle}')
+  meta(name='twitter:description', content='#{description}')
+  meta(name='twitter:image', content='#{image}')
+  meta(property='og:title', content='#{socialTitle}')
+  meta(property='og:type', content='#{facebookType}')
+  meta(property='og:url', content='#{pageUrl}')
+  meta(property='og:image', content='#{image}')
+  meta(property='og:description', content='#{description}')
+  meta(property='og:site_name', content='#{title}')
+
 mixin sidebarmenu
   nav.categories-menu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
@@ -175,66 +246,6 @@ mixin addPlace(item, alias)
     a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
   else
     | -
-
-mixin searchMeta(results, catalog, breadcrumbs)
-  - siteTitle = req.app.get('site_title');
-  - baseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'));
-  if results.is_search
-    - title= 'Søgning på "' + filters.freetext +   '" (' + results.total_results + ' poster) - ' + siteTitle
-    title #{title}
-    meta(property="og:title", content="#{title}")
-    meta(itemprop="name", content="#{title}")
-    meta(name="twitter:title", content="#{title}")
-    meta(property="og:url", content="#{baseUrl}/?q=#{freetext}")
-  if results.is_front
-    title Nationalmuseets Samlinger Online (#{results.total_results} poster) - #{siteTitle}
-    meta(property="og:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
-    meta(itemprop="name", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
-    meta(name="twitter:title", content="Søg og udforsk Nationalmuseets Samlinger i alt #{results.total_results} poster - " + siteTitle)
-    meta(property="og:url", content="#{baseUrl}")
-
-  if results.is_category
-    if breadcrumbs
-      if breadcrumbs.second
-        title #{catalog.name} &gt; #{breadcrumbs.first.name} &gt; #{breadcrumbs.second.name} (#{results.total_results} poster) - #{siteTitle}
-        - title= catalog.name + " > " + breadcrumbs.first.name + " > " + breadcrumbs.second.name + " (" + results.total_results + " poster) > " + " - " + siteTitle
-        meta(property="og:title", content="#{title}")
-        meta(itemprop="name", content="#{title}")
-        meta(name="twitter:title", content="#{title}")
-        meta(property="og:url", content="#{baseUrl}/#{catalog.alias}?cat=#{breadcrumbs.second.id}")
-      else
-        title #{catalog.name} &gt; #{breadcrumbs.first.name} (#{results.total_results} poster) - #{siteTitle}
-        - title= catalog.name + " > " + breadcrumbs.first.name + " (" + results.total_results + " poster) " + " - " + siteTitle
-        meta(property="og:title", content="#{title}")
-        meta(itemprop="name", content="#{title}")
-        meta(name="twitter:title", content="#{title}")
-        meta(property="og:url", content="#{baseUrl}/#{catalog.alias}?cat=#{breadcrumbs.first.id}")
-    else
-      title #{catalog.name} &gt; Ingen titel - #{siteTitle}
-      meta(property="og:title", content="Ingen titel - #{catalog.name}")
-      meta(itemprop="name", content="Ingen titel - #{catalog.name}")
-      meta(name="twitter:title", content="Ingen titel - #{catalog.name}")
-
-
-  if results.is_catalog
-    title #{catalog.name} (#{results.total_results} poster) - #{siteTitle}
-    meta(property="og:title", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(itemprop="name", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(name="twitter:title", content="#{catalog.name} (#{results.total_results} poster) - #{siteTitle}")
-    meta(property="og:url", content="#{baseUrl}/#{catalog.alias}")
-
-  //- Default for all search pages
-  meta(property="og:type", content="website")
-  meta(property="og:site_name", content=siteTitle)
-  meta(property="og:image", content="#{baseUrl}/images/defaultshare.jpg")
-  meta(itemprop="image", content="#{baseUrl}/images/defaultshare.jpg")
-  meta(name="twitter:card",content="summary")
-  meta(name="twitter:site", content="@Nationalmuseet")
-  meta(name="twitter:creator", content="@Nationalmuseet")
-  meta(name="twitter:url", content="https://twitter.com/Nationalmuseet")
-
-mixin assetMeta(item, sources)
-  // Nothing
 
 mixin searchResultAsset(asset)
   div(class='col-lg-3 box')
