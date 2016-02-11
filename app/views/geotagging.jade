@@ -10,15 +10,15 @@ div.geotagging#geotagging
     div#geotagging-map.closed
     input#pac-input.controls(type="text", placeholder="Søg efter adresse")
     div.map-buttons
-      div.btn.hide-map
+      div.btn.btn-primary.hide-map
         | Annuller
-      div.btn.save-coordinates
+      div.btn.btn-primary.save-coordinates
         | Gem placering
       div.loader
         svg.circular(viewbox='25 25 50 50')
           circle.path(cx='50', cy='50', r='20', fill='none', stroke-width='6', stroke-miterlimit='10')
-      div.btn.back-to-map
-        | Tilbage til kortet
+    div.map-buttons.btn.btn-primary.back-to-map
+      | Tilbage til kortvisning
   if(showCallToAction)
     div.call-to-action
       div.btn.btn-primary
