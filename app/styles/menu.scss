@@ -13,17 +13,6 @@
 }
 
 
-.container-fluid,
-.slides li img,
-.flex-direction-nav {
-  filter:blur(0px);
-}
-.topbar {
-  box-shadow: 0 0 0 $topbar-color;
-  transition: $animation-default;
-}
-
-
 .categories-menu-open {
   position: fixed;
   top     : 0;
@@ -31,16 +20,9 @@
   right   : 0;
 
 
-  .container-fluid,
-  .slides li img,
-  .flex-direction-nav {
+  .topbar, .content, footer {
     filter:url(#blur);
     filter:blur(2px);
-  }
-
-
-  .topbar {
-    box-shadow   : 0 4px 4px $topbar-color;
   }
 
 
