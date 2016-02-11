@@ -31,8 +31,9 @@ body {
 
 /* Boostrap style modifications */
 .content section h1.page-header {
-  font-size: 18px;
-  color    : $brand-primary;
+  font-size    : 18px;
+  color        : $brand-primary;
+  border-bottom: none;
 
 
   a {
@@ -86,9 +87,18 @@ p.description {
 
 
 .btn {
+  border: 0;
+
   svg {
     vertical-align: middle;
     margin        : 0 .2em;
+  }
+
+  &.btn-primary {
+    &:hover,
+    &:focus {
+      background-color: lighten($brand-primary, 5%);
+    }
   }
 }
 
