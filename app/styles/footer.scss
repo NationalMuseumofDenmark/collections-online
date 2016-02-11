@@ -1,10 +1,14 @@
+footer {
+  margin: 0 -5px -5px;
+  padding: 0 5px 5px;
+  background: $black;
+}
 .footer {
   .footer-title {
     font-size: 18px;
   }
   @extend .text-center;
   padding: 15px;
-  background: $black;
   color: $white;
   border-top: 1px solid $gray-lighter;
   address {

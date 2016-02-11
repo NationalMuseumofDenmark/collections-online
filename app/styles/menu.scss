@@ -20,7 +20,7 @@
   right   : 0;
 
 
-  .topbar, .content, footer {
+  .main-wrapper > * {
     filter:url(#blur);
     filter:blur(2px);
   }
