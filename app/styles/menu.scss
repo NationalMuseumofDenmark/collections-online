@@ -1,5 +1,5 @@
 .gray-overlay {
-  background    : $topbar-color;
+  background    : rgba($topbar-color, 0.5);
   position      : absolute;
   right         : 0;
   top           : 0;
@@ -9,7 +9,19 @@
   z-index       : 9998;
   text-align    : left;
   pointer-events: none;
-  transition    : all $animation-default;
+  transition    : opacity $animation-default;
+}
+
+
+.container-fluid,
+.slides li img,
+.flex-direction-nav {
+  filter:blur(0px);
+  transition: filter $animation-default;
+}
+.topbar {
+  box-shadow: 0 0 0 $topbar-color;
+  transition: $animation-default;
 }
 
 
@@ -20,9 +32,22 @@
   right   : 0;
 
 
+  .container-fluid,
+  .slides li img,
+  .flex-direction-nav {
+    filter:url(#blur);
+    filter:blur(2px);
+  }
+
+
+  .topbar {
+    box-shadow   : 0 4px 4px $topbar-color;
+  }
+
+
   .gray-overlay {
-    opacity       : .8;
-    visibility    : visible;
+    opacity       : 1;
+    // box-shadow    : inset 0 0 5px black;
     pointer-events: all;
     cursor        : pointer;
   }

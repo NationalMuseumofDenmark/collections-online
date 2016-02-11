@@ -16,7 +16,7 @@ $menu-highlight        : rgba(255,255,255,0.1);
 $body-bg               : $white;
 $text-color            : $black;
 $link-color            : $brand-primary;
-$link-hover-color      : darken($link-color, 10%);
+$link-hover-color      : lighten($link-color, 10%);
 
 // Typography
 $font-family-sans-serif: 'Nationale', sans-serif;
@@ -35,7 +35,7 @@ $animation-default     : 300ms ease;
 $menu-width            : 280px;
 
 // Breakpoints
-$extra-small-size      : 768px;
+$extra-small-size      : 480px;
 $small-size            : 768px;
 $medium-size           : 992px;
 $large-size            : 1170px;
