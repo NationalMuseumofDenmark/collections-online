@@ -62,7 +62,7 @@ var mapHeading = 0;
     });
   });
 
-  $('.map-buttons .back-to-map').click(function() {
+  $('.back-to-map').click(function() {
     streetView.setVisible(false);
   });
 
@@ -154,6 +154,8 @@ function initMap() {
     clickToGo: true
   });
 
+  // TODO: Lets use symbols instead
+  // https://developers.google.com/maps/documentation/javascript/examples/overlay-symbol-custom
   marker = new google.maps.Marker({
     map: map,
     icon: '/images/camera_pin_green.png',
@@ -240,7 +242,7 @@ function initMap() {
 
     $('.map-buttons .hide-map').toggle(!this.getVisible());
     $('.map-buttons .save-coordinates').toggle(!this.getVisible());
-    $('.map-buttons .back-to-map').toggle(this.getVisible());
+    $('.map-buttons.back-to-map').toggle(this.getVisible());
 
     if (this.getPosition()) {
       var offset = google.maps.geometry.spherical.computeOffset(this.getPosition(),

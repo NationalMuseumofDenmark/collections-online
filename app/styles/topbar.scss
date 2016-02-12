@@ -1,7 +1,7 @@
 .topbar {
   background-color: $topbar-color;
-  margin          : -5px -5px 0;
-  padding-top     : 5px;
+  z-index         : 10;
+  position        : relative;
 
 
   .topbar-items {
