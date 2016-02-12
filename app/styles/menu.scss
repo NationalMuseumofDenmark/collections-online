@@ -30,9 +30,11 @@
       border: 4px $topbar-color solid;
       content: '';
     }
-    > * {
-      filter:url("#blur");
-      filter:blur(2px);
+    @media (min-width: $medium-size) {
+      > * {
+        filter:url("#blur");
+        filter:blur(2px);
+      }      
     }
   }
 
