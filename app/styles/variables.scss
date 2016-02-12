@@ -29,11 +29,13 @@ $input-border-focus    : $brand-primary;
 $nav-link-hover-bg     : $gray-dark;
 
 // Animation
-$animation-default     : 300ms ease;
+$anim-duration         : 300ms;
+$anim-out              : ease-out;
+$anim-in               : ease-in;
 
 // Menu
 $menu-width            : 280px;
-$topbar-height: 80px;
+$topbar-height         : 80px;
 
 // Breakpoints
 $extra-small-size      : 480px;
