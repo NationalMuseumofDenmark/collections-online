@@ -105,7 +105,6 @@ mixin searchCount
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
     li
-        span
           a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
             span  #{category.count}
         if category.children.length > 0
