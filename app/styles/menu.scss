@@ -1,3 +1,5 @@
+// Open menu
+
 .categories-menu-open {
   position: fixed;
   top     : 0;
@@ -10,15 +12,15 @@
       top          : 0;
       left         : 0;
       right        : 0;
-      height: $topbar-height - 2;
-      border: 4px $topbar-color solid;
+      height       : $topbar-height - 2;
+      border       : 4px $topbar-color solid;
       border-bottom: none;
       content      : '';
     }
 
     @media (min-width: $medium-size) {
       > * {
-        transition: filter 0s linear $anim-duration;
+        transition: filter $anim-duration*2 ease $anim-duration;
         filter:url("#blur");
         filter:blur(2px);
       }
@@ -41,7 +43,7 @@
 
 .gray-overlay {
   background    : rgba($topbar-color, 0.3);
-  mix-blend-mode: multiply;
+  mix-blend-mode: soft-light;
   opacity       : 0;
   visibility    : hidden;
   position      : absolute;
@@ -52,7 +54,7 @@
   z-index       : 9998;
   text-align    : left;
   pointer-events: none;
-  transition    : opacity ease $anim-duration * 2;
+  transition    : opacity $anim-duration*2 ease $anim-duration;
 }
 
 ul.dropdown-menu-right {
@@ -66,6 +68,11 @@ ul.dropdown-menu-right {
   box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
   background: $topbar-color;
   transition: right $anim-in $anim-duration;
+
+  @media (min-width: $small-size) {
+    right: -$menu-width-small;
+    width: $menu-width-small;
+  }
 
   > li:first-child {
     margin-top: 10px;
