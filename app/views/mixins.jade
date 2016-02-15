@@ -110,7 +110,6 @@ mixin recursiveCategoryItem(catalog, category)
         if category.children.length > 0
           a.col-xs-2.expand-menu(href='')
             +icon('icon-plus-minus')
-      if category.children.length > 0
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
