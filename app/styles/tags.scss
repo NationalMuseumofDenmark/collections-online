@@ -1,0 +1,14 @@
+.tags {
+  padding-bottom: 1rem;
+  padding-top   : 0.6rem;
+
+  span {
+    padding         : .2rem .4rem;
+    background-color: $gray;
+    color           : white;
+
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+}
