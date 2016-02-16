@@ -5,12 +5,12 @@ li
 
 each catalog in catalogs
   if catalog.count > 0
-  li
-    a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
-      a.col-xs-2.expand-menu(href='')
-        +icon('icon-plus-minus')
-    ul.nav.menu-hidden
-      each category in catalog.categoryRoot.children
-        +recursiveCategoryItem(catalog, category)
+    li
+      a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
+        a.col-xs-2.expand-menu(href='')
+          +icon('icon-plus-minus')
+      ul.nav.menu-hidden
+        each category in catalog.categoryRoot.children
+          +recursiveCategoryItem(catalog, category)
 li
   a.col-xs-10(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online
