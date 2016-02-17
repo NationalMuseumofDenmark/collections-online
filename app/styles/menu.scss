@@ -57,6 +57,9 @@
   transition    : opacity $anim-duration*2 ease $anim-duration;
 }
 
+// Menu styling
+$expand-width: 50px;
+
 ul.dropdown-menu-right {
   position  : fixed;
   top       : 0;
@@ -78,9 +81,13 @@ ul.dropdown-menu-right {
     margin-top: 10px;
   }
 
-  li > span {
+  li > div {
     display    : flex;
-    align-items: center;
+    align-items: stretch;
+    > a {
+      display    : flex;
+      align-items: center;      
+    }
   }
 
   ul li {
@@ -88,16 +95,22 @@ ul.dropdown-menu-right {
   }
 
   a {
-    display        : block;
+    display        : inline-block;
     color          : $white;
     font-size      : 13.5px;
     line-height    : 20px;
     text-decoration: none;
     padding        : 10px 15px;
 
-    &.col-xs-2 {
-      @extend .text-center;
-      padding: 10px 2px;
+    &.col-xs-10 {
+      float: none;
+      width: calc(100% - #{$expand-width});
+    }
+
+    &.expand-menu {
+      float     : right;
+      width     : $expand-width;
+      text-align: center;
     }
 
     &:hover,
