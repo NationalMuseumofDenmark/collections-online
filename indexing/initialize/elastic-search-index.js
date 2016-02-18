@@ -18,7 +18,12 @@ function elasticSearchIndex(state) {
 			return state;
 		} else {
 			return state.es.indices.create({
-				index: index
+				index: index,
+				body: {
+					index: {
+						max_result_window: 100000 // We need this, so sitemaps can access all assets
+					}
+				}
 			}).then(function() {
 				console.log('Index created.');
 				return state;
