@@ -164,12 +164,35 @@
   }
 
   h1 {
-    font-size: 1.6rem;
+    font-size: 2rem;
+  }
+
+  h2,
+  .lead {
+    font-size: 1.7rem;
   }
 
   h2 {
-    font-size    : 1.3rem;
     margin-bottom: .3rem;
+  }
+
+  .lead {
+    font-weight: 300;
+    white-space: pre-line;
+  }
+
+  @media (min-width: $medium-size) {
+    h1 {
+      font-size: 3.2rem;
+    }
+
+    .lead {
+      font-size: 1.92rem;
+    }
+
+    h2 {
+      font-size: 2rem;
+    }
   }
 
   th {

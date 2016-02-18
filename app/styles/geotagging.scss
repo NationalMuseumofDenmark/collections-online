@@ -1,17 +1,14 @@
 .geotagging {
   position: relative;
 
-
   .btn {
     font-size: 15px;
   }
-
 
   .call-to-action {
     margin-bottom: 17px;
     min-height   : $input-height-base;
     width        : 100%;
-
 
     .btn {
       width: 100%;
@@ -19,12 +16,10 @@
   }
 }
 
-
 .map-container {
   display : none;
   position: relative;
   height  : auto;
-
 
   .overlay {
     display         : none;
@@ -40,12 +35,10 @@
     z-index         : 1;
     font-size       : 15px;
 
-
     h2 {
       color        : white;
       margin-bottom: 20px;
     }
-
 
     .btn {
       bottom       : 3%;
@@ -55,7 +48,6 @@
       left         : 37.5%;
     }
   }
-
 
   .controls {
     margin-top     : 10px;
@@ -70,7 +62,6 @@
 
 }
 
-
 #geotagging-map {
   background: #eee;
   max-height: 500px;
@@ -80,16 +71,13 @@
     display: none;
   }
 
-
   .gm-fullscreen-control {
     cursor: pointer;
   }
 
-
   .controls {
     border-radius: 0;
   }
-
 
   .gmnoprint {
     > div,
@@ -97,7 +85,6 @@
       border-radius: 0 !important;
     }
   }
-
 
   #pac-input {
     background-color: #fff;
@@ -113,13 +100,11 @@
       border-color: #4d90fe;
     }
 
-
     #type-selector {
       color           : #fff;
       background-color: #4d90fe;
       padding         : 5px 11px 0;
     }
-
 
     #type-selector label {
       font-size  : 13px;
@@ -129,14 +114,12 @@
 
 }
 
-
 .map-buttons {
   text-align    : center;
   width         : 100%;
   pointer-events: none;
   position      : absolute;
   bottom        : 19px;
-
 
   &.back-to-map {
     top   : 10px;
@@ -145,14 +128,12 @@
     width : auto;
   }
 
-
   &.btn,
   .btn {
     pointer-events: auto;
     margin        : 0 5px;
     box-shadow    : 0 2px 6px rgba(0, 0, 0, 0.3);
   }
-
 
   .loader {
     position      : relative;
@@ -167,7 +148,6 @@
     }
   }
 
-
   .circular {
     animation       : rotate 2.5s linear infinite;
     transform-origin: center center;
@@ -180,7 +160,6 @@
     height          : 30px;
   }
 
-
   .path {
     stroke-dasharray : 1,200;
     stroke-dashoffset: 0;
@@ -189,13 +168,11 @@
   }
 }
 
-
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
   }
 }
-
 
 @keyframes dash {
   0% {
@@ -203,12 +180,10 @@
     stroke-dashoffset: 0;
   }
 
-
   50% {
     stroke-dasharray : 89,200;
     stroke-dashoffset: -35;
   }
-
 
   100% {
     stroke-dasharray : 89,200;
@@ -216,20 +191,17 @@
   }
 }
 
-
 @media (max-height: 500px) {
   .geotagging .overlay {
     font-size: 11px !important;
   }
 }
 
-
 @media (min-height: 500px) and (max-height: 600px) {
   .geotagging .overlay {
     font-size: 13px !important;
   }
 }
-
 
 @media (max-width: 480px) {
   .geotagging {
@@ -239,11 +211,9 @@
       max-height: 75vh !important;
     }
 
-
     .overlay {
       padding: 10px !important;
     }
-
 
     .call-to-action .btn {
       font-size: 12px;
