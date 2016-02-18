@@ -1,0 +1,18 @@
+.tags {
+  padding-bottom: 1rem;
+  padding-top   : 0.6rem;
+
+  a {
+    display         : inline-block;
+    padding         : .2rem .5rem;
+    background-color: $gray-light;
+    color           : white;
+    margin-bottom   : 0.5rem;
+    font-size       : 90%;
+    text-decoration : none;
+
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+}

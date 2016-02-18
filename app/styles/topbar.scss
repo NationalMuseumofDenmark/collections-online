@@ -2,7 +2,7 @@
   background-color: $topbar-color;
   z-index         : 10;
   position        : relative;
-
+  line-height     : 1.5;
 
   .topbar-items {
     display    : flex;
@@ -10,17 +10,14 @@
     height     : $topbar-height;
   }
 
-
   svg {
     fill: white;
   }
-
 
   #heading-categories-menu,
   .logo-wrap {
     flex-shrink: 0;
   }
-
 
   #heading-categories-menu {
     padding-left   : 10px;
@@ -30,12 +27,10 @@
     align-items    : center;
     text-decoration: none;
 
-
     svg {
       height: 25px;
       width : 25px;
     }
-
 
     .catalog-name {
       font-size: 20px;
@@ -44,34 +39,28 @@
     }
   }
 
-
   .logo-wrap {
     display        : flex;
     align-items    : center;
     text-decoration: none;
   }
 
-
   .logo-text,
   .logo {
     display: inline-block;
   }
 
-
   .logo-text {
     color       : $white;
     margin-right: 10px;
-
 
     span {
       display: block;
     }
   }
 
-
   .logo {
     margin-right: 10px;
-
 
     svg {
       vertical-align: middle;
@@ -81,25 +70,22 @@
 
   }
 
-
   .search-box {
     flex-grow: 1;
     position : relative;
     margin   : 0 10px;
 
-
     .btn-search {
       @extend .btn;
       @extend .btn-primary;
-
+      line-height: 1.2;
+      margin-left: 0 !important;
 
       svg {
         width : 18px;
         height: 18px;
-        margin: -3px;
       }
     }
-
 
     .btn,
     .form-control {
@@ -115,10 +101,10 @@
       }
     }
 
-
     #search-input {
       border       : 0;
       border-radius: 0;
+      line-height  : 1.25;
     }
 
     #search-input::placeholder {

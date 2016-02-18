@@ -16,7 +16,11 @@ function initializeCipCategories(state) {
 	.then(function(result) {
 		// The categories pr catalog has been fetched from Cumulus.
 		for(var i=0; i < result.length; ++i) {
-			state.categories[result[i].id] = result[i];
+			if(result[i]) {
+				state.categories[result[i].id] = result[i];
+			} else {
+				console.error('Skipping a catalog that turned out to be undefined.');
+			}
 		}
 
 		var categoriesCount = Object.keys(state.categories).length;

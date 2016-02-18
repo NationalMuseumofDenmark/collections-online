@@ -11,6 +11,7 @@
 @import 'tab-focus.scss';
 @import 'typography';
 @import 'topbar';
+@import 'tags';
 
 
 body {
@@ -21,7 +22,6 @@ body {
 
   a {
     outline        : none !important;
-    text-decoration: underline;
   }
 }
 
@@ -37,7 +37,7 @@ body {
 
 
   a {
-    text-decoration: underline !important;
+    text-decoration: underline;
   }
 }
 
@@ -76,13 +76,6 @@ body {
   font-weight: 300;
   color      : $black !important;
   white-space: pre-line;
-}
-
-
-p.description {
-  white-space  : nowrap;
-  overflow     : hidden;
-  text-overflow: ellipsis;
 }
 
 
@@ -235,10 +228,5 @@ ul.categories {
   .content section h1.page-header {
     margin-top: 34px;
     font-size : 28px;
-  }
-
-  // Frontpage category links
-  .cat-link a {
-    font-size: 85%;
   }
 }

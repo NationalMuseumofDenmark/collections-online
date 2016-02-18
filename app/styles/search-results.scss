@@ -6,13 +6,30 @@
   .box {
     float:left;
     box-sizing: border-box;
-    padding:0 15px;
+    padding:0 15px 20px;
     min-height: 1px;
     width:100%;
 
     .overlay, .overlay img {
       width: 100%;
     }
+
+    .h4 {
+      margin-bottom: 2px;
+    }
+
+    .description {
+      white-space  : nowrap;
+      overflow     : hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0px;
+    }
+
+    .cat-link {
+      margin-top: 5px;
+      margin-bottom: 0;
+    }
+
 
     @media all and (max-width: 420px) {
       width:100%;
