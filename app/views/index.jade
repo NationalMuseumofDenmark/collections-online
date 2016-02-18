@@ -89,7 +89,8 @@ html(lang='da').no-js
             if(!isEndOfFeed){
               for (var i = 0; i < arrayLength; i++){
                 var tag = responseArray[i]
-                $('.vision').append('<a href="">' + tag + '</a>');
+                var tagUrl = '/?q=' + encodeURIComponent(tag)
+                $('.vision').append('<a href="' + tagUrl + '">' + tag + '</a>');
               }
               $loader.hide();
             }
