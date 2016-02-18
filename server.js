@@ -46,7 +46,12 @@ var categories = {};
 
 cip_categories.load_categories().then(function(result) {
   for(var i=0; i < result.length; ++i) {
-    categories[result[i].id] = result[i];
+    if(result[i] && result[i].id) {
+      categories[result[i].id] = result[i];
+    } else {
+      console.error(result);
+      throw new Error('Could not read id from the result of load_categories');
+    }
   }
   // Fetch the number of assets in the category.
   return cip_categories.fetch_category_counts(es_client, categories)
@@ -64,7 +69,9 @@ cip_categories.load_categories().then(function(result) {
   app.listen(config.port, config.ip, function () {
     console.log('Express server listening on %s:%d, in %s mode', config.ip, config.port, app.get('env'));
   });
-}, console.error);
+}, function(err) {
+  console.error('Error when starting the app: ', err.stack);
+});
 
 // Expose app
 exports = module.exports = app;
