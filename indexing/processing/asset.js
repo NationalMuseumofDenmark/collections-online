@@ -224,7 +224,6 @@ var METADATA_TRANSFORMATIONS = [
     metadata.tags = _.union.apply(null, tagsPerCategory).filter(function(tag) {
       return !!tag; // Filter out null or undefined values.
     }).sort();
-    console.log('tags:', metadata.tags);
 		return metadata;
 	},
 	/*function cracy_fails(state, metadata) {
