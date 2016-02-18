@@ -2,6 +2,7 @@ Diverse
 Emne
 Emner
 Lokalitet
+Lokaliteter
 Saggruppe
 Skal roteres (med eller mod uret)
 Tema
