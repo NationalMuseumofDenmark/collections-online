@@ -17,6 +17,7 @@
     "express": "~4.13.4",
     "express-session": "~1.13.0",
     "gifsicle": "~3.0.3",
+    "google-translate": "^1.0.6",
     "iconv": "~2.1.11",
     "jade": "~1.11.0",
     "jpegtran-bin": "~3.0.6",
@@ -25,6 +26,7 @@
     "method-override": "~2.3.5",
     "morgan": "~1.6.1",
     "natmus-js": "git+https://github.com/NationalMuseumofDenmark/natmus.js.git#feature/promises",
+    "node-cloud-vision-api": "git+https://github.com/Socialsquare/node-cloud-vision-api.git",
     "q": "~1.4.1",
     "request": "^2.27.0",
     "serve-favicon": "~2.3.0"
