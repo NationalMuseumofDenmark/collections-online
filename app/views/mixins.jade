@@ -105,11 +105,13 @@ mixin searchCount
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
     li
-      a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
-        span #{category.count}
+      div
+        a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
+          span #{category.count}
+        if category.children.length > 0
+          a.expand-menu(href='')
+            +icon('icon-plus-minus')
       if category.children.length > 0
-        a.col-xs-2.expand-menu(href='')
-          +icon('icon-plus-minus')
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)

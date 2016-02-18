@@ -28,7 +28,7 @@ $(function() {
         } else {
           $use.attr('xlink:href', '#icon-plus');
         }
-        $toggleButton.next('ul').slideToggle(100, function() {
+        $toggleButton.parent().next('ul').slideToggle(100, function() {
           // Update the icon on the toggle button
           var expanded = $(this).is(':visible');
           $toggleButton.closest('li').toggleClass('expanded',
