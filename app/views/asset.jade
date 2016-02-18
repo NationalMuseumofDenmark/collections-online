@@ -91,21 +91,17 @@ block content
           h1(itemprop='name')= title
 
         // Description
-        - if(item.description)
+        if(item.description)
           p.sr-only Beskrivelse
           p(itemprop='description',
             class='lead')= item.description
             
         // Tags
-        h2 Emneord
-        div.tags
-          span Nu
-          span Med
-          span Tags
-          span Andreas
-          span Viktor
-          span Kræn
-          span Jacob
+        if(item.tags)
+          h2 Emneord
+          div.tags
+            each tag in item.tags
+              a(href='/?q='+encodeURIComponent(tag))= tag
 
         // Time and period
         h2 Tidsperiode og årstal
