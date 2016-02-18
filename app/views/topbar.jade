@@ -17,7 +17,7 @@ header.topbar
               placeholder='Søg på samlinger.natmus.dk',
               name='q',
               autocomplete="off",
-              value=req.param('q'))
+              value=req.query.q || '')
             span.input-group-btn
               button.btn-search
                 span.sr-only Søg
