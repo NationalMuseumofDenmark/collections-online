@@ -77,25 +77,22 @@ html(lang='da').no-js
     if item 
       script.
         var $loader = $('.tags .loader');
-        var isEndOfFeed = false;
         $.ajax({
             dataType: 'json',
             url: window.location + '/tags'
           }).done(function(data) {
-            var responseArray = data.tags;
-            console.log(responseArray);
-            var arrayLength = responseArray.length;
-            if( arrayLength == 0 ) isEndOfFeed = true;
-            if(!isEndOfFeed){
+            console.log(data.tags);
+            var arrayLength = data.tags.length;
+            if(arrayLength !== 0){
               for (var i = 0; i < arrayLength; i++){
-                var tag = responseArray[i]
+                var tag = data.tags[i]
                 var tagUrl = '/?q=' + encodeURIComponent(tag)
                 $('.vision').append('<a href="' + tagUrl + '">' + tag + '</a>');
               }
               $loader.hide();
             }
           }).fail(function() {
-            alert('Ajax failed to fetch data');
+            console.log('Ajax failed to fetch data');
             $loader.hide();
           });
 
