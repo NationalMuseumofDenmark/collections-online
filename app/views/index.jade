@@ -73,5 +73,29 @@ html(lang='da').no-js
             'fullscreen-loading-text': 'Henter store billeder',
             'loading-text': 'Henter billeder'
         };
+        
+    if item 
+      script.
+        var $loader = $('.tags .loader');
+        var isEndOfFeed = false;
+        $.ajax({
+            dataType: 'json',
+            url: window.location + '/tags'
+          }).done(function(data) {
+            var responseArray = data.tags;
+            console.log(responseArray);
+            var arrayLength = responseArray.length;
+            if( arrayLength == 0 ) isEndOfFeed = true;
+            if(!isEndOfFeed){
+              for (var i = 0; i < arrayLength; i++){
+                var tag = responseArray[i]
+                $('.vision').append('<a href="">' + tag + '</a>');
+              }
+              $loader.hide();
+            }
+          }).fail(function() {
+            alert('Ajax failed to fetch data');
+            $loader.hide();
+          });
 
     block javascript

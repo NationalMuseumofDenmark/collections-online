@@ -99,9 +99,14 @@ block content
         // Tags
         if(item.tags)
           h2 Emneord
-          div.tags
+          .tags
             each tag in item.tags
               a(href='/?q='+encodeURIComponent(tag))= tag
+
+        // Vision Tags
+        h2 Google Vision
+        .tags.vision
+          .loader Vi loader
 
         // Time and period
         h2 Tidsperiode og årstal
