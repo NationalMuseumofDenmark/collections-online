@@ -14,6 +14,12 @@ var Q = require('q'),
 var DATA_REGEXP = new RegExp('\\d+');
 var CM_PR_IN = 2.54;
 
+const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ /
+
+const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
+const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
+var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString().split('\n');
+
 function cleanCategoryString(str) {
 	var regexp = new RegExp('^[0-9]+[A-Z]+.[0-9]+.[0-9]+ ');
 	if(str.search(regexp) === 0) {
@@ -39,11 +45,6 @@ function relatedFilenameComparison(assetA, assetB) {
 		var filenameB = assetB.filename;
 		return filenameA.localeCompare(filenameB);
 }
-
-const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
-const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
-var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString().split('\n');
-
 
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
@@ -195,8 +196,6 @@ var METADATA_TRANSFORMATIONS = [
 		return metadata;
 	},
 	function derive_tags(state, metadata) {
-    const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ /
-
 		var tagsPerCategory = metadata.categories.map(function(category) {
 			var name = category.name;
       var catalogsCategoryTree = state.categories[metadata.catalog];
@@ -224,6 +223,7 @@ var METADATA_TRANSFORMATIONS = [
     metadata.tags = _.union.apply(null, tagsPerCategory).filter(function(tag) {
       return !!tag; // Filter out null or undefined values.
     }).sort();
+
 		return metadata;
 	},
 	/*function cracy_fails(state, metadata) {
