@@ -177,8 +177,9 @@
   }
 
   .lead {
-    font-weight: 300;
-    white-space: pre-line;
+    font-weight  : 300;
+    white-space  : pre-line;
+    margin-bottom: 0;
   }
 
   @media (min-width: $medium-size) {

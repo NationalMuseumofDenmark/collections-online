@@ -76,7 +76,6 @@ html(lang='da').no-js
         
     if item 
       script.
-        var $loader = $('.tags .loader');
         var $vision = $('.vision');
         var $tags = $('.vision .tags');
         $.ajax({
@@ -91,13 +90,10 @@ html(lang='da').no-js
                 var tagUrl = '/?q=' + encodeURIComponent(tag)
                 $tags.append('<a href="' + tagUrl + '">' + tag + '</a>');
               }
-              $loader.hide();
-            } else {
-              $vision.hide();
-            }
+              $vision.addClass('loaded');
+            } 
           }).fail(function() {
             console.log('Ajax failed to fetch data');
-            $vision.hide();
           });
 
     block javascript
