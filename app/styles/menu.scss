@@ -86,7 +86,7 @@ ul.dropdown-menu-right {
     align-items: stretch;
     > a {
       display    : flex;
-      align-items: center;      
+      align-items: center;
     }
   }
 
@@ -97,8 +97,6 @@ ul.dropdown-menu-right {
   a {
     display        : inline-block;
     color          : $white;
-    line-height    : 20px;
-    text-decoration: none;
     padding        : 10px 15px;
 
     &.col-xs-10 {
