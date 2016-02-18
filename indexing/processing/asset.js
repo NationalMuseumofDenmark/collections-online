@@ -4,9 +4,12 @@
  * The processor handling a single asset.
  */
 
-var Q = require('q');
-var assetMapping = require('../../lib/asset-mapping.js');
-var cip = require('../../lib/services/natmus-cip');
+var Q = require('q'),
+    path = require('path'),
+    fs = require('fs'),
+    _ = require('lodash'),
+    assetMapping = require('../../lib/asset-mapping.js'),
+    cip = require('../../lib/services/natmus-cip');
 
 var DATA_REGEXP = new RegExp('\\d+');
 var CM_PR_IN = 2.54;
@@ -37,6 +40,11 @@ function relatedFilenameComparison(assetA, assetB) {
 		return filenameA.localeCompare(filenameB);
 }
 
+const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
+const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
+var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString().split('\n');
+
+
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
 // is passed on to the next function in the list.
@@ -58,7 +66,6 @@ var METADATA_TRANSFORMATIONS = [
 		// Transforms the categories.
 		if(metadata.categories !== undefined) {
 			metadata.categories_int = [];
-			metadata.suggest = {'input': []};
 
 			for(var j=0; j < metadata.categories.length; ++j) {
 				if(metadata.categories[j].path.indexOf('$Categories') !== 0) {
@@ -68,12 +75,9 @@ var METADATA_TRANSFORMATIONS = [
 				if(path) {
 					for(var k=0; k < path.length; k++) {
 						metadata.categories_int.push(path[k].id);
-
 						if(path[k].name.indexOf('$Categories') === 0) {
 							continue;
 						}
-
-						metadata.suggest.input.push(cleanCategoryString(path[k].name));
 					}
 				}
 			}
@@ -188,6 +192,39 @@ var METADATA_TRANSFORMATIONS = [
 				throw new Error('Encountered unexpected format when parsing coordinates.');
 			}
 		}
+		return metadata;
+	},
+	function derive_tags(state, metadata) {
+    const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ /
+
+		var tagsPerCategory = metadata.categories.map(function(category) {
+			var name = category.name;
+      var catalogsCategoryTree = state.categories[metadata.catalog];
+      var path = catalogsCategoryTree.get_path(category.id) || [];
+      return path.map(function(categoryOnPath) {
+        var name = categoryOnPath.name;
+        // Categories that starts with the dollar-sign are system categories.
+        if(name.indexOf('$') === 0) {
+          return null;
+        }
+        // Remove prefixed numbers, letters and dots.
+        name = name.replace(PREFIXED_NUMBERS_LETTERS_AND_DOTS, '');
+        // Don't include catalogs that are blacklisted.
+        if(tagsBlacklist.indexOf(name) !== -1) {
+          return null;
+        }
+        // We made it this far - we have a good tag.
+        name = name.toLowerCase();
+        // Let's lower the case.
+        return name;
+      });
+		});
+
+    // Concat all the tags from every path into a single array.
+    metadata.tags = _.union.apply(null, tagsPerCategory).filter(function(tag) {
+      return !!tag; // Filter out null or undefined values.
+    }).sort();
+    console.log('tags:', metadata.tags);
 		return metadata;
 	},
 	/*function cracy_fails(state, metadata) {
