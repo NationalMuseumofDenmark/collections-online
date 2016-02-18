@@ -14,7 +14,7 @@ var Q = require('q'),
 var DATA_REGEXP = new RegExp('\\d+');
 var CM_PR_IN = 2.54;
 
-const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ /
+const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ (- )?/
 
 const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
 const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');

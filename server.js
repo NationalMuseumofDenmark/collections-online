@@ -25,6 +25,7 @@ require('./lib/services/natmus-api').config({
     maxSockets: config.natmusApiMaxSockets,
 });
 
+require('./lib/services/google-apis');
 require('./lib/routes')(app);
 require('./lib/errors')(app);
 
