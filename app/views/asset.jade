@@ -5,9 +5,7 @@ append header
   +shareThisJS()
 
 append javascript
-  script(src='/scripts/motif-tagging.js')
   if(showGeotagging)
-    script(src='/scripts/geo-tagging.js')
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
