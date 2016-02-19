@@ -1,9 +1,9 @@
 'use strict';
 
 var express = require('express'),
-    elasticsearch = require('elasticsearch'),
     cip = require('./lib/services/natmus-cip'),
-    cip_categories = require('./lib/cip-categories');
+    cip_categories = require('./lib/cip-categories'),
+    es = require('./lib/services/elasticsearch');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -12,24 +12,15 @@ var app = express();
 require('./lib/config/express')(app);
 app.locals.config = config;
 
-var es_client = new elasticsearch.Client({ host: config.es_host });
-app.set('es_client', es_client);
 app.set('site_title', config.site_title);
 // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
 // the app (See http://expressjs.com/api.html#app.set)
 app.set('trust proxy', 'loopback');
 
-require('./lib/services/natmus-api').config({
-    baseURL: config.natmusApiBaseURL,
-    version: config.natmusApiVersion,
-    maxSockets: config.natmusApiMaxSockets,
-});
-
-require('./lib/services/google-apis');
 require('./lib/routes')(app);
 require('./lib/errors')(app);
 
-es_client.count({
+es.count({
     index: config.es_assets_index
 }).then(function(response) {
     console.log('Connecting to the Elasticsearch host', config.es_host);
@@ -55,7 +46,7 @@ cip_categories.load_categories().then(function(result) {
     }
   }
   // Fetch the number of assets in the category.
-  return cip_categories.fetch_category_counts(es_client, categories)
+  return cip_categories.fetch_category_counts(es, categories)
   .then(function(categoriesWithCounts) {
     app.set('cip_categories', categoriesWithCounts);
   });
