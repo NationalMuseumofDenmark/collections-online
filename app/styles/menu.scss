@@ -17,14 +17,6 @@
       border-bottom: none;
       content      : '';
     }
-
-    @media (min-width: $medium-size) {
-      > * {
-        transition: filter $anim-duration*2 ease $anim-duration;
-        filter:url("#blur");
-        filter:blur(2px);
-      }
-    }
   }
 
   .gray-overlay {
@@ -42,7 +34,7 @@
 }
 
 .gray-overlay {
-  background    : rgba($topbar-color, 0.3);
+  background    : rgba($topbar-color, 0.6);
   mix-blend-mode: soft-light;
   opacity       : 0;
   visibility    : hidden;
