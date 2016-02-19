@@ -1,10 +1,12 @@
 var $asset = $('.asset');
 var $tags = $('.asset .tags');
 $('.add-tags-btn', $asset).click(function() {
+  $(this).hide();
   $.ajax({
     dataType: 'json',
     url: window.location + '/suggested-motif-tags'
   }).done(function(data) {
+    $('.no-tags').hide();
     console.log(data.tags);
     var arrayLength = data.tags.length;
     if(arrayLength !== 0) {
@@ -23,5 +25,4 @@ $('.add-tags-btn', $asset).click(function() {
   }).fail(function() {
     console.log('Ajax failed to fetch data');
   });
-  $('.add-tags-btn').hide();
 });
