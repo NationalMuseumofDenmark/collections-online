@@ -63,37 +63,14 @@ html(lang='da').no-js
     script(src='/scripts/natmus.js')
     script(src='/scripts/masonry.init.js')
     script(src='/scripts/magic360.js')
-    script(src='/scripts/geotagging.js')
     script(src='/scripts/svgsprite.js')
     <!-- endbuild -->
     script.
-        Magic360.lang = {
-            'hint-text': 'Træk',
-            'mobile-hint-text': 'Træk',
-            'fullscreen-loading-text': 'Henter store billeder',
-            'loading-text': 'Henter billeder'
-        };
-        
-    if item 
-      script.
-        var $vision = $('.vision');
-        var $tags = $('.vision .tags');
-        $.ajax({
-            dataType: 'json',
-            url: window.location + '/tags'
-          }).done(function(data) {
-            console.log(data.tags);
-            var arrayLength = data.tags.length;
-            if(arrayLength !== 0){
-              for (var i = 0; i < arrayLength; i++){
-                var tag = data.tags[i]
-                var tagUrl = '/?q=' + encodeURIComponent(tag)
-                $tags.append('<a href="' + tagUrl + '">' + tag + '</a>');
-              }
-              $vision.addClass('loaded');
-            } 
-          }).fail(function() {
-            console.log('Ajax failed to fetch data');
-          });
+      Magic360.lang = {
+        'hint-text': 'Træk',
+        'mobile-hint-text': 'Træk',
+        'fullscreen-loading-text': 'Henter store billeder',
+        'loading-text': 'Henter billeder'
+      };
 
     block javascript

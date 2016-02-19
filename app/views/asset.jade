@@ -5,7 +5,9 @@ append header
   +shareThisJS()
 
 append javascript
+  script(src='/scripts/motif-tagging.js')
   if(showGeotagging)
+    script(src='/scripts/geo-tagging.js')
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
@@ -97,16 +99,13 @@ block content
             class='lead')= item.description
             
         // Tags
-        if(item.tags)
-          h2 Emneord
-          .tags
-            each tag in item.tags
-              a(href='/?q='+encodeURIComponent(tag))= tag
-
-        // Vision Tags
-        .vision
-          h2 Google Vision
-          .tags
+        h2 Emneord
+        .tags
+          if(!item.tags)
+            span.no-tags Der er ikke tilføjet nogle emneord endnu.
+          each tag in item.tags || []
+            a.tag(href='/?q='+encodeURIComponent(tag))= tag
+          .btn.btn-primary.add-tags-btn Tilføj emneord
 
         // Time and period
         h2 Tidsperiode og årstal
