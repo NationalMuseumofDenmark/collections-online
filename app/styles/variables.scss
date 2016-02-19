@@ -14,7 +14,7 @@ $menu-highlight        : rgba(255,255,255,0.1);
 
 // Scaffolding
 $body-bg               : $white;
-$text-color            : $black;
+$text-color            : $topbar-color;
 $link-color            : $brand-primary;
 $link-hover-color      : lighten($link-color, 10%);
 
@@ -44,3 +44,6 @@ $extra-small-size      : 480px;
 $small-size            : 768px;
 $medium-size           : 992px;
 $large-size            : 1170px;
+
+// item
+$tag-bg                : $gray-light;

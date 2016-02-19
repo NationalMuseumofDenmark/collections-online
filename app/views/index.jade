@@ -1,11 +1,8 @@
 include mixins
-- var pageTitle = 'Søgeresultat'
-- var pageHeader = 'Din søgning resulterede i følgende resultater'
 doctype html
 html(lang='da').no-js
   head
     meta(charset='utf-8')
-    meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0')
     <!-- build:css /styles/styles.css -->
@@ -66,15 +63,14 @@ html(lang='da').no-js
     script(src='/scripts/natmus.js')
     script(src='/scripts/masonry.init.js')
     script(src='/scripts/magic360.js')
-    script(src='/scripts/geotagging.js')
     script(src='/scripts/svgsprite.js')
     <!-- endbuild -->
     script.
-        Magic360.lang = {
-            'hint-text': 'Træk',
-            'mobile-hint-text': 'Træk',
-            'fullscreen-loading-text': 'Henter store billeder',
-            'loading-text': 'Henter billeder'
-        };
+      Magic360.lang = {
+        'hint-text': 'Træk',
+        'mobile-hint-text': 'Træk',
+        'fullscreen-loading-text': 'Henter store billeder',
+        'loading-text': 'Henter billeder'
+      };
 
     block javascript

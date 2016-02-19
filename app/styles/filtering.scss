@@ -3,7 +3,6 @@
   padding         : 30px 15px 10px;
   background-color: #525252;
 
-
   .filter-geotags {
     p {
       color      : white;
@@ -11,11 +10,9 @@
       font-weight: bold;
     }
 
-
     .buttons {
       display  : flex;
       flex-wrap: wrap;
-
 
       button {
         font-weight     : normal;
@@ -31,7 +28,6 @@
     }
   }
 }
-
 
 @media (max-width: $large-size) {
   .filtering {
