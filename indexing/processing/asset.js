@@ -193,12 +193,12 @@ var METADATA_TRANSFORMATIONS = [
         name = name.replace(PREFIXED_NUMBERS_LETTERS_AND_DOTS, '');
         // Remove special prefix e.g. "F01a - "
         name = name.replace(PREFIXED_SPECIAL_CASE_ONE, '');
+        // We made it this far - let's consider tags lowercase only
+        name = name.toLowerCase();
         // Don't include catalogs that are blacklisted.
         if (tagsBlacklist.indexOf(name) !== -1) {
           return null;
         }
-        // We made it this far - we have a good tag.
-        name = name.toLowerCase();
         // Let's lower the case.
         return name;
       });

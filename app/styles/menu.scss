@@ -34,7 +34,7 @@
 }
 
 .gray-overlay {
-  background    : rgba($topbar-color, 0.6);
+  background    : rgba(0,0,0,0.3);
   mix-blend-mode: soft-light;
   opacity       : 0;
   visibility    : hidden;
@@ -46,7 +46,7 @@
   z-index       : 9998;
   text-align    : left;
   pointer-events: none;
-  transition    : opacity $anim-duration*2 ease $anim-duration;
+  transition    : opacity $anim-duration ease $anim-duration;
 }
 
 // Menu styling
@@ -76,6 +76,7 @@ ul.dropdown-menu-right {
   li > div {
     display    : flex;
     align-items: stretch;
+
     > a {
       display    : flex;
       align-items: center;
