@@ -103,7 +103,12 @@ block content
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
           each tag in item.tags || []
             a.tag(href='/?q='+encodeURIComponent(tag))= tag
-          .btn.btn-primary.add-tags-btn Tilføj emneord
+          .btn.btn-primary.add-tags-btn 
+            span.text Tilføj emneord
+            span.loader
+            span.loader.one
+            span.loader.two
+            
 
         // Time and period
         h2 Tidsperiode og årstal
