@@ -71,3 +71,17 @@ append javascript
           }
         });
       });
+  
+  if results.is_front
+    - baseURL = 'http://' + (req.get('x-forwarded-host') || req.get('host')) + '/'
+    script(type="application/ld+json").
+      {
+        "@context": "http://schema.org",
+        "@type": "WebSite",
+        "url": "#{baseURL}",
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": "#{baseURL}?q={search_term_string}",
+          "query-input": "required name=search_term_string"
+        }
+      }
