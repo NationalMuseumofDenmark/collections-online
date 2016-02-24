@@ -11,14 +11,17 @@ var mapHeading = 0;
 
 (function($) {
   var GA_EVENT_CATEGORY = 'Geotagging';
-  var mapHeight = 400;
-  var $mapContainer = $('#geotagging-map');
-  //$mapContainer.height(mapHeight);
+
+  var $mapContainer = $('#geotagging');
+  var $map = $('#geotagging-map');
+  var mapHeight = $mapContainer.width()*0.8;
+  $map.height(mapHeight);
+
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
-    mapHeight = $mapContainer.parent().width()*0.8;
-    $mapContainer.height(mapHeight);
+    mapHeight = $mapContainer.width()*0.8;
+    $map.height(mapHeight);
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(center);

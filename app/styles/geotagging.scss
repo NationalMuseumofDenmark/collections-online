@@ -202,6 +202,9 @@
 
 @media (max-width: $extra-small-size) {
   .geotagging {
+    #geotagging-map {
+      min-height: 66vh;
+    }
     .overlay {
       padding: 10px;
     }
