@@ -183,11 +183,11 @@ mixin license()
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
 
 mixin responsiveImage(title, item, sources)
-  img(src=sources.image, alt=title)
+  img.zoomable(src=sources.image, alt=title)
   +license()
 
 mixin rotationImage(title, item, sources)
-  picture(alt=title)
+  picture.zoomable(alt=title)
     //[if IE 9]><video style="display: none;"><![endif]
     source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
     source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
