@@ -11,12 +11,14 @@ var mapHeading = 0;
 
 (function($) {
   var GA_EVENT_CATEGORY = 'Geotagging';
-
+  var mapHeight = 400;
+  var $mapContainer = $('#geotagging-map');
+  //$mapContainer.height(mapHeight);
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
-    var assetImgHeight = $('.primary-asset img').height();
-    $('#geotagging-map').height(assetImgHeight);
+    mapHeight = $mapContainer.parent().width()*0.8;
+    $mapContainer.height(mapHeight);
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(center);
@@ -24,7 +26,7 @@ var mapHeading = 0;
 
   var showMap = function() {
     if (!window.localStorage.getItem('geotagging-overlay-closed')) {
-      $('.geotagging .overlay').show();
+      $('.geotagging .overlay').addClass('overlay-visible');
     }
     $('.map-container').slideDown('slow', function() {
       // resize google map to match asset image on click and on window resize
@@ -68,7 +70,7 @@ var mapHeading = 0;
 
   $('.overlay .close-overlay').click(function() {
     window.localStorage.setItem('geotagging-overlay-closed', true);
-    $('.geotagging .overlay').hide();
+    $('.geotagging .overlay').removeClass('overlay-visible');
   });
 
   $('.map-buttons .save-coordinates').click(function() {
@@ -292,5 +294,5 @@ var mapHeading = 0;
     });
 
     resizeMap();
-  }
+  };
 })(jQuery);

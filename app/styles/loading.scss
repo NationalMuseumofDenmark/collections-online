@@ -1,0 +1,45 @@
+$size: .7em;
+
+.loader {
+  border-radius   : 50%;
+  width           : $size;
+  height          : $size;
+  animation       : loading-dots 1.5s infinite ease-in-out 0s;
+  background-color: white;
+  margin-left     : .5em;
+  animation-delay : -.4s;
+
+  &.one {
+    animation-delay: -.2s;
+  }
+
+  &.two {
+    animation-delay: 0s;
+    margin-right   : .5em;
+  }
+}
+
+@keyframes loading-dots {
+  0% {
+    transform: scaleX(0.01) scaleY(0.01);
+  }
+  40% {
+    transform: scaleX(1) scaleY(1);
+  }
+  100% {
+    transform: scaleX(0.01) scaleY(0.01);
+  }
+
+}
+
+.add-tags-btn {
+  .loader {
+    display: none;
+  }
+
+  &.loading {
+    .loader {
+      display: inline-block;
+    }
+  }
+}

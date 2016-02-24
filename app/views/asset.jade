@@ -21,18 +21,18 @@ block content
     .row
       .col-md-6.col-xs-12.image-row
           - var filename = item.filename.toLowerCase();
-          - if(player === "image-single" || player === "image-single-animated")
-            .bleed.primary-asset
-              +responsiveImage(title, item, sources)
-          - else if(player === "image-rotation")
-            .bleed.primary-asset
-              +rotationImage(title, item, sources)
-          - else if(player === "audio")
-             audio(controls)
-               source(src=sources.audio)
-          - else if(player === "video")
-            video(width="100%", controls)
-              source(src=sources.video, type="video/mp4")
+          .primary-asset.bleed
+            - if(player === "image-single" || player === "image-single-animated")
+                img.zoomable(src=sources.image, alt=title)
+                +license()
+            - else if(player === "image-rotation")
+                +rotationImage(title, item, sources)
+            - else if(player === "audio")
+                audio(controls)
+                  source(src=sources.audio)
+            - else if(player === "video")
+                video(width="100%", controls)
+                  source(src=sources.video, type="video/mp4")
 
           .asset-tools
             .btn-group.dropup
@@ -103,7 +103,12 @@ block content
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
           each tag in item.tags || []
             a.tag(href='/?q='+encodeURIComponent(tag))= tag
-          .btn.btn-primary.add-tags-btn Tilføj emneord
+          .btn.btn-primary.add-tags-btn 
+            span.text Tilføj emneord
+            .loader
+            .loader.one
+            .loader.two
+            
 
         // Time and period
         h2 Tidsperiode og årstal
@@ -160,7 +165,7 @@ block content
                     a
                       +icon('pencil-icon')
               tr
-                td(colspan='2')
+                td.bleed(colspan='2')
                   a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
                     img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
             tr
