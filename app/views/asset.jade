@@ -64,17 +64,17 @@ block content
                 - else
                   | -
           .related-assets
-            each asset in related_assets.visible
+            each asset in relatedAssets.visible
               a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
                 href=asset.href)
-            - if(related_assets.additional.length > 0)
+            - if(relatedAssets.additional.length > 0)
               h2.collapsable-section-header
                 a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
                   +icon('icon-minus')
                   +icon('icon-plus')
                   | Flere relaterede
               div#additional-related.collapse
-                each asset in related_assets.additional
+                each asset in relatedAssets.additional
                   a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
                     href=asset.href)
 
