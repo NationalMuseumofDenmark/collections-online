@@ -1,0 +1,5 @@
+linters:
+  SpaceAfterPropertyName:
+    enabled: false
+  SpaceAfterVariableName:
+    enabled: false

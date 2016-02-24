@@ -204,42 +204,28 @@ block content
               th Fotograf:
                 td
                   span(itemprop='creator')= item.creator || '-'
+            tr
+              th Filnavn:
+              td= item.filename || '-'
+            tr
+              th Arkivalie nr.:
+              td= item.archiveno || '-'
+            tr
+              th Negativ nr.:
+              td= item.negative_number || '-'
+            tr
+              th Genstands nr.:
+              td= item.object_number || '-'
+            tr
+              th Inventar nr.:
+              td= item.inventory_number || '-'
+            tr
+              th Arkivnavn:
+              td= item.archivename ? item.archivename.displaystring : '-'
+            tr
+              th Tidsnote:
+              td= item.timenote || '-'
 
-
-        // Additional info
-        .asset-block
-          h2.collapsable-section-header
-            - var path = req.path
-            a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
-              +icon('icon-minus')
-              +icon('icon-plus')
-              | Yderligere information
-
-          div#additional-info.collapse
-            table
-              tbody
-                tr
-                  th Filnavn:
-                  td= item.filename || '-'
-                tr
-                  th Arkivalie nr.:
-                  td= item.archiveno || '-'
-                tr
-                  th Negativ nr.:
-                  td= item.negative_number || '-'
-                tr
-                  th Genstands nr.:
-                  td= item.object_number || '-'
-                tr
-                  th Inventar nr.:
-                  td= item.inventory_number || '-'
-                tr
-                  th Arkivnavn:
-                  td= item.archivename ? item.archivename.displaystring : '-'
-                tr
-                  th Tidsnote:
-                  td= item.timenote || '-'
-
-                tr
-                  th Topnr.:
-                  td= item.topno || '-'
+            tr
+              th Topnr.:
+              td= item.topno || '-'

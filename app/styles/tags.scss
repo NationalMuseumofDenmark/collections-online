@@ -2,48 +2,49 @@
   padding-bottom: .4rem;
   padding-top   : .6rem;
 
-  .btn, .tag {
-    display         : inline-block;
-    padding         : .2rem .5rem;
-    margin-bottom   : .5rem;
-    font-size       : 90%;
-    text-decoration : none;
-    vertical-align  : baseline;
+  .btn,
+  .tag {
+    display        : inline-block;
+    font-size      : 90%;
+    margin-bottom  : .5rem;
+    padding        : .2rem .5rem;
+    text-decoration: none;
+    vertical-align : baseline;
 
     &:not(:last-child) {
       margin-right: .5rem;
     }
 
     svg {
-        fill: $white;
-        height: 8px;
-        width: 8px;
-        margin-left: 4px;
+      fill       : $white;
+      height     : 8px;
+      margin-left: 4px;
+      width      : 8px;
     }
   }
 
   .tag {
     background-color: $tag-bg;
-    color           : white;
+    color           : $white;
 
     &:hover,
     &:focus {
-      background-color: darken($tag-bg,10%);
+      background-color: darken($tag-bg, 10%);
     }
   }
 }
 
 .vision {
-  visibility: hidden;
-  opacity   : 0;
-  max-height: 0;
+  max-height : 0;
+  opacity    : 0;
   padding-top: 1rem;
-  transition: max-height 3s ease, opacity 1s ease;
+  transition : max-height 3s ease, opacity 1s ease;
+  visibility : hidden;
 
   &.loaded {
-    visibility: visible;
-    opacity   : 1;
     max-height: 600px;
+    opacity   : 1;
+    visibility: visible;
   }
 
 }

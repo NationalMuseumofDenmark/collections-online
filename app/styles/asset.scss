@@ -1,7 +1,10 @@
 @import 'geotagging';
+$asset--icon-shadow-color: #fff;
 
-/* Assets */
+// Assets
 .item {
+  padding-bottom: 3rem;
+
   .primary-asset {
     position: relative;
 
@@ -13,33 +16,33 @@
   }
 
   .asset-tools {
-    margin-top   : $line-height-computed;
     margin-bottom: $line-height-computed;
+    margin-top   : $line-height-computed;
 
     .dropdown-menu {
-      min-width: 145px;
       font-size: 13.5px;
+      min-width: 145px;
 
-      & > li {
-        & > a,
+      > li {
+        > a,
         & > .stButton {
           color: $gray !important;
 
           &:hover,
           &:focus {
-            color     : $gray !important;
             background: $gray-lighter;
+            color     : $gray !important;
           }
         }
 
         & > .stButton {
           clear      : both;
           display    : block !important;
-          margin     : 0;
-          padding    : 3px 20px;
           font-size  : $font-size-base;
           font-weight: normal;
           line-height: $line-height-base;
+          margin     : 0;
+          padding    : 3px 20px;
           white-space: nowrap;
 
           .chicklets {
@@ -47,7 +50,6 @@
             font-size  : inherit;
             height     : auto;
             line-height: inherit;
-            font-size  : 13.5px;
           }
         }
       }
@@ -61,10 +63,10 @@
 
     a.btn-default {
       border         : 2px solid $brand-primary;
+      color          : $brand-primary;
+      font-weight    : bold;
       margin-right   : 15px;
       text-decoration: none;
-      font-weight    : bold;
-      color          : $brand-primary;
     }
 
     .licens {
@@ -87,22 +89,22 @@
 
   .place {
     .pencil-icon {
-      width      : 20px;
-      height     : 20px;
-      position   : absolute;
       fill       : $brand-primary;
+      height     : 20px;
       margin-left: 5px;
+      position   : absolute;
+      width      : 20px;
 
       &:hover {
-        fill  : #BF0D13;
         cursor: pointer;
+        fill  : #BF0D13;
       }
     }
 
     .map {
       @include img-responsive();
-      width     : 100%;
       margin-top: .8rem;
+      width     : 100%;
     }
   }
 
@@ -114,35 +116,35 @@
     a {
       color         : $brand-primary;
       display       : block;
-      width         : 100%;
       vertical-align: middle;
+      width         : 100%;
 
       svg {
-        @extend .pull-left;
+        @extend %pull-left;
         fill          : $brand-primary;
-        width         : 20px;
         height        : 20px;
         margin        : 0 .2em 0 0;
         vertical-align: middle;
+        width         : 20px;
       }
 
       .icon-plus {
-        @extend .hidden;
+        @extend %hidden;
       }
 
       .icon-minus {
-        @extend .show;
+        @extend %show;
         visibility: visible !important;
       }
 
       &.collapsed {
         .icon-plus {
-          @extend .show;
+          @extend %show;
           visibility: visible !important;
         }
 
         .icon-minus {
-          @extend .hidden;
+          @extend %hidden;
         }
       }
     }
@@ -152,13 +154,13 @@
     margin-bottom: 15px;
 
     .related-asset {
-      position           : relative;
+      background-position: 50% 50%;
+      background-size    : cover;
       display            : inline-block;
-      width              : 23%;
       height             : 100px;
       margin             : 1%;
-      background-size    : cover;
-      background-position: 50% 50%;
+      position           : relative;
+      width              : 23%;
       // border: 1px solid $brand-primary;
     }
   }
@@ -178,8 +180,8 @@
 
   .lead {
     font-weight  : 300;
-    white-space  : pre-line;
     margin-bottom: 0;
+    white-space  : pre-line;
   }
 
   @media (min-width: $medium-size) {
@@ -206,18 +208,18 @@
   }
 
   .asset-icon {
-    display    : none;
-    position   : absolute;
-    text-shadow: -1px -1px 0 #FFF, 1px -1px 0 #FFF, -1px 1px 0 #FFF, 1px 1px 0 #FFF;
     color      : $black;
-    top        : 1em;
-    left       : 1em;
+    display    : none;
     font-size  : 3em;
+    left       : 1em;
+    position   : absolute;
+    text-shadow: -1px -1px 0 $asset--icon-shadow-color, 1px -1px 0 $asset--icon-shadow-color, -1px 1px 0 $asset--icon-shadow-color, 1px 1px 0 $asset--icon-shadow-color;
+    top        : 1em;
 
     &.small {
       bottom   : .3em;
-      left     : .3em;
       font-size: 1em;
+      left     : .3em;
     }
   }
 }
