@@ -105,10 +105,15 @@ block content
             +tag(tag)
             
         // User tags
-        h3 Emneord tilføjet af bruger
-        .tags
+        h3 Emneord tilføjet af brugere
+        .tags.user
           if(!item.userTags)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
+            .btn.btn-primary#user-btn Tilføj emneord
+            .material-input
+              input(type='text', required='')
+              span.bar
+              label Indtast nyt emneord og tryk enter
           each tag in item.userTags || []
             +tag(tag)
 
@@ -117,8 +122,8 @@ block content
         .tags.vision
           if(!item.visionTags)
             span.no-tags Der er ikke fundet nogle emneord endnu.
-            .btn.btn-primary.add-tags-btn 
-              span.text Analyser billede
+            .btn.btn-primary#vision-btn
+              span.text Analysér billede
               .loader
               .loader.one
               .loader.two

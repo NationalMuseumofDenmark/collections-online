@@ -5,6 +5,7 @@
 @import 'asset';
 @import 'filtering';
 @import 'footer';
+@import 'input';
 @import 'loading';
 @import 'menu';
 @import 'search-results';
@@ -152,12 +153,6 @@ section .page-header {
   cursor : pointer;
   opacity: 1;
   filter:alpha(opacity=100);
-}
-
-@media screen and (max-width: $screen-md-max) {
-  .form-group {
-    width: 80% !important;
-  }
 }
 
 /* Responsive: Landscape tablets and up */

@@ -22,6 +22,7 @@
     "angular": false,
     "Bloodhound": false,
     "$": false,
-    "Masonry": false
+    "Masonry": false,
+    "alert": false
   }
 }
