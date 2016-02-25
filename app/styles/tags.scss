@@ -32,6 +32,18 @@
       background-color: darken($tag-bg, 10%);
     }
   }
+
+  &.user {
+    .material-input {
+      display: none;
+    }
+
+    &.inputting {
+      .material-input {
+        display: block;
+      }
+    }
+  }
 }
 
 .no-tags {

@@ -225,15 +225,17 @@ $asset--icon-shadow-color: #fff;
 }
 
 @media (min-width: $medium-size) {
-  h1 {
-    font-size: 2.56rem;
-  }
+  .item {
+    h1 {
+      font-size: 2.6rem;
+    }
 
-  .lead {
-    font-size: 1.6rem;
-  }
+    .lead {
+      font-size: 1.6rem;
+    }
 
-  h2 {
-    font-size: 1.6rem;
+    h2 {
+      font-size: 1.6rem;
+    }
   }
 }

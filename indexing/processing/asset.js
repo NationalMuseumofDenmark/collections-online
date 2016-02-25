@@ -9,7 +9,9 @@ var Q = require('q'),
   fs = require('fs'),
   _ = require('lodash'),
   assetMapping = require('../../lib/asset-mapping.js'),
-  cip = require('../../lib/services/natmus-cip');
+  cip = require('../../lib/services/natmus-cip'),
+  motif = require('../../lib/controllers/motif-tagging'),
+  config = require('../../lib/config/config');
 
 var DATA_REGEXP = new RegExp('\\d+');
 var CM_PR_IN = 2.54;
@@ -19,7 +21,9 @@ const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
 
 const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
 const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
-var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString().split('\n');
+var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString();
+// Remove any linebreak from Linux, Windows or Mac and seperate tags
+    tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
 
 function relatedFilenameComparison(assetA, assetB) {
   var filenameA = assetA.filename;
@@ -210,6 +214,27 @@ var METADATA_TRANSFORMATIONS = [
     }).sort();
 
     return metadata;
+  },
+  function deriveVisionTags(state, metadata) {
+    // Let's save some cost and bandwidth and not
+    // analyze the asset if not explicitly told.
+    if (!state.indexVisionTags) { return metadata; }
+
+    // Let's grab the image directly from Cumulus
+    var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
+
+    return motif.fetchSuggestions(url).then(function (tags) {
+      // Filter out tags that are blacklisted.
+      var filteredTags = tags.filter(function (tag) {
+        // Include the tag if it's not in the blacklist
+        if (tagsBlacklist.indexOf(tag) === -1) {
+          return true;
+        }
+      });
+
+      metadata.visionTags = filteredTags;
+      return metadata;
+    });
   },
   /*function cracy_fails(state, metadata) {
   	throw new Error('Catch me if you can ... ' + metadata.id);

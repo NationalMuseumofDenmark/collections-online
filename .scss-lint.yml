@@ -3,3 +3,5 @@ linters:
     enabled: false
   SpaceAfterVariableName:
     enabled: false
+  NestingDepth:
+    max_depth: 4
