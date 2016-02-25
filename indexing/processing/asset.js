@@ -216,13 +216,17 @@ var METADATA_TRANSFORMATIONS = [
     return metadata;
   },
   function deriveVisionTags(state, metadata) {
+    // Let's save some cost and bandwidth and not
+    // analyze the asset if not explicitly told.
+    if (!state.indexVisionTags) { return metadata; }
+
     // Let's grab the image directly from Cumulus
     var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
 
     return motif.fetchSuggestions(url).then(function (tags) {
       // Filter out tags that are blacklisted.
       var filteredTags = tags.filter(function (tag) {
-        // Don't include tag if it's in the blacklist
+        // Include the tag if it's not in the blacklist
         if (tagsBlacklist.indexOf(tag) === -1) {
           return true;
         }

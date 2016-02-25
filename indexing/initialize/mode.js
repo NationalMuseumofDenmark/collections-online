@@ -1,5 +1,7 @@
 'use strict';
 
+var argv = require('yargs').argv;
+
 /**
  * This initializes the indexing mode, from the runtime parameters.
  * @param {Object} state The state of which we are about to initialize.
@@ -52,6 +54,12 @@ function mode(state) {
 			state.mode = isValidMode(suggestedMode);
 			if(args.length >= 4) {
 				state.reference = args[3];
+			}
+			// yargs
+			if(argv.vision){
+				state.indexVisionTags = true;
+			} else {
+				state.indexVisionTags = false;
 			}
 		}
 	}
