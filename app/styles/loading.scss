@@ -1,13 +1,13 @@
 $size: .7em;
 
 .loader {
-  border-radius   : 50%;
-  width           : $size;
-  height          : $size;
-  animation       : loading-dots 1.5s infinite ease-in-out 0s;
-  background-color: white;
-  margin-left     : .5em;
+  animation       : loading-dots 1s infinite ease-in-out 0s;
   animation-delay : -.4s;
+  background-color: $white;
+  border-radius   : 50%;
+  height          : $size;
+  margin-left     : .5em;
+  width           : $size;
 
   &.one {
     animation-delay: -.2s;
@@ -21,18 +21,19 @@ $size: .7em;
 
 @keyframes loading-dots {
   0% {
-    transform: scaleX(0.01) scaleY(0.01);
+    transform: scaleX(.01) scaleY(.01);
   }
+
   40% {
     transform: scaleX(1) scaleY(1);
   }
-  100% {
-    transform: scaleX(0.01) scaleY(0.01);
-  }
 
+  100% {
+    transform: scaleX(.01) scaleY(.01);
+  }
 }
 
-.add-tags-btn {
+.btn {
   .loader {
     display: none;
   }
