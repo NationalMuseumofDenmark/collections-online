@@ -1,4 +1,3 @@
-// Generated on 2014-05-05 using generator-angular-fullstack 1.4.2
 'use strict';
 
 var path = require('path');
