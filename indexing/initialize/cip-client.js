@@ -8,13 +8,13 @@
 var cip = require('../../lib/services/natmus-cip');
 
 function cipClient(state) {
-	console.log('Initializing the CIP client');
+  console.log('Initializing the CIP client');
 
-	return cip.initSession()
-	.then(function(cipClient) {
-		state.cip = cipClient;
-		return state;
-	});
+  return cip.initSession()
+  .then(function(cipClient) {
+    state.cip = cipClient;
+    return state;
+  });
 }
 
 module.exports = cipClient;
