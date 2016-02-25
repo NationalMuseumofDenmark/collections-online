@@ -18,7 +18,7 @@ function extendAndIndexAsset(state, subAssetMetadata, masterAssetMetadata) {
     'from',
     masterAssetMetadata.catalog + '-' + masterAssetMetadata.id);
 
-  var extendedMetadata = assetMapping.extend_metadata(subAssetMetadata, // jscs:ignore
+  var extendedMetadata = assetMapping.extendMetadata(subAssetMetadata, // jscs:ignore
                                                       masterAssetMetadata);
 
   // Index the extended metadata and return the promise.

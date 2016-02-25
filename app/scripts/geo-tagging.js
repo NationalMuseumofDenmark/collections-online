@@ -14,13 +14,13 @@ var mapHeading = 0;
 
   var $mapContainer = $('#geotagging');
   var $map = $('#geotagging-map');
-  var mapHeight = $mapContainer.width()*0.8;
+  var mapHeight = $mapContainer.width() * 0.8;
   $map.height(mapHeight);
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
-    mapHeight = $mapContainer.width()*0.8;
+    mapHeight = $mapContainer.width() * 0.8;
     $map.height(mapHeight);
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
@@ -249,8 +249,8 @@ var mapHeading = 0;
       $('.map-buttons.back-to-map').toggle(this.getVisible());
 
       if (this.getPosition()) {
-        var offset = google.maps.geometry.spherical.computeOffset(this.getPosition(),
-          100, mapHeading);
+        var offset = google.maps.geometry.spherical
+          .computeOffset(this.getPosition(), 100, mapHeading);
         marker.setPosition(this.getPosition());
         headingMarker.setPosition(offset);
         recalculateLine();

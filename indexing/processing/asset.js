@@ -36,7 +36,7 @@ function relatedFilenameComparison(assetA, assetB) {
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
   function transformFieldNames(state, metadata) {
-    var transformedMetadata = assetMapping.format_result(metadata);
+    var transformedMetadata = assetMapping.formatResult(metadata);
     // The catalog will be removed when formatting.
     transformedMetadata.catalog = metadata.catalog;
     return transformedMetadata;
@@ -58,7 +58,7 @@ var METADATA_TRANSFORMATIONS = [
           continue;
         }
         var category = metadata.categories[j].id;
-        var path = state.categories[metadata.catalog].get_path(category);
+        var path = state.categories[metadata.catalog].getPath(category);
         if (path) {
           for (var k = 0; k < path.length; k++) {
             metadata['categories_int'].push(path[k].id);
@@ -116,7 +116,7 @@ var METADATA_TRANSFORMATIONS = [
       return cip.getAsset(state.cip, metadata.catalog, rotationalMasterAsset.id)
         .then(function(masterAsset) {
           var masterAssetMetadata = masterAsset.fields;
-          masterAssetMetadata = assetMapping.format_result(
+          masterAssetMetadata = assetMapping.formatResult(
             masterAssetMetadata);
           for (var c in masterAssetMetadata.categories) {
             var category = masterAssetMetadata.categories[c];
@@ -186,7 +186,7 @@ var METADATA_TRANSFORMATIONS = [
   function derive_tags(state, metadata) {
     var tagsPerCategory = metadata.categories.map(function(category) {
       var catalogsCategoryTree = state.categories[metadata.catalog];
-      var path = catalogsCategoryTree.get_path(category.id) || [];
+      var path = catalogsCategoryTree.getPath(category.id) || [];
       return path.map(function(categoryOnPath) {
         var name = categoryOnPath.name;
         // Categories that starts with the dollar-sign are system categories.

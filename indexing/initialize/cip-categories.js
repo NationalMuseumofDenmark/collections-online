@@ -13,7 +13,7 @@ function initializeCipCategories(state) {
 
   state.categories = {};
 
-  return cipCategories.load_categories()
+  return cipCategories.loadCategories()
   .then(function(result) {
     // The categories pr catalog has been fetched from Cumulus.
     for (var i = 0; i < result.length; ++i) {
