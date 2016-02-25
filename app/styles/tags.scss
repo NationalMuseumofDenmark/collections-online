@@ -34,17 +34,8 @@
   }
 }
 
-.vision {
-  max-height : 0;
-  opacity    : 0;
-  padding-top: 1rem;
-  transition : max-height 3s ease, opacity 1s ease;
-  visibility : hidden;
-
-  &.loaded {
-    max-height: 600px;
-    opacity   : 1;
-    visibility: visible;
-  }
-
+.no-tags {
+  display       : inline-block;
+  margin-right  : .5rem;
+  padding-bottom: .4rem;
 }

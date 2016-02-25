@@ -100,15 +100,30 @@ block content
         h2 Emneord
         .tags
           if(!item.tags)
-            span.no-tags Der er ikke tilføjet nogle emneord endnu.
+            span.no-tags Der er ingen emneord endnu.
           each tag in item.tags || []
-            a.tag(href='/?q='+encodeURIComponent(tag))= tag
-          .btn.btn-primary.add-tags-btn 
-            span.text Tilføj emneord
-            .loader
-            .loader.one
-            .loader.two
+            +tag(tag)
             
+        // User tags
+        h3 Emneord tilføjet af bruger
+        .tags
+          if(!item.userTags)
+            span.no-tags Der er ikke tilføjet nogle emneord endnu.
+          each tag in item.userTags || []
+            +tag(tag)
+
+        // Vision tags
+        h3 Emneord fundet ved automatisk billedanalyse
+        .tags.vision
+          if(!item.visionTags)
+            span.no-tags Der er ikke fundet nogle emneord endnu.
+            .btn.btn-primary.add-tags-btn 
+              span.text Analyser billede
+              .loader
+              .loader.one
+              .loader.two
+          each tag in item.visionTags || []
+            +tag(tag)
 
         // Time and period
         h2 Tidsperiode og årstal

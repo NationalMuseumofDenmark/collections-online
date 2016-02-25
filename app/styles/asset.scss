@@ -20,7 +20,6 @@ $asset--icon-shadow-color: #fff;
     margin-top   : $line-height-computed;
 
     .dropdown-menu {
-      font-size: 13.5px;
       min-width: 145px;
 
       > li {
@@ -166,12 +165,18 @@ $asset--icon-shadow-color: #fff;
   }
 
   h1 {
-    font-size: 2rem;
+    font-size: 1.6rem;
   }
 
   h2,
   .lead {
-    font-size: 1.7rem;
+    font-size: 1.3rem;
+  }
+
+  h3 {
+    font-size    : 1rem;
+    margin-bottom: 0;
+    margin-top   : 0;
   }
 
   h2 {
@@ -182,20 +187,6 @@ $asset--icon-shadow-color: #fff;
     font-weight  : 300;
     margin-bottom: 0;
     white-space  : pre-line;
-  }
-
-  @media (min-width: $medium-size) {
-    h1 {
-      font-size: 3.2rem;
-    }
-
-    .lead {
-      font-size: 1.92rem;
-    }
-
-    h2 {
-      font-size: 2rem;
-    }
   }
 
   th {
@@ -231,4 +222,18 @@ $asset--icon-shadow-color: #fff;
 
 .asset .col-md-12 .zoomable {
   cursor: zoom-out;
+}
+
+@media (min-width: $medium-size) {
+  h1 {
+    font-size: 2.56rem;
+  }
+
+  .lead {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.6rem;
+  }
 }

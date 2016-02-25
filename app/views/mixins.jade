@@ -270,3 +270,6 @@ mixin assetIcon(small)
     span.asset-icon.glyphicon.glyphicon-picture.small
   else
     span.asset-icon.glyphicon.glyphicon-picture
+
+mixin tag(name)
+  a.tag(href='/?q='+encodeURIComponent(name))= name
