@@ -22,14 +22,26 @@ const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
 const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
 const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
 var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString();
-// Remove any linebreak from Linux, Windows or Mac and seperate tags
+    // Remove any linebreak from Linux, Windows or Mac and seperate tags
     tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
+
+const TAGS_VISION_FIELD = '{6864395c-c433-2148-8b05-56edf606d4d4}';
 
 function relatedFilenameComparison(assetA, assetB) {
   var filenameA = assetA.filename;
   var filenameB = assetB.filename;
   return filenameA.localeCompare(filenameB);
 }
+
+function saveVisionTags(metadata, tags) {
+  var values = {};
+  values[TAGS_VISION_FIELD] = tags;
+
+  return cip.initSession().then(function(nm) {
+    return cip.setFieldValues(nm, metadata.catalog, metadata.id, 'web', values);
+  });
+}
+
 
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
@@ -218,24 +230,39 @@ var METADATA_TRANSFORMATIONS = [
   function deriveVisionTags(state, metadata) {
     // Let's save some cost and bandwidth and not
     // analyze the asset if not explicitly told.
-    if (!state.indexVisionTags) { return metadata; }
-
+    if (!state.indexVisionTagsForced || !state.indexVisionTags) { return metadata; }
+    // Neither if the asset already has tags and we don't force it.
+    if (!state.indexVisionTagsForced && metadata.tags_vision !== null) { return metadata; }
+    console.log('here');
     // Let's grab the image directly from Cumulus
     var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
 
     return motif.fetchSuggestions(url).then(function (tags) {
-      // Filter out tags that are blacklisted.
+      // Filter out tags that are blacklisted and convert tags to string.
       var filteredTags = tags.filter(function (tag) {
         // Include the tag if it's not in the blacklist
         if (tagsBlacklist.indexOf(tag) === -1) {
           return true;
         }
-      });
+      }).join();
 
-      metadata.visionTags = filteredTags;
-      return metadata;
+      // Save the tags to Cumulus
+      return saveVisionTags(metadata, filteredTags).then(function(response) {
+        if(response.statusCode !== 200) {
+          throw new Error('Failed to set the field values');
+        }
+        metadata.tags_vision = filteredTags;
+        return metadata;
+      });
     });
   },
+  function tranformVisionTags (state, metadata) {
+    // We want Cumulus to have a string, but elasticsearch to have an array.
+    if (metadata.tags_vision && typeof(metadata.tags_vision) === 'string'){
+      metadata.tags_vision = metadata.tags_vision.split(',');
+    }
+    return metadata;
+  }
   /*function cracy_fails(state, metadata) {
   	throw new Error('Catch me if you can ... ' + metadata.id);
   }*/
