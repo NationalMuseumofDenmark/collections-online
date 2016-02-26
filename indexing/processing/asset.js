@@ -228,13 +228,14 @@ var METADATA_TRANSFORMATIONS = [
     return metadata;
   },
   function deriveVisionTags(state, metadata) {
-    // Let's save some cost and bandwidth and not
-    // analyze the asset if not explicitly told.
-    if (!state.indexVisionTagsForced || !state.indexVisionTags) { return metadata; }
-    // Neither if the asset already has tags and we don't force it.
-    if (!state.indexVisionTagsForced && metadata.tags_vision !== null) { return metadata; }
-    console.log('here');
-    // Let's grab the image directly from Cumulus
+    // Let's save some cost and bandwidth and not analyze the asset unless
+    // explicitly told. As in run only if one of the indexVison args are specified.
+    var shouldRun = state.indexVisionTagsForced || state.indexVisionTags;
+    // And run only if the asset doesn't have tags already or if we force it.
+    shouldRun = shouldRun && (!metadata.tags_vision || state.indexVisionTagsForced);
+    // Return if we shouldn't be here.
+    if (!shouldRun) { return metadata; }
+    // Still here. Let's grab the image directly from Cumulus.
     var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
 
     return motif.fetchSuggestions(url).then(function (tags) {

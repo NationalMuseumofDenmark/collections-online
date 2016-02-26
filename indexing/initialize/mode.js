@@ -56,6 +56,8 @@ function mode(state) {
 				state.reference = args[3];
 			}
 			// yargs
+      state.indexVisionTags = false;
+      state.indexVisionTagsForced = false;
 			if(argv.vision) {
 				state.indexVisionTags = true;
 			}
