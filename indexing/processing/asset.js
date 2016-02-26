@@ -21,8 +21,8 @@ const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
 const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
 const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
 var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString();
-    // Remove any linebreak from Linux, Windows or Mac and seperate tags
-    tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
+// Remove any linebreak from Linux, Windows or Mac and seperate tags
+tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
 
 const TAGS_VISION_FIELD = '{6864395c-c433-2148-8b05-56edf606d4d4}';
 
@@ -40,7 +40,6 @@ function saveVisionTags(metadata, tags) {
     return cip.setFieldValues(nm, metadata.catalog, metadata.id, 'web', values);
   });
 }
-
 
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
@@ -93,7 +92,7 @@ var METADATA_TRANSFORMATIONS = [
     metadata['related_sub_assets'].sort(relatedFilenameComparison);
     return metadata;
   },
-  function derive_in_artifact_rotation_series(state, metadata) {
+  function deriveInArtifactRotationSeries(state, metadata) {
     // Let's assume it's not.
     metadata.in_artifact_rotation_series = false;
     // Finds out if this asset is in a rotation series.
@@ -149,12 +148,12 @@ var METADATA_TRANSFORMATIONS = [
       return metadata;
     }
   },
-  function derive_dimensions_in_cm(state, metadata) {
+  function deriveDimensionsInCM(state, metadata) {
     metadata.width_cm = metadata.width_in * CM_PR_IN;
     metadata.height_cm = metadata.height_in * CM_PR_IN;
     return metadata;
   },
-  function derive_is_searchable(state, metadata) {
+  function deriveIsSearchable(state, metadata) {
     // Compute a value on if it's drafted, part of a rotational series
     // or an original that has more representable croppings.
     // Adds an is_searchable field to the metadata.
@@ -175,7 +174,7 @@ var METADATA_TRANSFORMATIONS = [
     // Return the updated metedata.
     return metadata;
   },
-  function derive_latitude_and_longitude(state, metadata) {
+  function deriveLatitudeAndLongitude(state, metadata) {
     var coordinates;
     if (metadata.google_maps_coordinates) {
       coordinates = metadata.google_maps_coordinates;
@@ -194,7 +193,7 @@ var METADATA_TRANSFORMATIONS = [
     }
     return metadata;
   },
-  function derive_tags(state, metadata) {
+  function deriveTags(state, metadata) {
     var tagsPerCategory = metadata.categories.map(function(category) {
       var catalogsCategoryTree = state.categories[metadata.catalog];
       var path = catalogsCategoryTree.getPath(category.id) || [];
