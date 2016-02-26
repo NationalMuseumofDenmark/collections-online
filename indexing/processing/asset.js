@@ -228,42 +228,54 @@ var METADATA_TRANSFORMATIONS = [
   function deriveVisionTags(state, metadata) {
     // Let's save some cost and bandwidth and not analyze the asset unless
     // explicitly told. As in run only if one of the indexVison args are specified.
-    var shouldRun = state.indexVisionTagsForce || state.indexVisionTags;
-    // And run only if the asset doesn't have tags already or if we force it.
-    shouldRun = shouldRun && (!metadata.tags_vision || state.indexVisionTagsForce);
-    // Return if we shouldn't be here.
-    if (!shouldRun) { return metadata; }
-    // Still here. Let's grab the image directly from Cumulus.
-    var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
+    var runForced = state.indexVisionTagsForce;
+    var runDefault = state.indexVisionTags && !metadata.tags_vision;
+    var reviewState = metadata.review_state ? metadata.review_state.id : null;
+    var isPublished = reviewState === 3 || reviewState === 4;
 
-    // Loading here to prevent circular dependency.
-    var motif = require('../../lib/controllers/motif-tagging');
+    if ((runForced || runDefault) && isPublished) {
+      // Still here. Let's grab the image directly from Cumulus.
+      var url = config.cipBaseURL + '/preview/thumbnail/';
+      url += metadata.catalog + '/' + metadata.id;
 
-    return motif.fetchSuggestions(url).then(function (tags) {
-      // Filter out tags that are blacklisted and convert tags to string.
-      var filteredTags = tags.filter(function (tag) {
-        // Include the tag if it's not in the blacklist
-        if (tagsBlacklist.indexOf(tag) === -1) {
-          return true;
-        }
-      }).join();
+      // Loading here to prevent circular dependency.
+      var motif = require('../../lib/controllers/motif-tagging');
 
-      // Save the tags to Cumulus
-      return saveVisionTags(metadata, filteredTags).then(function(response) {
-        if(response.statusCode !== 200) {
-          throw new Error('Failed to set the field values');
-        }
-        metadata.tags_vision = filteredTags;
-        return metadata;
+      return motif.fetchSuggestions(url).then(function(tags) {
+        console.log('Derived', tags.length, 'tags, using AI.');
+        // Convert tags to a comma seperated string
+        var filteredTags = tags.join(',');
+        // Save the tags to Cumulus
+        return saveVisionTags(metadata, filteredTags).then(function(response) {
+          if (response.statusCode !== 200) {
+            throw new Error('Failed to set the field values');
+          }
+          metadata.tags_vision = filteredTags;
+          return metadata;
+        });
       });
-    });
+    } else {
+      var reason = [];
+      if (!isPublished) {
+        reason.push('Asset is not published');
+      }
+      if (!runDefault) {
+        reason.push('Asset already had vision tags');
+      }
+      if (!runForced) {
+        reason.push('Was not forced to update vision tags');
+      }
+      reason = reason.join(', ');
+      console.log('Skipped to derive vision tags, reason: ' + reason);
+    }
+    return metadata;
   },
-  function transformTags (state, metadata) {
+  function transformTags(state, metadata) {
     // We want Cumulus to have a string, but elasticsearch to have an array.
-    if (metadata.tags_vision && typeof(metadata.tags_vision) === 'string'){
+    if (metadata.tags_vision && typeof(metadata.tags_vision) === 'string') {
       metadata.tags_vision = metadata.tags_vision.split(',');
     }
-    if (metadata.tags_crowd && typeof(metadata.tags_crowd) === 'string'){
+    if (metadata.tags_crowd && typeof(metadata.tags_crowd) === 'string') {
       metadata.tags_crowd = metadata.tags_crowd.split(',');
     }
     return metadata;
