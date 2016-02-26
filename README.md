@@ -64,3 +64,11 @@ In case you find bugs please open [an issue](https://github.com/NationalMuseumof
 
 Please fork the repository into your own github account and create a pull request whenever you are done with
 your changes. Ideally, you should rebase your branch before creating the pull request in case of upstream changes.
+
+### Linting and coding styles
+
+From 2016 and going forward the development team has been using the following
+tools for linting and aligning coding styles:
+
+* jshint (for the Atom Editor the linter-jshint can be used)
+* jscs (for the Atom Editor the linter-jscs can be used)

@@ -23,7 +23,7 @@ $(function() {
         var $use = $toggleButton.children().children();
         var $icon = $use.attr('xlink:href');
         // Show minus icon if plus and vice versa
-        if($icon === '#icon-plus'){
+        if ($icon === '#icon-plus') {
           $use.attr('xlink:href', '#icon-minus');
         } else {
           $use.attr('xlink:href', '#icon-plus');
@@ -37,9 +37,11 @@ $(function() {
       });
     })
     .fail(function() {
-      $('.categories-menu .dropdown-menu-right').html('<li><a href="' +
+      var message = 'Uups, der skete en fejl. Prøv at genindlæse siden...';
+      $('.categories-menu .dropdown-menu-right').html(
+        '<li><a href="' +
         window.location.pathname +
-        '" class="col-xs-12">Uups, der skete en fejl. Prøv at genindlæse siden...</a></li>'
+        '" class="col-xs-12">' + message + '</a></li>'
       );
     });
 });

@@ -1,4 +1,5 @@
 'use strict';
+
 var ajax = new XMLHttpRequest();
 ajax.open('GET', '/images/symbol/sprite.svg', true);
 ajax.send();

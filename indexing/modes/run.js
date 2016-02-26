@@ -5,8 +5,8 @@
  */
 
 function run(state) {
-	var mode = require('./' + state.mode);
-	return mode(state);
+  var mode = require('./' + state.mode);
+  return mode(state);
 }
 
 module.exports = run;

@@ -38,7 +38,7 @@ mixin searchMeta(results, catalog, breadcrumbs)
   +meta(title,socialTitle)
   
 mixin meta(title,socialTitle,image,description)
-  - siteTitle = req.app.get('site_title')
+  - siteTitle = req.app.get('siteTitle')
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
@@ -178,7 +178,7 @@ mixin icon(id)
 
 mixin license()
   if(item.license)
-    - var license = helpers.license_tag(item.license.id);
+    - var license = helpers.licenseTag(item.license.id);
     if(license)
       a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
 
@@ -189,12 +189,12 @@ mixin responsiveImage(title, item, sources)
 mixin rotationImage(title, item, sources)
   picture.zoomable(alt=title)
     //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
-    source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
-    source(srcset=sources.image_set['800'], media='(min-width: 400px)')
-    source(srcset=sources.image_set['400'], media='(max-width: 400px)')
+    source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
+    source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
+    source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
+    source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
     //[if IE 9]></video><![endif]
-    a.Magic360(data-magic360-options=helpers.magic360_options(sources.image_rotation_set))
+    a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
       img(src=sources.image, alt=title)
   +license()
 
@@ -231,16 +231,16 @@ mixin formatDate(from, to)
         | #{to.day}/#{to.month}/#{to.year}
 
 mixin addDating(item, alias)
-  - var leaf_category = helpers.leaf_category_by_tag(categories, 'Tid');
+  - var leaf_category = helpers.leafCategoryByTag(categories, 'Tid');
   if(leaf_category)
-    a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
+    a(href=helpers.getCategoryLink(req, alias, leaf_category))= leaf_category.name
   else
     | -
 
 mixin addPlace(item, alias)
-  - var leaf_category = helpers.leaf_category_by_tag(categories, 'Lokalitet');
+  - var leaf_category = helpers.leafCategoryByTag(categories, 'Lokalitet');
   if(leaf_category)
-    a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
+    a(href=helpers.getCategoryLink(req, alias, leaf_category))= leaf_category.name
   else
     | -
 

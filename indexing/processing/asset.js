@@ -47,33 +47,33 @@ function saveVisionTags(metadata, tags) {
 // arguments (cip_client, metadata) and returns a mutated metadata, which
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
-  function transform_field_names(state, metadata) {
-    var transformedMetadata = assetMapping.format_result(metadata);
+  function transformFieldNames(state, metadata) {
+    var transformedMetadata = assetMapping.formatResult(metadata);
     // The catalog will be removed when formatting.
     transformedMetadata.catalog = metadata.catalog;
     return transformedMetadata;
   },
-  function transform_modification_time(state, metadata) {
-    var re_result = DATA_REGEXP.exec(metadata.modification_time);
-    if (re_result && re_result.length > 0) {
-      metadata.modification_time = parseInt(re_result[0], 10);
+  function transformModificationTime(state, metadata) {
+    var modificationTime = DATA_REGEXP.exec(metadata['modification_time']);
+    if (modificationTime && modificationTime.length > 0) {
+      metadata['modification_time'] = parseInt(modificationTime[0], 10);
     }
     return metadata;
   },
-  function transform_categories_and_derive_suggest(state, metadata) {
+  function transformCategoriesAndDeriveSuggest(state, metadata) {
     // Transforms the categories.
     if (metadata.categories !== undefined) {
-      metadata.categories_int = [];
+      metadata['categories_int'] = [];
 
       for (var j = 0; j < metadata.categories.length; ++j) {
         if (metadata.categories[j].path.indexOf('$Categories') !== 0) {
           continue;
         }
-        var path = state.categories[metadata.catalog].get_path(metadata.categories[
-          j].id);
+        var category = metadata.categories[j].id;
+        var path = state.categories[metadata.catalog].getPath(category);
         if (path) {
           for (var k = 0; k < path.length; k++) {
-            metadata.categories_int.push(path[k].id);
+            metadata['categories_int'].push(path[k].id);
             if (path[k].name.indexOf('$Categories') === 0) {
               continue;
             }
@@ -83,15 +83,15 @@ var METADATA_TRANSFORMATIONS = [
     }
     return metadata;
   },
-  function transform_relations(state, metadata) {
+  function transformRelations(state, metadata) {
     // Transforms the binary representations of each relation.
-    metadata.related_master_assets = cip.parseBinaryRelations(
-      metadata.related_master_assets);
-    metadata.related_sub_assets = cip.parseBinaryRelations(
-      metadata.related_sub_assets);
+    metadata['related_master_assets'] = cip.parseBinaryRelations(
+      metadata['related_master_assets']);
+    metadata['related_sub_assets'] = cip.parseBinaryRelations(
+      metadata['related_sub_assets']);
     // Sort these by their filename.
-    metadata.related_master_assets.sort(relatedFilenameComparison);
-    metadata.related_sub_assets.sort(relatedFilenameComparison);
+    metadata['related_master_assets'].sort(relatedFilenameComparison);
+    metadata['related_sub_assets'].sort(relatedFilenameComparison);
     return metadata;
   },
   function derive_in_artifact_rotation_series(state, metadata) {
@@ -128,7 +128,7 @@ var METADATA_TRANSFORMATIONS = [
       return cip.getAsset(state.cip, metadata.catalog, rotationalMasterAsset.id)
         .then(function(masterAsset) {
           var masterAssetMetadata = masterAsset.fields;
-          masterAssetMetadata = assetMapping.format_result(
+          masterAssetMetadata = assetMapping.formatResult(
             masterAssetMetadata);
           for (var c in masterAssetMetadata.categories) {
             var category = masterAssetMetadata.categories[c];
@@ -198,7 +198,7 @@ var METADATA_TRANSFORMATIONS = [
   function derive_tags(state, metadata) {
     var tagsPerCategory = metadata.categories.map(function(category) {
       var catalogsCategoryTree = state.categories[metadata.catalog];
-      var path = catalogsCategoryTree.get_path(category.id) || [];
+      var path = catalogsCategoryTree.getPath(category.id) || [];
       return path.map(function(categoryOnPath) {
         var name = categoryOnPath.name;
         // Categories that starts with the dollar-sign are system categories.
