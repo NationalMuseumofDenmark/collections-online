@@ -6,6 +6,7 @@ var $visionTags = $('.tags.vision');
 var $userNoTags = $('.user .no-tags');
 var $userBtn = $('#user-btn');
 var $userTags = $('.tags.user');
+var $newUserTag = $('.tag.new');
 var $userInput = $('.tags.user input');
 
 $visionBtn.click(function() {
@@ -26,13 +27,6 @@ $visionBtn.click(function() {
         var $tag = $('<a href="' + tagUrl + '" class="tag">' + tag +
           '</a>');
         $visionTags.append($tag);
-        // var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
-        // $tag.append($icon);
-        // var $tag = $('<span class="btn btn-primary">' + tag + '</span>');
-        // var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
-        // $tag.click(function() {
-        //   $(this).remove();
-        // });
       }
     }
   }).fail(function() {
@@ -48,6 +42,16 @@ $userBtn.click(function() {
 });
 $userInput.keyup(function(e) {
   if (e.keyCode === 13) {
-    alert($(this).val());
+    var tag = $(this).val().trim().toLowerCase();
+    var $tag = $('<span class="tag new">' + tag + '</span>');
+    var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
+    $tag.append($icon);
+    $userTags.append($tag);
+    $(this).val('');
   }
+});
+
+// WHY DOES THIS NOT FUCKING WORK!?
+$newUserTag.click(function() {
+  console.log('new tag clicked');
 });

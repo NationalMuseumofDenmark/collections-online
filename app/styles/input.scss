@@ -1,19 +1,19 @@
 // Material style inputs
-$input-animation: .15s ease all;
+$input-animation: .2s ease all;
 
 .material-input {
   margin-bottom: 1rem;
-  margin-top   : .5rem;
   max-width    : 300px;
   position     : relative;
   width        : 100%;
 
   input {
-    border       : 0;
-    border-bottom: 1px solid $text-color;
-    display      : block;
-    padding      : .5rem .5rem .5rem 0;
-    width        : 100%;
+    border        : 0;
+    border-bottom : 1px solid $text-color;
+    display       : block;
+    padding-bottom: .3rem;
+    transition    : $input-animation;
+    width         : 100%;
 
     &:focus {
       outline: none;
@@ -22,14 +22,19 @@ $input-animation: .15s ease all;
       ~ .bar::after {
         width: 50%;
       }
+
+      ~ label {
+        color: $brand-primary;
+      }
     }
 
     &:focus,
     &:valid {
+      margin-top: 1rem;
+
       ~ label {
-        color    : $brand-primary;
         font-size: .8rem;
-        top      : -.5rem;
+        top      : -1rem;
       }
     }
   }
@@ -38,7 +43,7 @@ $input-animation: .15s ease all;
     color         : $gray-light;
     pointer-events: none;
     position      : absolute;
-    top           : .5rem;
+    top           : .2rem;
     transition    : $input-animation;
   }
 
@@ -51,7 +56,7 @@ $input-animation: .15s ease all;
       background: $brand-primary;
       bottom    : 0;
       content   : '';
-      height    : 2px;
+      height    : 3px;
       position  : absolute;
       transition: $input-animation;
       width     : 0;
