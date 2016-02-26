@@ -41,6 +41,12 @@ function saveVisionTags(metadata, tags) {
   });
 }
 
+function AssetIndexingError(catalogAlias, assetId, innerError) {
+  this.catalogAlias = catalogAlias;
+  this.assetId = assetId;
+  this.innerError = innerError;
+}
+
 // This list of transformations are a list of functions that takes two
 // arguments (cip_client, metadata) and returns a mutated metadata, which
 // is passed on to the next function in the list.
@@ -314,10 +320,8 @@ function processAsset(state, metadata, transformations) {
       console.log('Successfully indexed ' + resp._id);
       return resp._id;
     }, function(err) {
-      err.catalogAlias = metadata.catalog;
-      err.assetId = metadata.id;
-      console.error(err.stack);
-      return err;
+      console.error('An error occured!', err.stack || err.message);
+      return new AssetIndexingError(metadata.catalog, metadata.id, err);
     });
 }
 

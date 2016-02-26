@@ -24,7 +24,7 @@ function printAssetExceptions(state) {
       message += ') ---';
 
       console.error(message);
-      console.error(err.stack);
+      console.error(err.innerError.stack || err.innerError.message);
     }
   }
 
