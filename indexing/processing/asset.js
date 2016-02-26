@@ -261,6 +261,7 @@ var METADATA_TRANSFORMATIONS = [
         });
       });
     } else {
+      /*
       var reason = [];
       if (!isPublished) {
         reason.push('Asset is not published');
@@ -273,6 +274,7 @@ var METADATA_TRANSFORMATIONS = [
       }
       reason = reason.join(', ');
       console.log('Skipped to derive vision tags, reason: ' + reason);
+      */
     }
     return metadata;
   },
@@ -285,10 +287,12 @@ var METADATA_TRANSFORMATIONS = [
       metadata.tags_crowd = metadata.tags_crowd.split(',');
     }
     return metadata;
-  }
-  /*function cracy_fails(state, metadata) {
+  },
+  /*
+  function cracyFails(state, metadata) {
   	throw new Error('Catch me if you can ... ' + metadata.id);
-  }*/
+  }
+  */
 ];
 
 function transformMetadata(state, metadata, transformations) {
