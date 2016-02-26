@@ -26,7 +26,9 @@ function getResultPage(state, result, pointer, rowCount) {
     maxreturned: rowCount,
     field: ADDITIONAL_FIELDS
   }).then(function(response) {
-    if (response === null || typeof(response.body.items) === 'undefined') {
+    if (!response ||
+        !response.body ||
+        typeof(response.body.items) === 'undefined') {
       console.error('Unexpected response:', response);
       throw new Error('The request for field values returned an empty result.');
     } else {
