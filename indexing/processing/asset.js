@@ -237,6 +237,9 @@ var METADATA_TRANSFORMATIONS = [
     // Still here. Let's grab the image directly from Cumulus.
     var url = config.cipBaseURL + '/preview/thumbnail/' + metadata.catalog + '/' + metadata.id;
 
+    // Loading here to prevent circular dependency.
+    var motif = require('../../lib/controllers/motif-tagging');
+
     return motif.fetchSuggestions(url).then(function (tags) {
       // Filter out tags that are blacklisted and convert tags to string.
       var filteredTags = tags.filter(function (tag) {
