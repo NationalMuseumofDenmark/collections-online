@@ -10,7 +10,6 @@ var Q = require('q'),
   _ = require('lodash'),
   assetMapping = require('../../lib/asset-mapping.js'),
   cip = require('../../lib/services/natmus-cip'),
-  motif = require('../../lib/controllers/motif-tagging'),
   config = require('../../lib/config/config');
 
 var DATA_REGEXP = new RegExp('\\d+');
@@ -257,10 +256,13 @@ var METADATA_TRANSFORMATIONS = [
       });
     });
   },
-  function tranformVisionTags (state, metadata) {
+  function transformTags (state, metadata) {
     // We want Cumulus to have a string, but elasticsearch to have an array.
     if (metadata.tags_vision && typeof(metadata.tags_vision) === 'string'){
       metadata.tags_vision = metadata.tags_vision.split(',');
+    }
+    if (metadata.tags_crowd && typeof(metadata.tags_crowd) === 'string'){
+      metadata.tags_crowd = metadata.tags_crowd.split(',');
     }
     return metadata;
   }

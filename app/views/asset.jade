@@ -106,16 +106,17 @@ block content
             
         // User tags
         h3 Emneord tilføjet af brugere
-        .tags.user
-          if(!item.userTags)
+        .tags.crowd
+          if(!item.tags_crowd)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
-            .btn.btn-primary#user-btn Tilføj emneord
-            .material-input
-              input(type='text', required='')
-              span.bar
-              label Indtast nyt emneord og tryk enter
-          each tag in item.userTags || []
+            
+          each tag in item.tags_crowd || []
             +tag(tag)
+          .btn.btn-primary#crowd-btn Tilføj emneord
+          .material-input
+            input(type='text', required='')
+            span.bar
+            label Indtast nyt emneord og tryk enter
 
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse

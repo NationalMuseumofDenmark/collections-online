@@ -31,9 +31,13 @@
     &:focus {
       background-color: darken($tag-bg, 10%);
     }
+
+    &.new {
+      cursor: pointer;
+    }
   }
 
-  &.user {
+  &.crowd {
     .material-input {
       display: none;
     }
