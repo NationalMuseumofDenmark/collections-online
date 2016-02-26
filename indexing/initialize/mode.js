@@ -57,13 +57,13 @@ function mode(state) {
 			}
 			// yargs
       state.indexVisionTags = false;
-      state.indexVisionTagsForced = false;
+      state.indexVisionTagsForce = false;
 			if(argv.vision) {
 				state.indexVisionTags = true;
 			}
 
-			if(argv.visionForced) {
-				state.indexVisionTagsForced = true;
+			if(argv.visionForce) {
+				state.indexVisionTagsForce = true;
 			}
 		}
 	}
