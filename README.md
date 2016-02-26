@@ -56,6 +56,17 @@ Running the webapp is simple:
 
 And it should be accessible on ``http://localhost:9000`` using your browser.
 
+## Harvesting tags from Google Vision and Project Oxford
+For the image analyzation libraries to work, you need to set the following environment variables:
+
+    $ export GOOGLE_API_KEY = your_google_api_key
+    $ export PROJECT_OXFORD_API_KEY = your_oxford_api_key
+
+The tags returned from these libraries are also translated through Google Translate. This combined with uploading the images
+costs time and money. Therefore we don't update the tags when indexing assets unless we explicitly tell the index to do it.
+To fetch tags for all assets who doesn't have any, run the any indexing query you'd like with the flag --vision.
+To update the tags for an asset regardless of they have tags or not, run the query with --vision-force
+
 ## Bugs
 
 In case you find bugs please open [an issue](https://github.com/NationalMuseumofDenmark/natmus-samlinger/issues).

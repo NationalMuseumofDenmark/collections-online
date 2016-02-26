@@ -229,9 +229,9 @@ var METADATA_TRANSFORMATIONS = [
   function deriveVisionTags(state, metadata) {
     // Let's save some cost and bandwidth and not analyze the asset unless
     // explicitly told. As in run only if one of the indexVison args are specified.
-    var shouldRun = state.indexVisionTagsForced || state.indexVisionTags;
+    var shouldRun = state.indexVisionTagsForce || state.indexVisionTags;
     // And run only if the asset doesn't have tags already or if we force it.
-    shouldRun = shouldRun && (!metadata.tags_vision || state.indexVisionTagsForced);
+    shouldRun = shouldRun && (!metadata.tags_vision || state.indexVisionTagsForce);
     // Return if we shouldn't be here.
     if (!shouldRun) { return metadata; }
     // Still here. Let's grab the image directly from Cumulus.
