@@ -111,44 +111,6 @@ $asset--icon-shadow-color: #fff;
     margin-bottom: $line-height-computed;
   }
 
-  .collapsable-section-header {
-    a {
-      color         : $brand-primary;
-      display       : block;
-      vertical-align: middle;
-      width         : 100%;
-
-      svg {
-        @extend %pull-left;
-        fill          : $brand-primary;
-        height        : 20px;
-        margin        : 0 .2em 0 0;
-        vertical-align: middle;
-        width         : 20px;
-      }
-
-      .icon-plus {
-        @extend %hidden;
-      }
-
-      .icon-minus {
-        @extend %show;
-        visibility: visible !important;
-      }
-
-      &.collapsed {
-        .icon-plus {
-          @extend %show;
-          visibility: visible !important;
-        }
-
-        .icon-minus {
-          @extend %hidden;
-        }
-      }
-    }
-  }
-
   .related-assets {
     margin-bottom: 15px;
 
