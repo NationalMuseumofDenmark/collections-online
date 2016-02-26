@@ -120,14 +120,14 @@ block content
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
         .tags.vision
-          if(!item.visionTags)
+          if(!item.tags_vision)
             span.no-tags Der er ikke fundet nogle emneord endnu.
             .btn.btn-primary#vision-btn
               span.text Analysér billede
               .loader
               .loader.one
               .loader.two
-          each tag in item.visionTags || []
+          each tag in item.tags_vision || []
             +tag(tag)
 
         // Time and period
@@ -217,7 +217,7 @@ block content
               th Filstørrelse:
               td= helpers.filesizeMB(item.file_size) || '-'
             tr
-              th Rettighedshaver:
+              th Kilde:
               td
                 span(itemprop='copyrightHolder')= item.copyright || '-'
             tr
