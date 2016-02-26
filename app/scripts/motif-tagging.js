@@ -56,15 +56,16 @@
     $crowdNoTags.remove();
   });
   $crowdInput.keyup(function(e) {
+    $('.crowd .alert').remove();
     if (e.keyCode === 13) {
       var tag = $(this).val().trim().toLowerCase();
       var $tag = $('<span class="tag new">' + tag + '</span>');
       $tag.click(function() {
         $(this).remove();
       });
-      var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
       saveTag(tag)
       .done(function() {
+        var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
         $tag.append($icon);
         $crowdTags.append($tag);
         $crowdInput.val('');

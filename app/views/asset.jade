@@ -20,63 +20,63 @@ block content
     - var title = item.short_title || 'Ingen titel'
     .row
       .col-md-6.col-xs-12.image-row
-          - var filename = item.filename.toLowerCase();
-          .primary-asset.bleed
-            - if(player === "image-single" || player === "image-single-animated")
-                img.zoomable(src=sources.image, alt=title)
-                +license()
-            - else if(player === "image-rotation")
-                +rotationImage(title, item, sources)
-            - else if(player === "audio")
-                audio(controls)
-                  source(src=sources.audio)
-            - else if(player === "video")
-                video(width="100%", controls)
-                  source(src=sources.video, type="video/mp4")
+        - var filename = item.filename.toLowerCase();
+        .primary-asset.bleed
+          if(player === "image-single" || player === "image-single-animated")
+            img.zoomable(src=sources.image, alt=title)
+            +license()
+          else if(player === "image-rotation")
+            +rotationImage(title, item, sources)
+          else if(player === "audio")
+            audio(controls)
+              source(src=sources.audio)
+          else if(player === "video")
+            video(width="100%", controls)
+              source(src=sources.video, type="video/mp4")
 
-          .asset-tools
-            .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('icon-download')
-              ul.dropdown-menu(role='menu')
-                - if(filename.match('.tif$') || filename.match('.tiff$'))
-                  li
-                    a(href='#{sources.imageSet.download800}') Lille
-                  li.divider
-                  li
-                    a(href='#{sources.imageSet.download1200}') Mellem
-                  li.divider
-                  li
-                    a(href='#{sources.imageSet.download2000}') Stor
-                  li.divider
+        .asset-tools
+          .btn-group.dropup
+            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+              +icon('icon-download')
+            ul.dropdown-menu(role='menu')
+              - if(filename.match('.tif$') || filename.match('.tiff$'))
                 li
-                  a(href='#{sources.download}') Original
-            +shareThisHTML()
-            span.licens
-              span.title Licens:
-              - if(item.license)
-                  - var license = helpers.licenseTag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
+                  a(href='#{sources.imageSet.download800}') Lille
+                li.divider
+                li
+                  a(href='#{sources.imageSet.download1200}') Mellem
+                li.divider
+                li
+                  a(href='#{sources.imageSet.download2000}') Stor
+                li.divider
+              li
+                a(href='#{sources.download}') Original
+          +shareThisHTML()
+          span.licens
+            span.title Licens:
+            - if(item.license)
+                - var license = helpers.licenseTag(item.license.id);
+                - if(license)
+                  a(href=license.url, rel='license', target='_blank')
+                    img(src=license.img, alt='Creative Commons licens')
                 - else
-                  | -
-          .related-assets
-            each asset in relatedAssets.visible
-              a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                href=asset.href)
-            - if(relatedAssets.additional.length > 0)
-              h2.collapsable-section-header
-                a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                  +icon('icon-minus')
-                  +icon('icon-plus')
-                  | Flere relaterede
-              div#additional-related.collapse
-                each asset in relatedAssets.additional
-                  a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                    href=asset.href)
+                  | #{item.license.displaystring}
+              - else
+                | -
+        .related-assets
+          each asset in relatedAssets.visible
+            a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+              href=asset.href)
+          - if(relatedAssets.additional.length > 0)
+            h2.collapsable-section-header
+              a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
+                +icon('icon-minus')
+                +icon('icon-plus')
+                | Flere relaterede
+            div#additional-related.collapse
+              each asset in relatedAssets.additional
+                a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+                  href=asset.href)
 
       .col-md-6.col-xs-12.pull-right.text-row
         #geotagging-anchor
@@ -107,22 +107,21 @@ block content
         // User tags
         h3 Emneord tilføjet af brugere
         .tags.crowd
+          .material-input
+            input(type='text', required='')
+            span.bar
+            label Indtast nyt emneord og tryk enter
           if(!item.tags_crowd)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
             
           each tag in item.tags_crowd || []
             +tag(tag)
           .btn.btn-primary#crowd-btn Tilføj emneord
-          .material-input
-            input(type='text', required='')
-            span.bar
-            label Indtast nyt emneord og tryk enter
 
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
         .tags.vision
           if(!item.tags_vision)
-            span.no-tags Der er ikke fundet nogle emneord endnu.
             .btn.btn-primary#vision-btn
               span.text Analysér billede
               .loader

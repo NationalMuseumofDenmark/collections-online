@@ -50,18 +50,13 @@ $(function() {
 $(function() {
   // We only want zooming on asset's primary images.
   $('.asset .zoomable').click(function() {
-    if ($(this).parent('div').hasClass('col-md-6')) {
-      $(this).parent('div').removeClass('col-md-6');
-      $(this).parent('div').addClass('col-md-12');
-      // Also for the div below
-      $(this).parent('div').next('div').removeClass('col-md-6');
-      $(this).parent('div').next('div').addClass('col-md-12');
+    var $thisRow = $(this).closest('.image-row');
+    if ($thisRow.hasClass('col-md-6')) {
+      $thisRow.removeClass('col-md-6').addClass('col-md-12');
+      $thisRow.next('div').addClass('col-md-offset-3').removeClass('pull-right');
     } else {
-      $(this).parent('div').removeClass('col-md-12');
-      $(this).parent('div').addClass('col-md-6');
-      // Also for the div below
-      $(this).parent('div').next('div').removeClass('col-md-12');
-      $(this).parent('div').next('div').addClass('col-md-6');
+      $thisRow.removeClass('col-md-12').addClass('col-md-6');
+      $thisRow.next('div').removeClass('col-md-offset-3').addClass('pull-right');
     }
   });
 });
