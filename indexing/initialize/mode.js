@@ -44,29 +44,29 @@ function usageMessage() {
 function mode(state) {
   console.log('Initializing the indexing mode');
 
-	if(!state.mode) {
-		var args = process.argv;
-		if(args && args.length <= 2) {
-			// No arguments supplied, just node and the app script's path.
-			state.mode = MODES.recent;
-		} else if(args && args.length >= 3) {
-			var suggestedMode = args[2];
-			state.mode = isValidMode(suggestedMode);
-			if(args.length >= 4) {
-				state.reference = args[3];
-			}
-			// yargs
+  if (!state.mode) {
+    var args = process.argv;
+    if (args && args.length <= 2) {
+      // No arguments supplied, just node and the app script's path.
+      state.mode = MODES.recent;
+    } else if (args && args.length >= 3) {
+      var suggestedMode = args[2];
+      state.mode = isValidMode(suggestedMode);
+      if (args.length >= 4) {
+        state.reference = args[3];
+      }
+      // yargs
       state.indexVisionTags = false;
       state.indexVisionTagsForce = false;
-			if(argv.vision) {
-				state.indexVisionTags = true;
-			}
+      if (argv.vision) {
+        state.indexVisionTags = true;
+      }
 
-			if(argv.visionForce) {
-				state.indexVisionTagsForce = true;
-			}
-		}
-	}
+      if (argv.visionForce) {
+        state.indexVisionTagsForce = true;
+      }
+    }
+  }
 
   if (!state.mode) {
     throw new Error('Unrecognized mode!' + '\n' + usageMessage());
