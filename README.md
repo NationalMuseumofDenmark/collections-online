@@ -15,7 +15,7 @@ stuff is using jQuery for performing masonry and auto suggestion. It is using th
 The solution is built by [Headnet ApS](http://www.headnet.dk). Licensed under
 [LGPL v3](https://www.gnu.org/licenses/lgpl.html).
 
-![Screenshot](screenshot.png)
+![Screenshot](misc/screenshot.png)
 
 ## How to setup
 
