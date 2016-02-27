@@ -6,7 +6,8 @@
  * the index.
  */
 
-function deleteRemovedAssets(state) {
+module.exports = function(state) {
+  // TODO: Consider enabling this for state.mode === 'catalog' as well.
   if (state.mode === 'all') {
     console.log('Deleting every asset in the index, except',
                 state.indexedAssetIds.length);
@@ -62,6 +63,4 @@ function deleteRemovedAssets(state) {
     console.log('Removed assets will only be deleted when in all mode.');
     return state;
   }
-}
-
-module.exports = deleteRemovedAssets;
+};

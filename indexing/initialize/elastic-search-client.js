@@ -7,7 +7,7 @@
 
 var elasticsearch = require('elasticsearch');
 
-function elasticSearchClient(state) {
+module.exports = function(state) {
   console.log('Initializing the Elastic Search client');
 
   state.es = new elasticsearch.Client({
@@ -15,6 +15,4 @@ function elasticSearchClient(state) {
     host: process.env.ES_HOST || 'localhost:9200'
   });
   return state;
-}
-
-module.exports = elasticSearchClient;
+};

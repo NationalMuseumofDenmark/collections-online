@@ -99,101 +99,106 @@ function updateMetadataFromRelations(state, assetMetadata) {
  * assets, based on a list of indexed assets ids.
  */
 function inheritMetadata(state) {
-  console.log('Inheriting metadata from master assets of',
-              state.indexedAssetIds.length,
-              'assets');
-
-  var assetIdQueue = state.indexedAssetIds.filter(function(id) {
-    // This filters out any undefined values from failing assets.
-    return typeof(id) === 'string';
-  });
-
-  var handledAssetIds = {};
-  // Let's not update the same asset more than this many times.
-  var MAX_RECURRANCES = 3;
-
-  console.log('Updating metadata inheritance of',
-              assetIdQueue.length,
-              'asset(s), based on the index.');
-
-  var deferred = Q.defer();
-
-  function updateNextAssetFromRelations() {
-    if (assetIdQueue.length === 0) {
-      deferred.resolve(state);
-      return; // Let's not do anything, if the queue is empty.
-    }
-
-    // Let's pop one from front of the queue.
-    var assetId = assetIdQueue.shift();
-
-    if (assetId in handledAssetIds &&
-        handledAssetIds[assetId] > MAX_RECURRANCES) {
-      console.log('Skipping asset',
-            assetId,
-            'as it was already updated',
-            handledAssetIds[assetId],
-            'times.');
-      // Skip the asset.
-      return updateNextAssetFromRelations();
-    } else {
-      // Fetch the asset metadata related to the asset.
-      state.es.get({
-        index: process.env.ES_INDEX || 'assets',
-        type: 'asset',
-        id: assetId
-      }).then(function(response) {
-        var assetMetadata = response._source;
-        if (!assetMetadata) {
-          deferred.reject('Got an asset without metadata: ', assetId);
-        }
-
-        var newlyIndexAssetIds = updateMetadataFromRelations(state,
-                                                             assetMetadata);
-
-        Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
-          // Increment the number of times we've handled this asset.
-          if (!(assetId in handledAssetIds)) {
-            handledAssetIds[assetId] = 0;
-          }
-          handledAssetIds[assetId]++;
-
-          if (newlyIndexAssetIds.length > 0) {
-            console.log('Adding',
-                  newlyIndexAssetIds.length,
-                  'assets to the queue, from',
-                  assetId);
-            // Concatinate the new IDs to the queue.
-            assetIdQueue = assetIdQueue.concat(newlyIndexAssetIds);
-          }
-
-          // Let's take the next one - if any.
-          setTimeout(function() {
-            updateNextAssetFromRelations();
-          }, 0); // The timeout is to prevent stack size exceeding.
-        });
-      }, function(reason) {
-        console.error('Failed fetching newly indexed asset',
-               assetId,
-               'reason:',
-               reason.message || reason || 'Not given.');
-        if (reason.stack) {
-          console.error(reason.stack);
-        }
-        // Next asset please ...
-        return updateNextAssetFromRelations();
-      });
-    }
-  }
-
-  if (assetIdQueue.length > 0) {
-    // Let's start the madness.
-    updateNextAssetFromRelations();
+  if (!state.indexedAssetIds) {
+    console.log('Skipping, as it seems no assets were indexed.');
+    return state;
   } else {
-    deferred.resolve(state);
-  }
+    console.log('Inheriting metadata from master assets of',
+                state.indexedAssetIds.length,
+                'assets');
 
-  return deferred.promise;
+    var assetIdQueue = state.indexedAssetIds.filter(function(id) {
+      // This filters out any undefined values from failing assets.
+      return typeof(id) === 'string';
+    });
+
+    var handledAssetIds = {};
+    // Let's not update the same asset more than this many times.
+    var MAX_RECURRANCES = 3;
+
+    console.log('Updating metadata inheritance of',
+                assetIdQueue.length,
+                'asset(s), based on the index.');
+
+    var deferred = Q.defer();
+
+    function updateNextAssetFromRelations() {
+      if (assetIdQueue.length === 0) {
+        deferred.resolve(state);
+        return; // Let's not do anything, if the queue is empty.
+      }
+
+      // Let's pop one from front of the queue.
+      var assetId = assetIdQueue.shift();
+
+      if (assetId in handledAssetIds &&
+          handledAssetIds[assetId] > MAX_RECURRANCES) {
+        console.log('Skipping asset',
+              assetId,
+              'as it was already updated',
+              handledAssetIds[assetId],
+              'times.');
+        // Skip the asset.
+        return updateNextAssetFromRelations();
+      } else {
+        // Fetch the asset metadata related to the asset.
+        state.es.get({
+          index: process.env.ES_INDEX || 'assets',
+          type: 'asset',
+          id: assetId
+        }).then(function(response) {
+          var assetMetadata = response._source;
+          if (!assetMetadata) {
+            deferred.reject('Got an asset without metadata: ', assetId);
+          }
+
+          var newlyIndexAssetIds = updateMetadataFromRelations(state,
+                                                               assetMetadata);
+
+          Q.when(newlyIndexAssetIds, function(newlyIndexAssetIds) {
+            // Increment the number of times we've handled this asset.
+            if (!(assetId in handledAssetIds)) {
+              handledAssetIds[assetId] = 0;
+            }
+            handledAssetIds[assetId]++;
+
+            if (newlyIndexAssetIds.length > 0) {
+              console.log('Adding',
+                    newlyIndexAssetIds.length,
+                    'assets to the queue, from',
+                    assetId);
+              // Concatinate the new IDs to the queue.
+              assetIdQueue = assetIdQueue.concat(newlyIndexAssetIds);
+            }
+
+            // Let's take the next one - if any.
+            setTimeout(function() {
+              updateNextAssetFromRelations();
+            }, 0); // The timeout is to prevent stack size exceeding.
+          });
+        }, function(reason) {
+          console.error('Failed fetching newly indexed asset',
+                 assetId,
+                 'reason:',
+                 reason.message || reason || 'Not given.');
+          if (reason.stack) {
+            console.error(reason.stack);
+          }
+          // Next asset please ...
+          return updateNextAssetFromRelations();
+        });
+      }
+    }
+
+    if (assetIdQueue.length > 0) {
+      // Let's start the madness.
+      updateNextAssetFromRelations();
+    } else {
+      deferred.resolve(state);
+    }
+
+    return deferred.promise;
+  }
 }
 
 module.exports = inheritMetadata;

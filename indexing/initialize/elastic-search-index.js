@@ -6,7 +6,7 @@
  * @param {Object} state The state of which we are about to initialize.
  */
 
-function elasticSearchIndex(state) {
+module.exports = function(state) {
   console.log('Initializing the Elastic Search index');
 
   var index = process.env.ES_INDEX || 'assets';
@@ -38,7 +38,4 @@ function elasticSearchIndex(state) {
       });
     }
   });
-
-}
-
-module.exports = elasticSearchIndex;
+};

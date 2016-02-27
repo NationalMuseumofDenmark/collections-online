@@ -129,7 +129,7 @@ var METADATA_TRANSFORMATIONS = [
     // If we found a rotational master asset.
     if (rotationalMasterAsset) {
       // Get the asset's metadata, to check it's categories.
-      return cip.getAsset(state.cip, metadata.catalog, rotationalMasterAsset.id)
+      return state.cip.getAsset(metadata.catalog, rotationalMasterAsset.id, true)
         .then(function(masterAsset) {
           var masterAssetMetadata = masterAsset.fields;
           masterAssetMetadata = assetMapping.formatResult(
