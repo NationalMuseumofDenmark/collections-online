@@ -12,7 +12,3 @@ module.exports.generateQueries = function(state) {
     };
   });
 };
-
-module.exports.generateQueries = function() {
-  return [];
-};
