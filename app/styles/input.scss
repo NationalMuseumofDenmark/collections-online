@@ -2,7 +2,7 @@
 $input-animation: .2s ease all;
 
 .material-input {
-  margin-bottom: 1rem;
+  margin-bottom: .5rem;
   max-width    : 300px;
   position     : relative;
   width        : 100%;
@@ -18,9 +18,8 @@ $input-animation: .2s ease all;
     &:focus {
       outline: none;
 
-      ~ .bar::before,
       ~ .bar::after {
-        width: 50%;
+        width: 100%;
       }
 
       ~ label {
@@ -52,23 +51,15 @@ $input-animation: .2s ease all;
     display : block;
     position: relative;
 
-    &::before,
     &::after {
       background: $brand-primary;
       bottom    : 0;
       content   : '';
       height    : 3px;
+      left      : 0;
       position  : absolute;
       transition: $input-animation;
       width     : 0;
-    }
-
-    &::before {
-      left: 50%;
-    }
-
-    &::after {
-      right: 50%;
     }
   }
 }

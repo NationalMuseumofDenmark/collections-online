@@ -9,32 +9,12 @@
     margin-bottom  : .5rem;
     padding        : .2rem .5rem;
     text-decoration: none;
-    vertical-align : baseline;
+    vertical-align : middle;
 
     &:not(:last-child) {
       margin-right: .5rem;
     }
 
-    svg {
-      fill       : $white;
-      height     : 8px;
-      margin-left: 4px;
-      width      : 8px;
-    }
-  }
-
-  .tag {
-    background-color: $tag-bg;
-    color           : $white;
-
-    &:hover,
-    &:focus {
-      background-color: darken($tag-bg, 10%);
-    }
-
-    &.new {
-      cursor: pointer;
-    }
   }
 
   &.crowd {
@@ -47,6 +27,36 @@
         display: block;
       }
     }
+  }
+}
+
+.tag {
+  background-color: $tag-bg;
+  color           : $white;
+
+  &:hover,
+  &:focus {
+    background-color: darken($tag-bg, 10%);
+    color           : $white;
+  }
+
+  &.new {
+    padding-right: 2em;
+    position     : relative;
+  }
+
+  &.saved {
+    cursor: pointer;
+  }
+
+  svg {
+    fill          : $white;
+    height        : 1em;
+    position      : absolute;
+    right         : .5em;
+    top           : .5em;
+    vertical-align: middle;
+    width         : 1em;
   }
 }
 
