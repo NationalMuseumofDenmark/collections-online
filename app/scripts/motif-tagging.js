@@ -11,6 +11,11 @@
   var $item         = $('.item');
   var catalogAlias  = $item.data('catalog-alias');
   var itemId        = $item.data('item-id');
+  var showError = function(msg) {
+    var $error = $('<div class="alert alert-danger">');
+    $error.text(msg);
+    $crowdTags.append($error);
+  };
 
   function saveTag(tag) {
     var url = '/' + catalogAlias + '/' + itemId + '/save-crowd-tag';
@@ -18,12 +23,36 @@
     return $.post(url, data, null, 'json');
   }
 
-  var showError = function(msg) {
-    var $error = $('<div class="alert alert-danger">');
-    $error.text(msg);
-    $crowdTags.append($error);
-    //ga('send', 'event', GA_EVENT_CATEGORY, 'error', msg);
-  };
+  function addTag(){
+    var $input = $crowdInput.val();
+    var tag = $input.trim().toLowerCase();
+    var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
+    var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
+    var $excistingTags = $('.tags.crowd .tag');
+    if ($excistingTags) {
+      $excistingTags.last().after($newTag);
+    } else {
+      $crowdTags.prepend($newTag);
+    }
+    $crowdInput.val('');
+    saveTag(tag)
+    .done(function() {
+      console.log('Tag saved in cumulus');
+      // Add class for styling purpose (cursor pointer)
+      $newTag.addClass('saved');
+      // Let user remove the added tag again
+      $newTag.click(function() {
+        $(this).remove();
+        // TODO this should delete tag from cumulus
+      });
+    })
+    .fail(function(response) {
+      $newTag.remove();
+      $crowdInput.val($input);
+      var error = response.responseJSON;
+      showError(error.message || 'Der skete en uventet fejl.');
+    });
+  }
 
   $visionBtn.click(function() {
     $(this).addClass('loading');
@@ -50,31 +79,18 @@
   });
 
   $crowdBtn.click(function() {
-    $(this).remove();
-    $crowdTags.addClass('inputting');
-    $crowdTags.find('input').focus();
-    $crowdNoTags.remove();
+    if ($crowdTags.hasClass('inputting')){
+      addTag();
+    } else {
+      $crowdTags.addClass('inputting');
+      $crowdTags.find('input').focus();
+      $crowdNoTags.remove();
+    }
   });
-  $crowdInput.keyup(function(e) {
+  $crowdInput.keyup(function(event) {
     $('.crowd .alert').remove();
-    if (e.keyCode === 13) {
-      var tag = $(this).val().trim().toLowerCase();
-      var $tag = $('<span class="tag new">' + tag + '</span>');
-      $tag.click(function() {
-        $(this).remove();
-      });
-      saveTag(tag)
-      .done(function() {
-        var $icon = $('<svg><use xlink:href="#icon-minus" /></svg>');
-        $tag.append($icon);
-        $crowdTags.append($tag);
-        $crowdInput.val('');
-      })
-      .fail(function(response) {
-        var error = response.responseJSON;
-        showError(error.message || 'Der skete en uventet fejl.');
-      });
-
+    if (event.keyCode === 13) {
+      addTag();
     }
   });
 })(jQuery);

@@ -107,15 +107,15 @@ block content
         // User tags
         h3 Emneord tilføjet af brugere
         .tags.crowd
-          .material-input
-            input(type='text', required='')
-            span.bar
-            label Indtast nyt emneord og tryk enter
           if(!item.tags_crowd)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
             
           each tag in item.tags_crowd || []
             +tag(tag)
+          .material-input
+            input(type='text', required='')
+            span.bar
+            label Indtast nyt emneord og tryk enter
           .btn.btn-primary#crowd-btn Tilføj emneord
 
         // Vision tags
