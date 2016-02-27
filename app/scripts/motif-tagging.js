@@ -24,34 +24,41 @@
   }
 
   function addTag(){
-    var $input = $crowdInput.val();
-    var tag = $input.trim().toLowerCase();
-    var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
-    var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
-    var $excistingTags = $('.tags.crowd .tag');
-    if ($excistingTags) {
-      $excistingTags.last().after($newTag);
-    } else {
-      $crowdTags.prepend($newTag);
-    }
-    $crowdInput.val('');
-    saveTag(tag)
-    .done(function() {
-      console.log('Tag saved in cumulus');
-      // Add class for styling purpose (cursor pointer)
-      $newTag.addClass('saved');
-      // Let user remove the added tag again
-      $newTag.click(function() {
-        $(this).remove();
-        // TODO this should delete tag from cumulus
+    // Don't submit nothing
+    if ($crowdInput.val().length !== 0){
+      var $input = $crowdInput.val();
+      var tag = $input.trim().toLowerCase();
+      var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
+      var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
+      var $excistingTags = $('.tags.crowd .tag');
+      // Figure out where to add the new tag
+      if ($excistingTags) {
+        $excistingTags.last().after($newTag);
+      } else {
+        $crowdTags.prepend($newTag);
+      }
+      $crowdInput.val('');
+      // Save tag in cumulus
+      saveTag(tag)
+      .done(function() {
+        console.log('Tag saved in cumulus');
+        // Add class for styling purpose (cursor pointer)
+        $newTag.addClass('saved');
+        // Let user remove the added tag again
+        $newTag.click(function() {
+          $(this).remove();
+          // TODO this should delete tag from cumulus
+        });
+      })
+      .fail(function(response) {
+        $newTag.remove();
+        $crowdInput.val($input);
+        var error = response.responseJSON;
+        showError(error.message || 'Der skete en uventet fejl.');
       });
-    })
-    .fail(function(response) {
-      $newTag.remove();
-      $crowdInput.val($input);
-      var error = response.responseJSON;
-      showError(error.message || 'Der skete en uventet fejl.');
-    });
+    } else {
+      console.log('Empty input');
+    }
   }
 
   $visionBtn.click(function() {
