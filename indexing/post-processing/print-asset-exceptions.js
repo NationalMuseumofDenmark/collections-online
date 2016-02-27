@@ -8,7 +8,7 @@
 
 function printAssetExceptions(state) {
 
-  if (state.assetExceptions.length > 0) {
+  if (state.assetExceptions && state.assetExceptions.length > 0) {
     console.error('Some errors occurred indexing assets:');
     for (var e = 0; e < state.assetExceptions.length; e++) {
       var err = state.assetExceptions[e];

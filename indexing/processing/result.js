@@ -101,14 +101,22 @@ function processNextResultPage(state, result, indexedAssetsIds) {
   }
 }
 
-function processResult(state, result) {
-  console.log('Processing a result of', result.total_rows, 'assets');
+module.exports = function(state, result) {
+  console.log('Processing a result of ' + result.total_rows + ' assets');
   // TODO: Support an offset defined by state.catalogPageIndex
   if (!result.pageIndex) {
     result.pageIndex = 0;
   }
   // Start handling the result's page recursively.
-  return processNextResultPage(state, result);
-}
-
-module.exports = processResult;
+  return processNextResultPage(state, result)
+  .then(function(indexedAssetIdsOrErrors) {
+    indexedAssetIdsOrErrors.forEach(function(idOrError) {
+      if (typeof(idOrError) === 'string') {
+        state.indexedAssetIds.push(idOrError);
+      } else {
+        state.assetExceptions.push(idOrError);
+      }
+    });
+    return state;
+  });
+};

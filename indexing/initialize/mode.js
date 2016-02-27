@@ -41,7 +41,7 @@ function usageMessage() {
   return message.join('\n');
 }
 
-function mode(state) {
+module.exports = function(state) {
   console.log('Initializing the indexing mode');
 
   if (!state.mode) {
@@ -73,6 +73,4 @@ function mode(state) {
   }
 
   return state;
-}
-
-module.exports = mode;
+};
