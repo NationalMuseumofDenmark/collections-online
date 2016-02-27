@@ -52,10 +52,8 @@ cipCategories.loadCategories().then(function(result) {
     app.set('categories', categoriesWithCounts);
   });
 }).then(function() {
-  return cip.initSession().then(function(nm) {
-    return cip.getCatalogs(nm).then(function(catalogs) {
-      app.set('catalogs', catalogs);
-    });
+  return cip.getCatalogs().then(function(catalogs) {
+    app.set('catalogs', catalogs);
   });
 }).then(function() {
   // Start server
