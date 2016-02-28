@@ -9,62 +9,56 @@
 var Q = require('q');
 
 module.exports = function(state) {
-  // TODO: Consider enabling this for state.mode === 'catalog' as well.
-  if (state.mode === 'all') {
-    var deletionPromises = state.queries.map(function(query) {
-      console.log('Deleting every asset in the index, except',
-                  query.indexedAssetIds.length);
+  var activity = 'Post-processing to delete removed assets';
+  console.log('\n=== ' + activity + ' ===\n');
 
-      var idsToBeRemoved = [];
+  if (state.mode === 'all' || state.mode === 'catalog') {
+    return state.queries.map(function(query) {
+      if (query.offset > 0) {
+        console.log('Skipping a query that had a non-zero offset.');
+        return;
+      }
 
-      // first we do a search, and specify a scroll timeout
-      return state.es.search({
-        index: state.index,
-        // Set to 30 seconds because we are calling right back
-        scroll: '30s',
-        size: 1000,
-        fields: ['id']
-      }).then(function getMoreUntilDone(response) {
-        // Loop through each of these and collect the assets ID in case it was not
-        // indexed in this run of indexing.
-        response.hits.hits.forEach(function(hit) {
-          if (query.indexedAssetIds.indexOf(hit._id) === -1) {
-            idsToBeRemoved.push(hit._id);
-          }
-        });
+      console.log('Deleting every asset in the',
+                  query.catalogAlias,
+                  'catalog except the',
+                  query.indexedAssetIds.length,
+                  'assets that was just indexed');
+      // Scroll search for all assets in the catalog that was not indexed.
+      var deletedAssetIds = [];
 
-        if (response.hits.hits.length > 0) {
-          var scrollId = response._scroll_id; // jscs: disable
-          // now we can call scroll over and over
-          return state.es.scroll({
-            scrollId: scrollId,
-            scroll: '30s'
-          }).then(getMoreUntilDone);
-        } else {
-          return idsToBeRemoved;
-        }
-      }).then(function(idsToBeRemoved) {
-        console.log('Removing', idsToBeRemoved.length, 'assets from the index.');
-        return state.es.deleteByQuery({
-          index: state.index,
-          body: {
-            query: {
-              ids: {
-                values: idsToBeRemoved
+      return state.es.scrollSearch({
+        'query': {
+          'bool': {
+            'must': {
+              'match': {
+                'catalog': query.catalogAlias
+              }
+            },
+            'must_not': {
+              'ids': {
+                'values': query.indexedAssetIds
               }
             }
           }
+        }
+      }, function(deletedAsset) {
+        deletedAssetIds.push(deletedAsset._id);
+      }).then(function() {
+        var actions = deletedAssetIds.map(function(deletedAssetId) {
+          return {delete: {_id: deletedAssetId}};
         });
-      })
-    });
-
-    return Q.all(deletionPromises).then(function() {
+        return state.es.bulk({
+          index: state.index,
+          type: 'asset',
+          body: actions
+        });
+      });
+    }).reduce(Q.when, null).then(function() {
       return state;
     });
   } else {
-    // TODO: Consider implementing the deletion of assets when in catalog mode
-    // as well.
-    console.log('Removed assets will only be deleted when in all mode.');
+    console.log('Removed assets gets deleted only in "all" or "catalog" mode.');
     return state;
   }
 };
