@@ -10,15 +10,14 @@ var Q = require('q'),
 module.exports = function(state) {
   var mode = require('./' + state.mode);
 
-  var queries = mode.generateQueries(state);
+  state.queries = mode.generateQueries(state);
 
   console.log('\n=== Starting to process ===\n');
 
-  state.indexedAssetsIds = [];
-  state.assetExceptions = [];
-
-  return queries.reduce(function(promise, query) {
+  return state.queries.reduce(function(promise, query) {
     return promise.then(function(state) {
+      query.indexedAssetIds = [];
+      query.assetExceptions = [];
       return processQuery(state, query);
     });
   }, new Q(state)).then(function(state) {

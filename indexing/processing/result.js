@@ -101,7 +101,7 @@ function processNextResultPage(state, result, indexedAssetsIds) {
   }
 }
 
-module.exports = function(state, result) {
+module.exports = function(state, query, result) {
   console.log('Processing a result of ' + result.total_rows + ' assets');
   // TODO: Support an offset defined by state.catalogPageIndex
   if (!result.pageIndex) {
@@ -112,9 +112,9 @@ module.exports = function(state, result) {
   .then(function(indexedAssetIdsOrErrors) {
     indexedAssetIdsOrErrors.forEach(function(idOrError) {
       if (typeof(idOrError) === 'string') {
-        state.indexedAssetIds.push(idOrError);
+        query.indexedAssetIds.push(idOrError);
       } else {
-        state.assetExceptions.push(idOrError);
+        query.assetExceptions.push(idOrError);
       }
     });
     return state;

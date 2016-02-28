@@ -9,17 +9,17 @@
 module.exports = function(state) {
   console.log('Initializing the Elastic Search index');
 
-  var index = process.env.ES_INDEX || 'assets';
+  state.index = process.env.ES_INDEX || 'assets';
 
   return state.es.indices.exists({
-    index: index
+    index: state.index
   }).then(function(exists) {
     if (exists) {
       console.log('Index was already created.');
       return state;
     } else {
       return state.es.indices.create({
-        index: index,
+        index: state.index,
         body: {
           'index': {
             'max_result_window': 100000 // We need this, so sitemaps can access all assets

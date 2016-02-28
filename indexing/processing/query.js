@@ -21,6 +21,6 @@ module.exports = function(state, query) {
     // Hang on to the result.
     result.catalog = catalog;
     // Process the next page in the search result.
-    return processResult(state, result);
+    return processResult(state, query, result);
   });
 };

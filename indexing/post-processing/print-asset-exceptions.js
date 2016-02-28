@@ -8,25 +8,27 @@
 
 function printAssetExceptions(state) {
 
-  if (state.assetExceptions && state.assetExceptions.length > 0) {
-    console.error('Some errors occurred indexing assets:');
-    for (var e = 0; e < state.assetExceptions.length; e++) {
-      var err = state.assetExceptions[e];
+  state.queries.forEach(function(query) {
+    if (query.assetExceptions && query.assetExceptions.length > 0) {
+      console.error('\n=== Some errors occurred indexing assets ===\n');
+      for (var e = 0; e < query.assetExceptions.length; e++) {
+        var err = query.assetExceptions[e];
 
-      var message = '--- Exception ';
-      message += (e + 1);
-      message += '/';
-      message += state.assetExceptions.length;
-      message += ' (';
-      message += err.catalogAlias;
-      message += '-';
-      message += err.assetId;
-      message += ') ---';
+        var message = '--- Exception ';
+        message += (e + 1);
+        message += '/';
+        message += query.assetExceptions.length;
+        message += ' (';
+        message += err.catalogAlias;
+        message += '-';
+        message += err.assetId;
+        message += ') ---';
 
-      console.error(message);
-      console.error(err.innerError.stack || err.innerError.message);
+        console.error(message);
+        console.error(err.innerError.stack || err.innerError.message);
+      }
     }
-  }
+  });
 
   return state;
 }

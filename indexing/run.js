@@ -26,8 +26,6 @@ function run(state) {
   if (!state) {
     state = {};
   }
-  state.assetExceptions = [];
-  state.indexedAssetIds = [];
 
   return steps.reduce(Q.when, new Q(state));
 }
