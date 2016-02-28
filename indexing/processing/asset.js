@@ -98,62 +98,6 @@ var METADATA_TRANSFORMATIONS = [
     metadata['related_sub_assets'].sort(relatedFilenameComparison);
     return metadata;
   },
-  function deriveInArtifactRotationSeries(state, metadata) {
-    // Let's assume it's not.
-    metadata.in_artifact_rotation_series = false;
-    // Finds out if this asset is in a rotation series.
-    // Initially looking at the assets categories - is this the front
-    // facing asset in the rotation series?
-    for (var c in metadata.categories) {
-      var category = metadata.categories[c];
-      if (category.name === 'Rotationsbilleder') {
-        metadata.in_artifact_rotation_series = true;
-        // The asset in Rotationsbilleder is always rank 0.
-        metadata.artifact_rotation_series_rank = 0;
-        return metadata;
-      }
-    }
-    // Loop through the assets related master assets to find if a
-    // master asset is in fact in the correct category to make this
-    // asset a part of an artifact rotation series.
-    var rotationalMasterAsset;
-    for (var r in metadata.related_master_assets) {
-      var masterAsset = metadata.related_master_assets[r];
-      if (masterAsset.relation === '9ed0887f-40e8-4091-a91c-de356c869251') {
-        rotationalMasterAsset = masterAsset;
-      }
-    }
-
-    // TODO: Implement this as a post-processing step reading asset metadata
-    // of related assets from the index instead of from the CIP.
-    // If we found a rotational master asset.
-    if (rotationalMasterAsset) {
-      // Get the asset's metadata, to check it's categories.
-      return state.cip.getAsset(metadata.catalog, rotationalMasterAsset.id, true)
-        .then(function(masterAsset) {
-          var masterAssetMetadata = masterAsset.fields;
-          masterAssetMetadata = assetMapping.formatResult(
-            masterAssetMetadata);
-          for (var c in masterAssetMetadata.categories) {
-            var category = masterAssetMetadata.categories[c];
-            if (category.name === 'Rotationsbilleder') {
-              metadata.in_artifact_rotation_series = true;
-              // TODO: Consider computing the artifact_rotation_series_rank
-              return metadata;
-            }
-          }
-          return metadata;
-        }, function(reason) {
-          // An error occured when getting the master asset, let's not fail
-          // on this sub-asset just because of that.
-          console.error('Could not get the master asset', reason);
-          // Let's return a new promise to overwrite the failed.
-          return new Q(metadata);
-        });
-    } else {
-      return metadata;
-    }
-  },
   function deriveDimensionsInCM(state, metadata) {
     metadata.width_cm = metadata.width_in * CM_PR_IN;
     metadata.height_cm = metadata.height_in * CM_PR_IN;
