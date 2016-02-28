@@ -18,8 +18,8 @@ function extendAndIndexAsset(state, subAssetMetadata, masterAssetMetadata) {
     'from',
     masterAssetMetadata.catalog + '-' + masterAssetMetadata.id);
 
-  var extendedMetadata = assetMapping.extendMetadata(subAssetMetadata, // jscs:ignore
-                                                      masterAssetMetadata);
+  var extendedMetadata = assetMapping.extendMetadata(subAssetMetadata,
+                                                     masterAssetMetadata);
 
   // Index the extended metadata and return the promise.
   var esID = subAssetMetadata.catalog + '-' + subAssetMetadata.id;
@@ -100,6 +100,9 @@ function updateMetadataFromRelations(state, assetMetadata) {
  */
 module.exports = function(state) {
 
+  var activity = 'Post-processing to inherit metadata from master assets';
+  console.log('\n=== ' + activity + ' ===\n');
+
   var assetIdQueue = state.queries.reduce(function(result, query) {
     return result.concat(query.indexedAssetIds);
   }, []);
@@ -112,10 +115,6 @@ module.exports = function(state) {
   // Let's not update the same asset more than this many times.
   var MAX_RECURRANCES = 3;
 
-  console.log('Updating metadata inheritance of',
-              assetIdQueue.length,
-              'asset(s), based on the index.');
-
   var deferred = Q.defer();
 
   function updateNextAssetFromRelations() {
@@ -125,6 +124,8 @@ module.exports = function(state) {
     }
 
     // Let's pop one from front of the queue.
+    // TODO: Consider using a scroll search from the list of IDs currently in
+    // the queue, instead of getting from the elasticsearch API once per asset.
     var assetId = assetIdQueue.shift();
 
     if (assetId in handledAssetIds &&
@@ -146,6 +147,7 @@ module.exports = function(state) {
         var assetMetadata = response._source;
         if (!assetMetadata) {
           deferred.reject('Got an asset without metadata: ', assetId);
+          return;
         }
 
         var newlyIndexAssetIds = updateMetadataFromRelations(state,
