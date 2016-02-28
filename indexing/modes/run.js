@@ -7,6 +7,12 @@
 var Q = require('q'),
     processQuery = require('../processing/query');
 
+const POST_PROCESSING_STEPS = [
+  require('../post-processing/inherit-metadata'),
+  require('../post-processing/delete-removed-assets'),
+  require('../post-processing/derive-in-rotation-series')
+];
+
 module.exports = function(state) {
   var mode = require('./' + state.mode);
 
@@ -22,6 +28,6 @@ module.exports = function(state) {
     });
   }, new Q(state)).then(function(state) {
     console.log('\n=== Finished processing ===\n');
-    return state;
+    return POST_PROCESSING_STEPS.reduce(Q.when, state);
   });
 };

@@ -14,9 +14,6 @@ var steps = [
   require('./initialize/cip-categories'),
   require('./initialize/mode'),
   require('./modes/run'),
-  require('./post-processing/inherit-metadata'),
-  require('./post-processing/delete-removed-assets'),
-  require('./post-processing/derive-in-rotation-series'),
   require('./post-processing/print-asset-exceptions')
 ];
 
