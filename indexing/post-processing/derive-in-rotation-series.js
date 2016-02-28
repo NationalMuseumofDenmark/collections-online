@@ -15,30 +15,9 @@ var Q = require('q'),
 const ROTATIONAL_IMAGES_CATEGORY_NAME = 'Rotationsbilleder';
 const ROTATIONAL_IMAGES_RELATION_UUID = '9ed0887f-40e8-4091-a91c-de356c869251';
 
-function scrollSearch(state, body, hitCallback) {
-  return state.es.search({
-    index: state.index,
-    scroll: '30s', // Set to 30 seconds because we are calling right back
-    size: 1000,
-    body: body
-  }).then(function getMoreUntilDone(response) {
-    // If we are still getting hits - let's iterate over them.
-    if (response.hits.hits.length > 0) {
-      return response.hits.hits.map(hitCallback).reduce(Q.when, null)
-      .then(function() {
-        // Next scroll page please.
-        var scrollId = response._scroll_id;
-        return state.es.scroll({
-          scrollId: scrollId,
-          scroll: '30s'
-        }).then(getMoreUntilDone);
-      });
-    }
-  });
-}
-
 module.exports = function(state) {
-  console.log('\n=== Post-processing to derive rotational series ===\n');
+  var activity = 'Post-processing to derive rotational series';
+  console.log('\n=== ' + activity + ' ===\n');
 
   // Let's take the queries one by one.
   return state.queries.map(function(query) {
@@ -48,7 +27,7 @@ module.exports = function(state) {
     // the particular asset to be a part of a rotational series.
     var additionalAssetIds = [];
 
-    return scrollSearch(state, {
+    return state.es.scrollSearch({
       'query': {
         'bool': {
           'must': [{
@@ -75,7 +54,7 @@ module.exports = function(state) {
       // Search for all assets that has been indexed in this run and which is
       // either in the rotational image category or has a master asset that might
       // be in the rotational image category.
-      return scrollSearch(state, {
+      return state.es.scrollSearch({
         'query': {
           'bool': {
             'must': [{
@@ -132,7 +111,7 @@ module.exports = function(state) {
         });
       });
     });
-  }).reduce(Q.when).then(function() {
+  }).reduce(Q.when).then(() => {
     return state;
   });
 };
