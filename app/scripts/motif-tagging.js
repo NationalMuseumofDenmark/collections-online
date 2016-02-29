@@ -147,4 +147,13 @@
     name: 'tags',
     source: typeaheadTags
   });
+
+  $('footer').click(function(){
+    $('.facebook-group').addClass('god-mode');
+  });
+  $('.facebook-group a.ok').click(function(e){
+    e.preventDefault();
+    $('.facebook-group').removeClass('god-mode');
+  });
+
 })(jQuery);
