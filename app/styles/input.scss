@@ -63,3 +63,39 @@ $input-animation: .2s ease all;
     }
   }
 }
+
+.twitter-typeahead {
+  width: 100%;
+
+  .tt-menu {
+    @include card(2);
+    background-color: $white;
+    cursor          : pointer;
+    padding         : .5rem .5rem .2rem;
+  }
+
+  .tt-hint {
+    bottom        : 0;
+    color         : $gray-light;
+    padding-bottom: 0;
+    top           : auto;
+  }
+
+  &.focused {
+    ~ .bar::after {
+      width: 100%;
+    }
+
+    ~ label {
+      color: $brand-primary;
+    }
+  }
+
+  &.focused,
+  &.valid {
+    ~label {
+      font-size: .8rem;
+      top      : 0;
+    }
+  }
+}
