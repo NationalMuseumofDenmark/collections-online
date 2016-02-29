@@ -1,7 +1,26 @@
 
 # Retrospectives
 
-## Retrospective 22 February
+## 29 February
+
+### Continue
+- AL: Arbejde på fede features
+- KH: Holde højt tempo, Stabilisere kodebase
+- JW: 
+
+### Stop
+- AL: Userstories med ikke fuldstændige descriptions
+- KH: Scrum møder uden hård scrummaster styring
+- JW: 
+
+### Start
+- AL: Tage godt imod nye medled af udvikler-team
+- KH: Være mere aktiv på pivotal tracker (starte)
+- KH: Tage mere ejerskab over userstories i team
+- JW: 
+
+
+## 22 February
 
 ### Continue
 - AL: Drømme stort og være ambitiøst
@@ -10,10 +29,12 @@
 - JW: +1
 
 ### Stop
-None captures
+None captured
 
 ### Start
 - AL: Brug 5 minutter på intern demo/gennemgang af features - når de er blevet implementeret.
 - JW: Tale om definition of done. Features skal gennemgåes igen når der pushes til produktion.
 - VA: ..
 - KH: ..
+
+
