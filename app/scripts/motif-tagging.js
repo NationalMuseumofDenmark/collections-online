@@ -47,8 +47,10 @@
     if ($crowdInput.val().length !== 0) {
       var $input = $crowdInput.val();
       var tag = $input.trim().toLowerCase();
-      var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
-      var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
+      // var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
+      // var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
+      var tagUrl = '/?q=' + encodeURIComponent(tag);
+      var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
       var $excistingTags = $('.tags.crowd .tag');
       // Figure out where to add the new tag
       if ($excistingTags) {
