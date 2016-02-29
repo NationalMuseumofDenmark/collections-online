@@ -1,6 +1,7 @@
 'use strict';
 
 (function($) {
+
   // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
@@ -142,6 +143,6 @@
     minLength: 1
   }, {
     name: 'tags',
-    source: typeaheadTags.ttAdapter()
+    source: typeaheadTags
   });
 })(jQuery);
