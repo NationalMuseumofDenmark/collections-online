@@ -1,53 +1,43 @@
 .topbar {
   background-color: $topbar-color;
-  z-index         : 10;
-  position        : relative;
   line-height     : 1.5;
+  position        : relative;
+  z-index         : 10;
 
   .topbar-items {
-    display    : flex;
     align-items: center;
+    display    : flex;
     height     : $topbar-height;
+
+    > a {
+      flex-shrink: 0;
+    }
   }
 
   svg {
-    fill: white;
+    fill: $white;
   }
 
-  #heading-categories-menu,
+  // Logo and logo text
   .logo-wrap {
-    flex-shrink: 0;
+    align-items    : center;
+    display        : flex;
+    text-decoration: none;
   }
 
-  #heading-categories-menu {
-    padding-left   : 10px;
-    padding-right  : 2px;
-    height         : 100%;
-    display        : flex;
-    align-items    : center;
-    text-decoration: none;
+  .logo,
+  .logo-text {
+    display: inline-block;
+  }
+
+  .logo {
+    margin-right: 10px;
 
     svg {
-      height: 25px;
-      width : 25px;
+      height        : 40px;
+      vertical-align: middle;
+      width         : 40px;
     }
-
-    .catalog-name {
-      font-size: 20px;
-      color    : $white;
-      margin   : 0 0 0 15px;
-    }
-  }
-
-  .logo-wrap {
-    display        : flex;
-    align-items    : center;
-    text-decoration: none;
-  }
-
-  .logo-text,
-  .logo {
-    display: inline-block;
   }
 
   .logo-text {
@@ -59,41 +49,28 @@
     }
   }
 
-  .logo {
-    margin-right: 10px;
-
-    svg {
-      vertical-align: middle;
-      width         : 40px;
-      height        : 40px;
-    }
-
-  }
-
+  // Search box
   .search-box {
-    flex-grow: 1;
-    position : relative;
-    margin   : 0 10px;
+    flex-shrink: 1;
+    margin     : 0 10px;
+    position   : relative;
 
     .btn-search {
-      @extend .btn;
-      @extend .btn-primary;
       line-height: 1.2;
-      margin-left: 0 !important;
+      margin-left: 0;
+    }
 
-      svg {
-        width : 18px;
-        height: 18px;
-      }
+    svg {
+      height: 18px;
+      width : 18px;
     }
 
     .btn,
     .form-control {
-      height       : $input-height-base + 2;
       border       : 0;
       border-radius: 0;
+      height       : $input-height-base + 2;
 
-      &:focus,
       &:active,
       &:focus {
         box-shadow: none;
@@ -101,15 +78,31 @@
       }
     }
 
-    #search-input {
+    input {
       border       : 0;
       border-radius: 0;
       line-height  : 1.25;
     }
+  }
 
-    #search-input::placeholder {
-      /* Standard one last! */
-      color: #999;
+  // Menu button
+  .hamburger {
+    align-items    : center;
+    display        : flex;
+    height         : 100%;
+    padding-left   : 10px;
+    padding-right  : 2px;
+    text-decoration: none;
+
+    svg {
+      height: 25px;
+      width : 25px;
+    }
+
+    .catalog-name {
+      color    : $white;
+      font-size: 20px;
+      margin   : 0 0 0 15px;
     }
   }
 }
