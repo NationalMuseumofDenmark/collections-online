@@ -1,68 +1,68 @@
 // Open menu
 
 .categories-menu-open {
-  position: fixed;
-  top     : 0;
   left    : 0;
+  position: fixed;
   right   : 0;
+  top     : 0;
 
   .main-wrapper {
-    &:before {
-      position     : absolute;
-      top          : 0;
-      left         : 0;
-      right        : 0;
-      height       : $topbar-height - 2;
+    &::before {
       border       : 4px $topbar-color solid;
-      border-bottom: none;
+      border-bottom: 0;
       content      : '';
+      height       : $topbar-height - 2;
+      left         : 0;
+      position     : absolute;
+      right        : 0;
+      top          : 0;
     }
   }
 
   .gray-overlay {
-    opacity       : 1;
-    visibility    : visible;
-    pointer-events: all;
     cursor        : pointer;
+    opacity       : 1;
+    pointer-events: all;
+    visibility    : visible;
   }
 
-  ul.dropdown-menu-right {
-    right     : 0;
+  .dropdown-menu-right {
     box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
+    right     : 0;
     transition: right $anim-out $anim-duration;
   }
 }
 
 .gray-overlay {
-  background    : rgba(0,0,0,0.3);
-  mix-blend-mode: soft-light;
-  opacity       : 0;
-  visibility    : hidden;
-  position      : absolute;
-  right         : 0;
-  top           : 0;
+  background    : rgba($black, .3);
   bottom        : 0;
   left          : 0;
-  z-index       : 9998;
-  text-align    : left;
+  mix-blend-mode: soft-light;
+  opacity       : 0;
   pointer-events: none;
+  position      : absolute;
+  right         : 0;
+  text-align    : left;
+  top           : 0;
   transition    : opacity $anim-duration ease $anim-duration;
+  visibility    : hidden;
+  z-index       : 9998;
 }
 
 // Menu styling
 $expand-width: 50px;
 
-ul.dropdown-menu-right {
-  position  : fixed;
-  top       : 0;
-  right     : -$menu-width;
-  z-index   : 9999;
-  width     : $menu-width;
+.dropdown-menu-right {
+  background: $topbar-color;
+  box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
   height    : 100%;
   overflow-y: auto;
-  box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
-  background: $topbar-color;
+  position  : fixed;
+  right     : -$menu-width;
+  top       : 0;
   transition: right $anim-in $anim-duration;
+  width     : $menu-width;
+  z-index   : 9999;
 
   @media (min-width: $small-size) {
     right: -$menu-width-small;
@@ -73,13 +73,19 @@ ul.dropdown-menu-right {
     margin-top: 10px;
   }
 
-  li > div {
-    display    : flex;
-    align-items: stretch;
+  li {
+    // This is needed, because an expanded li is otherwise placing itself
+    // ontop of the menu items above it.
+    overflow: hidden;
 
-    > a {
+    > div {
+      align-items: stretch;
       display    : flex;
-      align-items: center;
+
+      > a {
+        align-items: center;
+        display    : flex;
+      }
     }
   }
 
@@ -88,10 +94,10 @@ ul.dropdown-menu-right {
   }
 
   a {
-    display        : inline-block;
     color          : $white;
-    text-decoration: none;
+    display        : inline-block;
     padding        : 10px 15px;
+    text-decoration: none;
 
     &.col-xs-10 {
       float: none;
@@ -100,8 +106,8 @@ ul.dropdown-menu-right {
 
     &.expand-menu {
       float     : right;
-      width     : $expand-width;
       text-align: center;
+      width     : $expand-width;
     }
 
     &:hover,
@@ -109,7 +115,7 @@ ul.dropdown-menu-right {
       background-color: $menu-highlight;
 
       > span {
-        color: darken($gray,20%);
+        color: darken($gray, 20%);
       }
     }
 
@@ -119,18 +125,13 @@ ul.dropdown-menu-right {
     }
 
     svg {
-      width : 12px;
-      height: 12px;
       fill  : $white;
+      height: 12px;
       margin: 0 auto;
+      width : 12px;
     }
   }
 
-  li {
-    /* This is needed, because an expanded li is otherwise placing itself
-      ontop of the menu items above it. */
-    overflow: hidden;
-  }
 }
 
 .menu-hidden {
@@ -142,20 +143,18 @@ ul.dropdown-menu-right {
 }
 
 @media (pointer:coarse) {
-  .categories-menu {
-    ul.dropdown-menu-right {
-      a:hover,
-      a:focus {
-        background-color: transparent;
+  .dropdown-menu-right {
+    a:hover,
+    a:focus {
+      background-color: transparent;
 
-        > span {
-          color: inherit;
-        }
+      > span {
+        color: inherit;
       }
+    }
 
-      a {
-        -webkit-tap-highlight-color: $menu-highlight;
-      }
+    a {
+      -webkit-tap-highlight-color: $menu-highlight;
     }
   }
 }
