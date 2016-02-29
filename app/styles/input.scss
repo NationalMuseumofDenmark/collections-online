@@ -1,17 +1,19 @@
 // Material style inputs
 $input-animation: .2s ease all;
+$thin-line: 1px;
+$thick-line: 3px;
 
 .material-input {
-  margin-bottom: .5rem;
+  margin-bottom: 1rem;
   max-width    : 300px;
   position     : relative;
   width        : 100%;
 
   input {
     border        : 0;
-    border-bottom : 1px solid $text-color;
+    border-bottom : $thin-line solid $text-color;
     display       : block;
-    padding-bottom: .3rem;
+    padding-bottom: .1rem;
     transition    : $input-animation;
     width         : 100%;
 
@@ -53,11 +55,11 @@ $input-animation: .2s ease all;
 
     &::after {
       background: $brand-primary;
-      bottom    : 0;
       content   : '';
-      height    : 3px;
+      height    : $thick-line;
       left      : 0;
       position  : absolute;
+      top       : -$thin-line;
       transition: $input-animation;
       width     : 0;
     }
@@ -71,6 +73,7 @@ $input-animation: .2s ease all;
     @include card(2);
     background-color: $white;
     cursor          : pointer;
+    margin-top      : $thick-line - $thin-line;
     padding         : .5rem .5rem .2rem;
   }
 
