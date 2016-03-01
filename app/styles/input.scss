@@ -4,7 +4,7 @@ $thin-line: 1px;
 $thick-line: 3px;
 
 .material-input {
-  margin-bottom: 1rem;
+  margin-bottom: .8rem;
   max-width    : 300px;
   position     : relative;
   width        : 100%;
@@ -74,7 +74,21 @@ $thick-line: 3px;
     background-color: $white;
     cursor          : pointer;
     margin-top      : $thick-line - $thin-line;
-    padding         : .5rem .5rem .2rem;
+    padding         : .5rem 0 .2rem;
+
+    &:hover {
+      .tt-suggestion:hover {
+        background-color: $brand-primary;
+        color           : $white;
+      }
+    }
+
+    &:not(:hover) {
+      .tt-cursor {
+        background-color: $brand-primary;
+        color           : $white;
+      }
+    }
   }
 
   .tt-hint {
@@ -82,6 +96,10 @@ $thick-line: 3px;
     color         : $gray-light;
     padding-bottom: 0;
     top           : auto;
+  }
+
+  .tt-suggestion {
+    padding: 0 .5rem;
   }
 
   &.focused {
