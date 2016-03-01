@@ -67,6 +67,7 @@
             $(this).remove();
             // TODO this should delete tag from cumulus
           });
+          contributionCount();
         })
         .fail(function(response) {
           $newTag.remove();
@@ -142,18 +143,7 @@
     minLength: 1
   }, {
     name: 'tags',
-    source: typeaheadTags,
-    matcher: function(item) {
-      return true;
-    }
-  });
-
-  $('footer').click(function(){
-    $('.facebook-group').addClass('god-mode');
-  });
-  $('.facebook-group a.ok').click(function(e){
-    e.preventDefault();
-    $('.facebook-group').removeClass('god-mode');
+    source: typeaheadTags
   });
 
 })(jQuery);
