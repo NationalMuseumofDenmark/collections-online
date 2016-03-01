@@ -44,8 +44,6 @@
     if ($crowdInput.val().length !== 0) {
       var $input = $crowdInput.val();
       var tag = $input.trim().toLowerCase();
-      // var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
-      // var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
       var tagUrl = '/?q=' + encodeURIComponent(tag);
       var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
       var $excistingTags = $('.tags.crowd .tag');
@@ -60,13 +58,6 @@
       saveTag(tag)
         .done(function() {
           console.log('Tag saved in cumulus');
-          // Add class for styling purpose (cursor pointer)
-          $newTag.addClass('saved');
-          // Let user remove the added tag again
-          $newTag.click(function() {
-            $(this).remove();
-            // TODO this should delete tag from cumulus
-          });
           contributionCount();
         })
         .fail(function(response) {
