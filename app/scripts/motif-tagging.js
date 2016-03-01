@@ -23,13 +23,10 @@
       return Bloodhound.tokenizers.whitespace(tags);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '',
     remote: {
       url: '/motif-tag-suggestions?text=%QUERY',
       wildcard: '%QUERY',
-      filter: function(response) {
-        return response.tags;
-      }
+      cache: false
     }
   });
 
