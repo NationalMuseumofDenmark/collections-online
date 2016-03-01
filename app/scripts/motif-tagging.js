@@ -46,10 +46,9 @@
       var tag = $input.trim().toLowerCase();
       var tagUrl = '/?q=' + encodeURIComponent(tag);
       var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
-      var $excistingTags = $('.tags.crowd .tag');
-      // Figure out where to add the new tag
-      if ($excistingTags) {
-        $excistingTags.last().after($newTag);
+      // Figure out where to add tag by checking if we already have some tags
+      if ($('.tags.crowd .tag')) {
+        $('.tags.crowd .tag').last().after($newTag);
       } else {
         $crowdTags.prepend($newTag);
       }
