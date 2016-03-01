@@ -3,7 +3,7 @@
 function contributionCount() {
   // Check if localStorage i supported
   if (typeof(Storage) !== 'undefined') {
-    var assetNumber = window.location.href.split('/').pop();
+    var assetNumber = window.location.href.split('/').splice(-2).join('');
     // Check if user is a contribution virgin
     if (!localStorage.contributionCount) {
       localStorage.contributedAssets = assetNumber;
@@ -32,7 +32,4 @@ jQuery(function ($) {
     $('.facebook-group').removeClass('god-mode');
   });
 
-  $('.count').click(function() {
-    contributionCount();
-  });
 });
