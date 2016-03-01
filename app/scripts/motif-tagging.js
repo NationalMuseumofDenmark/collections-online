@@ -142,7 +142,10 @@
     minLength: 1
   }, {
     name: 'tags',
-    source: typeaheadTags
+    source: typeaheadTags,
+    matcher: function(item) {
+      return true;
+    }
   });
 
   $('footer').click(function(){
