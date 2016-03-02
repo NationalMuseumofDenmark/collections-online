@@ -1,6 +1,10 @@
 'use strict';
 
-function contributionCount() {
+function godMode() {
+  $('.facebook-group').addClass('god-mode');
+}
+
+var contributionCount = function(type) {
   // Check if localStorage i supported
   if (typeof(Storage) !== 'undefined') {
     var assetNumber = window.location.href.split('/').splice(-2).join('');
@@ -14,16 +18,20 @@ function contributionCount() {
         localStorage.contributedAssets += ',' + assetNumber;
         localStorage.contributionCount++;
         // Check if we've reached the magic number
-        if (localStorage.contributionCount === '5'){
-          console.log('god-mode');
-          $('.facebook-group').addClass('god-mode');
+        if (localStorage.contributionCount === '2'){
+          // Did the user geo tag (results in page reload)
+          if (type === 'geo') {
+            localStorage.geoFive = true;
+          } else {
+            godMode();
+          }
         }
       }
     }
     console.log('Contribution count = ' + localStorage.contributionCount);
     console.log('Assets cuntributed to = ' + localStorage.contributedAssets);
   }
-}
+};
 
 jQuery(function ($) {
 
@@ -31,5 +39,13 @@ jQuery(function ($) {
     e.preventDefault();
     $('.facebook-group').removeClass('god-mode');
   });
+
+  // Check if 5th contribution was geo on page load
+  if (typeof(Storage) !== 'undefined') {
+    if (localStorage.geoFive) {
+      godMode();
+      localStorage.geoFive = false;
+    }
+  }
 
 });
