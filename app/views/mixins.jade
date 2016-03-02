@@ -86,11 +86,13 @@ mixin sidebarMenu
     ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
   .gray-overlay
   
-mixin svgFilter
-  svg.sprite
-    defs
-      filter#blur
-        fegaussianblur(stddeviation='2')
+mixin loader(text)
+  if text
+    span.text #{text}
+  .loader
+  .loader.one
+  .loader.two
+
   
 mixin searchCount
   span.search-count  #{results.total_results} poster

@@ -123,10 +123,7 @@ block content
         .tags.vision
           if(!item.tags_vision)
             .btn.btn-primary#vision-btn
-              span.text Analysér billede
-              .loader
-              .loader.one
-              .loader.two
+              +loader('Analysér billede')
           each tag in item.tags_vision || []
             +tag(tag)
 
