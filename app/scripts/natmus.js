@@ -7,7 +7,6 @@ $(function() {
   // Open / close main menu nav
   $('#heading-categories-menu, .gray-overlay').click(function() {
     $('body').toggleClass('categories-menu-open');
-    return false;
   });
 
   $.ajax({
@@ -19,21 +18,15 @@ $(function() {
       // Expand menus
       $('a.expand-menu').click(function(e) {
         e.preventDefault();
-        var $toggleButton = $(e.currentTarget);
-        var $use = $toggleButton.children().children();
-        var $icon = $use.attr('xlink:href');
-        // Show minus icon if plus and vice versa
-        if ($icon === '#icon-plus') {
+        var $use = $(this).find('use');
+        var $ul = $(this).closest('li').children('ul');
+        if ($use.attr('xlink:href') === '#icon-plus'){
+          $ul.slideDown(100);
           $use.attr('xlink:href', '#icon-minus');
         } else {
+          $ul.slideUp(100);
           $use.attr('xlink:href', '#icon-plus');
         }
-        $toggleButton.parent().next('ul').slideToggle(100, function() {
-          // Update the icon on the toggle button
-          var expanded = $(this).is(':visible');
-          $toggleButton.closest('li').toggleClass('expanded',
-            expanded);
-        });
       });
     })
     .fail(function() {
