@@ -72,9 +72,8 @@
 
   // ACTIONS
   $visionBtn.click(function() {
-    $(this).addClass('loading');
+    $(this).addClass('loading').children('.text').remove();
     $visionNoTags.remove();
-    $visionBtn.children('.text').remove();
     $.ajax({
       dataType: 'json',
       url: window.location + '/suggested-motif-tags'
