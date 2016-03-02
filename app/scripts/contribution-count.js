@@ -18,6 +18,7 @@ var contributionCount = function(type) {
         localStorage.contributedAssets += ',' + assetNumber;
         localStorage.contributionCount++;
         // Check if we've reached the magic number
+        // TODO change to 5
         if (localStorage.contributionCount === '2'){
           // Did the user geo tag (results in page reload)
           if (type === 'geo') {
