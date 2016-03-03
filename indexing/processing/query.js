@@ -5,6 +5,7 @@
  * to be processed, based on the querystring which is passed to the search.
  */
 
+var cip = require('../../lib/services/natmus-cip');
 var processResult = require('./result');
 
 module.exports = function(state, query) {
@@ -14,7 +15,7 @@ module.exports = function(state, query) {
 
   var catalog = {alias: query.catalogAlias};
 
-  return state.cip.criteriaSearch({
+  return cip.criteriaSearch({
     catalog: catalog
   }, query.query, null).then(function(result) {
     result.pageIndex = query.offset || 0;

@@ -5,6 +5,7 @@
  */
 
 var Q = require('q');
+var cip = require('../../lib/services/natmus-cip');
 
 var processAsset = require('./asset');
 
@@ -16,7 +17,7 @@ var ADDITIONAL_FIELDS = [
 ];
 
 function getResultPage(state, result, pointer, rowCount) {
-  return state.cip.request([
+  return cip.request([
     'metadata',
     'getfieldvalues',
     'web'

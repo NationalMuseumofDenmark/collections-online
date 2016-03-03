@@ -13,7 +13,6 @@ var Q = require('q');
 var steps = [
   require('./initialize/elastic-search-client'),
   require('./initialize/elastic-search-index'),
-  require('./initialize/cip-client'),
   require('./initialize/cip-catalogs'),
   require('./initialize/cip-categories'),
   require('./initialize/mode'),
