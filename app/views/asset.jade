@@ -16,7 +16,8 @@ block content
           data-item-id=item.id,
           data-latitude=item.latitude,
           data-longitude=item.longitude,
-          data-heading=item.heading)
+          data-heading=item.heading,
+          data-uniq=catalog.alias + item.id)
     - var address = item.address || item.street;
     - var title = item.short_title || 'Ingen titel'
     - var filename = item.filename.toLowerCase();
@@ -25,7 +26,7 @@ block content
     .row
       .col-md-6.col-xs-12.image-row
         .primary-asset.bleed
-          if(player === "image-single" || player === "image-single-animated")
+          if(player === 'image-single' || player === 'image-single-animated')
             img.zoomable(src=sources.image, alt=title)
           else if(player === "image-rotation")
             picture.zoomable(alt=title)
@@ -94,7 +95,7 @@ block content
         if(showGeotagging)
           include geotagging.jade
         p.catalog
-          | Fra samlingen: 
+          | Fra samlingen:
           a(href='/#{catalog.alias}') #{catalog.name}
 
         // Title
@@ -106,37 +107,40 @@ block content
           p.sr-only Beskrivelse
           p(itemprop='description',
             class='lead')= item.description
-            
+
         // Tags
         h2 Emneord
-        .tags
+        .tags-container
           if(!item.tags)
             span.no-tags Der er ingen emneord endnu.
           each tag in item.tags || []
             +tag(tag)
-            
+
         // User tags
         h3 Emneord tilføjet af brugere
-        .tags.crowd
+        .tags-container.crowd
           if(!item.tags_crowd)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
-            
+
           each tag in item.tags_crowd || []
             +tag(tag)
           .material-input
             input(type='text', required='')
             span.bar
             label Indtast nyt emneord og tryk enter
-          .btn.btn-primary#crowd-btn Tilføj emneord
+          .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
 
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
-        .tags.vision
+        .tags-container.vision
           if(!item.tags_vision)
-            .btn.btn-primary#vision-btn
+            .btn.btn-primary.btn-small#vision-btn
               +loader('Analysér billede')
           each tag in item.tags_vision || []
             +tag(tag)
+
+          if(item.tags_vision)
+            button.btn.btn-icon.btn-primary.btn-small: +icon('pencil-icon')
 
         // Time and period
         h2 Tidsperiode og årstal
@@ -187,7 +191,7 @@ block content
                 td
                   = item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
                   if(showGeotagging)
-                    a
+                    a.btn.btn-icon.btn-primary.btn-small
                       +icon('pencil-icon')
               tr
                 td.bleed(colspan='2')

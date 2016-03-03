@@ -2,6 +2,7 @@
 // bower:scss
 @import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
 // endbower
+@import 'button';
 @import 'functions-shadows';
 @import 'asset';
 @import 'facebook-group';
@@ -73,21 +74,6 @@ section .page-header {
   padding-right: 0;
 }
 
-.btn {
-  border: 0;
-
-  svg {
-    margin        : 0 .2em;
-    vertical-align: middle;
-  }
-
-  &.btn-primary {
-    &:hover,
-    &:focus {
-      background-color: lighten($brand-primary, 5%);
-    }
-  }
-}
 
 // hide svg sprite
 .sprite {

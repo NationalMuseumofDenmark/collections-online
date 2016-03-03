@@ -5,11 +5,11 @@
   // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
-  var $visionTags = $('.tags.vision');
+  var $visionTags = $('.tags-container.vision');
   var $crowdNoTags = $('.crowd .no-tags');
   var $crowdBtn = $('#crowd-btn');
-  var $crowdTags = $('.tags.crowd');
-  var $crowdInput = $('.tags.crowd input');
+  var $crowdTags = $('.tags-container.crowd');
+  var $crowdInput = $('.tags-container.crowd input');
   var $item = $('.item');
   var catalogAlias = $item.data('catalog-alias');
   var itemId = $item.data('item-id');
@@ -39,16 +39,23 @@
     return $.post(url, data, null, 'json');
   }
 
+  function createTag(url, tag) {
+    var tagClassName = 'btn btn-default btn-small';
+    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag>' +
+      tag + '</a>');
+    return $new;
+  }
+
   function addTag() {
     // Don't submit nothing
     if ($crowdInput.val().length !== 0) {
       var input = $crowdInput.val();
       var tag = input.trim().toLowerCase();
       var url = '/?q=' + encodeURIComponent(tag);
-      var $new = $('<a href="' + url + '" class="tag saving">' + tag + '</a>');
+      var $new = createTag(url, tag).addClass('saving');
       // Figure out where to add tag by checking if we already have some tags
-      if ($('.crowd .tag').length) {
-        $('.crowd .tag').last().after($new);
+      if ($('.crowd [data-tag]').length) {
+        $('.crowd [data-tag]').last().after($new);
       } else {
         $crowdTags.prepend($new);
       }
@@ -58,7 +65,8 @@
       saveTag(tag)
         .done(function() {
           $new.removeClass('saving');
-          // contributionCount();
+          window.contributionAdded();
+          window.showFacebookMaybe();
         })
         .fail(function(response) {
           $new.remove();
@@ -78,6 +86,7 @@
       dataType: 'json',
       url: window.location + '/suggested-motif-tags'
     }).done(function(data) {
+
       $visionBtn.remove();
       console.log(data.tags);
       var arrayLength = data.tags.length;
@@ -85,7 +94,7 @@
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
           var url = '/?q=' + encodeURIComponent(tag);
-          var $tag = $('<a href="' + url + '" class="tag">' + tag + '</a>');
+          var $tag = createTag(url, tag);
           $visionTags.append($tag);
         }
       }

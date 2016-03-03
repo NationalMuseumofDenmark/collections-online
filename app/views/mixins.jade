@@ -1,30 +1,30 @@
 mixin assetMeta(item, sources)
-  if item.short_title 
-    - title = item.short_title 
-  else 
+  if item.short_title
+    - title = item.short_title
+  else
     - title = 'Ingen titel'
-  if item.description 
+  if item.description
     - description = item.description
   if sources.image
     - image = sources.image
-    
+
   +meta(title,socialTitle,image,description)
-  
-mixin searchMeta(results, catalog, breadcrumbs)  
+
+mixin searchMeta(results, catalog, breadcrumbs)
   if results.is_search
     - title = filters.freetext
     - socialTitle = 'Søgning på "' + title + '"'
-    
+
   if results.is_category
     if breadcrumbs
       - title = breadcrumbs.last.name
-    else 
+    else
       - title = catalog.name
   if results.is_catalog
     - title = catalog.name
 
   +meta(title,socialTitle)
-  
+
 mixin meta(title,socialTitle,image,description)
   - siteTitle = req.app.get('siteTitle')
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
@@ -36,7 +36,7 @@ mixin meta(title,socialTitle,image,description)
   - facebookType = 'website'
   - youtube = 'natmusdk'
 
-  if title 
+  if title
     - title += ' - ' + siteTitle
   else
     - title = siteTitle
@@ -49,12 +49,12 @@ mixin meta(title,socialTitle,image,description)
   if !description
     - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
     - description += ', hvor du finder mange former for kulturhistoriske fotos.'
-  
+
   if image
     - image = unsafeBaseUrl + image
   else
     - image = unsafeBaseUrl + '/images/defaultshare.jpg'
-  
+
   title #{title}
   meta(name='description', content='#{description}')
   meta(name='twitter:card', content='#{twitterCard}')
@@ -68,7 +68,6 @@ mixin meta(title,socialTitle,image,description)
   meta(property='og:image', content='#{image}')
   meta(property='og:description', content='#{description}')
   meta(property='og:site_name', content='#{title}')
-  
 mixin loader(text)
   if text
     span.text #{text}
@@ -162,7 +161,7 @@ mixin formatDate(from, to)
       if(from)
         | #{from.day}/#{from.month}/#{from.year}
       if((from && to) || (!from && !to))
-        |  - 
+        |  -
       if(to)
         | #{to.day}/#{to.month}/#{to.year}
 
@@ -202,4 +201,7 @@ mixin searchResultAsset(asset)
         a(href='#{asset.catalog_url}') #{asset.catalog}
 
 mixin tag(name)
-  a.tag(href='/?q='+encodeURIComponent(name))= name
+  a.btn.btn-default.btn-small(
+    href='/?q='+encodeURIComponent(name),
+    data-tag
+  )= name

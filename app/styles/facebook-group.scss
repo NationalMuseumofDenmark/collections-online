@@ -11,7 +11,7 @@
   visibility      : hidden;
   z-index         : 100;
 
-  &.god-mode {
+  &.show-face {
     transform : translate3d(0, 0, 0);
     transition: .4s ease-out;
     visibility: visible;

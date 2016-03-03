@@ -87,19 +87,6 @@ $asset--icon-shadow-color: #fff;
   }
 
   .place {
-    .pencil-icon {
-      fill       : $brand-primary;
-      height     : 20px;
-      margin-left: 5px;
-      position   : absolute;
-      width      : 20px;
-
-      &:hover {
-        cursor: pointer;
-        fill  : #BF0D13;
-      }
-    }
-
     .map {
       @include img-responsive();
       margin-top: .8rem;

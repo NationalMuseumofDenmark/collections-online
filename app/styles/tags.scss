@@ -1,21 +1,16 @@
-.tags {
+@import 'variables';
+
+.tags-container {
   padding-bottom: .4rem;
   padding-top   : .6rem;
 
-  .btn,
-  .tag {
-    display        : inline-block;
-    font-size      : 90%;
-    margin-bottom  : .5rem;
-    padding        : .2rem .5rem;
-    text-decoration: none;
+  .btn {
+    margin-bottom: .5rem;
     transition     : $anim-default;
-    vertical-align : middle;
 
     &:not(:last-child) {
       margin-right: .5rem;
     }
-
   }
 
   &.crowd {
@@ -36,28 +31,10 @@
 }
 
 .tag {
-  background-color: $tag-bg;
   color           : $white;
 
-  &:hover,
-  &:focus {
-    background-color: darken($tag-bg, 10%);
-    color           : $white;
-  }
-
-  &.new {
-    padding-right: 2em;
-    position     : relative;
-  }
-
-  svg {
-    fill          : $white;
-    height        : 1em;
-    position      : absolute;
-    right         : .5em;
-    top           : .5em;
-    vertical-align: middle;
-    width         : 1em;
+  &.saved {
+    cursor: pointer;
   }
 }
 
