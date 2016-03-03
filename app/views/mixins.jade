@@ -134,22 +134,6 @@ mixin icon(id)
     default
       span #{id} is not a valid icon ID
 
-mixin responsiveImage(title, item, sources)
-  img.zoomable(src=sources.image, alt=title)
-  include includes/license
-
-mixin rotationImage(title, item, sources)
-  picture.zoomable(alt=title)
-    //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
-    source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
-    source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
-    source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
-    //[if IE 9]></video><![endif]
-    a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-      img(src=sources.image, alt=title)
-  include includes/license
-
 mixin shareThisHTML()
   .btn-group.dropup
     a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-default Del
@@ -216,12 +200,6 @@ mixin searchResultAsset(asset)
         p.description #{asset.description}
       p.cat-link
         a(href='#{asset.catalog_url}') #{asset.catalog}
-
-mixin assetIcon(small)
-  if small
-    span.asset-icon.glyphicon.glyphicon-picture.small
-  else
-    span.asset-icon.glyphicon.glyphicon-picture
 
 mixin tag(name)
   a.tag(href='/?q='+encodeURIComponent(name))= name
