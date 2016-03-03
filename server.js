@@ -41,25 +41,23 @@ es.count({
 
 var categories = {};
 
-cip.initSession().then(function() {
-  return cipCategories.loadCategories().then(function(result) {
-    for (var i = 0; i < result.length; ++i) {
-      if (result[i] && result[i].id) {
-        categories[result[i].id] = result[i];
-      } else {
-        console.error(result);
-        throw new Error('Could not read id from the result of loadCategories');
-      }
+cipCategories.loadCategories().then(function(result) {
+  for (var i = 0; i < result.length; ++i) {
+    if (result[i] && result[i].id) {
+      categories[result[i].id] = result[i];
+    } else {
+      console.error(result);
+      throw new Error('Could not read id from the result of loadCategories');
     }
-    // Fetch the number of assets in the category.
-    return cipCategories.fetchCategoryCounts(es, categories)
-    .then(function(categoriesWithCounts) {
-      app.set('categories', categoriesWithCounts);
-    });
-  }).then(function() {
-    return cip.getCatalogs().then(function(catalogs) {
-      app.set('catalogs', catalogs);
-    });
+  }
+  // Fetch the number of assets in the category.
+  return cipCategories.fetchCategoryCounts(es, categories)
+  .then(function(categoriesWithCounts) {
+    app.set('categories', categoriesWithCounts);
+  });
+}).then(function() {
+  return cip.getCatalogs().then(function(catalogs) {
+    app.set('catalogs', catalogs);
   });
 }).then(function() {
   // Start server
