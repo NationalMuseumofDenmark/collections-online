@@ -24,7 +24,7 @@ block content
         .primary-asset.bleed
           if(player === "image-single" || player === "image-single-animated")
             img.zoomable(src=sources.image, alt=title)
-            +license()
+            include includes/license
           else if(player === "image-rotation")
             +rotationImage(title, item, sources)
           else if(player === "audio")
