@@ -9,14 +9,12 @@ $(function() {
     $('body').toggleClass('categories-menu-open');
   });
 
-  $.ajax({
-      url: '/catalogs', // Append path to mark active
-    })
+  $.ajax({url: '/catalogs'}) // Append path to mark active
     .done(function(data) {
       $menu.html(data);
 
       // Expand menus
-      $('a.expand-menu').click(function(e) {
+      $('a.expand-menu').on('click', function(e) {
         e.preventDefault();
         var $use = $(this).find('use');
         var $ul = $(this).closest('li').children('ul');
@@ -27,6 +25,7 @@ $(function() {
           $ul.slideUp(100);
           $use.attr('xlink:href', '#icon-plus');
         }
+        return false;
       });
     })
     .fail(function() {
@@ -46,10 +45,12 @@ $(function() {
     var $thisRow = $(this).closest('.image-row');
     if ($thisRow.hasClass('col-md-6')) {
       $thisRow.removeClass('col-md-6').addClass('col-md-12');
-      $thisRow.next('div').addClass('col-md-offset-3').removeClass('pull-right');
+      $thisRow.next('div').addClass('col-md-offset-3')
+        .removeClass('pull-right');
     } else {
       $thisRow.removeClass('col-md-12').addClass('col-md-6');
-      $thisRow.next('div').removeClass('col-md-offset-3').addClass('pull-right');
+      $thisRow.next('div').removeClass('col-md-offset-3')
+        .addClass('pull-right');
     }
   });
 });
