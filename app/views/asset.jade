@@ -12,12 +12,11 @@ block content
   article(itemscope,
           itemtype='http://schema.org/CreativeWork',
           class='asset item',
-          data-catalog-alias=catalog.alias,
-          data-item-id=item.id,
+          data-catalog=catalog.alias,
+          data-id=item.id,
           data-latitude=item.latitude,
           data-longitude=item.longitude,
-          data-heading=item.heading,
-          data-uniq=catalog.alias + item.id)
+          data-heading=item.heading)
     - var address = item.address || item.street;
     - var title = item.short_title || 'Ingen titel'
     - var filename = item.filename.toLowerCase();

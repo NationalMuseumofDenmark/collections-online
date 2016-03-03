@@ -11,8 +11,8 @@
   var $crowdTags = $('.tags-container.crowd');
   var $crowdInput = $('.tags-container.crowd input');
   var $item = $('.item');
-  var catalogAlias = $item.data('catalog-alias');
-  var itemId = $item.data('item-id');
+  var catalogAlias = $item.data('catalog');
+  var itemId = $item.data('id');
   var showError = function(msg) {
     var $error = $('<div class="alert alert-danger">');
     $error.text(msg);

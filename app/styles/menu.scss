@@ -6,19 +6,6 @@
   right   : 0;
   top     : 0;
 
-  .main-wrapper {
-    &::before {
-      border       : 4px $topbar-color solid;
-      border-bottom: 0;
-      content      : '';
-      height       : $topbar-height - 2;
-      left         : 0;
-      position     : absolute;
-      right        : 0;
-      top          : 0;
-    }
-  }
-
   .gray-overlay {
     cursor        : pointer;
     opacity       : 1;
@@ -103,7 +90,9 @@ $expand-width: 50px;
 
     &:hover,
     &:focus {
-      background-color: $menu-highlight;
+      // Has to be important to override bootstrap without too much nesting
+      // scss-lint:disable ImportantRule
+      background-color: $menu-highlight !important;
 
       > span {
         color: darken($gray, 20%);
