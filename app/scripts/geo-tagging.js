@@ -10,8 +10,10 @@ var ga;
 var mapHeading = 0;
 
 (function($) {
-  var GA_EVENT_CATEGORY = 'Geotagging';
+  // Check if we should show facebook-thanks on load
+  window.showFacebookMaybe();
 
+  var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapContainer = $('#geotagging');
   var $map = $('#geotagging-map');
   var mapHeight = $mapContainer.width() * 0.8;
@@ -104,6 +106,7 @@ var mapHeading = 0;
       dataType: 'json',
       success: function(response) {
         if (response.success) {
+          window.contributionAdded();
           ga('send',
             'event',
             GA_EVENT_CATEGORY,

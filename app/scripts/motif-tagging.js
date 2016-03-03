@@ -39,12 +39,12 @@
     return $.post(url, data, null, 'json');
   }
 
-  var createTag = function(url, tag) {
+  function createTag(url, tag) {
     var tagClassName = 'btn btn-default btn-small';
     var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag>' +
       tag + '</a>');
     return $new;
-  };
+  }
 
   function addTag() {
     // Don't submit nothing
@@ -65,6 +65,8 @@
       saveTag(tag)
         .done(function() {
           $new.removeClass('saving');
+          window.contributionAdded();
+          window.showFacebookMaybe();
         })
         .fail(function(response) {
           $new.remove();

@@ -1,16 +1,13 @@
 'use strict';
 
-$('.facebook-group').addClass('show-face');
-
 window.contributionAdded = function() {
   if (typeof(Storage) !== 'undefined') {
     var asset = $('article').data('uniq');
     var assets;
     var count;
-    var facebook;
     if (!localStorage.contribution) {
       localStorage.setItem('contribution', asset);
-      localStorage.setItem('facebookShown', false);
+      localStorage.setItem('showFacebook', false);
     } else {
       assets = localStorage.getItem('contribution');
       if (assets.search(asset) === -1) {
@@ -18,9 +15,17 @@ window.contributionAdded = function() {
         localStorage.setItem('contribution', assets);
       }
       count = localStorage.getItem('contribution').split(',').length;
-      facebook = localStorage.getItem('facebookShown');
+      if (count === 5) {
+        localStorage.setItem('showFacebook', true);
+      }
     }
-    console.log(assets + ' ' + count + ' ' + facebook);
+  }
+};
+
+window.showFacebookMaybe = function() {
+  if (localStorage.getItem('showFacebook') === 'true') {
+    $('.facebook-group').addClass('show-face');
+    localStorage.setItem('showFacebook', false);
   }
 };
 
