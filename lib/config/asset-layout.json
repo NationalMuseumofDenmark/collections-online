@@ -1,0 +1,95 @@
+{
+  "sections": [
+    {
+      "title": "Tid",
+      "rows": [
+        {
+          "title": "Optagelsestid",
+          "type": "date-interval",
+          "fields": "acceptance_time_from,acceptance_time_to"
+        }, {
+          "title": "Fremstillingstid",
+          "type": "date-interval",
+          "fields": "creation_time_from,creation_time_to"
+        }, {
+          "title": "Tidsnote",
+          "fields": "timenote"
+        }
+      ]
+    }, {
+      "title": "Sted",
+      "rows": [
+        {
+          "title": "Adresse",
+          "fields": "address||street"
+        }, {
+          "title": "By",
+          "fields": "city"
+        }, {
+          "title": "Topnr",
+          "fields": "topno"
+        }, {
+          "title": "Koordinater",
+          "type": "changeable-coordinates",
+          "fields": "latitude,longitude"
+        }
+      ]
+    }, {
+      "title": "Yderligere oplysninger",
+      "rows": [
+        {
+          "title": "Licens",
+          "type": "license",
+          "fields": "license"
+        }, {
+          "title": "Fotograf",
+          "fields": "creator"
+        }, {
+          "title": "Kilde",
+          "fields": "copyright"
+        }, {
+          "title": "Arkivalie nr",
+          "fields": "archiveno"
+        }, {
+          "title": "Negativ nr",
+          "fields": "negative_number"
+        }, {
+          "title": "Genstands nr",
+          "fields": "object_number"
+        }, {
+          "title": "Inventar nr",
+          "fields": "inventory_number"
+        }, {
+          "title": "Arkivnavn",
+          "fields": "archivename"
+        }
+      ]
+    }, {
+      "title": "Tekniske oplysninger",
+      "rows": [
+        {
+          "title": "Fil-ID",
+          "fields": "id"
+        }, {
+          "title": "Filnavn",
+          "fields": "filename"
+        }, {
+          "title": "Filstørrelse (mb)",
+          "type": "file-size-mb",
+          "fields": "file_size"
+        }, {
+          "title": "Størrelse (pixel)",
+          "type": "image-dimensions-px",
+          "fields": "width_px,height_px"
+        }, {
+          "title": "Størrelse (cm)",
+          "type": "image-dimensions-cm",
+          "fields": "width_cm,height_cm"
+        }, {
+          "title": "Opløsning (DPI)",
+          "fields": "dpi"
+        }
+      ]
+    }
+  ]
+}

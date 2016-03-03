@@ -1,7 +1,7 @@
 extends index
 
 append header
-  +assetMeta(item, sources)
+  +assetMeta(metadata, sources)
   +shareThisJS()
 
 append javascript
@@ -13,15 +13,15 @@ block content
           itemtype='http://schema.org/CreativeWork',
           class='asset item',
           data-catalog=catalog.alias,
-          data-id=item.id,
-          data-latitude=item.latitude,
-          data-longitude=item.longitude,
-          data-heading=item.heading)
-    - var address = item.address || item.street;
-    - var title = item.short_title || 'Ingen titel'
-    - var filename = item.filename.toLowerCase();
-    - var zipcode = item.zipcode;
-    - var city = item.city;
+          data-id=metadata.id,
+          data-latitude=metadata.latitude,
+          data-longitude=metadata.longitude,
+          data-heading=metadata.heading)
+    - var address = metadata.address || metadata.street;
+    - var title = metadata.short_title || 'Ingen titel'
+    - var filename = metadata.filename.toLowerCase();
+    - var zipcode = metadata.zipcode;
+    - var city = metadata.city;
     .row
       .col-md-6.col-xs-12.image-row
         .primary-asset.bleed
@@ -47,7 +47,7 @@ block content
 
         .asset-tools
           .btn-group.dropup
-            a.btn.btn-primary.dropdown-toggle(data-toggle='dropdown', role='button') Download
+            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
               +icon('icon-download')
             ul.dropdown-menu(role='menu')
               - if(filename.match('.tif$') || filename.match('.tiff$'))
@@ -65,13 +65,13 @@ block content
           +shareThisHTML()
           span.licens
             span.title Licens:
-            - if(item.license)
-                - var license = helpers.licenseTag(item.license.id);
+            - if(metadata.license)
+                - var license = helpers.licenseTag(metadata.license.id);
                 - if(license)
                   a(href=license.url, rel='license', target='_blank')
                     img(src=license.img, alt='Creative Commons licens')
                 - else
-                  | #{item.license.displaystring}
+                  | #{metadata.license.displaystring}
               - else
                 | -
         .related-assets
@@ -102,166 +102,50 @@ block content
           h1(itemprop='name')= title
 
         // Description
-        if(item.description)
+        if(metadata.description)
           p.sr-only Beskrivelse
-          p(itemprop='description',
-            class='lead')= item.description
+          p(itemprop='description', class='lead')= metadata.description
 
         // Tags
         h2 Emneord
         .tags-container
-          if(!item.tags)
+          if(!metadata.tags)
             span.no-tags Der er ingen emneord endnu.
-          each tag in item.tags || []
+          each tag in metadata.tags || []
             +tag(tag)
 
         // User tags
         h3 Emneord tilføjet af brugere
         .tags-container.crowd
-          if(!item.tags_crowd)
+          if(!metadata.tags_crowd)
             span.no-tags Der er ikke tilføjet nogle emneord endnu.
 
-          each tag in item.tags_crowd || []
+          each tag in metadata.tags_crowd || []
             +tag(tag)
           .material-input
             input(type='text', required='')
             span.bar
             label Indtast nyt emneord og tryk enter
-          button.btn.btn-primary.btn-small#crowd-btn Tilføj emneord
+          .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
 
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
         .tags-container.vision
-          if(!item.tags_vision)
-            button.btn.btn-primary.btn-small#vision-btn
+          if(!metadata.tags_vision)
+            .btn.btn-primary.btn-small#vision-btn
               +loader('Analysér billede')
-          each tag in item.tags_vision || []
+          each tag in metadata.tags_vision || []
             +tag(tag)
               span.add-tag.hidden
                 +icon('icon-thumbup')
 
 
           button.btn.btn-primary.btn-small.edit-vision-tags(
-            class=!item.tags_vision ? 'hidden' : undefined
+            class=!metadata.tags_vision ? 'hidden' : undefined
           ) Bekræft emneord
           button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
-        // Time and period
-        h2 Tidsperiode og årstal
-        table
-          tbody
-            tr
-              th Datering:
-              td
-                +addDating(item, catalog.alias)
-            tr
-              th Optagelsestid:
-              td(itemprop='dateCreated', class='date')
-                +formatDate(item.acceptance_time_from, item.acceptance_time_to)
-            tr
-              th Fremstillingstid:
-              td
-                +formatDate(item.creation_time_from, item.creation_time_to)
-
-        // Place
-        h2 Sted
-        table.place
-          tbody
-            tr
-              th Område:
-              td
-                +addPlace(item, catalog.alias)
-            tr
-              th Adresse:
-              td#address
-
-                - if(address || zipcode || city)
-                  - if(address)
-                    | #{address}
-
-                  - if(zipcode)
-                    - if(address)
-                      | ,
-                    | #{zipcode}
-                  - if(city)
-                    - if(address || zipcode)
-                      | ,
-                    | #{city}
-                - else
-                  | -
-            if(item.longitude && item.latitude)
-              tr
-                th Koordinater:
-                td
-                  = item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
-                  if(showGeotagging)
-                    a.btn.btn-icon.btn-primary.btn-small
-                      +icon('pencil-icon')
-              tr
-                td.bleed(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
-                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
-            tr
-              th Noter:
-              td= item.locationnote || '-'
-
-
-        // Technical info
-        h2 Tekniske oplysninger
-        table
-          tbody
-            tr
-              th Fil-ID:
-              td= id || '-'
-            tr
-              th Størrelse (pixel):
-              td
-                if item.width_px && item.height_px
-                | #{helpers.formatNumber(item.width_px, 0) || '-'} &times; #{helpers.formatNumber(item.height_px, 0) || '-'}
-            tr
-              th Størrelse (cm):
-              td
-                if item.width_cm && item.height_cm
-                | #{helpers.formatNumber(item.width_cm, 1) || '-'} &times; #{helpers.formatNumber(item.height_cm, 1) || '-'}
-            tr
-              th Opløsning (DPI):
-              td= helpers.formatNumber(item.dpi) || '-'
-            tr
-              th Filstørrelse:
-              td= helpers.filesizeMB(item.file_size) || '-'
-            tr
-              th Kilde:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-            tr
-              th Fotograf:
-                td
-                  span(itemprop='creator')= item.creator || '-'
-            tr
-              th Filnavn:
-              td= item.filename || '-'
-            tr
-              th Arkivalie nr.:
-              td= item.archiveno || '-'
-            tr
-              th Negativ nr.:
-              td= item.negative_number || '-'
-            tr
-              th Genstands nr.:
-              td= item.object_number || '-'
-            tr
-              th Inventar nr.:
-              td= item.inventory_number || '-'
-            tr
-              th Arkivnavn:
-              td= item.archivename ? item.archivename.displaystring : '-'
-            tr
-              th Tidsnote:
-              td= item.timenote || '-'
-
-            tr
-              th Topnr.:
-              td= item.topno || '-'
+        include includes/asset-sections
 
   .facebook-group
     h2 Tusind tak for din hjælp!

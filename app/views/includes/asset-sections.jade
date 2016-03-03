@@ -1,0 +1,6 @@
+each section in assetLayout.sections
+  h2= section.title
+  table
+    tbody
+      each row in section.rows
+        != row.render(metadata)
