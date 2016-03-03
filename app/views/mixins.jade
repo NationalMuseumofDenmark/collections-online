@@ -1,15 +1,3 @@
-mixin analytics
-  //- Tracking for live site (samlinger.natmus.dk)
-  if(config.googleAnalyticsPropertyID)
-    script.
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', '#{config.googleAnalyticsPropertyID}', 'auto');
-      ga('send', 'pageview');
-
 mixin assetMeta(item, sources)
   if item.short_title
     - title = item.short_title
@@ -80,12 +68,6 @@ mixin meta(title,socialTitle,image,description)
   meta(property='og:image', content='#{image}')
   meta(property='og:description', content='#{description}')
   meta(property='og:site_name', content='#{title}')
-
-mixin sidebarMenu
-  nav.categories-menu
-    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
-  .gray-overlay
-
 mixin loader(text)
   if text
     span.text #{text}
@@ -93,9 +75,8 @@ mixin loader(text)
   .loader.one
   .loader.two
 
-
 mixin searchCount
-  span.search-count  #{results.total_results} poster
+  span.search-count #{results.total_results} poster
 
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
@@ -104,38 +85,12 @@ mixin recursiveCategoryItem(catalog, category)
         a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
           span #{category.count}
         if category.children.length > 0
-          a.expand-menu(href='')
+          .expand
             +icon('icon-plus-minus')
       if category.children.length > 0
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
-
-mixin footer
-  footer
-    .footer
-      .container-fluid
-        .row
-          h4.footer-title Om Nationalmuseets Samlinger Online
-          address.col-xs-12
-            span Nationalmuseet
-            span Prinsens Palæ
-            span Ny Vestergade 10
-            span DK-1471 København K
-            span Tel. +45 3313 4411
-        .row
-          .col-xs-12
-            h2.h4 Følg os på:
-            p.social-links
-              a(href='https://www.facebook.com/nationalmuseet')
-                span.sr-only Facebook
-                +icon('icon-facebook')
-              a(href='https://twitter.com/Nationalmuseet')
-                span.sr-only Twitter
-                +icon('icon-twitter')
-              a(href='http://www.youtube.com/user/natmusdk')
-                span.sr-only YouTube
-                +icon('icon-youtube')
 
 mixin icon(id)
   case id
@@ -177,28 +132,6 @@ mixin icon(id)
         use(xlink:href='#icon-search')
     default
       span #{id} is not a valid icon ID
-
-mixin license()
-  if(item.license)
-    - var license = helpers.licenseTag(item.license.id);
-    if(license)
-      a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
-
-mixin responsiveImage(title, item, sources)
-  img.zoomable(src=sources.image, alt=title)
-  +license()
-
-mixin rotationImage(title, item, sources)
-  picture.zoomable(alt=title)
-    //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
-    source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
-    source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
-    source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
-    //[if IE 9]></video><![endif]
-    a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-      img(src=sources.image, alt=title)
-  +license()
 
 mixin shareThisHTML()
   .btn-group.dropup
@@ -266,12 +199,6 @@ mixin searchResultAsset(asset)
         p.description #{asset.description}
       p.cat-link
         a(href='#{asset.catalog_url}') #{asset.catalog}
-
-mixin assetIcon(small)
-  if small
-    span.asset-icon.glyphicon.glyphicon-picture.small
-  else
-    span.asset-icon.glyphicon.glyphicon-picture
 
 mixin tag(name)
   a.btn.btn-default.btn-small(

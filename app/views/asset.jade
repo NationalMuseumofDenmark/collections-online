@@ -17,22 +17,33 @@ block content
           data-latitude=item.latitude,
           data-longitude=item.longitude,
           data-heading=item.heading)
+    - var address = item.address || item.street;
     - var title = item.short_title || 'Ingen titel'
+    - var filename = item.filename.toLowerCase();
+    - var zipcode = item.zipcode;
+    - var city = item.city;
     .row
       .col-md-6.col-xs-12.image-row
-        - var filename = item.filename.toLowerCase();
         .primary-asset.bleed
           if(player === "image-single" || player === "image-single-animated")
             img.zoomable(src=sources.image, alt=title)
-            +license()
           else if(player === "image-rotation")
-            +rotationImage(title, item, sources)
+            picture.zoomable(alt=title)
+              //[if IE 9]><video style="display: none;"><![endif]
+              source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
+              source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
+              source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
+              source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
+              //[if IE 9]></video><![endif]
+              a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
+                img(src=sources.image, alt=title)
           else if(player === "audio")
             audio(controls)
               source(src=sources.audio)
           else if(player === "video")
             video(width="100%", controls)
               source(src=sources.video, type="video/mp4")
+          include includes/license
 
         .asset-tools
           .btn-group.dropup
@@ -158,9 +169,6 @@ block content
             tr
               th Adresse:
               td#address
-                - var address = item.address || item.street;
-                - var zipcode = item.zipcode;
-                - var city = item.city;
 
                 - if(address || zipcode || city)
                   - if(address)

@@ -1,35 +1,22 @@
 footer {
-  margin    : 0 -5px;
-  padding   : 0 5px;
-  background: $black;
-}
+  background : $gray-lighter;
+  color      : $footer-text-color;
+  font-weight: 600;
+  padding    : 3rem;
+  text-align : center;
 
-.footer {
-  .footer-title {
-    font-size: 18px;
-  }
-@extend .text-center;
-  padding   : 15px;
-  color     : $white;
-  border-top: 1px solid $gray-lighter;
-
-  address {
-    font-weight: 600;
-
-    span {
-      display: block;
-    }
-
-    a {
-      color          : $white;
-      background     : $black;
-      text-decoration: underline;
-    }
+  span {
+    display: block;
   }
 
   svg {
-    width : 40px;
-    height: 40px;
-    fill  : $white;
+    fill  : $footer-text-color;
+    height: 3rem;
+    width : 3rem;
+
+    &:hover,
+    &:focus {
+      fill: darken($footer-text-color, 10%);
+    }
   }
 }

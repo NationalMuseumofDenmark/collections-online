@@ -6,6 +6,8 @@
 
   .btn {
     margin-bottom: .5rem;
+    transition     : $anim-default;
+
     &:not(:last-child) {
       margin-right: .5rem;
     }
@@ -22,6 +24,10 @@
       }
     }
   }
+
+  .saving {
+    opacity: .5;
+  }
 }
 
 .tag {
@@ -30,7 +36,6 @@
   &.saved {
     cursor: pointer;
   }
-
 }
 
 .no-tags {

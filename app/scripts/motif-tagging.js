@@ -39,34 +39,38 @@
     return $.post(url, data, null, 'json');
   }
 
+  var createTag = function(url, tag) {
+    var tagClassName = 'btn btn-default btn-small';
+    var $new = $('<a href="' + tagUrl + '" class="'+ tagClassName +'" data-tag>'
+                 + tag + '</a>');
+    return $new;
+  };
+
   function addTag() {
     // Don't submit nothing
     if ($crowdInput.val().length !== 0) {
-      var $input = $crowdInput.val();
-      var tag = $input.trim().toLowerCase();
-      var tagUrl = '/?q=' + encodeURIComponent(tag);
+      var input = $crowdInput.val();
+      var tag = input.trim().toLowerCase();
+      var url = '/?q=' + encodeURIComponent(tag);
 
-      var tagClassName = 'btn btn-default btn-small';
-      var $newTag = $('<a href="' + tagUrl + '" class="'+ tagClassName +'" data-tag>'
-                      + tag + '</a>');
+      var $new = createTag(tagUrl, tag).addClass('saving');
       // Figure out where to add tag by checking if we already have some tags
-      if ($('.tags-container.crowd [data-tag]')) {
-        $('.tags-container.crowd [data-tag]').last().after($newTag);
+      if ($('.crowd [data-tag]').length) {
+        $('.crowd [data-tag]').last().after($new);
       } else {
-        $crowdTags.prepend($newTag);
+        $crowdTags.prepend($new);
       }
-      $crowdInput.val('');
+      $crowdInput.typeahead('val', '');
+
       // Save tag in cumulus
       saveTag(tag)
         .done(function() {
-          console.log('Tag saved in cumulus');
-          contributionCount();
+          $new.removeClass('saving');
         })
         .fail(function(response) {
-          $newTag.remove();
-          $crowdInput.val($input);
-          var error = response.responseJSON;
-          showError(error.message || 'Der skete en uventet fejl.');
+          $new.remove();
+          $crowdInput.typeahead('val', input);
+          showError(response.responseJSON.message || 'Der skete en fejl.');
         });
     } else {
       console.log('Empty input');
@@ -81,15 +85,15 @@
       dataType: 'json',
       url: window.location + '/suggested-motif-tags'
     }).done(function(data) {
+
       $visionBtn.remove();
       console.log(data.tags);
       var arrayLength = data.tags.length;
       if (arrayLength !== 0) {
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
-          var tagUrl = '/?q=' + encodeURIComponent(tag);
-          var $tag = $('<a href="' + tagUrl + '" class="tag">' + tag +
-            '</a>');
+          var url = '/?q=' + encodeURIComponent(tag);
+          var $tag = createTag(url, tag);
           $visionTags.append($tag);
         }
       }
