@@ -8,7 +8,7 @@ each catalog in catalogs
     li
       div
         a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
-        a.expand-menu(href='')
+        .expand
           +icon('icon-plus-minus')
       ul.nav.menu-hidden
         each category in catalog.categoryRoot.children

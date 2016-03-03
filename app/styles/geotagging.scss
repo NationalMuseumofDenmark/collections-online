@@ -1,10 +1,6 @@
 .geotagging {
   position: relative;
 
-  .btn {
-    font-size: 15px;
-  }
-
   .call-to-action {
     margin-bottom: 17px;
     min-height   : $input-height-base;
@@ -18,193 +14,121 @@
 
 .map-container {
   display : none;
-  position: relative;
   height  : auto;
+  position: relative;
 
   .overlay {
+    background-color: rgba($topbar-color, .9);
+    color           : $white;
     display         : none;
+    left            : 0;
+    min-height      : 100%;
+    padding         : 2.5rem;
     position        : absolute;
     top             : 0;
-    left            : 0;
     width           : 100%;
-    min-height      : 100%;
-    padding         : 40px;
-    color           : white;
-    background-color: #333;
-    opacity         : .95;
     z-index         : 1;
-    font-size       : 15px;
 
     &.overlay-visible {
-      display         : flex;
-      flex-direction  : column;
-      justify-content : center;
+      display        : flex;
+      flex-direction : column;
+      justify-content: center;
     }
 
     h2 {
-      color        : white;
-      margin-top   : 0;
-      margin-bottom: 10px;
+      margin: 0 0 10px;
     }
 
     .btn {
       width: 100%;
     }
   }
-
-  .controls {
-    margin-top     : 10px;
-    border         : 1px solid transparent;
-    border-radius  : 2px 0 0 2px;
-    box-sizing     : border-box;
-    -moz-box-sizing: border-box;
-    height         : 32px;
-    outline        : none;
-    box-shadow     : 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-
 }
 
-#geotagging-map {
-  background: #eee;
-  width: 100%;
+.geotagging-map {
   height: 0;
+  width : 100%;
 
   &.map-visible {
-    height: auto;
+    height        : auto;
     padding-bottom: 80%;
   }
-  // TODO: Consider moving this to an option when initializing the map.
-  .gm-iv-address,
-  .gm-iv-container {
-    display: none;
-  }
 
-  .gm-fullscreen-control {
-    cursor: pointer;
+  * {
+    font-family: $font-family-sans-serif !important;
   }
 
   .controls {
+    border       : 1px solid transparent;
     border-radius: 0;
+    box-shadow   : 0 2px 6px rgba($black, .3);
+    box-sizing   : border-box;
+    height       : 32px;
+    margin-top   : 10px;
+    outline      : none;
   }
 
-  .gmnoprint {
-    > div,
-    > .gm-style-mtc > div {
-      border-radius: 0 !important;
-    }
-  }
-
-  #pac-input {
-    background-color: #fff;
-    font-size       : 15px;
+  input {
+    background-color: $white;
+    font-size       : $font-size-base;
     font-weight     : 300;
     margin-left     : 12px;
+    max-width       : 50%;
     padding         : 0 11px;
     text-overflow   : ellipsis;
     width           : 300px;
-    max-width       : 50%;
 
     &:focus {
-      border-color: #4d90fe;
-    }
-
-    #type-selector {
-      color           : #fff;
-      background-color: #4d90fe;
-      padding         : 5px 11px 0;
-    }
-
-    #type-selector label {
-      font-size  : 13px;
-      font-weight: 300;
+      border-color: $brand-primary;
     }
   }
+}
 
+// We have to use important to overide element style
+.gmnoprint {
+  > div,
+  > .gm-style-mtc > div {
+    border-radius: 0 !important;
+  }
+}
+
+// TODO: Consider moving this to an option when initializing the map.
+.gm-iv-container {
+  display: none;
+}
+
+.gm-fullscreen-control {
+  cursor: pointer;
 }
 
 .map-buttons {
-  text-align    : center;
-  width         : 100%;
+  bottom        : 19px;
   pointer-events: none;
   position      : absolute;
-  bottom        : 19px;
+  text-align    : center;
+  width         : 100%;
 
   &.back-to-map {
-    top   : 10px;
-    left  : 5px;
     bottom: auto;
+    left  : 5px;
+    top   : 10px;
     width : auto;
   }
 
   &.btn,
   .btn {
-    pointer-events: auto;
+    box-shadow    : 0 2px 6px rgba($black, .3);
     margin        : 0 5px;
-    box-shadow    : 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-
-  .loader {
-    position      : relative;
-    vertical-align: middle;
-    display       : none;
-    width         : 25px;
-
-    &:before {
-      content    : '';
-      display    : block;
-      padding-top: 100%;
-    }
-  }
-
-  .circular {
-    animation       : rotate 2.5s linear infinite;
-    transform-origin: center center;
-    position        : absolute;
-    top             : 0;
-    bottom          : 0;
-    left            : 0;
-    right           : 0;
-    margin          : auto;
-    height          : 30px;
-  }
-
-  .path {
-    stroke-dasharray : 1,200;
-    stroke-dashoffset: 0;
-    animation        : dash 1.5s ease-in-out infinite;
-    stroke           : #333;
-  }
-}
-
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes dash {
-  0% {
-    stroke-dasharray : 1,200;
-    stroke-dashoffset: 0;
-  }
-
-  50% {
-    stroke-dasharray : 89,200;
-    stroke-dashoffset: -35;
-  }
-
-  100% {
-    stroke-dasharray : 89,200;
-    stroke-dashoffset: -124px;
+    pointer-events: auto;
   }
 }
 
 @media (max-width: $extra-small-size) {
   .geotagging {
-    #geotagging-map {
+    .geotagging-map {
       min-height: 66vh;
     }
+
     .overlay {
       padding: 10px;
     }

@@ -23,13 +23,10 @@
       return Bloodhound.tokenizers.whitespace(tags);
     },
     queryTokenizer: Bloodhound.tokenizers.whitespace,
-    prefetch: '',
     remote: {
       url: '/motif-tag-suggestions?text=%QUERY',
       wildcard: '%QUERY',
-      filter: function(response) {
-        return response.tags;
-      }
+      cache: false
     }
   });
 
@@ -47,14 +44,11 @@
     if ($crowdInput.val().length !== 0) {
       var $input = $crowdInput.val();
       var tag = $input.trim().toLowerCase();
-      // var icon = ('<svg><use xlink:href="#icon-delete" /></svg>');
-      // var $newTag = $('<span class="tag new">' + tag + icon + '</span>');
       var tagUrl = '/?q=' + encodeURIComponent(tag);
       var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
-      var $excistingTags = $('.tags.crowd .tag');
-      // Figure out where to add the new tag
-      if ($excistingTags) {
-        $excistingTags.last().after($newTag);
+      // Figure out where to add tag by checking if we already have some tags
+      if ($('.tags.crowd .tag')) {
+        $('.tags.crowd .tag').last().after($newTag);
       } else {
         $crowdTags.prepend($newTag);
       }
@@ -63,13 +57,7 @@
       saveTag(tag)
         .done(function() {
           console.log('Tag saved in cumulus');
-          // Add class for styling purpose (cursor pointer)
-          $newTag.addClass('saved');
-          // Let user remove the added tag again
-          $newTag.click(function() {
-            $(this).remove();
-            // TODO this should delete tag from cumulus
-          });
+          contributionCount();
         })
         .fail(function(response) {
           $newTag.remove();
@@ -84,9 +72,8 @@
 
   // ACTIONS
   $visionBtn.click(function() {
-    $(this).addClass('loading');
+    $(this).addClass('loading').children('.text').remove();
     $visionNoTags.remove();
-    $visionBtn.children('.text').remove();
     $.ajax({
       dataType: 'json',
       url: window.location + '/suggested-motif-tags'
@@ -146,14 +133,6 @@
   }, {
     name: 'tags',
     source: typeaheadTags
-  });
-
-  $('footer').click(function(){
-    $('.facebook-group').addClass('god-mode');
-  });
-  $('.facebook-group a.ok').click(function(e){
-    e.preventDefault();
-    $('.facebook-group').removeClass('god-mode');
   });
 
 })(jQuery);

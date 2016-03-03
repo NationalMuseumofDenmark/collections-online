@@ -1,7 +1,9 @@
 $size: .7em;
+$small-scale: scaleX(.5) scaleY(.5);
+$one-scale: scaleX(1) scaleY(1);
 
 .loader {
-  animation       : loading-dots 1s infinite ease-in-out 0s;
+  animation       : loading-dots 1.5s infinite ease-in-out 0s;
   animation-delay : -.4s;
   background-color: $white;
   border-radius   : 50%;
@@ -21,15 +23,19 @@ $size: .7em;
 
 @keyframes loading-dots {
   0% {
-    transform: scaleX(.01) scaleY(.01);
+    transform: $small-scale;
   }
 
-  40% {
-    transform: scaleX(1) scaleY(1);
+  35% {
+    transform: $one-scale;
+  }
+
+  70% {
+    transform: $small-scale;
   }
 
   100% {
-    transform: scaleX(.01) scaleY(.01);
+    transform: $small-scale;
   }
 }
 

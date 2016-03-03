@@ -84,10 +84,8 @@ var mapHeading = 0;
       streetView.getVisible() ? 'In street view' : 'Not in street view'
     );
 
-    $(this).addClass('disabled');
-    $(this).text('Gemmer placering');
+    $(this).addClass('disabled loading').children('.text').remove();
     $('.map-buttons .hide-map').hide();
-    $('.map-buttons .loader').css('display', 'inline-block');
     var data = {
       heading: mapHeading,
       latitude: marker.getPosition().lat(),
@@ -106,6 +104,7 @@ var mapHeading = 0;
       dataType: 'json',
       success: function(response) {
         if (response.success) {
+          contributionCount('geo');
           ga('send',
             'event',
             GA_EVENT_CATEGORY,
@@ -139,6 +138,13 @@ var mapHeading = 0;
     map = new google.maps.Map(document.getElementById('geotagging-map'), {
       center: initialPosition,
       zoom: 16,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+        mapTypeIds: [
+          google.maps.MapTypeId.ROADMAP,
+          google.maps.MapTypeId.SATELLITE
+        ]
+      },
       styles: [{
         featureType: 'transit',
         stylers: [{
@@ -151,11 +157,10 @@ var mapHeading = 0;
     // https://developers.google.com/maps/documentation/javascript/controls
     // https://developers.google.com/maps/documentation/javascript/examples/streetview-controls
     streetView.setOptions({
-      zoomControl: false,
-      disableDoubleClickZoom: false,
+      addressControl: false,
       panControl: false,
-      scrollwheel: false,
-      clickToGo: true
+      zoomControl: false,
+      scrollwheel: false
     });
 
     // TODO: Lets use symbols instead
@@ -201,7 +206,8 @@ var mapHeading = 0;
 
       if (heading) {
         mapHeading = heading;
-        var headingLatLng = google.maps.geometry.spherical.computeOffset(latLng,
+        var headingLatLng = google.maps.geometry.spherical.computeOffset(
+          latLng,
           100, mapHeading);
         headingMarker.setPosition(headingLatLng);
         recalculateLine();
@@ -299,3 +305,15 @@ var mapHeading = 0;
     resizeMap();
   };
 })(jQuery);
+
+// Prevent Roboto from loading
+var head = document.getElementsByTagName('head')[0];
+var insertBefore = head.insertBefore;
+head.insertBefore = function(newElement, referenceElement) {
+  if (newElement.href && newElement.href.indexOf(
+      'https://fonts.googleapis.com/css?family=Roboto') === 0) {
+    console.info('Prevented Roboto from loading!');
+    return;
+  }
+  insertBefore.call(head, newElement, referenceElement);
+};
