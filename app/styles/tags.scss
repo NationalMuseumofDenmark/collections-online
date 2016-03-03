@@ -9,6 +9,7 @@
     margin-bottom  : .5rem;
     padding        : .2rem .5rem;
     text-decoration: none;
+    transition     : $anim-default;
     vertical-align : middle;
 
     &:not(:last-child) {
@@ -28,6 +29,10 @@
       }
     }
   }
+
+  .saving {
+    opacity: .5;
+  }
 }
 
 .tag {
@@ -43,10 +48,6 @@
   &.new {
     padding-right: 2em;
     position     : relative;
-  }
-
-  &.saved {
-    cursor: pointer;
   }
 
   svg {

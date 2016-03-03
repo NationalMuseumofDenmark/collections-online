@@ -42,28 +42,28 @@
   function addTag() {
     // Don't submit nothing
     if ($crowdInput.val().length !== 0) {
-      var $input = $crowdInput.val();
-      var tag = $input.trim().toLowerCase();
-      var tagUrl = '/?q=' + encodeURIComponent(tag);
-      var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
+      var input = $crowdInput.val();
+      var tag = input.trim().toLowerCase();
+      var url = '/?q=' + encodeURIComponent(tag);
+      var $new = $('<a href="' + url + '" class="tag saving">' + tag + '</a>');
       // Figure out where to add tag by checking if we already have some tags
-      if ($('.tags.crowd .tag')) {
-        $('.tags.crowd .tag').last().after($newTag);
+      if ($('.crowd .tag').length) {
+        $('.crowd .tag').last().after($new);
       } else {
-        $crowdTags.prepend($newTag);
+        $crowdTags.prepend($new);
       }
-      $crowdInput.val('');
+      $crowdInput.typeahead('val', '');
+
       // Save tag in cumulus
       saveTag(tag)
         .done(function() {
-          console.log('Tag saved in cumulus');
-          contributionCount();
+          $new.removeClass('saving');
+          // contributionCount();
         })
         .fail(function(response) {
-          $newTag.remove();
-          $crowdInput.val($input);
-          var error = response.responseJSON;
-          showError(error.message || 'Der skete en uventet fejl.');
+          $new.remove();
+          $crowdInput.typeahead('val', input);
+          showError(response.responseJSON.message || 'Der skete en fejl.');
         });
     } else {
       console.log('Empty input');
@@ -84,9 +84,8 @@
       if (arrayLength !== 0) {
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
-          var tagUrl = '/?q=' + encodeURIComponent(tag);
-          var $tag = $('<a href="' + tagUrl + '" class="tag">' + tag +
-            '</a>');
+          var url = '/?q=' + encodeURIComponent(tag);
+          var $tag = $('<a href="' + url + '" class="tag">' + tag + '</a>');
           $visionTags.append($tag);
         }
       }
