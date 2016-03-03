@@ -4,42 +4,7 @@
  * The processor handling a single asset.
  */
 
-var Q = require('q'),
-  path = require('path'),
-  fs = require('fs'),
-  _ = require('lodash'),
-  assetMapping = require('../../lib/asset-mapping.js'),
-  cip = require('../../lib/services/natmus-cip'),
-  config = require('../../lib/config/config');
-
-var DATA_REGEXP = new RegExp('\\d+');
-var CM_PR_IN = 2.54;
-
-const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ (- )?/;
-const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
-
-const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
-const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
-var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString();
-// Remove any linebreak from Linux, Windows or Mac and seperate tags
-tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
-
-const TAGS_VISION_FIELD = '{6864395c-c433-2148-8b05-56edf606d4d4}';
-
-function relatedFilenameComparison(assetA, assetB) {
-  var filenameA = assetA.filename;
-  var filenameB = assetB.filename;
-  return filenameA.localeCompare(filenameB);
-}
-
-function saveVisionTags(metadata, tags) {
-  var values = {};
-  values[TAGS_VISION_FIELD] = tags;
-
-  return cip.initSession().then(function(nm) {
-    return cip.setFieldValues(nm, metadata.catalog, metadata.id, 'web', values);
-  });
-}
+var Q = require('q');
 
 function AssetIndexingError(catalogAlias, assetId, innerError) {
   this.catalogAlias = catalogAlias;
@@ -51,192 +16,17 @@ function AssetIndexingError(catalogAlias, assetId, innerError) {
 // arguments (cip_client, metadata) and returns a mutated metadata, which
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
-  function transformFieldNames(state, metadata) {
-    var transformedMetadata = assetMapping.formatResult(metadata);
-    // The catalog will be removed when formatting.
-    transformedMetadata.catalog = metadata.catalog;
-    return transformedMetadata;
-  },
-  function transformModificationTime(state, metadata) {
-    var modificationTime = DATA_REGEXP.exec(metadata['modification_time']);
-    if (modificationTime && modificationTime.length > 0) {
-      metadata['modification_time'] = parseInt(modificationTime[0], 10);
-    }
-    return metadata;
-  },
-  function transformCategoriesAndDeriveSuggest(state, metadata) {
-    // Transforms the categories.
-    if (metadata.categories !== undefined) {
-      metadata['categories_int'] = [];
-
-      for (var j = 0; j < metadata.categories.length; ++j) {
-        if (metadata.categories[j].path.indexOf('$Categories') !== 0) {
-          continue;
-        }
-        var category = metadata.categories[j].id;
-        var path = state.categories[metadata.catalog].getPath(category);
-        if (path) {
-          for (var k = 0; k < path.length; k++) {
-            metadata['categories_int'].push(path[k].id);
-            if (path[k].name.indexOf('$Categories') === 0) {
-              continue;
-            }
-          }
-        }
-      }
-    }
-    return metadata;
-  },
-  function transformRelations(state, metadata) {
-    // Transforms the binary representations of each relation.
-    metadata['related_master_assets'] = cip.parseBinaryRelations(
-      metadata['related_master_assets']);
-    metadata['related_sub_assets'] = cip.parseBinaryRelations(
-      metadata['related_sub_assets']);
-    // Sort these by their filename.
-    metadata['related_master_assets'].sort(relatedFilenameComparison);
-    metadata['related_sub_assets'].sort(relatedFilenameComparison);
-    return metadata;
-  },
-  function deriveDimensionsInCM(state, metadata) {
-    metadata.width_cm = metadata.width_in * CM_PR_IN;
-    metadata.height_cm = metadata.height_in * CM_PR_IN;
-    return metadata;
-  },
-  function deriveIsSearchable(state, metadata) {
-    // Compute a value on if it's drafted, part of a rotational series
-    // or an original that has more representable croppings.
-    // Adds an is_searchable field to the metadata.
-    metadata.is_searchable = true; // Let's assume that it is.
-    if (metadata.cropping_status &&
-      metadata.cropping_status.id === 2) {
-      // The croping status is 'has been cropped' / 'Er friskåret'
-      metadata.is_searchable = false;
-    } else if (!metadata.review_state ||
-      (metadata.review_state.id !== 3 && metadata.review_state.id !== 4)) {
-      // The asset's review state is neither 3 or 4 (public).
-      metadata.is_searchable = false;
-    } else if (metadata.in_artifact_rotation_series &&
-      metadata.artifact_rotation_series_rank !== 0) {
-      // The asset is part of a rotation series but it's not the front.
-      metadata.is_searchable = false;
-    }
-    // Return the updated metedata.
-    return metadata;
-  },
-  function deriveLatitudeAndLongitude(state, metadata) {
-    var coordinates;
-    if (metadata.google_maps_coordinates) {
-      coordinates = metadata.google_maps_coordinates;
-    } else if (metadata.google_maps_coordinates_crowd) {
-      coordinates = metadata.google_maps_coordinates_crowd;
-    }
-    if (coordinates) {
-      coordinates = coordinates.split(',').map(parseFloat);
-      if (coordinates.length >= 2) {
-        metadata.latitude = coordinates[0];
-        metadata.longitude = coordinates[1];
-      } else {
-        throw new Error(
-          'Encountered unexpected format when parsing coordinates.');
-      }
-    }
-    return metadata;
-  },
-  function deriveTags(state, metadata) {
-    var tagsPerCategory = metadata.categories.map(function(category) {
-      var catalogsCategoryTree = state.categories[metadata.catalog];
-      var path = catalogsCategoryTree.getPath(category.id) || [];
-      return path.map(function(categoryOnPath) {
-        var name = categoryOnPath.name;
-        // Categories that starts with the dollar-sign are system categories.
-        if (name.indexOf('$') === 0) {
-          return null;
-        }
-        // Remove prefixed numbers, letters and dots.
-        name = name.replace(PREFIXED_NUMBERS_LETTERS_AND_DOTS, '');
-        // Remove special prefix e.g. "F01a - "
-        name = name.replace(PREFIXED_SPECIAL_CASE_ONE, '');
-        // We made it this far - let's consider tags lowercase only
-        name = name.toLowerCase();
-        // Don't include catalogs that are blacklisted.
-        if (tagsBlacklist.indexOf(name) !== -1) {
-          return null;
-        }
-        // Let's lower the case.
-        return name;
-      });
-    });
-
-    // Concat all the tags from every path into a single array.
-    metadata.tags = _.union.apply(null, tagsPerCategory).filter(function(tag) {
-      return !!tag; // Filter out null or undefined values.
-    }).sort();
-
-    return metadata;
-  },
-  function deriveVisionTags(state, metadata) {
-    // Let's save some cost and bandwidth and not analyze the asset unless
-    // explicitly told. As in run only if one of the indexVison args are specified.
-    var runForced = state.indexVisionTagsForce;
-    var runDefault = state.indexVisionTags && !metadata.tags_vision;
-    var reviewState = metadata.review_state ? metadata.review_state.id : null;
-    var isPublished = reviewState === 3 || reviewState === 4;
-
-    if ((runForced || runDefault) && isPublished) {
-      // Still here. Let's grab the image directly from Cumulus.
-      var url = config.cipBaseURL + '/preview/thumbnail/';
-      url += metadata.catalog + '/' + metadata.id;
-
-      // Loading here to prevent circular dependency.
-      var motif = require('../../lib/controllers/motif-tagging');
-
-      return motif.fetchSuggestions(url).then(function(tags) {
-        console.log('Derived', tags.length, 'tags, using AI.');
-        // Convert tags to a comma seperated string
-        var filteredTags = tags.join(',');
-        // Save the tags to Cumulus
-        return saveVisionTags(metadata, filteredTags).then(function(response) {
-          if (response.statusCode !== 200) {
-            throw new Error('Failed to set the field values');
-          }
-          metadata.tags_vision = filteredTags;
-          return metadata;
-        });
-      });
-    } else {
-      /*
-      var reason = [];
-      if (!isPublished) {
-        reason.push('Asset is not published');
-      }
-      if (!runDefault) {
-        reason.push('Asset already had vision tags');
-      }
-      if (!runForced) {
-        reason.push('Was not forced to update vision tags');
-      }
-      reason = reason.join(', ');
-      console.log('Skipped to derive vision tags, reason: ' + reason);
-      */
-    }
-    return metadata;
-  },
-  function transformTags(state, metadata) {
-    // We want Cumulus to have a string, but elasticsearch to have an array.
-    if (metadata.tags_vision && typeof(metadata.tags_vision) === 'string') {
-      metadata.tags_vision = metadata.tags_vision.split(',');
-    }
-    if (metadata.tags_crowd && typeof(metadata.tags_crowd) === 'string') {
-      metadata.tags_crowd = metadata.tags_crowd.split(',');
-    }
-    return metadata;
-  },
-  /*
-  function cracyFails(state, metadata) {
-  	throw new Error('Catch me if you can ... ' + metadata.id);
-  }
-  */
+  require('../transformations/field-names'),
+  require('../transformations/modification-time'),
+  require('../transformations/categories-and-suggest'),
+  require('../transformations/relations'),
+  require('../transformations/dimensions-in-cm'),
+  require('../transformations/is-searchable'),
+  require('../transformations/latitude-longitude'),
+  require('../transformations/split-tags'),
+  require('../transformations/category-tags'),
+  require('../transformations/vision-tags'),
+  require('../transformations/tag-hierarchy')
 ];
 
 function transformMetadata(state, metadata, transformations) {
@@ -256,11 +46,10 @@ function processAsset(state, metadata, transformations) {
   // Perform additional transformations and index the result.
   return transformMetadata(state, metadata, transformations)
     .then(function(metadata) {
-      var es_id = metadata.catalog + '-' + metadata.id;
       return state.es.index({
         index: process.env.ES_INDEX || 'assets',
         type: 'asset',
-        id: es_id,
+        id: metadata.catalog + '-' + metadata.id,
         body: metadata
       });
     })
