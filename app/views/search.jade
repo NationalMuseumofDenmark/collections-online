@@ -1,7 +1,5 @@
 extends index
 
-include frontpage-slider
-
 append header
   if results.is_search || results.is_front || results.is_category || results.is_catalog
     +searchMeta(results, catalog, breadcrumbs)
@@ -13,7 +11,7 @@ block before-content
 block content
   section.section-wrapper
     if results.is_front
-      +FrontPageSlider()
+      include includes/frontpage-slider
 
     .clearfix
 

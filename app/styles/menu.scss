@@ -87,30 +87,19 @@ $expand-width: 50px;
     // This is needed, because an expanded li is otherwise placing itself
     // ontop of the menu items above it.
     overflow: hidden;
+
+    > div {
+      align-items: stretch;
+      display    : flex;
+    }
   }
 
-  div {
-    align-items: stretch;
-    display    : flex;
-  }
-
-  a {
+  a,
+  .expand {
     align-items    : center;
-    color          : $white;
     display        : flex;
     padding        : 10px 15px;
     text-decoration: none;
-
-    &.col-xs-10 {
-      float: none;
-      width: calc(100% - #{$expand-width});
-    }
-
-    &.expand-menu {
-      float     : right;
-      text-align: center;
-      width     : $expand-width;
-    }
 
     &:hover,
     &:focus {
@@ -120,11 +109,25 @@ $expand-width: 50px;
         color: darken($gray, 20%);
       }
     }
+  }
+
+  a {
+    color: $white;
+    float: none;
+    width: calc(100% - #{$expand-width});
 
     > span {
       color      : $gray;
       margin-left: 4px;
     }
+
+  }
+
+  .expand {
+    cursor    : pointer;
+    float     : right;
+    text-align: center;
+    width     : $expand-width;
 
     svg {
       fill  : $white;
@@ -133,7 +136,6 @@ $expand-width: 50px;
       width : 12px;
     }
   }
-
 }
 
 .menu-hidden {
