@@ -155,23 +155,18 @@ $asset--icon-shadow-color: #fff;
 .collapsable-section-header {
   a {
     svg {
-      @extend %pull-left;
       fill  : $brand-primary;
       height: 1em;
       margin: 0 .2em 0 0;
       width : 1em;
     }
 
-    &.collapsed {
-      .icon-minus {
-        display: none;
-      }
+    &.collapsed svg:first-child {
+      display: none;
     }
 
-    &:not(.collapsed) {
-      .icon-plus {
-        display: none;
-      }
+    &:not(.collapsed) svg:nth-child(2) {
+      display: none;
     }
   }
 }

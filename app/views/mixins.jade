@@ -86,73 +86,15 @@ mixin recursiveCategoryItem(catalog, category)
           span #{category.count}
         if category.children.length > 0
           .expand
-            +icon('icon-plus-minus')
+            +icon('plus')
       if category.children.length > 0
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
 
 mixin icon(id)
-  case id
-    when 'pencil-icon'
-      svg.pencil-icon
-        use(xlink:href='#icon-pencil')
-    when 'icon-menu'
-      svg
-        use(xlink:href='#icon-menu')
-    when 'icon-logo'
-      svg
-        use(xlink:href='#icon-logo')
-    when 'icon-thumbup'
-      svg
-        use(xlink:href='#icon-thumbup')
-    when 'icon-download'
-      svg
-        use(xlink:href='#icon-download')
-    when 'icon-share'
-      svg
-        use(xlink:href='#icon-share')
-    when 'icon-plus-minus'
-      svg
-        use(xlink:href='#icon-plus')
-    when 'icon-minus'
-      svg.icon-minus
-        use(xlink:href='#icon-minus')
-    when 'icon-plus'
-      svg.icon-plus
-        use(xlink:href='#icon-plus')
-    when 'icon-facebook'
-      svg
-        use(xlink:href='#icon-facebook')
-    when 'icon-twitter'
-      svg
-        use(xlink:href='#icon-twitter')
-    when 'icon-youtube'
-      svg
-        use(xlink:href='#icon-youtube')
-    when 'icon-search'
-      svg
-        use(xlink:href='#icon-search')
-    default
-      span #{id} is not a valid icon ID
-
-mixin shareThisHTML()
-  .btn-group.dropup
-    a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-primary Del
-      +icon('icon-share')
-    ul.dropdown-menu(role='menu')
-      li.st_facebook(displayText='Facebook')
-      li.divider
-      li.st_twitter(displayText='Twitter')
-      li.divider
-      li.st_pinterest(displayText='Pinterest')
-      li.divider
-      li.st_email(displayText='Email')
-
-mixin shareThisJS()
-  <script type="text/javascript">var switchTo5x=true;</script>
-  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-  <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+  svg
+    use(xlink:href='#icon-#{id}')
 
 mixin formatDate(from, to)
   if(from && to && from.day == to.day && from.month == to.month && from.day == to.day)
