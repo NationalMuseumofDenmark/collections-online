@@ -1,0 +1,49 @@
+@import 'variables';
+
+.btn {
+  border: 0;
+  background: transparent;
+
+  svg {
+    margin        : 0 .2em;
+    vertical-align: middle;
+  }
+
+  &.btn-primary {
+    background-color: $brand-primary;
+    color: $white;
+
+    svg { fill: $white; }
+    &:hover, &:focus {
+      background-color: lighten($brand-primary, 5%);
+    }
+  }
+
+  &.btn-default {
+    background-color: $button-bg;
+    color           : $white;
+
+    &:hover, &:focus {
+      background-color: darken($button-bg, 10%);
+      color           : $white;
+    }
+  }
+
+  &.btn-icon {
+    padding: 0.2rem;
+    vertical-align: middle;
+  }
+
+  &.btn-small {
+    font-size: 90%;
+    padding  : .2rem .5rem;
+
+    &.btn-icon { padding: 0.2rem; }
+
+    svg {
+      height: 18px;
+      width : 17px;
+    }
+  }
+
+}

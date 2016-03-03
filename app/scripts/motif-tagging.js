@@ -5,11 +5,11 @@
   // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
-  var $visionTags = $('.tags.vision');
+  var $visionTags = $('.tags-container.vision');
   var $crowdNoTags = $('.crowd .no-tags');
   var $crowdBtn = $('#crowd-btn');
-  var $crowdTags = $('.tags.crowd');
-  var $crowdInput = $('.tags.crowd input');
+  var $crowdTags = $('.tags-container.crowd');
+  var $crowdInput = $('.tags-container.crowd input');
   var $item = $('.item');
   var catalogAlias = $item.data('catalog-alias');
   var itemId = $item.data('item-id');
@@ -45,10 +45,13 @@
       var $input = $crowdInput.val();
       var tag = $input.trim().toLowerCase();
       var tagUrl = '/?q=' + encodeURIComponent(tag);
-      var $newTag = $('<a href="' + tagUrl + '" class="tag">' + tag + '</a>');
+
+      var tagClassName = 'btn btn-default btn-small';
+      var $newTag = $('<a href="' + tagUrl + '" class="'+ tagClassName +'" data-tag>'
+                      + tag + '</a>');
       // Figure out where to add tag by checking if we already have some tags
-      if ($('.tags.crowd .tag')) {
-        $('.tags.crowd .tag').last().after($newTag);
+      if ($('.tags-container.crowd [data-tag]')) {
+        $('.tags-container.crowd [data-tag]').last().after($newTag);
       } else {
         $crowdTags.prepend($newTag);
       }
