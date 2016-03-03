@@ -2,7 +2,7 @@
 
 window.contributionAdded = function() {
   if (typeof(Storage) !== 'undefined') {
-    var asset = $('article').data('uniq');
+    var asset = $('article').data('catalog') + $('article').data('id');
     var assets;
     var count;
     if (!localStorage.contribution) {

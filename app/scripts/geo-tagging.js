@@ -95,8 +95,8 @@ var mapHeading = 0;
     };
 
     var $item = $('.item');
-    var catalogAlias = $item.data('catalog-alias');
-    var itemId = $item.data('item-id');
+    var catalogAlias = $item.data('catalog');
+    var itemId = $item.data('id');
     console.log('Saving geo-tag', catalogAlias, itemId, data);
     var url = '/' + catalogAlias + '/' + itemId + '/save-geotag';
     $.ajax({
