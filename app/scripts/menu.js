@@ -3,7 +3,7 @@
 // Retrieve the main menu and its childern
 $(function() {
   var $menu = $('.categories-menu .dropdown-menu-right');
-  var slideDuration = 500;
+  var slideDuration = 200;
 
   // Open / close main menu nav
   $('#heading-categories-menu, .gray-overlay').click(function() {
