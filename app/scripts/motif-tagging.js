@@ -41,8 +41,8 @@
 
   var createTag = function(url, tag) {
     var tagClassName = 'btn btn-default btn-small';
-    var $new = $('<a href="' + tagUrl + '" class="'+ tagClassName +'" data-tag>'
-                 + tag + '</a>');
+    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag>' +
+      tag + '</a>');
     return $new;
   };
 
@@ -52,8 +52,7 @@
       var input = $crowdInput.val();
       var tag = input.trim().toLowerCase();
       var url = '/?q=' + encodeURIComponent(tag);
-
-      var $new = createTag(tagUrl, tag).addClass('saving');
+      var $new = createTag(url, tag).addClass('saving');
       // Figure out where to add tag by checking if we already have some tags
       if ($('.crowd [data-tag]').length) {
         $('.crowd [data-tag]').last().after($new);

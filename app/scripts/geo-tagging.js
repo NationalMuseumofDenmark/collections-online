@@ -104,7 +104,6 @@ var mapHeading = 0;
       dataType: 'json',
       success: function(response) {
         if (response.success) {
-          contributionCount('geo');
           ga('send',
             'event',
             GA_EVENT_CATEGORY,

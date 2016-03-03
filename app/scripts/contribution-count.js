@@ -1,50 +1,39 @@
 'use strict';
 
-function godMode() {
-  $('.facebook-group').addClass('god-mode');
-}
+$('.facebook-group').addClass('show-face');
 
-var contributionCount = function(type) {
-  // Check if localStorage i supported
+window.contributionAdded = function() {
   if (typeof(Storage) !== 'undefined') {
-    var assetNumber = window.location.href.split('/').splice(-2).join('');
-    // Check if user is a contribution virgin
-    if (!localStorage.contributionCount) {
-      localStorage.contributedAssets = assetNumber;
-      localStorage.contributionCount = 1;
+    var asset = $('article').data('uniq');
+    var assets;
+    var count;
+    var facebook;
+    if (!localStorage.contribution) {
+      localStorage.setItem('contribution', asset);
+      localStorage.setItem('facebookShown', false);
     } else {
-      // Make sure that the user isn't humping the same old asset
-      if (localStorage.contributedAssets.search(assetNumber) === -1) {
-        localStorage.contributedAssets += ',' + assetNumber;
-        localStorage.contributionCount++;
-        // Check if we've reached the magic number
-        // TODO change to 5
-        if (localStorage.contributionCount === '2'){
-          // Did the user geo tag (results in page reload)
-          if (type === 'geo') {
-            localStorage.geoFive = true;
-          } else {
-            godMode();
-          }
-        }
+      assets = localStorage.getItem('contribution');
+      if (assets.search(asset) === -1) {
+        assets += ',' + asset;
+        localStorage.setItem('contribution', assets);
       }
+      count = localStorage.getItem('contribution').split(',').length;
+      facebook = localStorage.getItem('facebookShown');
     }
-    console.log('Contribution count = ' + localStorage.contributionCount);
-    console.log('Assets cuntributed to = ' + localStorage.contributedAssets);
+    console.log(assets + ' ' + count + ' ' + facebook);
   }
 };
 
-jQuery(function ($) {
+jQuery(function($) {
 
-  $('.facebook-group a.ok').click(function(e){
+  $('.facebook-group a.ok').click(function(e) {
     e.preventDefault();
-    $('.facebook-group').removeClass('god-mode');
+    $('.facebook-group').removeClass('show-face');
+    return false;
   });
 
-  // Check if 5th contribution was geo on page load
   if (typeof(Storage) !== 'undefined') {
     if (localStorage.geoFive) {
-      godMode();
       localStorage.geoFive = false;
     }
   }

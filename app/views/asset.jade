@@ -16,7 +16,8 @@ block content
           data-item-id=item.id,
           data-latitude=item.latitude,
           data-longitude=item.longitude,
-          data-heading=item.heading)
+          data-heading=item.heading,
+          data-uniq=catalog.alias + item.id)
     - var address = item.address || item.street;
     - var title = item.short_title || 'Ingen titel'
     - var filename = item.filename.toLowerCase();
@@ -25,7 +26,7 @@ block content
     .row
       .col-md-6.col-xs-12.image-row
         .primary-asset.bleed
-          if(player === "image-single" || player === "image-single-animated")
+          if(player === 'image-single' || player === 'image-single-animated')
             img.zoomable(src=sources.image, alt=title)
           else if(player === "image-rotation")
             picture.zoomable(alt=title)
@@ -133,7 +134,7 @@ block content
         h3 Emneord fundet ved automatisk billedanalyse
         .tags-container.vision
           if(!item.tags_vision)
-            .btn.btn-primary#vision-btn
+            .btn.btn-primary.btn-small#vision-btn
               +loader('Analysér billede')
           each tag in item.tags_vision || []
             +tag(tag)
@@ -260,7 +261,7 @@ block content
 
   .facebook-group
     h2 Tusind tak for din hjælp!
-    p Du kan følge med og være en aktiv medspiller på vores facebook gruppe
+    p Du kan følge med og være en aktiv medspiller på vores facebook gruppe 
       a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
-    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at
+    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at 
       a(href="").ok trykke her.
