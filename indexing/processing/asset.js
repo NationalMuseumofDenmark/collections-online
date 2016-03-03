@@ -38,6 +38,12 @@ function transformMetadata(state, metadata, transformations) {
 }
 
 function processAsset(state, metadata, transformations) {
+  if (!state) {
+    throw new Error('A state is needed to have initialized clients.');
+  }
+  if (!metadata) {
+    throw new Error('Metadata is needed to know what to transform.');
+  }
   //console.log('Processing an asset.');
   // Use all transformations by default.
   if (typeof(transformations) === 'undefined') {
