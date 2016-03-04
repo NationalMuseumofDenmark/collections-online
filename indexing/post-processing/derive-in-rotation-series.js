@@ -7,8 +7,9 @@
  * reachable when searching.
  */
 
-var Q = require('q'),
-    _ = require('lodash');
+var Q = require('q');
+var _ = require('lodash');
+var es = require('../../lib/services/elasticsearch');
 
 // TODO: Consider taking the 'Rotationsbilleder' category name from a
 // configuration file.
@@ -27,7 +28,7 @@ module.exports = function(state) {
     // the particular asset to be a part of a rotational series.
     var additionalAssetIds = [];
 
-    return state.es.scrollSearch({
+    return es.scrollSearch({
       'query': {
         'bool': {
           'must': [{
@@ -54,7 +55,7 @@ module.exports = function(state) {
       // Search for all assets that has been indexed in this run and which is
       // either in the rotational image category or has a master asset that might
       // be in the rotational image category.
-      return state.es.scrollSearch({
+      return es.scrollSearch({
         'query': {
           'bool': {
             'must': [{
@@ -104,7 +105,7 @@ module.exports = function(state) {
                     hit._id + ') and it´s',
                     subAssets.length,
                     'sub-assets.');
-        return state.es.bulk({
+        return es.bulk({
           index: state.index,
           type: 'asset',
           body: actions

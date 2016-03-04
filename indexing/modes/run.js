@@ -4,8 +4,8 @@
  * Running the indexing procedure in whatever mode the state suggests.
  */
 
-var Q = require('q'),
-    processQuery = require('../processing/query');
+var Q = require('q');
+var processQuery = require('../processing/query');
 
 const POST_PROCESSING_STEPS = [
   require('../post-processing/inherit-metadata'),

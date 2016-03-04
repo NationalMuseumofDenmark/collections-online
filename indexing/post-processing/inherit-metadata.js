@@ -8,6 +8,7 @@
 
 var Q = require('q');
 var assetMapping = require('../../lib/asset-mapping.js');
+var es = require('../../lib/services/elasticsearch');
 
 // Given a sub asset's and a master asset's metadata:
 // - Extend the metadata of an asset from it's master asset.
@@ -23,7 +24,7 @@ function extendAndIndexAsset(state, subAssetMetadata, masterAssetMetadata) {
 
   // Index the extended metadata and return the promise.
   var esID = subAssetMetadata.catalog + '-' + subAssetMetadata.id;
-  return state.es.index({
+  return es.index({
     index: process.env.ES_INDEX || 'assets',
     type: 'asset',
     id: esID,
@@ -51,7 +52,7 @@ function updateMetadataFromRelations(state, assetMetadata) {
     if (masterAssets.length === 1) {
       var masterAssetId = assetMetadata.catalog + '-' + masterAssets[0].id;
       // Extend from it's master.
-      return state.es.get({
+      return es.get({
         index: process.env.ES_INDEX || 'assets',
         type: 'asset',
         id: masterAssetId
@@ -139,7 +140,7 @@ module.exports = function(state) {
       return updateNextAssetFromRelations();
     } else {
       // Fetch the asset metadata related to the asset.
-      state.es.get({
+      es.get({
         index: process.env.ES_INDEX || 'assets',
         type: 'asset',
         id: assetId
@@ -196,4 +197,4 @@ module.exports = function(state) {
   }
 
   return deferred.promise;
-}
+};

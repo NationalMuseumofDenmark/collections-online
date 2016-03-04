@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'development') {
 var Q = require('q');
 
 var steps = [
-  require('./initialize/elastic-search-client'),
   require('./initialize/elastic-search-index'),
   require('./initialize/cip-catalogs'),
   require('./initialize/cip-categories'),
