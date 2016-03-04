@@ -25,7 +25,7 @@ function extendAndIndexAsset(state, subAssetMetadata, masterAssetMetadata) {
   // Index the extended metadata and return the promise.
   var esID = subAssetMetadata.catalog + '-' + subAssetMetadata.id;
   return es.index({
-    index: process.env.ES_INDEX || 'assets',
+    index: state.index,
     type: 'asset',
     id: esID,
     body: extendedMetadata
@@ -53,7 +53,7 @@ function updateMetadataFromRelations(state, assetMetadata) {
       var masterAssetId = assetMetadata.catalog + '-' + masterAssets[0].id;
       // Extend from it's master.
       return es.get({
-        index: process.env.ES_INDEX || 'assets',
+        index: state.index,
         type: 'asset',
         id: masterAssetId
       }).then(function(response) {
@@ -141,7 +141,7 @@ module.exports = function(state) {
     } else {
       // Fetch the asset metadata related to the asset.
       es.get({
-        index: process.env.ES_INDEX || 'assets',
+        index: state.index,
         type: 'asset',
         id: assetId
       }).then(function(response) {

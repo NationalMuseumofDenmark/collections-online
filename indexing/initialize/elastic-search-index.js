@@ -7,11 +7,11 @@
  */
 
 var es = require('../../lib/services/elasticsearch');
+var config = require('../../lib/config/config');
 
 module.exports = function(state) {
-  console.log('Initializing the Elastic Search index');
-
-  state.index = process.env.ES_INDEX || 'assets';
+  state.index = config.esAssetsIndex;
+  console.log('Initializing the Elastic Search index: ' + state.index);
 
   return es.indices.exists({
     index: state.index

@@ -54,7 +54,7 @@ function processAsset(state, metadata, transformations) {
   return transformMetadata(state, metadata, transformations)
     .then(function(metadata) {
       return es.index({
-        index: process.env.ES_INDEX || 'assets',
+        index: state.index,
         type: 'asset',
         id: metadata.catalog + '-' + metadata.id,
         body: metadata
