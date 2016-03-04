@@ -39,10 +39,11 @@
     return $.post(url, data, null, 'json');
   }
 
-  function createTag(url, tag) {
+  function createTag(tag) {
+    var url = '/?q=' + encodeURIComponent(tag);
     var tagClassName = 'btn btn-default btn-small';
-    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag>' +
-      tag + '</a>');
+    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
+                 tag + '">' + tag + '</a>');
     return $new;
   }
 
@@ -51,8 +52,7 @@
     if ($crowdInput.val().length !== 0) {
       var input = $crowdInput.val();
       var tag = input.trim().toLowerCase();
-      var url = '/?q=' + encodeURIComponent(tag);
-      var $new = createTag(url, tag).addClass('saving');
+      var $new = createTag(tag).addClass('saving');
       // Figure out where to add tag by checking if we already have some tags
       if ($('.crowd [data-tag]').length) {
         $('.crowd [data-tag]').last().after($new);
@@ -93,8 +93,7 @@
       if (arrayLength !== 0) {
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
-          var url = '/?q=' + encodeURIComponent(tag);
-          var $tag = createTag(url, tag);
+          var $tag = createTag(tag);
           $visionTags.append($tag);
         }
       }
@@ -129,6 +128,10 @@
     if($(this).val().length === 0){
       $(this).parent('span').removeClass('valid');
     }
+  });
+
+  $('.tags-container.vision').on('click', '[data-tag]', function() {
+
   });
 
   // Typeahead: Initialize the bloodhound suggestion engine

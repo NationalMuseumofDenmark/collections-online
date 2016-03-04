@@ -1,3 +1,4 @@
+@import 'variables';
 
 /* Search results */
 .search-results {
@@ -112,13 +113,3 @@
   }
 }
 
-/* More button */
-#more {
-  @include clearfix;
-  clear:both;
-  border:2px solid $brand-primary;
-  margin-right: 15px;
-  text-decoration: none;
-  font-weight: bold;
-  color:$brand-primary;
-}
