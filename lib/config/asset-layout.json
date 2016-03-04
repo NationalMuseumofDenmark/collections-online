@@ -37,7 +37,7 @@
           "template": "| #{topno}"
         }, {
           "title": "Koordinater",
-          "type": "changeable-coordinates",
+          "type": "map-coordinates",
           "fields": {
             "latitude": "latitude",
             "longitude": "longitude"
