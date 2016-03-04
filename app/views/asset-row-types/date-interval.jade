@@ -5,4 +5,5 @@ tr
   td
     - var startDate = metadata[row.fields.from];
     - var endDate = metadata[row.fields.to];
-    +formatDate(startDate, endDate)
+    if startDate && endDate
+      +formatDate(startDate, endDate)
