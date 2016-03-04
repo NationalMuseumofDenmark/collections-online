@@ -5,6 +5,7 @@
  */
 
 var Q = require('q');
+var es = require('../../lib/services/elasticsearch');
 
 function AssetIndexingError(catalogAlias, assetId, innerError) {
   this.catalogAlias = catalogAlias;
@@ -52,8 +53,8 @@ function processAsset(state, metadata, transformations) {
   // Perform additional transformations and index the result.
   return transformMetadata(state, metadata, transformations)
     .then(function(metadata) {
-      return state.es.index({
-        index: process.env.ES_INDEX || 'assets',
+      return es.index({
+        index: state.index,
         type: 'asset',
         id: metadata.catalog + '-' + metadata.id,
         body: metadata

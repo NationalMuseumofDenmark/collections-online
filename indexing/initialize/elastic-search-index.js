@@ -6,19 +6,21 @@
  * @param {Object} state The state of which we are about to initialize.
  */
 
+var es = require('../../lib/services/elasticsearch');
+var config = require('../../lib/config/config');
+
 module.exports = function(state) {
-  console.log('Initializing the Elastic Search index');
+  state.index = config.esAssetsIndex;
+  console.log('Initializing the Elastic Search index: ' + state.index);
 
-  state.index = process.env.ES_INDEX || 'assets';
-
-  return state.es.indices.exists({
+  return es.indices.exists({
     index: state.index
   }).then(function(exists) {
     if (exists) {
       console.log('Index was already created.');
       return state;
     } else {
-      return state.es.indices.create({
+      return es.indices.create({
         index: state.index,
         body: {
           'index': {

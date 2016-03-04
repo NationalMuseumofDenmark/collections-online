@@ -7,6 +7,7 @@
  */
 
 var Q = require('q');
+var es = require('../../lib/services/elasticsearch');
 
 module.exports = function(state) {
   var activity = 'Post-processing to delete removed assets';
@@ -27,7 +28,7 @@ module.exports = function(state) {
       // Scroll search for all assets in the catalog that was not indexed.
       var deletedAssetIds = [];
 
-      return state.es.scrollSearch({
+      return es.scrollSearch({
         'query': {
           'bool': {
             'must': {
@@ -48,7 +49,7 @@ module.exports = function(state) {
         var actions = deletedAssetIds.map(function(deletedAssetId) {
           return {delete: {_id: deletedAssetId}};
         });
-        return state.es.bulk({
+        return es.bulk({
           index: state.index,
           type: 'asset',
           body: actions
