@@ -6,32 +6,42 @@
         {
           "title": "Optagelsestid",
           "type": "date-interval",
-          "fields": "acceptance_time_from,acceptance_time_to"
+          "fields": {
+            "from": "acceptance_time_from",
+            "to": "acceptance_time_to"
+          }
         }, {
           "title": "Fremstillingstid",
           "type": "date-interval",
-          "fields": "creation_time_from,creation_time_to"
+          "fields": {
+            "from": "creation_time_from",
+            "to": "creation_time_to"
+          }
         }, {
           "title": "Tidsnote",
-          "fields": "timenote"
+          "template": "| #{timenote}"
         }
       ]
     }, {
       "title": "Sted",
+      "class": "place",
       "rows": [
         {
           "title": "Adresse",
-          "fields": "address||street"
+          "template": "| #{address || street}"
         }, {
           "title": "By",
-          "fields": "city"
+          "template": "| #{city}"
         }, {
           "title": "Topnr",
-          "fields": "topno"
+          "template": "| #{topno}"
         }, {
           "title": "Koordinater",
           "type": "changeable-coordinates",
-          "fields": "latitude,longitude"
+          "fields": {
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
         }
       ]
     }, {
@@ -39,29 +49,28 @@
       "rows": [
         {
           "title": "Licens",
-          "type": "license",
-          "fields": "license"
+          "template": "| #{license ? license.displaystring : ''}"
         }, {
           "title": "Fotograf",
-          "fields": "creator"
+          "template": "| #{creator}"
         }, {
           "title": "Kilde",
-          "fields": "copyright"
+          "template": "| #{copyright}"
         }, {
           "title": "Arkivalie nr",
-          "fields": "archiveno"
+          "template": "| #{archiveno}"
         }, {
           "title": "Negativ nr",
-          "fields": "negative_number"
+          "template": "| #{negative_number}"
         }, {
           "title": "Genstands nr",
-          "fields": "object_number"
+          "template": "| #{object_number}"
         }, {
           "title": "Inventar nr",
-          "fields": "inventory_number"
+          "template": "| #{inventory_number}"
         }, {
           "title": "Arkivnavn",
-          "fields": "archivename"
+          "template": "| #{archivename ? archivename.displaystring : ''}"
         }
       ]
     }, {
@@ -69,25 +78,22 @@
       "rows": [
         {
           "title": "Fil-ID",
-          "fields": "id"
+          "template": "| #{id}"
         }, {
           "title": "Filnavn",
-          "fields": "filename"
+          "template": "| #{filename}"
         }, {
           "title": "Filstørrelse (mb)",
-          "type": "file-size-mb",
-          "fields": "file_size"
+          "template": "| #{filesizeMB(file_size)}"
         }, {
           "title": "Størrelse (pixel)",
-          "type": "image-dimensions-px",
-          "fields": "width_px,height_px"
+          "template": "| #{decimals(width_px, 0)} &times; #{decimals(height_px, 0)}"
         }, {
           "title": "Størrelse (cm)",
-          "type": "image-dimensions-cm",
-          "fields": "width_cm,height_cm"
+          "template": "| #{decimals(width_cm, 1)} &times; #{decimals(height_cm, 1)}"
         }, {
           "title": "Opløsning (DPI)",
-          "fields": "dpi"
+          "template": "| #{decimals(dpi, 0)}"
         }
       ]
     }

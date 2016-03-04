@@ -94,7 +94,7 @@ block content
         if(showGeotagging)
           include geotagging.jade
         p.catalog
-          | Fra samlingen:
+          | Fra samlingen: 
           a(href='/#{catalog.alias}') #{catalog.name}
 
         // Title
@@ -145,7 +145,7 @@ block content
           ) Bekræft emneord
           button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
-        include includes/asset-sections
+        != assetLayout(metadata)
 
   .facebook-group
     h2 Tusind tak for din hjælp!

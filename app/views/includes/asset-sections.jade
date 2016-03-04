@@ -1,6 +1,8 @@
-each section in assetLayout.sections
-  h2= section.title
-  table
-    tbody
-      each row in section.rows
-        != row.render(metadata)
+each section in sections
+  if section.hasValues(options, metadata)
+    h2= section.title
+    table(class=section.class || null)
+      tbody
+        each row in section.rows
+          if row.hasValue(options, metadata)
+            != row.render(options, metadata)
