@@ -5,7 +5,10 @@
  */
 
 if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config();
+  var path = require('path');
+  require('dotenv').config({
+    path: path.join(__dirname, '..', '.env')
+  });
 }
 
 var Q = require('q');
