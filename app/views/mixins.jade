@@ -164,23 +164,9 @@ mixin formatDate(from, to)
       if(from)
         | #{from.day}/#{from.month}/#{from.year}
       if((from && to) || (!from && !to))
-        |  -
+        |  - 
       if(to)
         | #{to.day}/#{to.month}/#{to.year}
-
-mixin addDating(item, alias)
-  - var leaf_category = helpers.leafCategoryByTag(categories, 'Tid');
-  if(leaf_category)
-    a(href=helpers.getCategoryLink(req, alias, leaf_category))= leaf_category.name
-  else
-    | -
-
-mixin addPlace(item, alias)
-  - var leaf_category = helpers.leafCategoryByTag(categories, 'Lokalitet');
-  if(leaf_category)
-    a(href=helpers.getCategoryLink(req, alias, leaf_category))= leaf_category.name
-  else
-    | -
 
 mixin searchResultAsset(asset)
   div(class='col-lg-3 box')
