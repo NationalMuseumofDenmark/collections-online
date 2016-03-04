@@ -103,6 +103,9 @@ mixin icon(id)
     when 'icon-logo'
       svg
         use(xlink:href='#icon-logo')
+    when 'icon-thumbup'
+      svg
+        use(xlink:href='#icon-thumbup')
     when 'icon-download'
       svg
         use(xlink:href='#icon-download')
@@ -134,16 +137,17 @@ mixin icon(id)
       span #{id} is not a valid icon ID
 
 mixin shareThisHTML()
-  a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-primary Del
-    +icon('icon-share')
-  ul.dropdown-menu(role='menu')
-    li.st_facebook(displayText='Facebook')
-    li.divider
-    li.st_twitter(displayText='Twitter')
-    li.divider
-    li.st_pinterest(displayText='Pinterest')
-    li.divider
-    li.st_email(displayText='Email')
+  .btn-group.dropup
+    a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-primary Del
+      +icon('icon-share')
+    ul.dropdown-menu(role='menu')
+      li.st_facebook(displayText='Facebook')
+      li.divider
+      li.st_twitter(displayText='Twitter')
+      li.divider
+      li.st_pinterest(displayText='Pinterest')
+      li.divider
+      li.st_email(displayText='Email')
 
 mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>
@@ -204,3 +208,5 @@ mixin tag(name)
     href='/?q='+encodeURIComponent(name),
     data-tag=name
   )= name
+    if block
+      block

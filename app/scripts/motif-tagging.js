@@ -2,6 +2,15 @@
 
 (function($) {
 
+  var EDIT_VISION_TAGS_SELECTOR = '.edit-vision-tags';
+  var CANCEL_VISION_TAGS_SELECTOR = '.cancel-vision-tags';
+  var VISION_CONTAINER_SELECTOR = '.tags-container.vision';
+  var VISION_TAGS_SELECTOR = '.tags-container.vision [data-tag]';
+  var ADD_VISION_TAG_SELECTOR = '.tags-container.vision .add-tag';
+  var $editVisionTags = $(EDIT_VISION_TAGS_SELECTOR);
+  var $cancelVisionTags = $(CANCEL_VISION_TAGS_SELECTOR);
+  var isEditingVisionTags = false;
+
   // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
@@ -31,6 +40,22 @@
   });
 
   // FUNCTIONS
+  function hasCrowdTags() {
+    return $crowdTags.children('[data-tag]').size() > 0;
+  }
+
+  function hasVisionTags() {
+    return $(VISION_TAGS_SELECTOR).size() > 0;
+  }
+
+  function createTagObject(tag) {
+    var url = '/?q=' + encodeURIComponent(tag);
+    var tagClassName = 'btn btn-default btn-small';
+    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
+                 tag + '">' + tag + '</a>');
+    return $new;
+  }
+
   function saveTag(tag) {
     var url = '/' + catalogAlias + '/' + itemId + '/save-crowd-tag';
     var data = {
@@ -39,27 +64,23 @@
     return $.post(url, data, null, 'json');
   }
 
-  function createTag(tag) {
-    var url = '/?q=' + encodeURIComponent(tag);
-    var tagClassName = 'btn btn-default btn-small';
-    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
-                 tag + '">' + tag + '</a>');
-    return $new;
-  }
-
-  function addTag() {
+  function addTag(input) {
+    input = input || $crowdInput.val();
     // Don't submit nothing
-    if ($crowdInput.val().length !== 0) {
-      var input = $crowdInput.val();
+    if (input.length !== 0) {
       var tag = input.trim().toLowerCase();
-      var $new = createTag(tag).addClass('saving');
+      var $new = createTagObject(tag).addClass('saving');
       // Figure out where to add tag by checking if we already have some tags
-      if ($('.crowd [data-tag]').length) {
+      if (hasCrowdTags() === true) {
         $('.crowd [data-tag]').last().after($new);
       } else {
         $crowdTags.prepend($new);
       }
       $crowdInput.typeahead('val', '');
+      $(VISION_CONTAINER_SELECTOR).children('[data-tag="'+ tag +'"]')
+        .remove();
+
+      $crowdNoTags.hide();
 
       // Save tag in cumulus
       saveTag(tag)
@@ -72,6 +93,9 @@
           $new.remove();
           $crowdInput.typeahead('val', input);
           showError(response.responseJSON.message || 'Der skete en fejl.');
+          if (hasCrowdTags() === false) {
+            $crowdNoTags.show();
+          }
         });
     } else {
       console.log('Empty input');
@@ -93,9 +117,11 @@
       if (arrayLength !== 0) {
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
-          var $tag = createTag(tag);
+          var $tag = createTagObject(tag);
           $visionTags.append($tag);
         }
+
+        $editVisionTags.removeClass('hidden');
       }
     }).fail(function() {
       console.log('Ajax failed to fetch data');
@@ -108,7 +134,7 @@
     } else {
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
-      $crowdNoTags.remove();
+      $crowdNoTags.hide();
     }
   });
 
@@ -124,15 +150,17 @@
     $(this).parent('span').addClass('focused valid');
   });
   $crowdInput.blur(function() {
-    $(this).parent('span').removeClass('focused');
-    if($(this).val().length === 0){
-      $(this).parent('span').removeClass('valid');
+    var $this = $(this);
+    $this.parent('span').removeClass('focused');
+    if($this.val().length === 0){
+      $this.parent('span').removeClass('valid');
+      $crowdTags.removeClass('inputting');
+      if (hasCrowdTags() === false) {
+        $crowdNoTags.show();
+      }
     }
   });
 
-  $('.tags-container.vision').on('click', '[data-tag]', function() {
-
-  });
 
   // Typeahead: Initialize the bloodhound suggestion engine
   typeaheadTags.initialize();
@@ -144,6 +172,39 @@
   }, {
     name: 'tags',
     source: typeaheadTags
+  });
+
+
+  // Vision tags
+
+  $editVisionTags.on('click', function(e) {
+    $editVisionTags.addClass('hidden');
+    $cancelVisionTags.removeClass('hidden');
+    $(ADD_VISION_TAG_SELECTOR).removeClass('hidden');
+
+
+    $(VISION_TAGS_SELECTOR).on('click', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    $(ADD_VISION_TAG_SELECTOR).on('click', function(e) {
+      e.preventDefault();
+      var $tag = $(this).closest('[data-tag]');
+      var tagName = $tag.attr('data-tag');
+
+      addTag(tagName);
+      return false;
+    });
+  });
+
+  $cancelVisionTags.on('click', function(e) {
+    $editVisionTags.removeClass('hidden');
+    $cancelVisionTags.addClass('hidden');
+    $(ADD_VISION_TAG_SELECTOR).addClass('hidden');
+
+    $(VISION_TAGS_SELECTOR).off('click');
+    $(ADD_VISION_TAG_SELECTOR).off('click');
   });
 
 })(jQuery);

@@ -1,9 +1,7 @@
 @import 'variables';
 
 .btn-group {
-  .btn:not(:last-child) {
-    margin-right: .5rem;
-  }
+  margin-right: .5rem;
 }
 
 .btn {
@@ -15,6 +13,7 @@
     vertical-align: middle;
     height: 18px;
     width : 18px;
+    fill: $white;
   }
 
   &-default {
@@ -31,10 +30,6 @@
     background-color: $brand-primary;
     color           : $white;
 
-    svg {
-      fill: $white;
-    }
-
     &:hover,
     &:focus {
       background-color: lighten($brand-primary, 5%);
@@ -48,10 +43,10 @@
 
   &-small {
     font-size: 90%;
-    padding  : .2rem .5rem;
+    padding  : .32rem .5rem .2rem;
 
     &.btn-icon {
-      padding: .2rem;
+      padding: .22rem;
     }
 
     svg {
