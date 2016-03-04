@@ -12,7 +12,7 @@ The webapp is built using [node.js](http://nodejs.org/), [Express](http://expres
 stuff is using jQuery for performing masonry and auto suggestion. It is using the existing
 [cip.js](https://github.com/NationalMuseumofDenmark/cip.js) implementation for querying CIP.
 
-The solution is built by [Headnet ApS](http://www.headnet.dk). Licensed under
+The solution is built by [Headnet ApS](http://www.headnet.dk) and [Socialsquare ApS](http://socialsquare.dk). Licensed under
 [LGPL v3](https://www.gnu.org/licenses/lgpl.html).
 
 ![Screenshot](misc/screenshot.png)
@@ -66,6 +66,99 @@ The tags returned from these libraries are also translated through Google Transl
 costs time and money. Therefore we don't update the tags when indexing assets unless we explicitly tell the index to do it.
 To fetch tags for all assets who doesn't have any, run the any indexing query you'd like with the flag --vision.
 To update the tags for an asset regardless of they have tags or not, run the query with --vision-force
+
+## Changing the layout of an assets landing page
+
+The layout of an assets landing page is changed via the file
+
+    lib/config/asset-layout.json
+
+### Sections
+
+It specifies a list of sections.
+
+    {
+      "sections": [ ... ]
+    }
+
+Each section has:
+- `title`,
+- table of `rows`
+- optional CSS `class` attribute, added to the table element
+
+    {
+      "sections": [{
+        "title": "The place section",
+        "class": "place",
+        "rows": [ ... ]
+      }]
+    }
+
+### Rows
+
+Each of the rows has:
+- `title` written as a label before the value
+- Optional `type` - which determines how the value is presented (default: simple)
+
+Rows that are rendered equally if supplied metadata or not, is not shown.
+If all rows are not shown, the section as a whole is not shown either.
+
+Depending on the value of type, one of more fields are required. All row types maps 1-to-1 with a template in the /app/views/asset-row-types directory.
+Adding a new template to this directory enables a new row type.
+
+#### If the rows `type` is `simple`
+
+The `template` will determine how the value is rendered, all fields from the assets metadata, as well as a few helper functions are available as locals.
+Any valid [jade](http://jade-lang.com/) template can go into the this field.
+
+    {
+      "title": "The place section",
+      "class": "place",
+      "rows': [{
+        "title': "The value of foo or bar",
+        "type": "simple",
+        "template": "| #{foo||bar}"
+      }]
+    }
+
+#### If the rows `type` is `date-interval`
+
+This type can be used to show date intervals - if the value of both ends of the interval is equal, only the date in the beginning of the interval is shown.
+
+The `fields` is an object with two values. The metadata field name of the interval's start date as `from` and end date as `to`.
+
+  {
+    "title": "The place section",
+    "rows": [{
+      "title": "The value of a good date interval",
+      "type": "simple",
+      "fields": {
+        "from": "good_start",
+        "to": "good_end"
+      }
+    }]
+  }
+
+#### If the rows `type` is `map-coordinates`
+
+This type can be used to show Google coordinates as text followed by a map.
+
+The `fields` is an object with two values. The metadata field name of the coordinate `latitude` and `longitude`.
+
+  {
+    "title": "The place section",
+    "rows": [{
+      "title": "Map coordinates",
+      "type": "map-coordinates",
+      "fields": {
+        "latitude": "latitude",
+        "longitude": "longitude"
+      }
+    }]
+  }
+
+If the assetLayout is given a truly value in it's `showGeotagging` options object a pen will be shown besides the coordinates, which might be used to initiate a crowd sourcing of the coordinate pair.
+
 
 ## Bugs
 
