@@ -134,17 +134,16 @@ mixin icon(id)
       span #{id} is not a valid icon ID
 
 mixin shareThisHTML()
-  .btn-group.dropup
-    a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-default Del
-      +icon('icon-share')
-    ul.dropdown-menu(role='menu')
-      li.st_facebook(displayText='Facebook')
-      li.divider
-      li.st_twitter(displayText='Twitter')
-      li.divider
-      li.st_pinterest(displayText='Pinterest')
-      li.divider
-      li.st_email(displayText='Email')
+  a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-primary Del
+    +icon('icon-share')
+  ul.dropdown-menu(role='menu')
+    li.st_facebook(displayText='Facebook')
+    li.divider
+    li.st_twitter(displayText='Twitter')
+    li.divider
+    li.st_pinterest(displayText='Pinterest')
+    li.divider
+    li.st_email(displayText='Email')
 
 mixin shareThisJS()
   <script type="text/javascript">var switchTo5x=true;</script>
@@ -203,5 +202,5 @@ mixin searchResultAsset(asset)
 mixin tag(name)
   a.btn.btn-default.btn-small(
     href='/?q='+encodeURIComponent(name),
-    data-tag
+    data-tag=name
   )= name

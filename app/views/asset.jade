@@ -47,7 +47,7 @@ block content
 
         .asset-tools
           .btn-group.dropup
-            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+            a.btn.btn-primary.dropdown-toggle(data-toggle='dropdown', role='button') Download
               +icon('icon-download')
             ul.dropdown-menu(role='menu')
               - if(filename.match('.tif$') || filename.match('.tiff$'))
@@ -62,7 +62,7 @@ block content
                 li.divider
               li
                 a(href='#{sources.download}') Original
-          +shareThisHTML()
+            +shareThisHTML()
           span.licens
             span.title Licens:
             - if(item.license)
@@ -127,19 +127,18 @@ block content
             input(type='text', required='')
             span.bar
             label Indtast nyt emneord og tryk enter
-          .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
+          button.btn.btn-primary.btn-small#crowd-btn Tilføj emneord
 
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
         .tags-container.vision
           if(!item.tags_vision)
-            .btn.btn-primary.btn-small#vision-btn
+            button.btn.btn-primary.btn-small#vision-btn
               +loader('Analysér billede')
           each tag in item.tags_vision || []
             +tag(tag)
 
-          if(item.tags_vision)
-            button.btn.btn-icon.btn-primary.btn-small: +icon('pencil-icon')
+          button.btn.btn-primary.btn-small Bekræft emneord
 
         // Time and period
         h2 Tidsperiode og årstal

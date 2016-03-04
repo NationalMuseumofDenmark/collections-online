@@ -1,5 +1,11 @@
 @import 'variables';
 
+.btn-group {
+  .btn:not(:last-child) {
+    margin-right: .5rem;
+  }
+}
+
 .btn {
   background: transparent;
   border    : 0;
@@ -7,9 +13,21 @@
   svg {
     margin        : 0 .2em;
     vertical-align: middle;
+    height: 18px;
+    width : 18px;
   }
 
-  &.btn-primary {
+  &-default {
+    background-color: $button-bg;
+    color           : $white;
+
+    &:hover, &:focus {
+      background-color: darken($button-bg, 10%);
+      color           : $white;
+    }
+  }
+
+  &-primary {
     background-color: $brand-primary;
     color           : $white;
 
@@ -23,23 +41,12 @@
     }
   }
 
-  &.btn-default {
-    background-color: $button-bg;
-    color           : $white;
-
-    &:hover,
-    &:focus {
-      background-color: darken($button-bg, 10%);
-      color           : $white;
-    }
-  }
-
-  &.btn-icon {
+  &-icon {
     padding       : .2rem;
     vertical-align: middle;
   }
 
-  &.btn-small {
+  &-small {
     font-size: 90%;
     padding  : .2rem .5rem;
 
@@ -49,7 +56,7 @@
 
     svg {
       height: 18px;
-      width : 17px;
+      width : 18px;
     }
   }
 }
