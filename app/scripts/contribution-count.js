@@ -26,7 +26,9 @@ window.showFacebookMaybe = function() {
   if (localStorage.getItem('showFacebook') === 'true') {
     $('.facebook-group').addClass('show-face');
     localStorage.setItem('showFacebook', false);
+    return true;
   }
+  return false;
 };
 
 jQuery(function($) {

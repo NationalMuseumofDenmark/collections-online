@@ -98,8 +98,11 @@
 
           $new.removeClass('saving');
           window.contributionAdded();
-          window.showFacebookMaybe();
-          Snackbar.info('Gemt! Tak for dit bidrag!');
+          // Don't show the facebook popup and the thank you message
+          // at the same time
+          if (window.showFacebookMaybe() === false) {
+            Snackbar.info('Gemt! Tak for dit bidrag!');
+          }
         })
         .fail(function(response) {
           $new.remove();
