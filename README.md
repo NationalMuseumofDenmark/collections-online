@@ -103,7 +103,7 @@ Each of the rows has:
 Rows that are rendered equally if supplied metadata or not, is not shown.
 If all rows are not shown, the section as a whole is not shown either.
 
-Depending on the value of type, one of more fields are required. All row types maps 1-to-1 with a template in the /app/views/asset-row-types directory.
+Depending on the value of type, one of more fields are required. All row types maps 1-to-1 with a template in the /app/views/includes/asset-row-types/ directory.
 Adding a new template to this directory enables a new row type.
 
 #### If the rows `type` is `simple`
