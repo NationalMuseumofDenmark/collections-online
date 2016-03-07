@@ -10,10 +10,9 @@ window.contributionAdded = function() {
       localStorage.setItem('showFacebook', false);
     } else {
       assets = localStorage.getItem('contribution');
-      if (assets.search(asset) === -1) {
+      if (assets.indexOf(asset) === -1) {
         assets += ',' + asset;
         localStorage.setItem('contribution', assets);
-
         count = localStorage.getItem('contribution').split(',').length;
         if (count === 5) {
           localStorage.setItem('showFacebook', true);
