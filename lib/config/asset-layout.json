@@ -49,7 +49,7 @@
       "rows": [
         {
           "title": "Licens",
-          "template": "| #{license ? license.displaystring : ''}"
+          "template": "| !{licenseLinked(license)}"
         }, {
           "title": "Fotograf",
           "template": "| #{creator}"
