@@ -92,6 +92,27 @@ mixin recursiveCategoryItem(catalog, category)
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
 
+mixin searchResultAsset(asset)
+  div(class='col-lg-3 box')
+    .thumbnail
+      a(href='#{asset.url}')
+        if asset.type == 'video'
+          div.video-thumbnail
+            div.icon
+        else
+          div.image
+            div.overlay
+              img(src='#{asset.thumbnail_url}').rotation
+              if asset.type == 'image-rotation'
+                +icon('rotation')
+        if asset.title
+          h2.h4 #{asset.title}
+        else
+          h2(class='h4') Ingen titel
+        p.description #{asset.description}
+      p.cat-link
+        a(href='#{asset.catalog_url}') #{asset.catalog}
+
 mixin icon(id)
   svg
     use(xlink:href='#icon-#{id}')
@@ -110,26 +131,6 @@ mixin formatDate(from, to)
       if(to)
         | #{to.day}/#{to.month}/#{to.year}
 
-mixin searchResultAsset(asset)
-  div(class='col-lg-3 box')
-    .thumbnail
-      a(href='#{asset.url}')
-        if asset.type == 'video'
-          div.video-thumbnail
-            div.icon
-        else
-          div.image
-            div.overlay
-              img(src='#{asset.thumbnail_url}')
-              if asset.type == 'image-rotation'
-                img(src="/images/rotation-icon.svg", class="rotation-icon")
-        if asset.title
-          h2.h4 #{asset.title}
-        else
-          h2(class='h4') Ingen titel
-        p.description #{asset.description}
-      p.cat-link
-        a(href='#{asset.catalog_url}') #{asset.catalog}
 
 mixin tag(name)
   a.btn.btn-default.btn-small(

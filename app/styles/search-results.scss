@@ -87,10 +87,11 @@
         img {
           max-width: 100%;
         }
-        .rotation-icon {
-          position: absolute;
-          opacity: 0.75;
+        svg {
           bottom: 1em;
+          height: 2em;
+          opacity: 0.75;
+          position: absolute;
           right: 1em;
           width: 3em;
         }
@@ -112,4 +113,3 @@
     }
   }
 }
-

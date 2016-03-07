@@ -132,7 +132,7 @@ block content
           each tag in metadata.tags_vision || []
             +tag(tag)
               span.add-tag.hidden
-                +icon('icon-thumbup')
+                +icon('thumbup')
           button.btn.btn-primary.btn-small.edit-vision-tags(
             class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
               'hidden' : undefined
@@ -140,106 +140,6 @@ block content
           button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
         != assetLayout(metadata)
-        // Place
-        h2 Sted
-        table.place
-          tbody
-            tr
-              th Område:
-              td
-                +addPlace(item, catalog.alias)
-            tr
-              th Adresse:
-              td#address
-
-                - if(address || zipcode || city)
-                  - if(address)
-                    | #{address}
-
-                  - if(zipcode)
-                    - if(address)
-                      | ,
-                    | #{zipcode}
-                  - if(city)
-                    - if(address || zipcode)
-                      | ,
-                    | #{city}
-                - else
-                  | -
-            if(item.longitude && item.latitude)
-              tr
-                th Koordinater:
-                td
-                  = item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
-                  if(showGeotagging)
-                    a.btn.btn-icon.btn-primary.btn-small
-                      +icon('pencil')
-              tr
-                td.bleed(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
-                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
-            tr
-              th Noter:
-              td= item.locationnote || '-'
-
-
-        // Technical info
-        h2 Tekniske oplysninger
-        table
-          tbody
-            tr
-              th Fil-ID:
-              td= id || '-'
-            tr
-              th Størrelse (pixel):
-              td
-                if item.width_px && item.height_px
-                | #{helpers.formatNumber(item.width_px, 0) || '-'} &times; #{helpers.formatNumber(item.height_px, 0) || '-'}
-            tr
-              th Størrelse (cm):
-              td
-                if item.width_cm && item.height_cm
-                | #{helpers.formatNumber(item.width_cm, 1) || '-'} &times; #{helpers.formatNumber(item.height_cm, 1) || '-'}
-            tr
-              th Opløsning (DPI):
-              td= helpers.formatNumber(item.dpi) || '-'
-            tr
-              th Filstørrelse:
-              td= helpers.filesizeMB(item.file_size) || '-'
-            tr
-              th Kilde:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-            tr
-              th Fotograf:
-                td
-                  span(itemprop='creator')= item.creator || '-'
-            tr
-              th Filnavn:
-              td= item.filename || '-'
-            tr
-              th Arkivalie nr.:
-              td= item.archiveno || '-'
-            tr
-              th Negativ nr.:
-              td= item.negative_number || '-'
-            tr
-              th Genstands nr.:
-              td= item.object_number || '-'
-            tr
-              th Inventar nr.:
-              td= item.inventory_number || '-'
-            tr
-              th Arkivnavn:
-              td= item.archivename ? item.archivename.displaystring : '-'
-            tr
-              th Tidsnote:
-              td= item.timenote || '-'
-
-            tr
-              th Topnr.:
-              td= item.topno || '-'
->>>>>>> update bower + more svg sprites
 
   .facebook-group
     h2 Tusind tak for din hjælp!
