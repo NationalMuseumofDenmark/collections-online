@@ -55,10 +55,12 @@ $asset--icon-shadow-color: #fff;
 
     .license {
       float: right;
+
       .title {
         font-weight : bold;
         margin-right: 5px;
       }
+
       img {
         height: 31px;
       }
@@ -75,11 +77,9 @@ $asset--icon-shadow-color: #fff;
     }
   }
 
-  .place {
-    .map {
-      margin-top: .8rem;
-      width     : 100%;
-    }
+  .map {
+    margin-top: .8rem;
+    width     : 100%;
   }
 
   .asset-block {
@@ -156,10 +156,10 @@ $asset--icon-shadow-color: #fff;
   a {
     svg {
       @extend %pull-left;
-      fill          : $brand-primary;
-      height        : 1em;
-      margin        : 0 .2em 0 0;
-      width         : 1em;
+      fill  : $brand-primary;
+      height: 1em;
+      margin: 0 .2em 0 0;
+      width : 1em;
     }
 
     &.collapsed {
@@ -167,6 +167,7 @@ $asset--icon-shadow-color: #fff;
         display: none;
       }
     }
+
     &:not(.collapsed) {
       .icon-plus {
         display: none;

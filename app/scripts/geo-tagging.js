@@ -16,13 +16,11 @@ var mapHeading = 0;
   var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapContainer = $('#geotagging');
   var $map = $('#geotagging-map');
-  var mapHeight = $mapContainer.width() * 0.8;
-  $map.height(mapHeight);
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
-    mapHeight = $mapContainer.width() * 0.8;
+    var mapHeight = $mapContainer.width() * 0.8;
     $map.height(mapHeight);
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
@@ -53,7 +51,7 @@ var mapHeading = 0;
     showMap();
   });
 
-  $('.place .pencil-icon').click(function() {
+  $('[data-action=edit-place]').click(function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Editing');
     $('html, body').animate({
       scrollTop: $('#geotagging-anchor').offset().top - 100

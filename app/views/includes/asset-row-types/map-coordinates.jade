@@ -8,7 +8,8 @@ if latitude && longitude
     td
        = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
        if options.showGeotagging
-         a.btn.btn-icon.btn-primary.btn-small
+         | &nbsp;
+         button.btn.btn-icon.btn-primary.btn-small(data-action='edit-place')
            +icon('pencil-icon')
   tr
    td.bleed(colspan='2')
