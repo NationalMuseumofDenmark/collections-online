@@ -2,7 +2,6 @@ extends index
 
 append header
   +assetMeta(metadata, sources)
-  +shareThisJS()
 
 append javascript
   if(showGeotagging)
@@ -48,7 +47,7 @@ block content
         .asset-tools
           .btn-group.dropup
             a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-              +icon('icon-download')
+              +icon('download')
             ul.dropdown-menu(role='menu')
               - if(filename.match('.tif$') || filename.match('.tiff$'))
                 li
@@ -62,18 +61,17 @@ block content
                 li.divider
               li
                 a(href='#{sources.download}') Original
-          +shareThisHTML()
-          span.licens
+          span.license
             span.title Licens:
             - if(metadata.license)
-                - var license = helpers.licenseTag(metadata.license.id);
-                - if(license)
-                  a(href=license.url, rel='license', target='_blank')
-                    img(src=license.img, alt='Creative Commons licens')
-                - else
-                  | #{metadata.license.displaystring}
+              - var license = helpers.licenseTag(metadata.license.id);
+              - if(license)
+                a(href=license.url, rel='license', target='_blank')
+                  img(src=license.img, alt=license.short)
               - else
-                | -
+                | #{metadata.license.displaystring}
+            - else
+              | -
         .related-assets
           each asset in relatedAssets.visible
             a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
@@ -81,8 +79,8 @@ block content
           - if(relatedAssets.additional.length > 0)
             h2.collapsable-section-header
               a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                +icon('icon-minus')
-                +icon('icon-plus')
+                +icon('minus')
+                +icon('plus')
                 | Flere relaterede
             div#additional-related.collapse
               each asset in relatedAssets.additional
@@ -93,9 +91,6 @@ block content
         #geotagging-anchor
         if(showGeotagging)
           include geotagging.jade
-        p.catalog
-          | Fra samlingen: 
-          a(href='/#{catalog.alias}') #{catalog.name}
 
         // Title
         header
@@ -137,9 +132,7 @@ block content
           each tag in metadata.tags_vision || []
             +tag(tag)
               span.add-tag.hidden
-                +icon('icon-thumbup')
-
-
+                +icon('thumbup')
           button.btn.btn-primary.btn-small.edit-vision-tags(
             class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
               'hidden' : undefined

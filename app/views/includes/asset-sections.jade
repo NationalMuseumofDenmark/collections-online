@@ -1,7 +1,7 @@
 each section in sections
   if section.hasValues(options, metadata)
     h2= section.title
-    table(class=section.class || null)
+    table
       tbody
         each row in section.rows
           if row.hasValue(options, metadata)

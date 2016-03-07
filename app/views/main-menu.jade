@@ -9,7 +9,7 @@ each catalog in catalogs
       div
         a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
         .expand
-          +icon('icon-plus-minus')
+          +icon('plus')
       ul.nav.menu-hidden
         each category in catalog.categoryRoot.children
           +recursiveCategoryItem(catalog, category)

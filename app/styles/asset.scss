@@ -9,9 +9,8 @@ $asset--icon-shadow-color: #fff;
     position: relative;
 
     img {
-      @include img-responsive();
       @include center-block(); // Center tall asset images
-      min-width: 100%;
+      width: 100%;
     }
   }
 
@@ -54,10 +53,16 @@ $asset--icon-shadow-color: #fff;
       }
     }
 
-    .licens {
+    .license {
+      float: right;
+
       .title {
         font-weight : bold;
         margin-right: 5px;
+      }
+
+      img {
+        height: 31px;
       }
     }
 
@@ -66,18 +71,15 @@ $asset--icon-shadow-color: #fff;
         margin-right: 5px;
       }
 
-      .licens .title {
+      .license .title {
         display: none;
       }
     }
   }
 
-  .place {
-    .map {
-      @include img-responsive();
-      margin-top: .8rem;
-      width     : 100%;
-    }
+  .map {
+    margin-top: .8rem;
+    width     : 100%;
   }
 
   .asset-block {
@@ -153,22 +155,18 @@ $asset--icon-shadow-color: #fff;
 .collapsable-section-header {
   a {
     svg {
-      @extend %pull-left;
-      fill          : $brand-primary;
-      height        : 1em;
-      margin        : 0 .2em 0 0;
-      width         : 1em;
+      fill  : $brand-primary;
+      height: 1em;
+      margin: 0 .2em 0 0;
+      width : 1em;
     }
 
-    &.collapsed {
-      .icon-minus {
-        display: none;
-      }
+    &.collapsed svg:first-child {
+      display: none;
     }
-    &:not(.collapsed) {
-      .icon-plus {
-        display: none;
-      }
+
+    &:not(.collapsed) svg:nth-child(2) {
+      display: none;
     }
   }
 }
