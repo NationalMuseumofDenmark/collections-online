@@ -54,10 +54,14 @@ $asset--icon-shadow-color: #fff;
       }
     }
 
-    .licens {
+    .license {
+      float: right;
       .title {
         font-weight : bold;
         margin-right: 5px;
+      }
+      img {
+        height: 31px;
       }
     }
 
@@ -66,7 +70,7 @@ $asset--icon-shadow-color: #fff;
         margin-right: 5px;
       }
 
-      .licens .title {
+      .license .title {
         display: none;
       }
     }

@@ -63,17 +63,17 @@ block content
               li
                 a(href='#{sources.download}') Original
           +shareThisHTML()
-          span.licens
+          span.license
             span.title Licens:
             - if(metadata.license)
-                - var license = helpers.licenseTag(metadata.license.id);
-                - if(license)
-                  a(href=license.url, rel='license', target='_blank')
-                    img(src=license.img, alt='Creative Commons licens')
-                - else
-                  | #{metadata.license.displaystring}
+              - var license = helpers.licenseTag(metadata.license.id);
+              - if(license)
+                a(href=license.url, rel='license', target='_blank')
+                  img(src=license.img, alt=license.short)
               - else
-                | -
+                | #{metadata.license.displaystring}
+            - else
+              | -
         .related-assets
           each asset in relatedAssets.visible
             a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
