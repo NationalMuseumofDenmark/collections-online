@@ -13,10 +13,11 @@ window.contributionAdded = function() {
       if (assets.search(asset) === -1) {
         assets += ',' + asset;
         localStorage.setItem('contribution', assets);
-      }
-      count = localStorage.getItem('contribution').split(',').length;
-      if (count === 5) {
-        localStorage.setItem('showFacebook', true);
+
+        count = localStorage.getItem('contribution').split(',').length;
+        if (count === 5) {
+          localStorage.setItem('showFacebook', true);
+        }
       }
     }
   }
