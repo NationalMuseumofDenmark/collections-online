@@ -52,11 +52,7 @@ $(function() {
   // history state.
   function replaceSearchResult(searchResult, page, scrollTop) {
     if (searchResult) {
-      $searchResult
-        .empty()
-        .html(searchResult)
-        .children()
-        .css('opacity', 0);
+      $searchResult.empty().html(searchResult);
 
       // Tell masonry to reorganise the results.
       $searchResult.imagesLoaded(function() {
@@ -66,7 +62,6 @@ $(function() {
         });
         $searchResult.data('masonry', masonry);
         // Show the search results when they have been rearranged.
-        $searchResult.children().css('opacity', 1);
         // Tell the browser to scroll down.
         if (scrollTop) {
           $(window).scrollTop(scrollTop);
@@ -105,6 +100,7 @@ $(function() {
     // trigger Masonry as a callback
     function(newElements, opts) {
       var $newElements = $(newElements);
+      $newElements.addClass('loaded-more');
       // Set this variable to be used when the user clicks a link.
       storeSearchResultInHistoryState(opts.state.currPage);
       // hide new items while they are loading
@@ -112,6 +108,7 @@ $(function() {
       $newElements.imagesLoaded(function() {
         var masonry = $searchResult.data('masonry');
         masonry.appended($newElements, true);
+        $newElements.removeClass('loaded-more').addClass('load-done');
         $('[data-action=load-more]').removeClass('disabled loading');
       });
     });

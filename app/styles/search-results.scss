@@ -76,6 +76,25 @@
   padding   : 0 15px 20px;
   width     : 100%;
 
+  &.loaded-more {
+    opacity: 0;
+  }
+
+  &.load-done {
+    animation: fadeIn $anim-duration-long forwards;
+    opacity  : 0;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  }
+
   .overlay,
   .overlay img {
     width: 100%;
@@ -122,7 +141,7 @@
 
 // Load more button
 .load-more {
-  display: block;
-  margin : 4rem auto;
+  display  : block;
+  margin   : 4rem auto;
   min-width: 12rem;
 }

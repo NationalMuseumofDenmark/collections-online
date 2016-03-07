@@ -42,17 +42,19 @@ block content
       h1.page-header #{catalog.name}
         +searchCount
 
-    div.search-results.row(id="masonry-container")
+    .search-results.row(id="masonry-container")
       each result in results.results
         +searchResultAsset(result)
-  div(id='page-nav')
+
+  .clearfix
+  
+  #page-nav
     a(href='#{infinitepath}')
 
   if(results.total_results_raw > 10)
-    button.btn.btn-primary.btn-lg.load-more.clearfix(data-action="load-more")
+    button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
 
-  .clearfix
 
 block after-footer
   a#toTop
