@@ -2,6 +2,10 @@
 
 // Toogle asset images - zome in and out
 $(function() {
+
+  var Snackbar = window.Snackbar;
+  Snackbar.init();
+
   // We only want zooming on asset's primary images.
   $('.asset .zoomable').click(function() {
     var $thisRow = $(this).closest('.image-row');

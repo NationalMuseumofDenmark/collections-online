@@ -1,0 +1,43 @@
+@import 'variables';
+
+.snackbar__container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  transform: translate(0, 100%);
+  transition: transform $anim-duration-long $anim-exit;
+  z-index: $snackbar-zindex;
+
+  &.--active {
+    transform: translate(0, 0);
+    transition-timing-function: $anim-entrance;
+    .snackbar__content {
+      opacity: 1;
+      transition-timing-function: $anim-entrance;
+    }
+  }
+}
+
+.snackbar {
+  display: inline-block;
+  width: 100%;
+  background: $snackbar-bg;
+  color: $snackbar-front;
+  padding: 1rem 1.5rem;
+  line-height: 1.4rem;
+  text-align: left;
+
+  &__content {
+    opacity: 0;
+    transition: opacity $anim-duration-long $anim-exit;
+  }
+
+  @media (min-width: $extra-small-size-min) {
+    padding: 1rem 2rem;
+    width: auto;
+    min-width: 22rem;
+    margin: 0 auto;
+  }
+}

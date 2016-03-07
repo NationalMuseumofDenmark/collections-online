@@ -16,7 +16,7 @@
   .dropdown-menu-right {
     box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
     right     : 0;
-    transition: right $anim-out $anim-duration;
+    transition: right $anim-entrance $anim-duration;
   }
 }
 
@@ -53,7 +53,7 @@ $expand-width: 50px;
   position  : fixed;
   right     : -$menu-width;
   top       : 0;
-  transition: right $anim-in $anim-duration;
+  transition: right $anim-exit $anim-duration;
   width     : $menu-width;
   z-index   : 9999;
 

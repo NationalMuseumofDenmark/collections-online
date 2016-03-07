@@ -14,7 +14,7 @@ $menu-highlight        : rgba(255, 255, 255, .1);
 
 // Scaffolding
 $body-bg               : $white;
-$text-color            : $topbar-color;
+$text-color            : $gray-dark;
 $link-color            : $brand-primary;
 $link-hover-color      : lighten($link-color, 10%);
 
@@ -30,8 +30,9 @@ $input-border-focus    : $brand-primary;
 
 // Animation
 $anim-duration         : 300ms;
-$anim-out              : ease-out;
-$anim-in               : ease-in;
+$anim-duration-long    : 400ms;
+$anim-entrance         : ease-out;
+$anim-exit             : ease-in;
 $anim-default          : $anim-duration ease;
 
 // Menu
@@ -41,12 +42,19 @@ $topbar-height         : 80px;
 
 // Breakpoints
 $extra-small-size      : 480px;
+$extra-small-size-min  : $extra-small-size + 1px;
 $small-size            : 768px;
 $medium-size           : 992px;
 $large-size            : 1170px;
 
 // item
 $button-bg             : $gray-light;
+$snackbar-bg           : $gray-dark;
+$snackbar-front        : $white;
 
 // Footer
 $footer-text-color     : $gray-dark;
+
+
+//z-indexes
+$snackbar-zindex       : 1000;
