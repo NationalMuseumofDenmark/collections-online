@@ -19,7 +19,7 @@
           }
         }, {
           "title": "Tidsnote",
-          "template": "| #{timenote}"
+          "template": "= timenote"
         }
       ]
     }, {
@@ -28,13 +28,13 @@
       "rows": [
         {
           "title": "Adresse",
-          "template": "| #{address || street}"
+          "template": "= address || street"
         }, {
           "title": "By",
-          "template": "| #{city}"
+          "template": "= city"
         }, {
           "title": "Topnr",
-          "template": "| #{topno}"
+          "template": "= topno"
         }, {
           "title": "Koordinater",
           "type": "map-coordinates",
@@ -48,29 +48,33 @@
       "title": "Yderligere oplysninger",
       "rows": [
         {
+          "title": "Samling",
+          "template": "!= catalogLinked(catalogs, catalog)"
+        },
+        {
           "title": "Licens",
-          "template": "| !{licenseLinked(license)}"
+          "template": "!= licenseLinked(license)"
         }, {
           "title": "Fotograf",
-          "template": "| #{creator}"
+          "template": "= creator"
         }, {
           "title": "Kilde",
-          "template": "| #{copyright}"
+          "template": "= copyright"
         }, {
           "title": "Arkivalie nr",
-          "template": "| #{archiveno}"
+          "template": "= archiveno"
         }, {
           "title": "Negativ nr",
-          "template": "| #{negative_number}"
+          "template": "= negative_number"
         }, {
           "title": "Genstands nr",
-          "template": "| #{object_number}"
+          "template": "= object_number"
         }, {
           "title": "Inventar nr",
-          "template": "| #{inventory_number}"
+          "template": "= inventory_number"
         }, {
           "title": "Arkivnavn",
-          "template": "| #{archivename ? archivename.displaystring : ''}"
+          "template": "= archivename ? archivename.displaystring : ''"
         }
       ]
     }, {
@@ -78,22 +82,22 @@
       "rows": [
         {
           "title": "Fil-ID",
-          "template": "| #{id}"
+          "template": "= id"
         }, {
           "title": "Filnavn",
-          "template": "| #{filename}"
+          "template": "= filename"
         }, {
           "title": "Filstørrelse (mb)",
-          "template": "| #{filesizeMB(file_size)}"
+          "template": "= filesizeMB(file_size)"
         }, {
           "title": "Størrelse (pixel)",
-          "template": "| #{decimals(width_px, 0)} &times; #{decimals(height_px, 0)}"
+          "template": "!= decimals(width_px, 0) + ' &times; ' + decimals(height_px, 0)"
         }, {
           "title": "Størrelse (cm)",
-          "template": "| #{decimals(width_cm, 1)} &times; #{decimals(height_cm, 1)}"
+          "template": "!= decimals(width_cm, 1) + ' &times; ' + decimals(height_cm, 1)"
         }, {
           "title": "Opløsning (DPI)",
-          "template": "| #{decimals(dpi, 0)}"
+          "template": "= decimals(dpi, 0)"
         }
       ]
     }
