@@ -119,7 +119,7 @@
 
   // ACTIONS
   $visionBtn.click(function() {
-    $(this).addClass('loading').children('.text').remove();
+    $(this).addClass('loading disabled');
     $visionNoTags.remove();
     $.ajax({
       dataType: 'json',

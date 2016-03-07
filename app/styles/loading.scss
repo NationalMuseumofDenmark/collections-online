@@ -48,5 +48,9 @@ $one-scale: scaleX(1) scaleY(1);
     .loader {
       display: inline-block;
     }
+
+    .text {
+      display: none;
+    }
   }
 }

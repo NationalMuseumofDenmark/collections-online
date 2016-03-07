@@ -84,7 +84,7 @@ var mapHeading = 0;
       streetView.getVisible() ? 'In street view' : 'Not in street view'
     );
 
-    $(this).addClass('disabled loading').children('.text').remove();
+    $(this).addClass('disabled loading');
     $('.map-buttons .hide-map').hide();
     var data = {
       heading: mapHeading,
