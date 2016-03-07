@@ -131,7 +131,7 @@ block content
         // Vision tags
         h3 Emneord fundet ved automatisk billedanalyse
         .tags-container.vision
-          if(!metadata.tags_vision)
+          if(!metadata.tags_vision || metadata.tags_vision.length === 0)
             .btn.btn-primary.btn-small#vision-btn
               +loader('Analysér billede')
           each tag in metadata.tags_vision || []
@@ -141,7 +141,8 @@ block content
 
 
           button.btn.btn-primary.btn-small.edit-vision-tags(
-            class=!metadata.tags_vision ? 'hidden' : undefined
+            class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
+              'hidden' : undefined
           ) Bekræft emneord
           button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
@@ -149,7 +150,7 @@ block content
 
   .facebook-group
     h2 Tusind tak for din hjælp!
-    p Du kan følge med og være en aktiv medspiller på vores facebook gruppe 
+    p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, få følg med i facebookgruppen&nbsp;
       a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
-    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at 
+    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
       a(href="").ok trykke her.

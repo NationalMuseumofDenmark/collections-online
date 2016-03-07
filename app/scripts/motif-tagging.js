@@ -2,6 +2,7 @@
 
 (function($) {
 
+
   var EDIT_VISION_TAGS_SELECTOR = '.edit-vision-tags';
   var CANCEL_VISION_TAGS_SELECTOR = '.cancel-vision-tags';
   var VISION_CONTAINER_SELECTOR = '.tags-container.vision';
@@ -48,11 +49,19 @@
     return $(VISION_TAGS_SELECTOR).size() > 0;
   }
 
-  function createTagObject(tag) {
+  function createTagObject(tag, type) {
     var url = '/?q=' + encodeURIComponent(tag);
     var tagClassName = 'btn btn-default btn-small';
     var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
                  tag + '">' + tag + '</a>');
+
+    if (type === 'vision') {
+      $new.append('<span class="add-tag hidden">' +
+                    '<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" ' +
+                      'xlink:href="#icon-thumbup"></use></svg>' +
+                  '</span>');
+    }
+
     return $new;
   }
 
@@ -85,9 +94,12 @@
       // Save tag in cumulus
       saveTag(tag)
         .done(function() {
+          var Snackbar = window.Snackbar;
+
           $new.removeClass('saving');
           window.contributionAdded();
           window.showFacebookMaybe();
+          Snackbar.info('Gemt! Tak for dit bidrag!');
         })
         .fail(function(response) {
           $new.remove();
@@ -117,8 +129,8 @@
       if (arrayLength !== 0) {
         for (var i = 0; i < arrayLength; i++) {
           var tag = data.tags[i];
-          var $tag = createTagObject(tag);
-          $visionTags.append($tag);
+          var $tag = createTagObject(tag, 'vision');
+          $visionTags.prepend($tag);
         }
 
         $editVisionTags.removeClass('hidden');
