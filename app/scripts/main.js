@@ -20,8 +20,3 @@ $(function() {
     }
   });
 });
-
-// Scroll to top button
-$(function() {
-  $('#toTop').scrollToTop(400);
-});

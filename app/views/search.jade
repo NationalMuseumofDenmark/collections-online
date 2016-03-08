@@ -60,8 +60,14 @@ block after-footer
   a#toTop
     +icon('scrolltotop')
 
-if results.is_front
-  append javascript
+append javascript
+  script.
+    $(function() {
+      $('#toTop').scrollToTop(400);
+      // To ensure no boxes are hidden if the was some load error
+      $('.loaded-more').removeClass('loaded-more');
+    });
+  if results.is_front
     script.
       $(window).load(function() {
          $('.slider').flexslider({
