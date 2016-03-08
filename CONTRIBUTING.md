@@ -10,6 +10,8 @@
 - Acceptere stories løbende.
 - Fuld ejerskab over stories.
 - Velbeskrevne userstories.
+- God scrummaster styring.
+- Reflekteret over kodestil.
 
 ### Stop
 - Pushe kode vi ikke har testet. 
@@ -19,6 +21,7 @@
 - Peer review seneste 3 timer inden. 
 - Ingen nye features herefter.
 - Skrive personagnostisk retrospektiv.
+- Tage aktiv valg ved introduktion af ny kodestil.
 
 
 ## 29 February
@@ -56,5 +59,3 @@ None captured
 - JW: Tale om definition of done. Features skal gennemgåes igen når der pushes til produktion.
 - VA: ..
 - KH: ..
-
-
