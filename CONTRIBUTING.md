@@ -9,6 +9,7 @@
 - Inddrage Jacob i beslutninger.
 - Acceptere stories løbende.
 - Fuld ejerskab over stories.
+- Velbeskrevne userstories.
 
 ### Stop
 - Pushe kode vi ikke har testet. 
