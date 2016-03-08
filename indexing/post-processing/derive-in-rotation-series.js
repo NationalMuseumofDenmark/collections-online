@@ -10,10 +10,10 @@
 var Q = require('q');
 var _ = require('lodash');
 var es = require('../../lib/services/elasticsearch');
+var config = require('../../lib/config/config');
 
 // TODO: Consider taking the 'Rotationsbilleder' category name from a
 // configuration file.
-const ROTATIONAL_IMAGES_CATEGORY_NAME = 'Rotationsbilleder';
 const ROTATIONAL_IMAGES_RELATION_UUID = '9ed0887f-40e8-4091-a91c-de356c869251';
 
 module.exports = function(state) {
@@ -65,7 +65,7 @@ module.exports = function(state) {
             }, {
               'match': {
                 'categories.name':
-                  ROTATIONAL_IMAGES_CATEGORY_NAME
+                  config.cip.rotationCategoryName
               }
             }]
           }
