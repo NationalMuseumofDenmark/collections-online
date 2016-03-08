@@ -12,6 +12,14 @@ $asset--icon-shadow-color: #fff;
       @include center-block(); // Center tall asset images
       width: 100%;
     }
+
+    &__thumbnail {
+    }
+
+    &__primary {
+      position: absolute;
+      top: 0;
+    }
   }
 
   .asset-tools {

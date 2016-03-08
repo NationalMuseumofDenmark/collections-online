@@ -25,7 +25,8 @@ block content
       .col-md-6.col-xs-12.image-row
         .primary-asset.bleed
           if(player === 'image-single' || player === 'image-single-animated')
-            img.zoomable(src=sources.image, alt=title)
+            img.primary-asset__thumbnail.zoomable(src=sources.thumbnail)
+            img.primary-asset__primary.zoomable(src=sources.image, alt=title)
           else if(player === "image-rotation")
             picture.zoomable(alt=title)
               //[if IE 9]><video style="display: none;"><![endif]
