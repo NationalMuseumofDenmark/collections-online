@@ -1,6 +1,25 @@
 
 # Retrospectives
 
+## 8 March
+
+### Continue
+- Godt med god hjælp.
+- Godt samarbejde, god stemning. 
+- Inddrage Jacob i beslutninger.
+- Acceptere stories løbende.
+- Fuld ejerskab over stories.
+
+### Stop
+- Pushe kode vi ikke har testet. 
+- Refrakturering - peer review.
+
+### Start
+- Peer review seneste 3 timer inden. 
+- Ingen nye features herefter.
+- Skrive personagnostisk retrospektiv.
+
+
 ## 29 February
 
 ### Continue
