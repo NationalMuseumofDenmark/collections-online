@@ -3,6 +3,7 @@
 // Initiate masonry & infinite scroll on relevant pages
 $(function() {
   var $searchResult = $('#masonry-container');
+  var noMore = 'Ikke flere poster';
 
   // Replaces the current state in history with one that includes the
   function storeSearchResultInHistoryState(currentSearchResultPage) {
@@ -51,11 +52,7 @@ $(function() {
   // history state.
   function replaceSearchResult(searchResult, page, scrollTop) {
     if (searchResult) {
-      $searchResult
-          .empty()
-          .html(searchResult)
-          .children()
-          .css('opacity', 0);
+      $searchResult.empty().html(searchResult);
 
       // Tell masonry to reorganise the results.
       $searchResult.imagesLoaded(function() {
@@ -65,7 +62,6 @@ $(function() {
         });
         $searchResult.data('masonry', masonry);
         // Show the search results when they have been rearranged.
-        $searchResult.children().css('opacity', 1);
         // Tell the browser to scroll down.
         if (scrollTop) {
           $(window).scrollTop(scrollTop);
@@ -74,7 +70,11 @@ $(function() {
 
       if (page) {
         // Make sure to change the infinitescroll page.
-        $searchResult.infinitescroll('update', {state: {currPage: page}});
+        $searchResult.infinitescroll('update', {
+          state: {
+            currPage: page
+          }
+        });
       }
     }
   }
@@ -87,16 +87,20 @@ $(function() {
       nextSelector: '#page-nav a', // selector for the NEXT link (to page 2)
       itemSelector: '.box', // selector for all items you'll retrieve
       loading: {
-        finishedMsg: 'Ikke flere resultater...',
-        img: '/images/loading.gif',
-        msgText: 'Henter flere resultater...',
-        speed: 0,
+        msg: $('<span></span>'),
+        speed: 0
       },
-      animate: false
+      animate: false,
+      errorCallback: function(selector, msg) {
+        $('[data-action=load-more]').removeClass('loading')
+          .children('.text').html(noMore);
+      }
     },
+
     // trigger Masonry as a callback
     function(newElements, opts) {
       var $newElements = $(newElements);
+      $newElements.addClass('loaded-more');
       // Set this variable to be used when the user clicks a link.
       storeSearchResultInHistoryState(opts.state.currPage);
       // hide new items while they are loading
@@ -104,15 +108,16 @@ $(function() {
       $newElements.imagesLoaded(function() {
         var masonry = $searchResult.data('masonry');
         masonry.appended($newElements, true);
-        $('#more').show();
+        $newElements.removeClass('loaded-more').addClass('load-done');
+        $('[data-action=load-more]').removeClass('disabled loading');
       });
     });
 
     // Window.popstate is not reliable
     if (history && history.state && history.state.searchResult) {
       replaceSearchResult(history.state.searchResult,
-                          history.state.page,
-                          history.state.scrollTop);
+        history.state.page,
+        history.state.scrollTop);
     } else {
       // We do not have a history object with a state - let's just initialize
       // Masonry when the images have all loaded.
@@ -143,8 +148,8 @@ $(function() {
     // We are not interested in the infinite scrolling working automatically.
     $searchResult.infinitescroll('unbind');
 
-    $('#more').click(function() {
-      $('#more').hide();
+    $('[data-action=load-more]').click(function() {
+      $(this).addClass('disabled loading');
       var $searchResult = $('#masonry-container');
       $searchResult.infinitescroll('retrieve');
       return false;

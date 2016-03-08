@@ -16,10 +16,10 @@ block content
     .clearfix
 
     if results.is_search
-      h1.page-header Søgning på "#{filters.freetext}" 
+      h1.page-header Søgning på "#{filters.freetext}"
         +searchCount
     if results.is_front
-      h1.page-header Alle samlinger 
+      h1.page-header Alle samlinger
         +searchCount
     if results.is_category
       h1.page-header
@@ -39,27 +39,30 @@ block content
           | &nbsp; &gt; Ingen titel
 
     if results.is_catalog
-      h1.page-header #{catalog.name} 
+      h1.page-header #{catalog.name}
         +searchCount
 
-    div.search-results.row(id="masonry-container")
+    .search-results.row(id="masonry-container")
       each result in results.results
         +searchResultAsset(result)
-  div(id='page-nav')
+
+  .clearfix
+  
+  #page-nav
     a(href='#{infinitepath}')
 
   if(results.total_results_raw > 10)
-    div(style="width: 100%; text-align: center; margin: 30px auto; display:block; clear:both; height:44px;")
-      a.btn.btn-primary.btn-lg#more(role="button", style="padding: 10px 60px")
-        | Vis flere...
+    button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
+      +loader('Vis flere...')
 
-  .clearfix
 
 block after-footer
   a#toTop
+    +icon('scrolltotop')
 
-append javascript
-  script.
+if results.is_front
+  append javascript
+    script.
       $(window).load(function() {
          $('.slider').flexslider({
           animation: "slide",
