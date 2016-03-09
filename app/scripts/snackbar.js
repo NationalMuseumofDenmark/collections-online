@@ -4,7 +4,7 @@
 
   var Snackbar = {
     init: function() {
-      var $container = $('<div class="snackbar__container" />');
+      var $container = $('<div class="snackbar-container" />');
       var $snack = $('<div class="snackbar">' +
                        '<div class="snackbar__content" />' +
                      '</div>');
@@ -31,7 +31,7 @@
       if (this.showing === true || this.snackQueue.length === 0) { return; }
 
       var obj = this.snackQueue.shift();
-      this.$container.addClass('--active');
+      this.$container.addClass('snackbar-container--active');
       this.$content.text(obj.message);
       this.showing = true;
 
@@ -56,7 +56,7 @@
 
     _hideSnack: function() {
       clearTimeout(this.snackTimeout);
-      this.$container.removeClass('--active');
+      this.$container.removeClass('snackbar-container--active');
       this.snackQueueTimeout = setTimeout(
         this._checkQueue.bind(this, 'hiding'), 600);
     }
@@ -66,5 +66,3 @@
   window.Snackbar = Snackbar;
 
 })(jQuery, window);
-
-

@@ -120,10 +120,8 @@ var mapHeading = 0;
       error: function(response) {
         var err = response.responseJSON;
         showError(err.message || 'Der skete en uventet fejl.');
-        $(this).removeClass('disabled');
-        $(this).text('Gem placering');
         $('.map-buttons .hide-map').show();
-        $('.map-buttons .loader').hide();
+        $('.map-buttons .save-coordinates').removeClass('disabled loading');
       }
     });
   });
@@ -155,7 +153,8 @@ var mapHeading = 0;
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls
-    // https://developers.google.com/maps/documentation/javascript/examples/streetview-controls
+    // https://developers.google.com/maps/documentation/javascript/examples/
+    // streetview-controls
     streetView.setOptions({
       addressControl: false,
       panControl: false,
@@ -164,7 +163,8 @@ var mapHeading = 0;
     });
 
     // TODO: Lets use symbols instead
-    // https://developers.google.com/maps/documentation/javascript/examples/overlay-symbol-custom
+    // https://developers.google.com/maps/documentation/javascript/examples/
+    // overlay-symbol-custom
     marker = new google.maps.Marker({
       map: map,
       icon: '/images/camera_pin_green.png',
@@ -231,7 +231,7 @@ var mapHeading = 0;
     }
 
     map.addListener('click', function(event) {
-      // Ensure that the relative distance between markers is the same on every zoom level
+      // Ensure that distance between markers is the same on every zoom level
       var latIncrease = 100 * Math.pow(0.5, map.getZoom());
       var headingMarkerPosition = new google.maps.LatLng(event.latLng.lat() +
         latIncrease, event.latLng.lng());
