@@ -131,7 +131,7 @@ block content
               +loader('Analysér billede')
           each tag in metadata.tags_vision || []
             +tag(tag)
-              span.add-tag.hidden
+              span.add-tag
                 +icon('thumbup')
           button.btn.btn-primary.btn-small.edit-vision-tags(
             class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
