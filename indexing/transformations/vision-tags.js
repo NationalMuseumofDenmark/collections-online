@@ -21,7 +21,7 @@ module.exports = function(state, metadata) {
 
   if ((runForced || runDefault) && isPublished) {
     // Still here. Let's grab the image directly from Cumulus.
-    var url = config.cipBaseURL + '/preview/thumbnail/';
+    var url = config.cip.baseURL + '/preview/thumbnail/';
     url += metadata.catalog + '/' + metadata.id;
 
     // Loading here to prevent circular dependency.

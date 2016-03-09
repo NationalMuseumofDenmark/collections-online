@@ -41,13 +41,15 @@ module.exports.generateQueries = function(state) {
   var queries = [];
 
   Object.keys(assetsPerCatalog).forEach(function(catalogAlias) {
-    var query = assetsPerCatalog[catalogAlias].map(function(assetId) {
+    var assetIds = assetsPerCatalog[catalogAlias];
+    var query = assetIds.map(function(assetId) {
       return 'ID is "' + assetId + '"';
     }).join(' OR ');
 
     queries.push({
       catalogAlias: catalogAlias,
-      query: query
+      query: query,
+      assetIds: assetIds
     });
   });
 

@@ -37,25 +37,12 @@ module.exports = run;
 
 if (module.id === '.') {
   // Call run here, if the module was not loaded by some other module.
-  run()
-    .fail(function(err) {
-      console.error('An error occured!');
-      if (err && err.stack) {
-        console.error(err.stack);
-      } else {
-        console.error(err);
-      }
-
-      setTimeout(function() {
-        console.log('Bye bye ...');
-        // We are ready to die .. with an error code
-        process.exit(1);
-      }, 1000);
-    }).finally(function() {
-      setTimeout(function() {
-        console.log('Finishing ...');
-        // We are ready to die ..
-        process.exit(0);
-      }, 1000);
-    });
+  run().then(function() {
+    console.log('Good bye!');
+    process.exit(0);
+  }, function(err) {
+    console.error('An error occured!');
+    console.error(err.stack || err);
+    process.exit(1);
+  });
 }

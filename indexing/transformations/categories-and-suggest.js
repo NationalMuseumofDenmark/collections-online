@@ -2,7 +2,9 @@
 
 module.exports = function(state, metadata) {
   // Transforms the categories.
-  if (metadata.categories !== undefined) {
+  if (metadata.categories) {
+    var categories = state.getCategories(metadata.catalog);
+
     metadata.categories_int = [];
 
     for (var j = 0; j < metadata.categories.length; ++j) {
@@ -10,7 +12,7 @@ module.exports = function(state, metadata) {
         continue;
       }
       var category = metadata.categories[j].id;
-      var path = state.categories[metadata.catalog].getPath(category);
+      var path = categories.getPath(category);
       if (path) {
         for (var k = 0; k < path.length; k++) {
           metadata.categories_int.push(path[k].id);

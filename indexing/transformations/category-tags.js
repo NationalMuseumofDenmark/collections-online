@@ -15,7 +15,7 @@ const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
 
 module.exports = function(state, metadata) {
   var tagsPerCategory = metadata.categories.map(function(category) {
-    var catalogsCategoryTree = state.categories[metadata.catalog];
+    var catalogsCategoryTree = state.getCategories(metadata.catalog);
     var path = catalogsCategoryTree.getPath(category.id) || [];
     return path.map(function(categoryOnPath) {
       var name = categoryOnPath.name;
