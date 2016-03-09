@@ -15,6 +15,18 @@ $asset--icon-shadow-color: #fff;
 
   }
 
+  .add-tag {
+    display    : none;
+    margin-left: .2rem;
+    transform  : translateY(-2px);
+  }
+
+  .confirming {
+    .add-tag {
+      display: inline-block;
+    }
+  }
+
   .asset-tools {
     margin-bottom: $line-height-computed;
     margin-top   : $line-height-computed;

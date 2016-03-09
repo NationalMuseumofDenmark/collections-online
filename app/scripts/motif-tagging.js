@@ -56,9 +56,8 @@
                  tag + '">' + tag + '</a>');
 
     if (type === 'vision') {
-      $new.append('<span class="add-tag hidden">' +
-                    '<svg><use xmlns:xlink="http://www.w3.org/1999/xlink" ' +
-                      'xlink:href="#icon-thumbup"></use></svg>' +
+      $new.append('<span class="add-tag">' +
+                    '<svg><use xlink:href="#icon-thumbup"></use></svg>' +
                   '</span>');
     }
 
@@ -195,15 +194,9 @@
   $editVisionTags.on('click', function(e) {
     $editVisionTags.addClass('hidden');
     $cancelVisionTags.removeClass('hidden');
-    $(ADD_VISION_TAG_SELECTOR).removeClass('hidden');
-
+    $(VISION_TAGS_SELECTOR).addClass('confirming');
 
     $(VISION_TAGS_SELECTOR).on('click', function(e) {
-      e.preventDefault();
-      return false;
-    });
-
-    $(ADD_VISION_TAG_SELECTOR).on('click', function(e) {
       e.preventDefault();
       var $tag = $(this).closest('[data-tag]');
       var tagName = $tag.attr('data-tag');
@@ -216,7 +209,7 @@
   $cancelVisionTags.on('click', function(e) {
     $editVisionTags.removeClass('hidden');
     $cancelVisionTags.addClass('hidden');
-    $(ADD_VISION_TAG_SELECTOR).addClass('hidden');
+    $(VISION_TAGS_SELECTOR).removeClass('confirming');
 
     $(VISION_TAGS_SELECTOR).off('click');
     $(ADD_VISION_TAG_SELECTOR).off('click');
