@@ -57,6 +57,7 @@ module.exports = function(state) {
       }
       // yargs
       state.indexVisionTags = false;
+      state.indexVisionTagsAPIFilter = null;
       state.indexVisionTagsForce = false;
       if (argv.vision) {
         state.indexVisionTags = true;
@@ -64,6 +65,21 @@ module.exports = function(state) {
 
       if (argv.visionForce) {
         state.indexVisionTagsForce = true;
+      }
+
+      if (argv.vision || argv.visionForce) {
+        var visionArg = argv.vision || argv.visionForce;
+        if (typeof visionArg === 'string') {
+          state.indexVisionTagsAPIFilter = {};
+          var visionAPIs = visionArg.split(',');
+          visionAPIs.forEach((tag) => {
+            state.indexVisionTagsAPIFilter[tag] = true;
+          });
+          console.log('Running with the Vision Api Filter',
+                      state.indexVisionTagsAPIFilter);
+        } else {
+          console.log('Running with all Vision Api\'s');
+        }
       }
     }
   }
