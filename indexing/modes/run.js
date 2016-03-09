@@ -11,7 +11,8 @@ var config = require('../../lib/config/config');
 const POST_PROCESSING_STEPS = [
   require('../post-processing/inherit-metadata'),
   require('../post-processing/delete-removed-assets'),
-  require('../post-processing/derive-in-rotation-series')
+  require('../post-processing/derive-in-rotation-series'),
+  require('../post-processing/clear-index')
 ];
 
 module.exports = function(state) {

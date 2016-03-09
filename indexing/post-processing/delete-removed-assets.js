@@ -62,11 +62,13 @@ module.exports = function(state) {
       var actions = deletedAssetIds.map(function(deletedAssetId) {
         return {delete: {_id: deletedAssetId}};
       });
-      return es.bulk({
-        index: state.index,
-        type: 'asset',
-        body: actions
-      });
+      if (actions.length > 0) {
+        return es.bulk({
+          index: state.index,
+          type: 'asset',
+          body: actions
+        });
+      }
     }).then(function() {
       return state;
     });
