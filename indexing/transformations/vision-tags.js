@@ -20,6 +20,8 @@ module.exports = function(state, metadata) {
   var isPublished = reviewState === 3 || reviewState === 4;
 
   if ((runForced || runDefault) && isPublished) {
+    console.log('metadata', metadata);
+
     // Still here. Let's grab the image directly from Cumulus.
     var url = config.cip.baseURL + '/preview/thumbnail/';
     url += metadata.catalog + '/' + metadata.id;

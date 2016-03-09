@@ -3,7 +3,7 @@
 module.exports = function(state, metadata) {
   // Transforms the categories.
   if (metadata.categories) {
-    var categories = state.getCategories(metadata.catalog);
+    var categories = state.categories[metadata.catalog];
 
     metadata.categories_int = [];
 
