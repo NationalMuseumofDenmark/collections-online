@@ -6,6 +6,7 @@
 
 var Q = require('q');
 var processQuery = require('../processing/query');
+var config = require('../../lib/config/config');
 
 const POST_PROCESSING_STEPS = [
   require('../post-processing/inherit-metadata'),
@@ -18,7 +19,16 @@ module.exports = function(state) {
 
   state.queries = mode.generateQueries(state);
 
+  // Add any indexing restrictions from the configuration.
+  state.queries.forEach((q) => {
+    if (config.cip.indexingRestriction) {
+      q.query = '(' + q.query + ') AND ' + config.cip.indexingRestriction;
+    }
+  });
+
   console.log('\n=== Starting to process ===\n');
+
+  // TODO: Consider if the two new Q(state)s need to be wrapped in promises.
 
   return state.queries.reduce(function(promise, query) {
     return promise.then(function(state) {
@@ -28,6 +38,6 @@ module.exports = function(state) {
     });
   }, new Q(state)).then(function(state) {
     console.log('\n=== Finished processing ===\n');
-    return POST_PROCESSING_STEPS.reduce(Q.when, state);
+    return POST_PROCESSING_STEPS.reduce(Q.when, new Q(state));
   });
 };
