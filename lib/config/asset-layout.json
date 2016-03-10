@@ -54,7 +54,7 @@
           "title": "Licens",
           "template": "!= licenseLinked(license)"
         }, {
-          "title": "Fotograf",
+          "title": "Fotograf/skaber",
           "template": "= creator"
         }, {
           "title": "Kilde",
