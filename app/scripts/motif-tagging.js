@@ -1,9 +1,9 @@
 'use strict';
 
+var ga;
+
 (function($) {
 
-
-  var ga;
   var GA_EVENT_CATEGORY = 'CrowdTag';
   var EDIT_VISION_TAGS_SELECTOR = '.edit-vision-tags';
   var CANCEL_VISION_TAGS_SELECTOR = '.cancel-vision-tags';
