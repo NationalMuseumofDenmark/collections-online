@@ -53,13 +53,12 @@ var ga;
   function createTagObject(tag, type) {
     var url = '/?q=' + encodeURIComponent(tag);
     var tagClassName = 'btn btn-default btn-small';
-    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
-                 tag + '">' + tag + '</a>');
-
+    var $new = $('<a href="' + url + '" class="' + tagClassName +
+      '" data-tag="' + tag + '">' + tag + '</a>');
     if (type === 'vision') {
       $new.append('<span class="add-tag">' +
-                    '<svg><use xlink:href="#icon-thumbup"></use></svg>' +
-                  '</span>');
+        '<svg><use xlink:href="#icon-thumbup"></use></svg>' +
+        '</span>');
     }
 
     return $new;
@@ -86,7 +85,7 @@ var ga;
         $crowdTags.prepend($new);
       }
       $crowdInput.typeahead('val', '');
-      $(VISION_CONTAINER_SELECTOR).children('[data-tag="'+ tag +'"]')
+      $(VISION_CONTAINER_SELECTOR).children('[data-tag="' + tag + '"]')
         .remove();
 
       $crowdNoTags.hide();
@@ -160,6 +159,7 @@ var ga;
     if (event.keyCode === 13) {
       addTag();
       ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Enter press');
+      console.log(GA_EVENT_CATEGORY);
     }
   });
 
@@ -170,7 +170,7 @@ var ga;
   $crowdInput.blur(function() {
     var $this = $(this);
     $this.parent('span').removeClass('focused');
-    if($this.val().length === 0){
+    if ($this.val().length === 0) {
       $this.parent('span').removeClass('valid');
       $crowdTags.removeClass('inputting');
       if (hasCrowdTags() === false) {
