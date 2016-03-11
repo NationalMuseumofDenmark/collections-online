@@ -3,6 +3,8 @@
 (function($) {
 
 
+  var ga;
+  var GA_EVENT_CATEGORY = 'CrowdTag';
   var EDIT_VISION_TAGS_SELECTOR = '.edit-vision-tags';
   var CANCEL_VISION_TAGS_SELECTOR = '.cancel-vision-tags';
   var VISION_CONTAINER_SELECTOR = '.tags-container.vision';
@@ -11,8 +13,6 @@
   var $editVisionTags = $(EDIT_VISION_TAGS_SELECTOR);
   var $cancelVisionTags = $(CANCEL_VISION_TAGS_SELECTOR);
   var isEditingVisionTags = false;
-
-  // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
   var $visionTags = $('.tags-container.vision');
@@ -27,6 +27,7 @@
     var $error = $('<div class="alert alert-danger">');
     $error.text(msg);
     $crowdTags.append($error);
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Error', msg);
   };
   var typeaheadTags = new Bloodhound({
     datumTokenizer: function(tags) {
@@ -102,6 +103,7 @@
           if (window.showFacebookMaybe() === false) {
             Snackbar.info('Gemt! Tak for dit bidrag!');
           }
+          ga('send', 'event', GA_EVENT_CATEGORY, 'Save', 'Succes');
         })
         .fail(function(response) {
           $new.remove();
@@ -145,6 +147,7 @@
   $crowdBtn.click(function() {
     if ($crowdTags.hasClass('inputting')) {
       addTag();
+      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Button click');
     } else {
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
@@ -156,6 +159,7 @@
     $('.crowd .alert').remove();
     if (event.keyCode === 13) {
       addTag();
+      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Enter press');
     }
   });
 
@@ -202,6 +206,7 @@
       var tagName = $tag.attr('data-tag');
 
       addTag(tagName);
+      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
       return false;
     });
   });
