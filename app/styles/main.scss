@@ -1,8 +1,6 @@
 @import 'variables';
 @import 'functions-shadows';
-// bower:scss
-@import "../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap.scss";
-// endbower
+@import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'asset';
 @import 'button';
 @import 'facebook-group';

@@ -144,9 +144,6 @@ module.exports = function(grunt) {
         ignorePath: '..',
         exclude: []
       },
-      sass: {
-        src: ['<%= yeoman.app %>/styles/{,*/}*.{scss,sass}']
-      },
     },
 
     // This replaces compass as it has Ruby dependencies.
