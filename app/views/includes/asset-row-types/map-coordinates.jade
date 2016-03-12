@@ -12,6 +12,6 @@ if latitude && longitude
          button.btn.btn-icon.btn-primary.btn-small(data-action='edit-place')
            +icon('pencil')
   tr
-   td.bleed(colspan='2')
+   td(colspan='2')
      a(href='http://maps.google.dk/maps?ll=' + latitude + ',' + longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + latitude + ',' + longitude, target='blank')
        img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + latitude + ',' + longitude + '&sensor=false&zoom=14')
