@@ -26,7 +26,6 @@ body {
   // For category menu
   overflow-x: hidden; // Enable bleeds without horizontal scroll
   position  : relative;
-  transition: margin 400ms ease-in-out 0s;
 
   a {
     outline: none;
@@ -34,111 +33,9 @@ body {
 }
 
 .container-fluid {
-  max-width: 1170px;
+  max-width: $large-size;
 }
 
-// Boostrap style modifications
-section .page-header {
-  border-bottom: 0;
-  color        : $brand-primary;
-  font-size    : 18px;
-
-  a {
-    text-decoration: underline;
-  }
-}
-
-// Avoid detached footer
-.content section {
-  // min-height: 450px;
-  @media all and (min-height: 1000px) {
-    min-height: 600px;
-  }
-}
-
-.main-wrapper {
-  background: $white;
-  overflow-x: hidden; // Enable bleeds without horizontal scroll
-}
-
-@media (min-width: $screen-md) {
-  .content {
-    padding-top: 20px;
-  }
-}
-
-.bleed {
-  margin-left  : -15px;
-  margin-right : -15px;
-  padding-left : 0;
-  padding-right: 0;
-}
-
-// hide svg sprite
 .sprite {
   display: none;
-}
-
-.categories {
-  display   : inline;
-  list-style: none;
-  margin    : 0;
-  padding   : 0;
-
-  li::after {
-    content: ' /';
-  }
-
-  li:last-child::after {
-    content: '';
-  }
-
-  li {
-    display      : inline;
-    padding-right: 5px;
-  }
-}
-
-// Infinte scroller
-.section-wrapper {
-  height    : auto;
-  min-height: 0;
-}
-
-/* Responsive: Landscape tablets and up */
-@media screen and (min-width: $screen-md-min) {
-  %pull-right {
-    float: right !important;
-  }
-
-  body {
-    // For category menu
-    &.categories-menu-open {
-      // Menu toggle class
-
-#heading-categories-menu a {
-        // Menu toggle button
-        padding: 50px 0 0 15px;
-      }
-    }
-  }
-
-  .header {
-    hgroup {
-      .col-sm-4 {
-        @extend %pull-right;
-      }
-    }
-  }
-
-  .bleed {
-    margin-left : auto;
-    margin-right: auto;
-  }
-
-  // Boostrap style modifications
-  .content section .page-header {
-    font-size : 28px;
-    margin-top: 34px;
-  }
 }
