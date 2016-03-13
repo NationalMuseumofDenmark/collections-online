@@ -22,7 +22,6 @@ module.exports = function(state, metadata) {
   var isPublished = reviewState === 3 || reviewState === 4;
 
   if ((runForced || runDefault) && isPublished) {
-    console.log('metadata', metadata);
 
     // Still here. Let's grab the image directly from Cumulus.
     var url = config.cip.baseURL + '/preview/thumbnail/';
@@ -35,18 +34,23 @@ module.exports = function(state, metadata) {
       .then(function(tags) {
         // Convert tags to a comma seperated string
         // Save the tags to Cumulus
-        if (!metadata.tags_vision) {
+        var tagsIsArray = !!metadata.tags_vision &&
+          typeof metadata.tags_vision === 'object' &&
+          metadata.tags_vision.constructor === Array;
+
+        if (tagsIsArray === false) {
           metadata.tags_vision = [];
         }
         var oldTagsSize = metadata.tags_vision.length;
         var tagsUnion = union(metadata.tags_vision, tags);
         var diffSize = tagsUnion.length - oldTagsSize;
-        console.log('Derived', diffSize, 'new tags, using AI.');
 
         // If no new tags was added, we don't save
         if (diffSize === 0) {
           return metadata;
         }
+
+        console.log('Derived', diffSize, 'new tags, using AI.');
 
         return saveVisionTags(metadata, tagsUnion).then(function(response) {
           if (response.statusCode !== 200) {
