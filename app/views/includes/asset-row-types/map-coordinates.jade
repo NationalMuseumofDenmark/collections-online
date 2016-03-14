@@ -16,3 +16,8 @@ if latitude && longitude
    td(colspan='2')
      a(href='http://maps.google.dk/maps?ll=' + latitude + ',' + longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + latitude + ',' + longitude, target='blank')
        img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + latitude + ',' + longitude + '&sensor=false&zoom=14')
+
+else if options.showCallToAction
+  tr
+    td
+      button.btn.btn-primary#edit-coordinates Tilføj placering
