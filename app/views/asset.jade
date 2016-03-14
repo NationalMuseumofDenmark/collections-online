@@ -24,7 +24,7 @@ block content
     .asset-top
       .container-fluid
         .row
-          .col-xs-12
+          .col-xs-12.primary-wrapper
             if(player === 'image-single' || player === 'image-single-animated')
               img.zoomable(src=sources.image, alt=title)
             else if(player === "image-rotation")
@@ -43,7 +43,7 @@ block content
                 source(src=sources.video, type="video/mp4")
             include includes/license
 
-          .col-md-8
+          .col-sm-8
             if(title)
               h1= title
               if(description)
@@ -53,7 +53,7 @@ block content
               p.sr-only Beskrivelse
               h1= description
               
-          .col-md-4.social
+          .col-sm-4.social
             a
               +icon('fullscreen')
             a
