@@ -11,8 +11,8 @@ footer {
 
   svg {
     fill  : $footer-text-color;
-    height: 24px;
-    width : 24px;
+    height: $icon-size;
+    width : $icon-size;
 
     &:hover,
     &:focus {
