@@ -22,7 +22,7 @@
 
 .image-wrapper {
   max-height: $asset-max-height;
-  position: relative;
+  position  : relative;
 
   @media (min-width: $medium-size) {
     height: $asset-max-height;
@@ -67,6 +67,10 @@
   background-color: $gray-lighter;
   padding         : 1rem 0 2rem;
 
+  input {
+    background-color: rgba($white, 0);
+  }
+
   @media (min-width: $medium-size) {
     h2,
     b {
@@ -83,6 +87,19 @@
       line-height: $asset-subject-headline-height * 1.7;
     }
   }
+
+  .add-tag {
+    display    : none;
+    margin-left: .2rem;
+    transform  : translateY(-2px);
+  }
+
+  .confirming {
+    .add-tag {
+      display: inline-block;
+    }
+  }
+
 }
 
 .asset-bottom {
@@ -123,55 +140,9 @@
 //
 //   }
 //
-//   .add-tag {
-//     display    : none;
-//     margin-left: .2rem;
-//     transform  : translateY(-2px);
-//   }
-//
-//   .confirming {
-//     .add-tag {
-//       display: inline-block;
-//     }
-//   }
-//
 //   .asset-tools {
 //     margin-bottom: $line-height-computed;
 //     margin-top   : $line-height-computed;
-//
-//     .dropdown-menu {
-//       min-width: 145px;
-//
-//       > li {
-//         > a,
-//         & > .stButton {
-//           color: $gray !important;
-//
-//           &:hover,
-//           &:focus {
-//             background: $gray-lighter;
-//             color     : $gray !important;
-//           }
-//         }
-//
-//         & > .stButton {
-//           clear      : both;
-//           display    : block !important;
-//           font-size  : $font-size-base;
-//           font-weight: normal;
-//           line-height: $line-height-base;
-//           margin     : 0;
-//           padding    : 3px 20px;
-//           white-space: nowrap;
-//
-//           .chicklets {
-//             font-family: inherit;
-//             font-size  : inherit;
-//             height     : auto;
-//             line-height: inherit;
-//           }
-//         }
-//       }
 //     }
 //
 //     .license {
