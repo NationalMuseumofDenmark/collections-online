@@ -38,6 +38,7 @@ $asset-subject-headline-height: 3rem;
 
 .asset-middle {
   background-color: $gray-lighter;
+  padding         : 1rem 0 2rem;
 
   @media (min-width: $medium-size) {
     h2,
@@ -54,6 +55,20 @@ $asset-subject-headline-height: 3rem;
     b {
       line-height: $asset-subject-headline-height * 1.7;
     }
+  }
+}
+
+.asset-bottom {
+  padding: 1rem 0 3rem;
+
+  table {
+    width: 100%;
+  }
+
+  th,
+  td {
+    // Override bootstrap col 15 px padding
+    padding: 0;
   }
 }
 
