@@ -43,7 +43,7 @@ block content
             else if(player === "video")
               video(width="100%", controls)
                 source(src=sources.video, type="video/mp4")
-
+        .row.asset-info
           .col-sm-8
             if(title)
               h1= title
@@ -55,7 +55,7 @@ block content
               h1= description
               
           .col-sm-4.social
-            .fullscreen
+            a(data-action="fullscreen-show")
               +icon('fullscreen')
             a(data-action="asset-download-show")
               +icon('download')

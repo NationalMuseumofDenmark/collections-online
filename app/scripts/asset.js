@@ -6,12 +6,20 @@
   var OVERLAY_ACTIVE_CLASS = 'overlay--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay--anim-in';
 
+  var ACTION_FULLSCREEN_SHOW = '[data-action="fullscreen-show"]';
+  var CONTENT_FULLSCREEN_WRAP = '.fullscreen-wrap';
+
+
   var AssetPage = {
     init: function() {
       $(ACTION_ASSET_DOWNLOAD_SHOW)
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
+
+
+      $(ACTION_FULLSCREEN_SHOW)
+        .on('click', this.openFullscreen.bind(this));
     },
 
     actionAssetDownloadShow: function(show) {
@@ -25,6 +33,10 @@
           $el.removeClass(OVERLAY_ACTIVE_CLASS);
         }, 300);
       }
+    },
+
+    openFullscreen: function() {
+      $(CONTENT_FULLSCREEN_WRAP).fullscreen(true);
     }
   };
 

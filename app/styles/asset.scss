@@ -14,6 +14,15 @@ $asset-max-height: 78vh;
   h1 {
     margin-top: 0;
   }
+
+  .asset-info {
+    padding-top: 2rem;
+  }
+
+  .fullscreen-wrap {
+    position: relative;
+    background-color: $topbar-color;
+  }
 }
 
 .image-wrapper {
@@ -28,7 +37,6 @@ $asset-max-height: 78vh;
     margin        : 0 auto;
     max-height    : 100%;
     max-width     : 100%;
-    padding-bottom: 2rem;
 
     @media (min-width: $medium-size) {
       // Wanted to use flexbox for this but distorted the image
@@ -38,10 +46,6 @@ $asset-max-height: 78vh;
       transform: translate3d(-50%, -50%, 0);
     }
   }
-}
-
-.rotation-wrapper {
-  padding-bottom: 2rem;
 }
 
 .social {
@@ -59,6 +63,7 @@ $asset-max-height: 78vh;
     fill  : $white;
     height: $icon-size;
     width : $icon-size;
+    cursor: pointer;
   }
 }
 
