@@ -1,1 +1,1 @@
-<svg viewBox="0 0 50 50" fill-rule="evenodd"><circle cx="25" cy="25" r="23" fill="rgba(255,255,255,0.9)"/><path d="M25 0a25 25 0 1 1 0 50 25 25 0 0 1 0-50zm0 5a20 20 0 1 1 0 40 20 20 0 0 1 0-40zm6 32l-12-0V24h-6l12-12 12 12h-6v14z" fill="#333"/></svg>
+<svg viewBox="0 0 50 50" fill-rule="evenodd"><circle cx="25" cy="25" r="23" fill="rgba(255,255,255,0.9)"/><path d="M25 0a25 25 0 1 1 0 50 25 25 0 0 1 0-50zm0 5a20 20 0 1 1 0 40 20 20 0 0 1 0-40zm6 32H19V24h-6l12-12 12 12h-6v14z" fill="#262626"/></svg>
