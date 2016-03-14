@@ -1,7 +1,7 @@
 -var i = 0
 each section in sections
   -i++
-  .col-md-6
+  .col-sm-6
     h2= section.title
     if section.hasValues(options, metadata)
       table
@@ -9,5 +9,6 @@ each section in sections
           each row in section.rows
             if row.hasValue(options, metadata)
               != row.render(options, metadata)
-  if (i == 2) 
+  //- waffle layout
+  if (i === 2) 
     .clearfix

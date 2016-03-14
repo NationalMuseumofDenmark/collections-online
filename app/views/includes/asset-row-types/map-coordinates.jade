@@ -4,8 +4,8 @@ include ../../mixins
 - var longitude = metadata[row.fields.longitude];
 if latitude && longitude
   tr
-    th #{row.title}:
-    td
+    th.col-xs-4 #{row.title}:
+    td.col-xs-12
        = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
        if options.showGeotagging
          | &nbsp;
