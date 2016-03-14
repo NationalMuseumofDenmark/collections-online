@@ -1,10 +1,5 @@
 @import 'variables';
 @import 'geotagging';
-$asset--icon-shadow-color: #fff;
-$asset-subject-headline-height: 3rem;
-$asset-max-height: 78vh;
-
-.asset {}
 
 .asset-top {
   background-color: $topbar-color;
@@ -20,23 +15,24 @@ $asset-max-height: 78vh;
   }
 
   .fullscreen-wrap {
-    position: relative;
     background-color: $topbar-color;
+    position        : relative;
   }
 }
 
 .image-wrapper {
   max-height: $asset-max-height;
+  position: relative;
 
   @media (min-width: $medium-size) {
     height: $asset-max-height;
   }
 
   img {
-    display       : block;
-    margin        : 0 auto;
-    max-height    : 100%;
-    max-width     : 100%;
+    display   : block;
+    margin    : 0 auto;
+    max-height: 100%;
+    max-width : 100%;
 
     @media (min-width: $medium-size) {
       // Wanted to use flexbox for this but distorted the image
@@ -60,10 +56,10 @@ $asset-max-height: 78vh;
   }
 
   svg {
+    cursor: pointer;
     fill  : $white;
     height: $icon-size;
     width : $icon-size;
-    cursor: pointer;
   }
 }
 
@@ -112,8 +108,6 @@ $asset-max-height: 78vh;
   }
 
 }
-
-
 
 // // Assets
 // .item {
