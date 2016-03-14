@@ -10,7 +10,7 @@ var cip = require('../../lib/services/natmus-cip');
 var processAsset = require('./asset');
 
 var ASSETS_PER_REQUEST = 100;
-var VISION_ASSETS_PER_REQUEST = 40;
+var VISION_ASSETS_PER_REQUEST = 25;
 
 var ADDITIONAL_FIELDS = [
   '{af4b2e71-5f6a-11d2-8f20-0000c0e166dc}', // Related Sub Assets
