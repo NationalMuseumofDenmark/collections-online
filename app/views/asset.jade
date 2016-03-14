@@ -24,24 +24,25 @@ block content
     .asset-top
       .container-fluid
         .row
-          .col-xs-12.primary-wrapper
+          .col-xs-12.fullscreen-wrap
             if(player === 'image-single' || player === 'image-single-animated')
-              img.zoomable(src=sources.image, alt=title)
+              .image-wrapper
+                img(src=sources.image, alt=title)
             else if(player === "image-rotation")
-              picture.zoomable(alt=title)
-                source(srcset=sources.imageSet['2000'].src, media='(min-width: 1200px)')
-                source(srcset=sources.imageSet['1200'].src, media='(min-width: 800px)')
-                source(srcset=sources.imageSet['800'].src, media='(min-width: 400px)')
-                source(srcset=sources.imageSet['400'].src, media='(max-width: 400px)')
-                a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-                  img(src=sources.image, alt=title)
+              .rotation-wrapper 
+                picture(alt=title)
+                  source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
+                  source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
+                  source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
+                  source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
+                  a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
+                    img(src=sources.image, alt=title)
             else if(player === "audio")
               audio(controls)
                 source(src=sources.audio)
             else if(player === "video")
               video(width="100%", controls)
                 source(src=sources.video, type="video/mp4")
-            include includes/license
 
           .col-sm-8
             if(title)
@@ -54,7 +55,7 @@ block content
               h1= description
               
           .col-sm-4.social
-            a
+            .fullscreen
               +icon('fullscreen')
             a(data-action="asset-download-show")
               +icon('download')
@@ -114,6 +115,10 @@ block content
       .container-fluid
         .row
           != assetLayout(metadata)
+          
+          if(showGeotagging)
+            include geotagging.jade
+
 
   .overlay(data-content="asset-download")
     .overlay__hide 
@@ -189,9 +194,6 @@ block content
     //-                 href=asset.href)
     //- 
     //-     .col-md-6.col-xs-12.pull-right.text-row
-    //-       #geotagging-anchor
-    //-       if(showGeotagging)
-    //-         include geotagging.jade
     //- 
     //-       // Title
     //-       header

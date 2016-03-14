@@ -83,9 +83,6 @@
           "title": "Fil-ID",
           "template": "= id"
         }, {
-          "title": "Filnavn",
-          "template": "= filename"
-        }, {
           "title": "Filstørrelse (mb)",
           "template": "= filesizeMB(file_size)"
         }, {

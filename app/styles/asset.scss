@@ -2,6 +2,7 @@
 @import 'geotagging';
 $asset--icon-shadow-color: #fff;
 $asset-subject-headline-height: 3rem;
+$asset-max-height: 78vh;
 
 .asset {}
 
@@ -15,19 +16,19 @@ $asset-subject-headline-height: 3rem;
   }
 }
 
-.primary-wrapper {
-  margin-bottom: 2rem;
-  max-height   : 77vh;
+.image-wrapper {
+  max-height: $asset-max-height;
 
   @media (min-width: $medium-size) {
-    height: 77vh;
+    height: $asset-max-height;
   }
 
   img {
-    display   : block;
-    margin    : 0 auto;
-    max-height: 100%;
-    max-width : 100%;
+    display       : block;
+    margin        : 0 auto;
+    max-height    : 100%;
+    max-width     : 100%;
+    padding-bottom: 2rem;
 
     @media (min-width: $medium-size) {
       // Wanted to use flexbox for this but distorted the image
@@ -39,10 +40,16 @@ $asset-subject-headline-height: 3rem;
   }
 }
 
+.rotation-wrapper {
+  padding-bottom: 2rem;
+}
+
 .social {
   text-align: right;
 
-  a {
+  > * {
+    display: inline-block;
+
     &:not(:last-child) {
       margin-right: $icon-size / 2;
     }
