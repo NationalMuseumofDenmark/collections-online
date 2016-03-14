@@ -3,8 +3,8 @@
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
-  var OVERLAY_ACTIVE_CLASS = 'overlay--active';
-  var OVERLAY_ANIM_IN_CLASS = 'overlay--anim-in';
+  var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
+  var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
 
   var ACTION_FULLSCREEN_SHOW = '[data-action="fullscreen-show"]';
   var CONTENT_FULLSCREEN_WRAP = '.fullscreen-wrap';
