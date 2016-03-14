@@ -121,23 +121,20 @@ block content
 
 
   .overlay(data-content="asset-download")
-    .overlay__hide 
-      +icon('close')
     .overlay__content 
       h2 Download
       .note Klik for at downloade i en specifik størrelse
-      if(filename.match('.tif$') || filename.match('.tiff$'))
-        a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
-          | Lille (#{sources.imageSet.download800.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
-          | Mellem (#{sources.imageSet.download1200.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
-          | Stor (#{sources.imageSet.download2000.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
-          | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
+      a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+        | Lille (#{sources.imageSet.download800.size} jpg)
+      a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+        | Mellem (#{sources.imageSet.download1200.size} jpg)
+      a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+        | Stor (#{sources.imageSet.download2000.size} jpg)
+      a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+        | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
       if(filename.match('.tif$') || filename.match('.tiff$'))
         a.btn.btn-primary(href='#{sources.download}') 
-          | Original (#{metadata.width_px} x #{metadata.height_px} tiff)
+          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
       .overlay__licence
         if(metadata.license)
