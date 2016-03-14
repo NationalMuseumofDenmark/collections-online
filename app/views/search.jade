@@ -9,7 +9,7 @@ block before-content
     include filtering
 
 block content
-  section.section-wrapper
+  section.container-fluid
     if results.is_front
       include includes/frontpage-slider
 
@@ -55,6 +55,7 @@ block content
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
 
+  include includes/footer
 
 block after-footer
   a#toTop

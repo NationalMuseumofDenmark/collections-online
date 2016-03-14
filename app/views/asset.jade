@@ -8,9 +8,8 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-  article(itemscope,
+  article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
-          class='asset item',
           data-catalog=catalog.alias,
           data-id=metadata.id,
           data-latitude=metadata.latitude,
@@ -21,130 +20,184 @@ block content
     - var filename = metadata.filename.toLowerCase();
     - var zipcode = metadata.zipcode;
     - var city = metadata.city;
-    .row
-      .col-md-6.col-xs-12.image-row
-        .primary-asset
-          if(player === 'image-single' || player === 'image-single-animated')
-            img.primary-asset__primary.zoomable(src=sources.image, alt=title)
-          else if(player === "image-rotation")
-            picture.zoomable(alt=title)
-              //[if IE 9]><video style="display: none;"><![endif]
-              source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
-              source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
-              source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
-              source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
-              //[if IE 9]></video><![endif]
-              a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-                img(src=sources.image, alt=title)
-          else if(player === "audio")
-            audio(controls)
-              source(src=sources.audio)
-          else if(player === "video")
-            video(width="100%", controls)
-              source(src=sources.video, type="video/mp4")
-          include includes/license
+    .asset-top
+      .container-fluid
+        .row
+          .col-xs-12
+            if(player === 'image-single' || player === 'image-single-animated')
+              img.zoomable(src=sources.image, alt=title)
+            else if(player === "image-rotation")
+              picture.zoomable(alt=title)
+                source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
+                source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
+                source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
+                source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
+                a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
+                  img(src=sources.image, alt=title)
+            else if(player === "audio")
+              audio(controls)
+                source(src=sources.audio)
+            else if(player === "video")
+              video(width="100%", controls)
+                source(src=sources.video, type="video/mp4")
+            include includes/license
 
-        .asset-tools
-          .btn-group.dropup
-            a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-              +icon('download')
-            ul.dropdown-menu(role='menu')
-              - if(filename.match('.tif$') || filename.match('.tiff$'))
-                li
-                  a(href='#{sources.imageSet.download800}') Lille
-                li.divider
-                li
-                  a(href='#{sources.imageSet.download1200}') Mellem
-                li.divider
-                li
-                  a(href='#{sources.imageSet.download2000}') Stor
-                li.divider
-              li
-                a(href='#{sources.download}') Original
-          span.license
-            span.title Licens:
-            - if(metadata.license)
-              - var license = helpers.licenseTag(metadata.license.id);
-              - if(license)
-                a(href=license.url, rel='license', target='_blank')
-                  img(src=license.img, alt=license.short)
-              - else
-                | #{metadata.license.displaystring}
-            - else
-              | -
-        .related-assets
-          each asset in relatedAssets.visible
-            a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-              href=asset.href)
-          - if(relatedAssets.additional.length > 0)
-            h2.collapsable-section-header
-              a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                +icon('minus')
-                +icon('plus')
-                | Flere relaterede
-            div#additional-related.collapse
-              each asset in relatedAssets.additional
-                a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                  href=asset.href)
+          .col-md-8
+            h1= title
+            if(metadata.description)
+              p.sr-only Beskrivelse
+              p.lead= metadata.description
 
-      .col-md-6.col-xs-12.pull-right.text-row
-        #geotagging-anchor
-        if(showGeotagging)
-          include geotagging.jade
+    .asset-middle
+      .container-fluid
+        .row
+          .col-md-4
+            // Tags
+            h2 Emneord
+            .tags-container
+              if(!metadata.tags)
+                span.no-tags Der er ingen emneord endnu.
+              each tag in metadata.tags || []
+                +tag(tag)
 
-        // Title
-        header
-          h1(itemprop='name')= title
+          .col-md-4
+            // User tags
+            b Tilføjet af brugere
+            .tags-container.crowd
+              if(!metadata.tags_crowd)
+                span.no-tags Der er ikke tilføjet nogle emneord endnu.
 
-        // Description
-        if(metadata.description)
-          p.sr-only Beskrivelse
-          p(itemprop='description', class='lead')= metadata.description
+              each tag in metadata.tags_crowd || []
+                +tag(tag)
+              .material-input
+                input(type='text', required='')
+                span.bar
+                label Indtast nyt emneord og tryk enter
+              .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
 
-        // Tags
-        h2 Emneord
-        .tags-container
-          if(!metadata.tags)
-            span.no-tags Der er ingen emneord endnu.
-          each tag in metadata.tags || []
-            +tag(tag)
+          .col-md-4
+            // Vision tags
+            b Automatisk billedanalyse
+            .tags-container.vision
+              if(!metadata.tags_vision || metadata.tags_vision.length === 0)
+                .btn.btn-primary.btn-small#vision-btn
+                  +loader('Analysér billede')
+              each tag in metadata.tags_vision || []
+                +tag(tag)
+                  span.add-tag
+                    +icon('thumbup')
+              button.btn.btn-primary.btn-small.edit-vision-tags(
+                class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
+                  'hidden' : undefined
+              ) Bekræft emneord
+              button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
-        // User tags
-        h3 Emneord tilføjet af brugere
-        .tags-container.crowd
-          if(!metadata.tags_crowd)
-            span.no-tags Der er ikke tilføjet nogle emneord endnu.
+    .asset-bottom
+      .container-fluid
+        .row
+          != assetLayout(metadata)
 
-          each tag in metadata.tags_crowd || []
-            +tag(tag)
-          .material-input
-            input(type='text', required='')
-            span.bar
-            label Indtast nyt emneord og tryk enter
-          .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
-
-        // Vision tags
-        h3 Emneord fundet ved automatisk billedanalyse
-        .tags-container.vision
-          if(!metadata.tags_vision || metadata.tags_vision.length === 0)
-            .btn.btn-primary.btn-small#vision-btn
-              +loader('Analysér billede')
-          each tag in metadata.tags_vision || []
-            +tag(tag)
-              span.add-tag
-                +icon('thumbup')
-          button.btn.btn-primary.btn-small.edit-vision-tags(
-            class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
-              'hidden' : undefined
-          ) Bekræft emneord
-          button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
-
-        != assetLayout(metadata)
-
-  .facebook-group
-    h2 Tusind tak for din hjælp!
-    p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
-      a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
-    br
-    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
-      a(href="").ok trykke her.
+    //-       .asset-tools
+    //-         .btn-group.dropup
+    //-           a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
+    //-             +icon('download')
+    //-           ul.dropdown-menu(role='menu')
+    //-             - if(filename.match('.tif$') || filename.match('.tiff$'))
+    //-               li
+    //-                 a(href='#{sources.imageSet.download800}') Lille
+    //-               li.divider
+    //-               li
+    //-                 a(href='#{sources.imageSet.download1200}') Mellem
+    //-               li.divider
+    //-               li
+    //-                 a(href='#{sources.imageSet.download2000}') Stor
+    //-               li.divider
+    //-             li
+    //-               a(href='#{sources.download}') Original
+    //-         span.license
+    //-           span.title Licens:
+    //-           - if(metadata.license)
+    //-             - var license = helpers.licenseTag(metadata.license.id);
+    //-             - if(license)
+    //-               a(href=license.url, rel='license', target='_blank')
+    //-                 img(src=license.img, alt=license.short)
+    //-             - else
+    //-               | #{metadata.license.displaystring}
+    //-           - else
+    //-             | -
+    //-       .related-assets
+    //-         each asset in relatedAssets.visible
+    //-           a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+    //-             href=asset.href)
+    //-         - if(relatedAssets.additional.length > 0)
+    //-           h2.collapsable-section-header
+    //-             a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
+    //-               +icon('minus')
+    //-               +icon('plus')
+    //-               | Flere relaterede
+    //-           div#additional-related.collapse
+    //-             each asset in relatedAssets.additional
+    //-               a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
+    //-                 href=asset.href)
+    //- 
+    //-     .col-md-6.col-xs-12.pull-right.text-row
+    //-       #geotagging-anchor
+    //-       if(showGeotagging)
+    //-         include geotagging.jade
+    //- 
+    //-       // Title
+    //-       header
+    //-         h1(itemprop='name')= title
+    //- 
+    //-       // Description
+    //-       if(metadata.description)
+    //-         p.sr-only Beskrivelse
+    //-         p(itemprop='description', class='lead')= metadata.description
+    //- 
+    //-       // Tags
+    //-       h2 Emneord
+    //-       .tags-container
+    //-         if(!metadata.tags)
+    //-           span.no-tags Der er ingen emneord endnu.
+    //-         each tag in metadata.tags || []
+    //-           +tag(tag)
+    //- 
+    //-       // User tags
+    //-       h3 Emneord tilføjet af brugere
+    //-       .tags-container.crowd
+    //-         if(!metadata.tags_crowd)
+    //-           span.no-tags Der er ikke tilføjet nogle emneord endnu.
+    //- 
+    //-         each tag in metadata.tags_crowd || []
+    //-           +tag(tag)
+    //-         .material-input
+    //-           input(type='text', required='')
+    //-           span.bar
+    //-           label Indtast nyt emneord og tryk enter
+    //-         .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
+    //- 
+    //-       // Vision tags
+    //-       h3 Emneord fundet ved automatisk billedanalyse
+    //-       .tags-container.vision
+    //-         if(!metadata.tags_vision || metadata.tags_vision.length === 0)
+    //-           .btn.btn-primary.btn-small#vision-btn
+    //-             +loader('Analysér billede')
+    //-         each tag in metadata.tags_vision || []
+    //-           +tag(tag)
+    //-             span.add-tag
+    //-               +icon('thumbup')
+    //-         button.btn.btn-primary.btn-small.edit-vision-tags(
+    //-           class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
+    //-             'hidden' : undefined
+    //-         ) Bekræft emneord
+    //-         button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
+    //- 
+    //-       
+    //- 
+    //- .facebook-group
+    //-   h2 Tusind tak for din hjælp!
+    //-   p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
+    //-     a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
+    //-   br
+    //-   p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
+    //-     a(href="").ok trykke her.

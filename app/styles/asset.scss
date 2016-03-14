@@ -1,210 +1,246 @@
 @import 'geotagging';
 $asset--icon-shadow-color: #fff;
+$asset-subject-headline-height: 3rem;
 
-// Assets
-.item {
-  padding-bottom: 3rem;
+.asset {}
 
-  .primary-asset {
-    position: relative;
+.asset-top {
+  background-color: $topbar-color;
+  color           : $white;
 
-    img {
-      @include center-block(); // Center tall asset images
-      width: 100%;
-    }
-
-  }
-
-  .add-tag {
-    display    : none;
-    margin-left: .2rem;
-    transform  : translateY(-2px);
-  }
-
-  .confirming {
-    .add-tag {
-      display: inline-block;
-    }
-  }
-
-  .asset-tools {
-    margin-bottom: $line-height-computed;
-    margin-top   : $line-height-computed;
-
-    .dropdown-menu {
-      min-width: 145px;
-
-      > li {
-        > a,
-        & > .stButton {
-          color: $gray !important;
-
-          &:hover,
-          &:focus {
-            background: $gray-lighter;
-            color     : $gray !important;
-          }
-        }
-
-        & > .stButton {
-          clear      : both;
-          display    : block !important;
-          font-size  : $font-size-base;
-          font-weight: normal;
-          line-height: $line-height-base;
-          margin     : 0;
-          padding    : 3px 20px;
-          white-space: nowrap;
-
-          .chicklets {
-            font-family: inherit;
-            font-size  : inherit;
-            height     : auto;
-            line-height: inherit;
-          }
-        }
-      }
-    }
-
-    .license {
-      float: right;
-
-      .title {
-        font-weight : bold;
-        margin-right: 5px;
-      }
-
-      img {
-        height: 31px;
-      }
-    }
-
-    @media all and (max-width:385px) {
-      a.btn-default {
-        margin-right: 5px;
-      }
-
-      .license .title {
-        display: none;
-      }
-    }
-  }
-
-  .map {
-    margin-top: .8rem;
-    width     : 100%;
-  }
-
-  .asset-block {
-    margin-bottom: $line-height-computed;
-  }
-
-  .related-assets {
-    margin-bottom: 15px;
-
-    .related-asset {
-      background-position: 50% 50%;
-      background-size    : cover;
-      display            : inline-block;
-      height             : 100px;
-      margin             : 1%;
-      position           : relative;
-      width              : 23%;
-      // border: 1px solid $brand-primary;
-    }
-  }
-
-  h1 {
-    font-size: 1.6rem;
-  }
-
-  h2,
-  .lead {
-    font-size: 1.3rem;
-  }
-
-  h3 {
-    font-size    : 1rem;
-    margin-bottom: 0;
-    margin-top   : 0;
-  }
-
-  h2 {
-    margin-bottom: .3rem;
-  }
-
-  .lead {
-    font-weight  : 300;
-    margin-bottom: 0;
-    white-space  : pre-line;
-  }
-
-  th {
-    padding-right: .4rem;
-  }
-
-  th,
-  td {
-    display: inline-block;
-  }
-
-  .asset-icon {
-    color      : $black;
-    display    : none;
-    font-size  : 3em;
-    left       : 1em;
-    position   : absolute;
-    text-shadow: -1px -1px 0 $asset--icon-shadow-color, 1px -1px 0 $asset--icon-shadow-color, -1px 1px 0 $asset--icon-shadow-color, 1px 1px 0 $asset--icon-shadow-color;
-    top        : 1em;
-
-    &.small {
-      bottom   : .3em;
-      font-size: 1em;
-      left     : .3em;
-    }
+  img {
+    display   : block;
+    margin    : 1rem auto;
+    max-height: 78vh;
+    max-width : 100%;
   }
 }
 
-.collapsable-section-header {
-  a {
-    svg {
-      fill  : $brand-primary;
-      height: 1em;
-      margin: 0 .2em 0 0;
-      width : 1em;
-    }
+.asset-middle {
+  background-color: $gray-lighter;
 
-    &.collapsed svg:first-child {
-      display: none;
-    }
-
-    &:not(.collapsed) svg:nth-child(2) {
-      display: none;
-    }
-  }
-}
-
-// Zoom in and out cursor
-.asset .col-md-6 .zoomable {
-  cursor: zoom-in;
-}
-
-.asset .col-md-12 .zoomable {
-  cursor: zoom-out;
-}
-
-@media (min-width: $medium-size) {
-  .item {
-    h1 {
-      font-size: 2.6rem;
-    }
-
-    .lead {
-      font-size: 1.6rem;
+  @media (min-width: $medium-size) {
+    h2,
+    b {
+      display: block;
+      height : $asset-subject-headline-height;
+      margin : 0;
     }
 
     h2 {
-      font-size: 1.6rem;
+      line-height: $asset-subject-headline-height * 1.5;
+    }
+
+    b {
+      line-height: $asset-subject-headline-height * 1.7;
     }
   }
 }
+
+// // Assets
+// .item {
+//   padding-bottom: 3rem;
+//
+//   .primary-asset {
+//     position: relative;
+//
+//     img {
+//       @include center-block(); // Center tall asset images
+//       width: 100%;
+//     }
+//
+//   }
+//
+//   .add-tag {
+//     display    : none;
+//     margin-left: .2rem;
+//     transform  : translateY(-2px);
+//   }
+//
+//   .confirming {
+//     .add-tag {
+//       display: inline-block;
+//     }
+//   }
+//
+//   .asset-tools {
+//     margin-bottom: $line-height-computed;
+//     margin-top   : $line-height-computed;
+//
+//     .dropdown-menu {
+//       min-width: 145px;
+//
+//       > li {
+//         > a,
+//         & > .stButton {
+//           color: $gray !important;
+//
+//           &:hover,
+//           &:focus {
+//             background: $gray-lighter;
+//             color     : $gray !important;
+//           }
+//         }
+//
+//         & > .stButton {
+//           clear      : both;
+//           display    : block !important;
+//           font-size  : $font-size-base;
+//           font-weight: normal;
+//           line-height: $line-height-base;
+//           margin     : 0;
+//           padding    : 3px 20px;
+//           white-space: nowrap;
+//
+//           .chicklets {
+//             font-family: inherit;
+//             font-size  : inherit;
+//             height     : auto;
+//             line-height: inherit;
+//           }
+//         }
+//       }
+//     }
+//
+//     .license {
+//       float: right;
+//
+//       .title {
+//         font-weight : bold;
+//         margin-right: 5px;
+//       }
+//
+//       img {
+//         height: 31px;
+//       }
+//     }
+//
+//     @media all and (max-width:385px) {
+//       a.btn-default {
+//         margin-right: 5px;
+//       }
+//
+//       .license .title {
+//         display: none;
+//       }
+//     }
+//   }
+//
+//   .map {
+//     margin-top: .8rem;
+//     width     : 100%;
+//   }
+//
+//   .asset-block {
+//     margin-bottom: $line-height-computed;
+//   }
+//
+//   .related-assets {
+//     margin-bottom: 15px;
+//
+//     .related-asset {
+//       background-position: 50% 50%;
+//       background-size    : cover;
+//       display            : inline-block;
+//       height             : 100px;
+//       margin             : 1%;
+//       position           : relative;
+//       width              : 23%;
+//       // border: 1px solid $brand-primary;
+//     }
+//   }
+//
+//   h1 {
+//     font-size: 1.6rem;
+//   }
+//
+//   h2,
+//   .lead {
+//     font-size: 1.3rem;
+//   }
+//
+//   h3 {
+//     font-size    : 1rem;
+//     margin-bottom: 0;
+//     margin-top   : 0;
+//   }
+//
+//   h2 {
+//     margin-bottom: .3rem;
+//   }
+//
+//   .lead {
+//     font-weight  : 300;
+//     margin-bottom: 0;
+//     white-space  : pre-line;
+//   }
+//
+//   th {
+//     padding-right: .4rem;
+//   }
+//
+//   th,
+//   td {
+//     display: inline-block;
+//   }
+//
+//   .asset-icon {
+//     color      : $black;
+//     display    : none;
+//     font-size  : 3em;
+//     left       : 1em;
+//     position   : absolute;
+//     text-shadow: -1px -1px 0 $asset--icon-shadow-color, 1px -1px 0 $asset--icon-shadow-color, -1px 1px 0 $asset--icon-shadow-color, 1px 1px 0 $asset--icon-shadow-color;
+//     top        : 1em;
+//
+//     &.small {
+//       bottom   : .3em;
+//       font-size: 1em;
+//       left     : .3em;
+//     }
+//   }
+// }
+//
+// .collapsable-section-header {
+//   a {
+//     svg {
+//       fill  : $brand-primary;
+//       height: 1em;
+//       margin: 0 .2em 0 0;
+//       width : 1em;
+//     }
+//
+//     &.collapsed svg:first-child {
+//       display: none;
+//     }
+//
+//     &:not(.collapsed) svg:nth-child(2) {
+//       display: none;
+//     }
+//   }
+// }
+//
+// // Zoom in and out cursor
+// .asset .col-md-6 .zoomable {
+//   cursor: zoom-in;
+// }
+//
+// .asset .col-md-12 .zoomable {
+//   cursor: zoom-out;
+// }
+//
+// @media (min-width: $medium-size) {
+//   .item {
+//     h1 {
+//       font-size: 2.6rem;
+//     }
+//
+//     .lead {
+//       font-size: 1.6rem;
+//     }
+//
+//     h2 {
+//       font-size: 1.6rem;
+//     }
+//   }
+// }
