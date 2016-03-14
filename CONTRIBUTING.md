@@ -1,27 +1,27 @@
 
 # Retrospectives
 
-## 8 March
-
 ### Continue
 - Godt med god hjælp.
-- Godt samarbejde, god stemning. 
+- Godt samarbejde, god stemning.
 - Inddrage Jacob i beslutninger.
-- Acceptere stories løbende.
 - Fuld ejerskab over stories.
 - Velbeskrevne userstories.
 - God scrummaster styring.
 - Reflekteret over kodestil.
+- Tage aktiv valg ved introduktion af ny kodestil.
 
 ### Stop
-- Pushe kode vi ikke har testet. 
-- Refrakturering - peer review.
+- Pushe kode vi ikke har testet.
+- Refrakturering - peer review inden påbegynde.
+- Ikke starte længere ned i backloggen.
 
 ### Start
-- Peer review seneste 3 timer inden. 
+- Ikke flytte stories kritikløst over til næste sprint.
+- Ingen dato på retrospektives.
+- Peer review seneste 3 timer inden.
 - Ingen nye features herefter.
-- Skrive personagnostisk retrospektiv.
-- Tage aktiv valg ved introduktion af ny kodestil.
+- Snakke mere sammen, når vi introducerer nye komponenter/filer.
 
 ## 8 March
 
