@@ -1,66 +1,71 @@
 @import 'variables';
 
 .overlay__container {
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba($topbar-color, 0.9);
-  z-index: 90000;
-  opacity: 0;
+  background: rgba($topbar-color, .9);
+  bottom    : 0;
+  left      : 0;
+  opacity   : 0;
+  position  : fixed;
+  right     : 0;
+  top       : 0;
   transition: opacity $anim-duration $anim-exit;
   visibility: hidden;
+  z-index   : 90000;
 
   &--active {
     visibility: visible;
   }
 
   &--anim-in {
-    opacity: 1;
+    opacity                   : 1;
     transition-timing-function: $anim-entrance;
 
     .overlay__content {
-      transform: scale(1);
+      transform                 : translate3d(-50%, -50%, 0) scale(1);
       transition-timing-function: $anim-entrance;
     }
   }
 
   .overlay__hide {
     position: absolute;
-    top: 2rem;
-    right: 2rem;
+    right   : 2rem;
+    top     : 2rem;
 
     svg {
-      fill: $white;
-      width: 3rem;
-      height: 3rem;
       cursor: pointer;
+      fill  : $white;
+      height: 3rem;
+      width : 3rem;
     }
   }
 }
 
 .overlay__content {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  max-width: 15rem;
-  height: 30rem;
-  margin: auto;
-  color: $white;
+  color     : $white;
+  left      : 50%;
+  position  : absolute;
   text-align: center;
-
-  transform: scale(0.5);
+  top       : 50%;
+  transform : translate3d(-50%, -50%, 0) scale(.5);
   transition: transform $anim-duration $anim-exit;
 
-  .note {
-    color: rgba($white, 0.7);
-    margin-bottom: 0.5rem;
+  > :not(h2) {
+    display     : block;
+    margin-left : auto;
+    margin-right: auto;
+    max-width   : 15rem;
   }
 
   .btn {
-    width: 100%;
-    margin-bottom: 0.5rem;
+    margin-bottom: .5rem;
+    width        : 100%;
   }
 
-  .overlay__licence {
+  .overlay__license {
     text-align: left;
-    img { height: 2.5rem; }
+
+    img {
+      height: 2.5rem;
+    }
   }
 }
