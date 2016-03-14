@@ -16,7 +16,8 @@ block content
           data-longitude=metadata.longitude,
           data-heading=metadata.heading)
     - var address = metadata.address || metadata.street;
-    - var title = metadata.short_title || 'Ingen titel'
+    - var title = metadata.short_title
+    - var description = metadata.description;
     - var filename = metadata.filename.toLowerCase();
     - var zipcode = metadata.zipcode;
     - var city = metadata.city;
@@ -43,10 +44,14 @@ block content
             include includes/license
 
           .col-md-8
-            h1= title
-            if(metadata.description)
+            if(title)
+              h1= title
+              if(description)
+                p.sr-only Beskrivelse
+                p.lead= description
+            else if(description)
               p.sr-only Beskrivelse
-              p.lead= metadata.description
+              h1= description
               
           .col-md-4.social
             a
