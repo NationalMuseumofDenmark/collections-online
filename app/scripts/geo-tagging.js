@@ -16,6 +16,7 @@ var mapHeading = 0;
   var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapContainer = $('#geotagging');
   var $map = $('#geotagging-map');
+  var $editCoordinates = $('#edit-coordinates');
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
@@ -44,7 +45,7 @@ var mapHeading = 0;
     ga('send', 'event', GA_EVENT_CATEGORY, 'error', msg);
   };
 
-  $('.call-to-action .btn').click(function() {
+  $editCoordinates.click(function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Show map',
       'Via call-to-action');
     $(this).hide();
@@ -54,7 +55,7 @@ var mapHeading = 0;
   $('[data-action=edit-place]').click(function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Show map', 'Editing');
     $('html, body').animate({
-      scrollTop: $('#geotagging-anchor').offset().top - 100
+      scrollTop: $mapContainer.offset().top - 100
     }, 400);
     showMap();
   });
@@ -62,7 +63,7 @@ var mapHeading = 0;
   $('.map-buttons .hide-map').click(function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
     $('.map-container').slideUp('slow', function() {
-      $('.call-to-action .btn').show();
+      $editCoordinates.show();
       $(window).unbind('resize', resizeMap);
     });
   });
