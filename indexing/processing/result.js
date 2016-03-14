@@ -9,12 +9,19 @@ var cip = require('../../lib/services/natmus-cip');
 
 var processAsset = require('./asset');
 
-var ASSETS_PER_REQUEST = 40;
+var ASSETS_PER_REQUEST = 100;
+var VISION_ASSETS_PER_REQUEST = 40;
 
 var ADDITIONAL_FIELDS = [
   '{af4b2e71-5f6a-11d2-8f20-0000c0e166dc}', // Related Sub Assets
   '{af4b2e72-5f6a-11d2-8f20-0000c0e166dc}' // Related Master Assets
 ];
+
+function assetsPerRequest(state) {
+  var isIndexVision = state.indexVisionTags || state.indexVisionTagsForce;
+  return (isIndexVision ? VISION_ASSETS_PER_REQUEST : ASSETS_PER_REQUEST);
+}
+
 
 function getResultPage(state, result, pointer, rowCount) {
   return cip.request([
@@ -48,7 +55,7 @@ function getResultPage(state, result, pointer, rowCount) {
 function processResultPage(state, result, pageIndex) {
   var catalog = result.catalog;
 
-  var totalPages = Math.ceil(result.total_rows / ASSETS_PER_REQUEST);
+  var totalPages = Math.ceil(result.total_rows / assetsPerRequest(state));
   console.log('Queuing page number',
               pageIndex + 1,
               'of',
@@ -59,8 +66,8 @@ function processResultPage(state, result, pageIndex) {
 
   return getResultPage(state,
                        result,
-                       pageIndex * ASSETS_PER_REQUEST,
-                       ASSETS_PER_REQUEST)
+                       pageIndex * assetsPerRequest(state),
+                       assetsPerRequest(state))
   .then(function(assetsOnPage) {
     console.log('Got metadata of page',
                 pageIndex + 1,
@@ -86,7 +93,7 @@ function processNextResultPage(state, result, indexedAssetsIds) {
     indexedAssetsIds = [];
   }
   // Do we still have pages in the result?
-  if (result.pageIndex * ASSETS_PER_REQUEST < result.total_rows) {
+  if (result.pageIndex * assetsPerRequest(state) < result.total_rows) {
     return processResultPage(state, result, result.pageIndex)
     .then(function(newIndexedAssetIds) {
       // Increment the page index of this catalog
