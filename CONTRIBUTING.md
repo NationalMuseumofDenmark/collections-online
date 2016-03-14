@@ -23,6 +23,28 @@
 - Skrive personagnostisk retrospektiv.
 - Tage aktiv valg ved introduktion af ny kodestil.
 
+## 8 March
+
+### Continue
+- Godt med god hjælp.
+- Godt samarbejde, god stemning. 
+- Inddrage Jacob i beslutninger.
+- Acceptere stories løbende.
+- Fuld ejerskab over stories.
+- Velbeskrevne userstories.
+- God scrummaster styring.
+- Reflekteret over kodestil.
+
+### Stop
+- Pushe kode vi ikke har testet. 
+- Refrakturering - peer review.
+
+### Start
+- Peer review seneste 3 timer inden. 
+- Ingen nye features herefter.
+- Skrive personagnostisk retrospektiv.
+- Tage aktiv valg ved introduktion af ny kodestil.
+
 
 ## 29 February
 
