@@ -6,6 +6,9 @@ $(function() {
   var Snackbar = window.Snackbar;
   Snackbar.init();
 
+  var AssetPage = window.AssetPage;
+  AssetPage.init();
+
   // We only want zooming on asset's primary images.
   $('.asset .zoomable').click(function() {
     var $thisRow = $(this).closest('.image-row');

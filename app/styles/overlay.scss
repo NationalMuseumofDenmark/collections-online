@@ -1,0 +1,65 @@
+@import 'variables';
+
+.overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba($topbar-color, 0.9);
+  z-index: 90000;
+  opacity: 0;
+  transition: opacity $anim-duration $anim-exit;
+  visibility: hidden;
+
+  &--active {
+    visibility: visible;
+  }
+
+  &--anim-in {
+    opacity: 1;
+    transition-timing-function: $anim-entrance;
+
+    .overlay__content {
+      transform: scale(1);
+      transition-timing-function: $anim-entrance;
+    }
+  }
+
+  .overlay__hide {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+
+    svg {
+      fill: $white;
+      width: 3rem;
+      height: 3rem;
+    }
+  }
+}
+
+.overlay__content {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  max-width: 15rem;
+  height: 30rem;
+  margin: auto;
+  color: $white;
+  text-align: center;
+
+  transform: scale(0.5);
+  transition: transform $anim-duration $anim-exit;
+
+  .note {
+    color: rgba($white, 0.7);
+    margin-bottom: 0.5rem;
+  }
+
+  .btn {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+
+  .overlay__licence {
+    text-align: left;
+    img { height: 2.5rem; }
+  }
+}
