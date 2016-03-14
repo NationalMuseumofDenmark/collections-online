@@ -59,6 +59,7 @@ module.exports = function(state) {
       state.indexVisionTags = false;
       state.indexVisionTagsAPIFilter = null;
       state.indexVisionTagsForce = false;
+      state.indexVisionTagsPauseCounter = 0;
       if (argv.vision) {
         state.indexVisionTags = true;
       }

@@ -22,6 +22,8 @@ module.exports = function(state, metadata) {
   var isPublished = reviewState === 3 || reviewState === 4;
 
   if ((runForced || runDefault) && isPublished) {
+    // increment the counter so we can keep track on when to pause and slow down
+    state.indexVisionTagsPauseCounter++;
 
     // Still here. Let's grab the image directly from Cumulus.
     var url = config.cip.baseURL + '/preview/thumbnail/';
