@@ -5,8 +5,8 @@ include ../../mixins
 
 if latitude && longitude
   tr
-    th.col-xs-4 #{row.title}:
-    td.col-xs-12
+    th.col-xs-6.col-sm-4 #{row.title}:
+    td.col-xs-6.col-sm-8
        = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
        if options.showGeotagging
          | &nbsp;
@@ -14,10 +14,9 @@ if latitude && longitude
            +icon('pencil')
   tr
    td(colspan='2')
-     a(href='http://maps.google.dk/maps?ll=' + latitude + ',' + longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + latitude + ',' + longitude, target='blank')
-       img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + latitude + ',' + longitude + '&sensor=false&zoom=14')
+     #asset-map
 
 else if options.showCallToAction
   tr
-    td
+    td(colspan='2')
       button.btn.btn-small.btn-primary#edit-coordinates Tilføj placering

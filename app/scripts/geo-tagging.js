@@ -2,6 +2,7 @@
 
 var resizeMap;
 var map;
+var assetMap;
 var streetView;
 var marker;
 var headingMarker;
@@ -20,6 +21,7 @@ var mapHeading = 0;
   var $mapOverlay = $('.map-container .overlay');
   var $editCoordinates = $('#edit-coordinates');
   var $assetImageWrapper = $('.fullscreen-wrap');
+  var $assetMap = $('#asset-map');
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
@@ -138,8 +140,7 @@ var mapHeading = 0;
     var latitude = $('.asset').data('latitude');
     var longitude = $('.asset').data('longitude');
     var heading = $('.asset').data('heading');
-
-    map = new google.maps.Map(document.getElementById('geotagging-map'), {
+    var mapOptions = {
       center: initialPosition,
       zoom: 16,
       mapTypeControlOptions: {
@@ -155,7 +156,17 @@ var mapHeading = 0;
           visibility: 'off'
         }]
       }]
-    });
+    };
+
+    map = new google.maps.Map(document.getElementById('geotagging-map'),
+      mapOptions);
+
+    // Show asset location on map if asset has a geolocation
+    if ($assetMap) {
+      assetMap = new google.maps.Map(document.getElementById('asset-map'),
+        mapOptions);
+      assetMap.setCenter({lat: latitude, lng: longitude});
+    }
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls
