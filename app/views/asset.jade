@@ -22,9 +22,9 @@ block content
     - var title = metadata.short_title
     - var zipcode = metadata.zipcode;
     .asset-top
-      .container-fluid
+      .container-fluid.fullscreen-wrap
         .row
-          .col-xs-12.fullscreen-wrap
+          .col-xs-12
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
@@ -43,6 +43,10 @@ block content
             else if(player === "video")
               video(width="100%", controls)
                 source(src=sources.video, type="video/mp4")
+          .col-md-6.map-wrap
+            if showGeotagging
+              include geotagging.jade
+      .container-fluid
         .row.asset-info
           .col-sm-8
             if(title)
@@ -119,8 +123,7 @@ block content
 
   .overlay__container(data-content="asset-download")
     .overlay__content 
-      h2 Download
-      .note Klik for at downloade i en specifik størrelse
+      h2 Download - vælg størrelse
       a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
         | Lille (#{sources.imageSet.download800.size} jpg)
       a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
@@ -133,7 +136,7 @@ block content
         a.btn.btn-primary(href='#{sources.download}') 
           | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
-      .overlay__licence
+      .overlay__license
         if(metadata.license)
           - var license = helpers.licenseTag(metadata.license.id);
           if(license)
@@ -142,36 +145,15 @@ block content
           else
             | #{metadata.license.displaystring}
  
+  .facebook-group
+    h2 Tusind tak for din hjælp!
+    p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
+      a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
+    br
+    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
+      a(href="").ok trykke her.
 
 
-    //-       .asset-tools
-    //-         .btn-group.dropup
-    //-           a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-    //-             +icon('download')
-    //-           ul.dropdown-menu(role='menu')
-    //-             - if(filename.match('.tif$') || filename.match('.tiff$'))
-    //-               li
-    //-                 a(href='#{sources.imageSet.download800}') Lille
-    //-               li.divider
-    //-               li
-    //-                 a(href='#{sources.imageSet.download1200}') Mellem
-    //-               li.divider
-    //-               li
-    //-                 a(href='#{sources.imageSet.download2000}') Stor
-    //-               li.divider
-    //-             li
-    //-               a(href='#{sources.download}') Original
-    //-         span.license
-    //-           span.title Licens:
-    //-           - if(metadata.license)
-    //-             - var license = helpers.licenseTag(metadata.license.id);
-    //-             - if(license)
-    //-               a(href=license.url, rel='license', target='_blank')
-    //-                 img(src=license.img, alt=license.short)
-    //-             - else
-    //-               | #{metadata.license.displaystring}
-    //-           - else
-    //-             | -
     //-       .related-assets
     //-         each asset in relatedAssets.visible
     //-           a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
@@ -187,61 +169,3 @@ block content
     //-               a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
     //-                 href=asset.href)
     //- 
-    //-     .col-md-6.col-xs-12.pull-right.text-row
-    //- 
-    //-       // Title
-    //-       header
-    //-         h1(itemprop='name')= title
-    //- 
-    //-       // Description
-    //-       if(metadata.description)
-    //-         p.sr-only Beskrivelse
-    //-         p(itemprop='description', class='lead')= metadata.description
-    //- 
-    //-       // Tags
-    //-       h2 Emneord
-    //-       .tags-container
-    //-         if(!metadata.tags)
-    //-           span.no-tags Der er ingen emneord endnu.
-    //-         each tag in metadata.tags || []
-    //-           +tag(tag)
-    //- 
-    //-       // User tags
-    //-       h3 Emneord tilføjet af brugere
-    //-       .tags-container.crowd
-    //-         if(!metadata.tags_crowd)
-    //-           span.no-tags Der er ikke tilføjet nogle emneord endnu.
-    //- 
-    //-         each tag in metadata.tags_crowd || []
-    //-           +tag(tag)
-    //-         .material-input
-    //-           input(type='text', required='')
-    //-           span.bar
-    //-           label Indtast nyt emneord og tryk enter
-    //-         .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
-    //- 
-    //-       // Vision tags
-    //-       h3 Emneord fundet ved automatisk billedanalyse
-    //-       .tags-container.vision
-    //-         if(!metadata.tags_vision || metadata.tags_vision.length === 0)
-    //-           .btn.btn-primary.btn-small#vision-btn
-    //-             +loader('Analysér billede')
-    //-         each tag in metadata.tags_vision || []
-    //-           +tag(tag)
-    //-             span.add-tag
-    //-               +icon('thumbup')
-    //-         button.btn.btn-primary.btn-small.edit-vision-tags(
-    //-           class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
-    //-             'hidden' : undefined
-    //-         ) Bekræft emneord
-    //-         button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
-    //- 
-    //-       
-    //- 
-    //- .facebook-group
-    //-   h2 Tusind tak for din hjælp!
-    //-   p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
-    //-     a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
-    //-   br
-    //-   p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
-    //-     a(href="").ok trykke her.

@@ -1,10 +1,5 @@
 @import 'variables';
 @import 'geotagging';
-$asset--icon-shadow-color: #fff;
-$asset-subject-headline-height: 3rem;
-$asset-max-height: 78vh;
-
-.asset {}
 
 .asset-top {
   background-color: $topbar-color;
@@ -20,23 +15,30 @@ $asset-max-height: 78vh;
   }
 
   .fullscreen-wrap {
-    position: relative;
     background-color: $topbar-color;
+    margin-left     : -15px;
+    margin-right    : -15px;
+    position        : relative;
+
+    @media (min-width: $small-size) {
+      margin: 0 auto;
+    }
   }
 }
 
 .image-wrapper {
   max-height: $asset-max-height;
+  position  : relative;
 
   @media (min-width: $medium-size) {
     height: $asset-max-height;
   }
 
   img {
-    display       : block;
-    margin        : 0 auto;
-    max-height    : 100%;
-    max-width     : 100%;
+    display   : block;
+    margin    : 0 auto;
+    max-height: 100%;
+    max-width : 100%;
 
     @media (min-width: $medium-size) {
       // Wanted to use flexbox for this but distorted the image
@@ -60,16 +62,20 @@ $asset-max-height: 78vh;
   }
 
   svg {
+    cursor: pointer;
     fill  : $white;
     height: $icon-size;
     width : $icon-size;
-    cursor: pointer;
   }
 }
 
 .asset-middle {
   background-color: $gray-lighter;
   padding         : 1rem 0 2rem;
+
+  input {
+    background-color: rgba($white, 0);
+  }
 
   @media (min-width: $medium-size) {
     h2,
@@ -87,6 +93,19 @@ $asset-max-height: 78vh;
       line-height: $asset-subject-headline-height * 1.7;
     }
   }
+
+  .add-tag {
+    display    : none;
+    margin-left: .2rem;
+    transform  : translateY(-2px);
+  }
+
+  .confirming {
+    .add-tag {
+      display: inline-block;
+    }
+  }
+
 }
 
 .asset-bottom {
@@ -103,8 +122,8 @@ $asset-max-height: 78vh;
   }
 
   // ensure som padding on mobile
-  td {
-    padding-left: 1rem;
+  th {
+    padding-right: 1rem;
 
     @media (min-width: $small-size) {
       padding-left: 0;
@@ -112,8 +131,6 @@ $asset-max-height: 78vh;
   }
 
 }
-
-
 
 // // Assets
 // .item {
@@ -129,55 +146,9 @@ $asset-max-height: 78vh;
 //
 //   }
 //
-//   .add-tag {
-//     display    : none;
-//     margin-left: .2rem;
-//     transform  : translateY(-2px);
-//   }
-//
-//   .confirming {
-//     .add-tag {
-//       display: inline-block;
-//     }
-//   }
-//
 //   .asset-tools {
 //     margin-bottom: $line-height-computed;
 //     margin-top   : $line-height-computed;
-//
-//     .dropdown-menu {
-//       min-width: 145px;
-//
-//       > li {
-//         > a,
-//         & > .stButton {
-//           color: $gray !important;
-//
-//           &:hover,
-//           &:focus {
-//             background: $gray-lighter;
-//             color     : $gray !important;
-//           }
-//         }
-//
-//         & > .stButton {
-//           clear      : both;
-//           display    : block !important;
-//           font-size  : $font-size-base;
-//           font-weight: normal;
-//           line-height: $line-height-base;
-//           margin     : 0;
-//           padding    : 3px 20px;
-//           white-space: nowrap;
-//
-//           .chicklets {
-//             font-family: inherit;
-//             font-size  : inherit;
-//             height     : auto;
-//             line-height: inherit;
-//           }
-//         }
-//       }
 //     }
 //
 //     .license {

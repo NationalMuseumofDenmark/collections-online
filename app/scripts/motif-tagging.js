@@ -20,9 +20,9 @@ var ga;
   var $crowdBtn = $('#crowd-btn');
   var $crowdTags = $('.tags-container.crowd');
   var $crowdInput = $('.tags-container.crowd input');
-  var $item = $('.item');
-  var catalogAlias = $item.data('catalog');
-  var itemId = $item.data('id');
+  var $asset = $('.asset');
+  var catalogAlias = $asset.data('catalog');
+  var assetId = $asset.data('id');
   var showError = function(msg) {
     var $error = $('<div class="alert alert-danger">');
     $error.text(msg);
@@ -65,7 +65,7 @@ var ga;
   }
 
   function saveTag(tag) {
-    var url = '/' + catalogAlias + '/' + itemId + '/save-crowd-tag';
+    var url = '/' + catalogAlias + '/' + assetId + '/save-crowd-tag';
     var data = {
       tag: tag
     };

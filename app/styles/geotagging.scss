@@ -1,12 +1,21 @@
 @import 'variables';
 
-.geotagging {
-  position: relative;
+.map-wrap {
+  display        : none;
+  flex-direction : column;
+  justify-content: center;
+
+  @media (min-width: $medium-size) {
+    min-height: $asset-max-height;
+  }
+
+  &.map-visible {
+    display: flex;
+  }
 }
 
 .map-container {
-  display : none;
-  height  : auto;
+  margin  : 1rem 0;
   position: relative;
 
   .overlay {
@@ -14,17 +23,20 @@
     color           : $white;
     display         : none;
     left            : 0;
+    // safari bug fix
+    margin          : -1px;
     min-height      : 100%;
     padding         : 2.5rem;
     position        : absolute;
+    right           : 0;
     top             : 0;
-    width           : 100%;
-    z-index         : 1;
 
     &.overlay-visible {
       display        : flex;
       flex-direction : column;
       justify-content: center;
+      opacity        : 1;
+      visibility     : visible;
     }
 
     h2 {
@@ -62,6 +74,7 @@
 
   input {
     background-color: $white;
+    color           : $text-color;
     font-size       : $font-size-base;
     font-weight     : 300;
     margin-left     : 12px;
