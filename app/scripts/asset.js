@@ -8,6 +8,7 @@
 
   var ACTION_FULLSCREEN_SHOW = '[data-action="fullscreen-show"]';
   var CONTENT_FULLSCREEN_WRAP = '.fullscreen-wrap';
+  var ASSET_IMAGE_CONTAINER = '.asset-top';
 
 
   var AssetPage = {
@@ -16,8 +17,6 @@
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
-
-
       $(ACTION_FULLSCREEN_SHOW)
         .on('click', this.openFullscreen.bind(this));
     },
@@ -37,6 +36,7 @@
 
     openFullscreen: function() {
       $(CONTENT_FULLSCREEN_WRAP).fullscreen(true);
+      $(ASSET_IMAGE_CONTAINER).addClass('big-screen');
     }
   };
 
@@ -44,6 +44,3 @@
   window.AssetPage = AssetPage;
 
 })(jQuery, window);
-
-
-
