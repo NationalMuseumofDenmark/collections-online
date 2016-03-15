@@ -28,7 +28,6 @@
 
 .image-wrapper {
   max-height: $asset-max-height;
-  min-height: $asset-min-height;
   position  : relative;
 
   @media (min-width: $medium-size) {
@@ -42,7 +41,7 @@
     max-width : 100%;
 
     @media (min-width: $medium-size) {
-      // Wanted to use flexbox for this but distorted the image
+      // I wanted to use flexbox for this but it distorted the image
       left     : 50%;
       position : absolute;
       top      : 50%;
