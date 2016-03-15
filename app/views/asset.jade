@@ -22,9 +22,9 @@ block content
     - var title = metadata.short_title
     - var zipcode = metadata.zipcode;
     .asset-top
-      .container-fluid.fullscreen-wrap
+      .container-fluid
         .row
-          .col-xs-12
+          .col-xs-12.fullscreen-wrap
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
@@ -46,7 +46,6 @@ block content
           .col-md-6.map-wrap
             if showGeotagging
               include geotagging.jade
-      .container-fluid
         .row.asset-info
           .col-sm-8
             if(title)
@@ -63,12 +62,13 @@ block content
               +icon('fullscreen')
             a(data-action="asset-download-show")
               +icon('download')
-            a
-              +icon('facebook')
-            a
-              +icon('twitter')
-            a
-              +icon('email')
+            //- TODO there's a story for this in next sprint
+            //- a
+            //-   +icon('facebook')
+            //- a
+            //-   +icon('twitter')
+            //- a
+            //-   +icon('email')
             
 
     .asset-middle
@@ -109,11 +109,6 @@ block content
                 +tag(tag)
                   span.add-tag
                     +icon('thumbup')
-              button.btn.btn-primary.btn-small.edit-vision-tags(
-                class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
-                  'hidden' : undefined
-              ) Bekræft emneord
-              button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
 
     .asset-bottom
       .container-fluid

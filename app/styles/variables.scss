@@ -1,67 +1,68 @@
 // Colors
-$black                 : #000;
-$white                 : #fff;
-$topbar-color          : #262626;
-$gray-darker           : $black; //lighten(#000, 13.5%) !default; // #222
-$gray-dark             : #333; //lighten(#000, 20%) !default;   // #333
-$gray                  : #555; //lighten(#000, 33.5%) !default; // #555
-$gray-light            : #999; //lighten(#000, 60%) !default;   // #999
-$gray-lighter          : hsl(345, 3%, 88%); //lighten(#000, 93.5%) !default; // #eee
-$brand-primary         : #9e0b0f; // #971623; //#428bca !default;
-$menu-shadow           : rgba(0, 0, 0, .5);
-$menu-no-shadow        : rgba(0, 0, 0, 0);
-$menu-highlight        : rgba(255, 255, 255, .1);
+$black                        : #000;
+$white                        : #fff;
+$topbar-color                 : #262626;
+$gray-darker                  : $black; //lighten(#000, 13.5%) !default; // #222
+$gray-dark                    : #333; //lighten(#000, 20%) !default;   // #333
+$gray                         : #555; //lighten(#000, 33.5%) !default; // #555
+$gray-light                   : #999; //lighten(#000, 60%) !default;   // #999
+$gray-lighter                 : hsl(345, 3%, 88%); //lighten(#000, 93.5%) !default; // #eee
+$brand-primary                : #9e0b0f; // #971623; //#428bca !default;
+$menu-shadow                  : rgba(0, 0, 0, .5);
+$menu-no-shadow               : rgba(0, 0, 0, 0);
+$menu-highlight               : rgba(255, 255, 255, .1);
 
 // Scaffolding
-$body-bg               : $white;
-$text-color            : $gray-dark;
-$link-color            : $brand-primary;
-$link-hover-color      : lighten($link-color, 10%);
+$body-bg                      : $white;
+$text-color                   : $gray-dark;
+$link-color                   : $brand-primary;
+$link-hover-color             : lighten($link-color, 10%);
 
 // Typography
-$font-family-sans-serif: 'Nationale', sans-serif;
-$font-size-base        : 14px;
-$line-height-base      : 1.6;
-$headings-font-weight  : 600;
-$border-radius-base    : 0;
-$border-radius-large   : 0;
-$border-radius-small   : 0;
-$input-border-focus    : $brand-primary;
+$font-family-sans-serif       : 'Nationale', sans-serif;
+$font-size-base               : 14px;
+$line-height-base             : 1.6;
+$headings-font-weight         : 600;
+$border-radius-base           : 0;
+$border-radius-large          : 0;
+$border-radius-small          : 0;
+$input-border-focus           : $brand-primary;
 
 // Animation
-$anim-duration         : 300ms;
-$anim-duration-long    : 400ms;
-$anim-entrance         : ease-out;
-$anim-exit             : ease-in;
-$anim-default          : $anim-duration ease;
+$anim-duration                : 300ms;
+$anim-duration-long           : 400ms;
+$anim-entrance                : ease-out;
+$anim-exit                    : ease-in;
+$anim-default                 : $anim-duration ease;
 
 // Menu
-$menu-width            : 280px;
-$menu-width-small      : 440px;
-$topbar-height         : 80px;
+$menu-width                   : 280px;
+$menu-width-small             : 440px;
+$topbar-height                : 80px;
 
 // Breakpoints
-$extra-small-size      : 480px;
-$extra-small-size-min  : $extra-small-size + 1px;
-$small-size            : 768px;
-$medium-size           : 992px;
-$large-size            : 1070px;
+$extra-small-size             : 480px;
+$extra-small-size-min         : $extra-small-size + 1px;
+$small-size                   : 768px;
+$medium-size                  : 992px;
+$large-size                   : 1070px;
 
 // item
-$button-bg             : $gray-light;
-$snackbar-bg           : $gray-dark;
-$snackbar-front        : $white;
+$button-bg                    : $gray-light;
+$snackbar-bg                  : $gray-dark;
+$snackbar-front               : $white;
 
 // Footer
-$footer-text-color     : $gray-dark;
+$footer-text-color            : $gray-dark;
 
 //z-indexes
-$snackbar-zindex       : 1000;
+$snackbar-zindex              : 1000;
 
 // SVG
-$icon-size             : 24px;
+$icon-size                    : 24px;
 
 // Asset
-$asset--icon-shadow-color: #fff;
+$asset--icon-shadow-color     : #fff;
 $asset-subject-headline-height: 3rem;
-$asset-max-height: 78vh;
+$asset-max-height             : calc(100vh - #{$topbar-height}*2.5);
+$asset-min-height             : 70vh;
