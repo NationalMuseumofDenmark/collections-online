@@ -64,7 +64,8 @@ function processAsset(state, metadata, transformations) {
       console.log('Successfully indexed ' + resp._id);
       return resp._id;
     }, function(err) {
-      console.error('An error occured!', err.stack || err.message || err);
+      console.error('An error occured! Asset: ' + metadata.catalog + '-' +
+                    metadata.id, err.stack || err.message || err);
       return new AssetIndexingError(metadata.catalog, metadata.id, err);
     });
 }
