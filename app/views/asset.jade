@@ -22,9 +22,9 @@ block content
     - var title = metadata.short_title
     - var zipcode = metadata.zipcode;
     .asset-top
-      .container-fluid
+      .container-fluid.fullscreen-wrap
         .row
-          .col-xs-12.fullscreen-wrap
+          .col-xs-12
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
@@ -46,6 +46,7 @@ block content
           .col-md-6.map-wrap
             if showGeotagging
               include geotagging.jade
+      .container-fluid
         .row.asset-info
           .col-sm-8
             if(title)
