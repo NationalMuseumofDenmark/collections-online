@@ -117,6 +117,20 @@ var ga;
     }
   }
 
+  function confirmVisionTags() {
+    if (hasVisionTags()) {
+      $(VISION_TAGS_SELECTOR).addClass('confirming').on('click', function(e) {
+        e.preventDefault();
+        var $tag = $(this).closest('[data-tag]');
+        var tagName = $tag.attr('data-tag');
+
+        addTag(tagName);
+        ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
+        return false;
+      });
+    }
+  }
+
   // ACTIONS
   $visionBtn.click(function() {
     $(this).addClass('loading disabled');
@@ -148,6 +162,7 @@ var ga;
       addTag();
       ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Button click');
     } else {
+      confirmVisionTags();
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
       $crowdNoTags.hide();
@@ -190,34 +205,6 @@ var ga;
   }, {
     name: 'tags',
     source: typeaheadTags
-  });
-
-
-  // Vision tags
-
-  $editVisionTags.on('click', function(e) {
-    $editVisionTags.addClass('hidden');
-    $cancelVisionTags.removeClass('hidden');
-    $(VISION_TAGS_SELECTOR).addClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).on('click', function(e) {
-      e.preventDefault();
-      var $tag = $(this).closest('[data-tag]');
-      var tagName = $tag.attr('data-tag');
-
-      addTag(tagName);
-      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
-      return false;
-    });
-  });
-
-  $cancelVisionTags.on('click', function(e) {
-    $editVisionTags.removeClass('hidden');
-    $cancelVisionTags.addClass('hidden');
-    $(VISION_TAGS_SELECTOR).removeClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).off('click');
-    $(ADD_VISION_TAG_SELECTOR).off('click');
   });
 
 })(jQuery);
