@@ -47,6 +47,25 @@
   }
 }
 
+// Full blown image
+.container-fluid.big-image {
+  max-width: none;
+  padding  : 0;
+
+  .image-wrapper {
+    cursor    : zoom-out;
+    height    : auto;
+    max-height: none;
+    padding   : 0;
+
+    img {
+      max-height: none;
+      position  : static;
+      transform : none;
+    }
+  }
+}
+
 .social {
   text-align: right;
 
