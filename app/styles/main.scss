@@ -36,6 +36,13 @@ body {
   max-width: $large-size;
 }
 
+@media (max-width: $small-size) {
+  .small-bleed {
+    padding-left : 0;
+    padding-right: 0;
+  }
+}
+
 .sprite {
   display: none;
 }
