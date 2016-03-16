@@ -24,7 +24,7 @@ block content
     .asset-top
       .container-fluid
         .row
-          .col-xs-12.small-bleed
+          .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
@@ -60,7 +60,7 @@ block content
               
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
-              a(data-action="asset-image-size-toggle").hidden-xs
+              a(data-action="asset-image-size-toggle")
                 +icon('zoom-in')
             a(data-action="asset-download-show")
               +icon('download')
