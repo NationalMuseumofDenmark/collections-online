@@ -6,10 +6,8 @@
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
 
-  var ACTION_FULLSCREEN_SHOW = '[data-action="fullscreen-show"]';
-  var CONTENT_FULLSCREEN_WRAP = '.fullscreen-wrap';
-  var ASSET_IMAGE_CONTAINER = '.asset-top';
-
+  // var ACTION_FULLSCREEN_SHOW = '[data-action="fullscreen-show"]';
+  // var CONTENT_FULLSCREEN_WRAP = '.image-wrapper';
 
   var AssetPage = {
     init: function() {
@@ -17,8 +15,8 @@
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
-      $(ACTION_FULLSCREEN_SHOW)
-        .on('click', this.openFullscreen.bind(this));
+      // $(ACTION_FULLSCREEN_SHOW)
+      //   .on('click', this.openFullscreen.bind(this));
     },
 
     actionAssetDownloadShow: function(show) {
@@ -34,12 +32,10 @@
       }
     },
 
-    openFullscreen: function() {
-      $(CONTENT_FULLSCREEN_WRAP).fullscreen(true);
-      $(ASSET_IMAGE_CONTAINER).addClass('big-screen');
-    }
+    // openFullscreen: function() {
+    //   $(CONTENT_FULLSCREEN_WRAP).fullscreen(true);
+    // }
   };
-
 
   window.AssetPage = AssetPage;
 

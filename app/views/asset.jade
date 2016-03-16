@@ -24,9 +24,9 @@ block content
     .asset-top
       .container-fluid
         .row
-          .col-xs-12.fullscreen-wrap
+          .col-xs-12
             if(player === 'image-single' || player === 'image-single-animated')
-              .image-wrapper
+              a(href=sources.image, target='_blank').image-wrapper
                 img(src=sources.image, alt=title)
             else if(player === "image-rotation")
               .rotation-wrapper 
@@ -58,8 +58,9 @@ block content
               h1= description
               
           .col-sm-4.social
-            a(data-action="fullscreen-show")
-              +icon('fullscreen')
+            if(player === 'image-single' || player === 'image-single-animated')
+              a(href=sources.image, target='_blank')
+                +icon('fullscreen')
             a(data-action="asset-download-show")
               +icon('download')
             //- TODO there's a story for this in next sprint
