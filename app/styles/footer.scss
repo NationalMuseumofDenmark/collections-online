@@ -1,22 +1,13 @@
 footer {
-  background : $gray-lighter;
-  color      : $footer-text-color;
-  font-weight: 600;
-  padding    : 3rem 1rem;
-  text-align : center;
+  background: $footer-background-color;
+  color     : $footer-text-color;
+  padding   : 1rem 0;
 
-  span {
-    display: block;
-  }
-
-  svg {
-    fill  : $footer-text-color;
-    height: $icon-size;
-    width : $icon-size;
-
-    &:hover,
-    &:focus {
-      fill: darken($footer-text-color, 10%);
+  span,
+  a {
+    &:not(:last-child):after {
+      color  : $footer-text-color;
+      content: '\00a0\00a0/\00a0\00a0';
     }
   }
 }
