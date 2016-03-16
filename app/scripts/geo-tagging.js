@@ -21,7 +21,6 @@ var mapHeading = 0;
   var $mapOverlay = $('.map-container .overlay');
   var $editCoordinates = $('#edit-coordinates');
   var $assetImageWrapper = $('.fullscreen-wrap');
-  var $assetMap = $('#asset-map');
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
@@ -162,7 +161,7 @@ var mapHeading = 0;
       mapOptions);
 
     // Show asset location on map if asset has a geolocation
-    if ($assetMap) {
+    if (document.getElementById('asset-map')) {
       assetMap = new google.maps.Map(document.getElementById('asset-map'),
         mapOptions);
       assetMap.setCenter({lat: latitude, lng: longitude});
