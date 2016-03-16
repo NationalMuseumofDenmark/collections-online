@@ -10,10 +10,6 @@ block before-content
 
 block content
   section.container-fluid
-    if results.is_front
-      include includes/frontpage-slider
-
-    .clearfix
 
     if results.is_search
       h1.page-header Søgning på "#{filters.freetext}"
