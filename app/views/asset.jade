@@ -22,9 +22,9 @@ block content
     - var title = metadata.short_title
     - var zipcode = metadata.zipcode;
     .asset-top
-      .container-fluid.small-bleed
+      .container-fluid
         .row
-          .col-xs-12
+          .col-xs-12.small-bleed
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
