@@ -18,6 +18,7 @@ var ga;
   var $visionTags = $('.tags-container.vision');
   var $crowdNoTags = $('.crowd .no-tags');
   var $crowdBtn = $('#crowd-btn');
+  var $stopCrowdBtn = $('#stop-crowd-btn');
   var $crowdTags = $('.tags-container.crowd');
   var $crowdInput = $('.tags-container.crowd input');
   var $asset = $('.asset');
@@ -165,7 +166,18 @@ var ga;
       confirmVisionTags();
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
+      $stopCrowdBtn.removeClass('hidden');
       $crowdNoTags.hide();
+    }
+  });
+
+  $stopCrowdBtn.click(function() {
+    $('.confirming').removeClass('confirming').unbind('click');
+    $crowdInput.parent('span').removeClass('focused valid');
+    $crowdTags.removeClass('inputting');
+    $stopCrowdBtn.addClass('hidden');
+    if (hasCrowdTags() === false) {
+      $crowdNoTags.show();
     }
   });
 
@@ -182,15 +194,12 @@ var ga;
   $crowdInput.focus(function() {
     $(this).parent('span').addClass('focused valid');
   });
+
   $crowdInput.blur(function() {
     var $this = $(this);
     $this.parent('span').removeClass('focused');
     if ($this.val().length === 0) {
       $this.parent('span').removeClass('valid');
-      $crowdTags.removeClass('inputting');
-      if (hasCrowdTags() === false) {
-        $crowdNoTags.show();
-      }
     }
   });
 
