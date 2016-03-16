@@ -50,13 +50,15 @@
 // Full blown image
 .container-fluid.big-image {
   max-width: none;
-  padding  : 0;
+
+  .small-bleed {
+    padding: 0;
+  }
 
   .image-wrapper {
     cursor    : zoom-out;
     height    : auto;
     max-height: none;
-    padding   : 0;
 
     img {
       max-height: none;
@@ -69,7 +71,7 @@
 .social {
   text-align: right;
 
-  > * {
+  > a {
     display: inline-block;
 
     &:not(:last-child) {
@@ -78,7 +80,6 @@
   }
 
   svg {
-    cursor: pointer;
     fill  : $white;
     height: $icon-size;
     width : $icon-size;

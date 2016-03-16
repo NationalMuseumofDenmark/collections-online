@@ -60,7 +60,7 @@ block content
               
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
-              a(data-action="asset-image-size-toggle")
+              a(data-action="asset-image-size-toggle").hidden-xs
                 +icon('zoom-in')
             a(data-action="asset-download-show")
               +icon('download')
