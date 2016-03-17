@@ -1,15 +1,13 @@
-- if (results) {if (results.is_front) {var fp = true}}
-header.topbar(class=fp ? 'frontpage' : '')
+header.topbar(class=frontpage ? 'frontpage' : '')
   .container-fluid
     nav
       .topbar-items
-        if !fp
-          a.logo-wrap(href='/')
-            .logo
-              +icon('logo')
-            .logo-text.hidden-sm.hidden-xs
-              span Nationalmuseets
-              span Samlinger Online
+        a.logo-wrap(href='/', class=frontpage ? 'hidden-md hidden-lg' : '')
+          .logo
+            +icon('logo')
+          .logo-text.hidden-xs
+            span Nationalmuseets
+            span Samlinger Online
         - var path = (req.path).split('/')
         form.search-box(method='get', action='/')
           .input-group
@@ -27,3 +25,9 @@ header.topbar(class=fp ? 'frontpage' : '')
         a(href='#')#heading-categories-menu.hamburger
           span.sr-only Kataloger og kategorier
           +icon('menu')
+      .logo-wrap.big-wrap.hidden-sm.hidden-xs
+        .logo
+          +icon('logo')
+        .logo-text
+          h1 Nationalmuseets Samlinger Online
+          .tag-line Udforsk 53.682 billeder og billeder af ting fra Nationalmuseets arkiver

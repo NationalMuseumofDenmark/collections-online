@@ -113,10 +113,14 @@ block content
                   span.add-tag
                     +icon('thumbup')
 
+    .asset-bottom
+      .container-fluid
+        .row
+          != assetLayout(metadata)
+
           if relatedAssets && relatedAssets.length > 0
             .col-xs-12
               h2 Relaterede billeder
-
               .related-assets
                 .related-assets__next-arrow 
                   +icon('chevron-right')
@@ -126,11 +130,6 @@ block content
                   each asset in relatedAssets
                     a(href=asset.href)
                       img(data-lazy="#{asset.src}")
-
-    .asset-bottom
-      .container-fluid
-        .row
-          != assetLayout(metadata)
 
 
   .overlay__container(data-content="asset-download")

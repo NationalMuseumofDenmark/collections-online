@@ -1,6 +1,7 @@
 @import 'variables';
 @import 'geotagging';
 @import 'slick';
+$slider-arrow-size: 4rem;
 
 .asset-top {
   background-color: $topbar-color;
@@ -49,6 +50,18 @@
       top      : 50%;
       transform: translate3d(-50%, -50%, 0);
     }
+  }
+}
+
+.rotation-wrapper {
+  margin: 0 auto;
+
+  @media (min-width: $medium-size) {
+    max-width: 85%;
+  }
+
+  @media (min-width: $large-size) {
+    max-width: 70%;
   }
 }
 
@@ -101,7 +114,6 @@
     background-color: rgba($white, 0);
   }
 
-
   @media (min-width: $medium-size) {
     h2,
     b {
@@ -123,26 +135,24 @@
 .related-assets {
   position: relative;
 
-  .slider {
-  }
-
   .related-assets__next-arrow,
   .related-assets__prev-arrow {
-    position: absolute;
-    top: 50%;
-    margin-top: -2rem;
-    cursor:  pointer;
-    opacity: 0.2;
+    cursor    : pointer;
+    margin-top: -$slider-arrow-size / 2;
+    opacity   : .2;
+    position  : absolute;
+    top       : 50%;
 
     &:hover {
-      opacity: 0.5;
+      opacity: .5;
     }
 
     svg {
-      width: 4rem;
-      height: 4rem;
+      height: $slider-arrow-size;
+      width : $slider-arrow-size;
     }
   }
+
   .related-assets__next-arrow {
     right: -5rem;
   }
@@ -197,4 +207,3 @@
   margin-top: .5rem;
   width     : 100%;
 }
-

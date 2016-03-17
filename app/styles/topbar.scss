@@ -7,6 +7,20 @@
   svg {
     fill: $white;
   }
+
+  h1,
+  .tag-line {
+    margin: 0;
+  }
+
+  h1 {
+    font-size: 1.9rem;
+    margin-top: .3rem;
+  }
+
+  .tag-line {
+    font-size: 1rem;
+  }
 }
 
 .topbar-items {
@@ -21,7 +35,20 @@
 
 // Frontpage styling
 .frontpage {
-  height: 200px;
+  @media (min-width: $medium-size) {
+    height: 200px;
+  }
+}
+
+.big-wrap {
+  margin-top: .5rem;
+
+  .logo {
+    svg {
+      height: 60px;
+      width : 60px;
+    }
+  }
 }
 
 // Logo and logo text
