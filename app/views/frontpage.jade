@@ -2,11 +2,11 @@ extends index
 
 
 block content
-  .container-fluid
+  .container-fluid.content
     .row
       each catalog in catalogs
         if catalog
-          .col-sm-4= catalog.name
-            img(src=catalog.sources.thumbnail)
-
+          a.cards.col-xs-6.col-sm-4(href="/#{catalog.alias}")
+            .thumb(style="background-image: url('#{catalog.sources.thumbnail}')")
+            h2= catalog.name
   include includes/footer

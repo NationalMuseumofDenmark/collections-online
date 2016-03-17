@@ -1,0 +1,14 @@
+.cards {
+  color          : inherit;
+  padding-bottom : 1rem;
+  padding-top    : 1rem;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  h2 {
+    margin: .4rem 0;
+  }
+}

@@ -3,6 +3,7 @@
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'asset';
 @import 'button';
+@import 'cards';
 @import 'facebook-group';
 @import 'filtering';
 @import 'footer';
@@ -11,6 +12,7 @@
 @import 'menu';
 @import 'search-results';
 @import 'tab-focus';
+@import 'thumbnails';
 @import 'typography';
 @import 'to-top';
 @import 'topbar';
@@ -31,6 +33,11 @@ body {
     cursor : pointer;
     outline: none;
   }
+}
+
+.content {
+  padding-bottom: 2rem;
+  padding-top   : 2rem;
 }
 
 .container-fluid {

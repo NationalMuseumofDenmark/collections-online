@@ -19,7 +19,8 @@
   }
 
   .tag-line {
-    font-size: 1rem;
+    font-size     : 1.1rem;
+    letter-spacing: .03rem;
   }
 }
 
@@ -41,6 +42,7 @@
 }
 
 .big-wrap {
+  cursor    : default;
   margin-top: .5rem;
 
   .logo {

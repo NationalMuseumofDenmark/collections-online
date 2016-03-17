@@ -7,9 +7,15 @@ footer {
 
   span,
   a {
+    color: $footer-text-color;
+
     &:not(:last-child)::after {
       color  : $footer-text-color;
       content: '\00a0\00a0/\00a0\00a0';
+    }
+
+    &:hover {
+      text-decoration: none;
     }
   }
 }
