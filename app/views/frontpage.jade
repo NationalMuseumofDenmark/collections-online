@@ -7,6 +7,6 @@ block content
       each catalog in catalogs
         if catalog
           .col-sm-4= catalog.name
-            img(src=catalog.sources.imageSet[400].src)
+            img(src=catalog.sources.thumbnail)
 
   include includes/footer
