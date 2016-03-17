@@ -113,7 +113,7 @@ block content
                   span.add-tag
                     +icon('thumbup')
 
-          if relatedAssets.length > 0
+          if relatedAssets && relatedAssets.length > 0
             .col-xs-12
               h2 Relaterede billeder
               .slider
@@ -139,9 +139,9 @@ block content
           | Stor (#{sources.imageSet.download2000.size} jpg)
         a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
           | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-        if(filename.match('.tif$') || filename.match('.tiff$'))
-          a.btn.btn-primary(href='#{sources.download}') 
-            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+      if(filename.match('.tif$') || filename.match('.tiff$'))
+        a.btn.btn-primary(href='#{sources.download}') 
+          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
       .overlay__license
         if(metadata.license)
