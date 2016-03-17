@@ -1,9 +1,8 @@
-- if (results) {if (results.is_front) {var fp = true}}
-header.topbar(class=fp ? 'frontpage' : '')
+header.topbar(class=frontpage ? 'frontpage' : '')
   .container-fluid
     nav
       .topbar-items
-        if !fp
+        if !frontpage
           a.logo-wrap(href='/')
             .logo
               +icon('logo')
