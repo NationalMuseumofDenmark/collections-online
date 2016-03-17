@@ -5,6 +5,8 @@ block content
   .container-fluid
     .row
       each catalog in catalogs
-        .col-sm-4= catalog.name
+        if catalog
+          .col-sm-4= catalog.name
+            img(src=catalog.sources.imageSet[400].src)
 
   include includes/footer
