@@ -19,15 +19,16 @@ header.topbar(class=frontpage ? 'frontpage' : '')
               autocomplete="off",
               value=req.query.q || '')
             span.input-group-btn
-              button.btn-search.btn.btn-primary
+              button.btn-search.btn
                 span.sr-only Søg
                 +icon('search')
         a(href='#')#heading-categories-menu.hamburger
           span.sr-only Kataloger og kategorier
           +icon('menu')
-      .logo-wrap.big-wrap.hidden-sm.hidden-xs
-        .logo
-          +icon('logo')
-        .logo-text
-          h1 Nationalmuseets Samlinger Online
-          .tag-line Udforsk #{totalAssets} billeder og billeder af ting fra Nationalmuseets arkiver
+      if frontpage
+        .logo-wrap.big-wrap.hidden-sm.hidden-xs
+          .logo
+            +icon('logo')
+          .logo-text
+            h1 Nationalmuseets Samlinger Online
+            .tag-line Udforsk #{totalAssets} billeder fra Nationalmuseets samling
