@@ -12,7 +12,7 @@
   }
 
   .asset-info {
-    padding-top: 2rem;
+    padding-top: 1rem;
   }
 }
 
@@ -78,7 +78,8 @@
   text-align: right;
 
   > a {
-    display: inline-block;
+    display   : inline-block;
+    margin-top: .5rem;
 
     &:not(:last-child) {
       margin-right: $icon-size / 2;

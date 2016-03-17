@@ -1,11 +1,13 @@
 footer {
-  background: $footer-background-color;
-  color     : $footer-text-color;
-  padding   : 1rem 0;
+  background    : $footer-background-color;
+  color         : $footer-text-color;
+  font-size     : 90%;
+  letter-spacing: .02em;
+  padding       : 1rem 0;
 
   span,
   a {
-    &:not(:last-child):after {
+    &:not(:last-child)::after {
       color  : $footer-text-color;
       content: '\00a0\00a0/\00a0\00a0';
     }

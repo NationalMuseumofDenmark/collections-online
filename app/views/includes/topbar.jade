@@ -1,13 +1,15 @@
-header.topbar
+- if (results) {if (results.is_front) {var fp = true}}
+header.topbar(class=fp ? 'frontpage' : '')
   .container-fluid
     nav
       .topbar-items
-        a.logo-wrap(href='/')
-          .logo
-            +icon('logo')
-          .logo-text.hidden-sm.hidden-xs
-            span Nationalmuseets
-            span Samlinger Online
+        if !fp
+          a.logo-wrap(href='/')
+            .logo
+              +icon('logo')
+            .logo-text.hidden-sm.hidden-xs
+              span Nationalmuseets
+              span Samlinger Online
         - var path = (req.path).split('/')
         form.search-box(method='get', action='/')
           .input-group

@@ -4,105 +4,121 @@
   position        : relative;
   z-index         : 10;
 
-  .topbar-items {
-    align-items: center;
-    display    : flex;
-    height     : $topbar-height;
-
-    > a {
-      flex-shrink: 0;
-    }
-  }
-
   svg {
     fill: $white;
   }
+}
 
-  // Logo and logo text
-  .logo-wrap {
-    align-items    : center;
-    display        : flex;
+.topbar-items {
+  align-items: center;
+  display    : flex;
+  height     : $topbar-height;
+
+  > a {
+    flex-shrink: 0;
+  }
+}
+
+// Frontpage styling
+.frontpage {
+  height: 200px;
+}
+
+// Logo and logo text
+.logo-wrap {
+  align-items: center;
+  display    : flex;
+
+  &:hover {
     text-decoration: none;
   }
+}
 
-  .logo,
-  .logo-text {
-    display: inline-block;
+.logo,
+.logo-text {
+  display: inline-block;
+}
+
+.logo {
+  margin-right: 10px;
+
+  svg {
+    height        : 40px;
+    vertical-align: middle;
+    width         : 40px;
+  }
+}
+
+.logo-text {
+  color       : $white;
+  font-size   : 90%;
+  margin-right: 10px;
+
+  span {
+    display: block;
+  }
+}
+
+// Search box
+.search-box {
+  flex-grow  : 1;
+  flex-shrink: 1;
+  margin     : 0 10px;
+  position   : relative;
+  text-align : right;
+
+  .input-group {
+    float    : right;
+    max-width: 20rem;
   }
 
-  .logo {
-    margin-right: 10px;
+  .btn-search {
+    line-height: 1.2;
+    margin-left: 0;
+  }
 
-    svg {
-      height        : 40px;
-      vertical-align: middle;
-      width         : 40px;
+  svg {
+    height: 18px;
+    width : 18px;
+  }
+
+  .btn,
+  .form-control {
+    border       : 0;
+    border-radius: 0;
+    height       : $input-height-base + 2;
+
+    &:active,
+    &:focus {
+      box-shadow: none;
+      outline   : none;
     }
   }
 
-  .logo-text {
-    color       : $white;
-    margin-right: 10px;
+  input {
+    border       : 0;
+    border-radius: 0;
+    line-height  : 1.25;
+  }
+}
 
-    span {
-      display: block;
-    }
+// Menu button
+.hamburger {
+  align-items    : center;
+  display        : flex;
+  height         : 100%;
+  padding-left   : 10px;
+  padding-right  : 2px;
+  text-decoration: none;
+
+  svg {
+    height: 25px;
+    width : 25px;
   }
 
-  // Search box
-  .search-box {
-    flex-shrink: 1;
-    margin     : 0 10px;
-    position   : relative;
-
-    .btn-search {
-      line-height: 1.2;
-      margin-left: 0;
-    }
-
-    svg {
-      height: 18px;
-      width : 18px;
-    }
-
-    .btn,
-    .form-control {
-      border       : 0;
-      border-radius: 0;
-      height       : $input-height-base + 2;
-
-      &:active,
-      &:focus {
-        box-shadow: none;
-        outline   : none;
-      }
-    }
-
-    input {
-      border       : 0;
-      border-radius: 0;
-      line-height  : 1.25;
-    }
-  }
-
-  // Menu button
-  .hamburger {
-    align-items    : center;
-    display        : flex;
-    height         : 100%;
-    padding-left   : 10px;
-    padding-right  : 2px;
-    text-decoration: none;
-
-    svg {
-      height: 25px;
-      width : 25px;
-    }
-
-    .catalog-name {
-      color    : $white;
-      font-size: 20px;
-      margin   : 0 0 0 15px;
-    }
+  .catalog-name {
+    color    : $white;
+    font-size: 20px;
+    margin   : 0 0 0 15px;
   }
 }
