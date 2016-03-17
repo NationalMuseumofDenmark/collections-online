@@ -101,6 +101,7 @@
     background-color: rgba($white, 0);
   }
 
+
   @media (min-width: $medium-size) {
     h2,
     b {
@@ -115,6 +116,42 @@
 
     b {
       line-height: $asset-subject-headline-height * 1.7;
+    }
+  }
+}
+
+.related-assets {
+  position: relative;
+
+  .slider {
+  }
+
+  .related-assets__next-arrow,
+  .related-assets__prev-arrow {
+    position: absolute;
+    top: 50%;
+    margin-top: -2rem;
+    cursor:  pointer;
+    opacity: 0.2;
+
+    &:hover {
+      opacity: 0.5;
+    }
+
+    svg {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+  .related-assets__next-arrow {
+    right: -5rem;
+  }
+
+  .related-assets__prev-arrow {
+    left: -5rem;
+
+    svg {
+      transform: rotate(180deg);
     }
   }
 }
@@ -160,3 +197,4 @@
   margin-top: .5rem;
   width     : 100%;
 }
+

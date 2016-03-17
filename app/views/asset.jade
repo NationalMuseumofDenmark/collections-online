@@ -29,7 +29,7 @@ block content
               .image-wrapper
                 img(src=sources.image, alt=title)
             else if(player === "image-rotation")
-              .rotation-wrapper 
+              .rotation-wrapper
                 picture(alt=title)
                   source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
                   source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
@@ -116,10 +116,16 @@ block content
           if relatedAssets && relatedAssets.length > 0
             .col-xs-12
               h2 Relaterede billeder
-              .slider
-                each asset in relatedAssets
-                  a(href=asset.href)
-                    img(data-lazy="#{asset.src}")
+
+              .related-assets
+                .related-assets__next-arrow 
+                  +icon('chevron-right')
+                .related-assets__prev-arrow
+                  +icon('chevron-right')
+                .slider
+                  each asset in relatedAssets
+                    a(href=asset.href)
+                      img(data-lazy="#{asset.src}")
 
     .asset-bottom
       .container-fluid

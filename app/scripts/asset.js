@@ -20,13 +20,17 @@
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
-      if ($(CONTENT_SLIDER)) {
+
+      if ($(CONTENT_SLIDER).size() > 0) {
         $(CONTENT_SLIDER).slick({
           lazyLoad: 'progressive',
           infinite: true,
           speed: 300,
           slidesToShow: 6,
           slidesToScroll: 6,
+          prevArrow: '.related-assets__prev-arrow',
+          nextArrow: '.related-assets__next-arrow',
+
           responsive: [{
             breakpoint: 768,
             settings: {
