@@ -2,4 +2,7 @@ extends index
 
 
 block content
-  | walla! :D
+  .container-fluid
+    .row
+      each catalog in catalogs
+        .col-sm-4= catalog.name
