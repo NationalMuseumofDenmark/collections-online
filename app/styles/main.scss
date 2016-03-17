@@ -10,7 +10,6 @@
 @import 'loading';
 @import 'menu';
 @import 'search-results';
-@import 'slider';
 @import 'tab-focus';
 @import 'typography';
 @import 'to-top';
@@ -29,12 +28,20 @@ body {
   position  : relative;
 
   a {
+    cursor : pointer;
     outline: none;
   }
 }
 
 .container-fluid {
   max-width: $large-size;
+}
+
+@media (max-width: $small-size) {
+  .small-bleed {
+    padding-left : 0;
+    padding-right: 0;
+  }
 }
 
 .sprite {

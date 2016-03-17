@@ -21,12 +21,14 @@
 }
 
 h1 {
-  font-size: 1.62rem;
+  font-size  : 1.62rem;
+  line-height: 1.25;
 }
 
 h2,
 .lead {
-  font-size: 1.31rem;
+  font-size    : 1.31rem;
+  margin-bottom: .3rem;
 }
 
 @media (min-width: $medium-size) {

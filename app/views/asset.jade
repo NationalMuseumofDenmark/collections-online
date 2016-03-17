@@ -22,9 +22,9 @@ block content
     - var title = metadata.short_title
     - var zipcode = metadata.zipcode;
     .asset-top
-      .container-fluid.fullscreen-wrap
+      .container-fluid
         .row
-          .col-xs-12
+          .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrapper
                 img(src=sources.image, alt=title)
@@ -59,16 +59,18 @@ block content
               h1= description
               
           .col-sm-4.social
-            a(data-action="fullscreen-show")
-              +icon('fullscreen')
+            if(player === 'image-single' || player === 'image-single-animated')
+              a(data-action="asset-image-size-toggle")
+                +icon('zoom-in')
             a(data-action="asset-download-show")
               +icon('download')
-            a
-              +icon('facebook')
-            a
-              +icon('twitter')
-            a
-              +icon('email')
+            //- TODO there's a story for this in next sprint
+            //- a
+            //-   +icon('facebook')
+            //- a
+            //-   +icon('twitter')
+            //- a
+            //-   +icon('email')
             
 
     .asset-middle
@@ -97,6 +99,7 @@ block content
                 span.bar
                 label Indtast nyt emneord og tryk enter
               .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
+              .btn.btn-link.btn-small.hidden#stop-crowd-btn Afslut
 
           .col-md-4
             // Vision tags
@@ -109,11 +112,14 @@ block content
                 +tag(tag)
                   span.add-tag
                     +icon('thumbup')
-              button.btn.btn-primary.btn-small.edit-vision-tags(
-                class=!metadata.tags_vision || metadata.tags_vision.length === 0 ? 
-                  'hidden' : undefined
-              ) Bekræft emneord
-              button.btn.btn-link.btn-small.cancel-vision-tags.hidden Færdig
+
+          if relatedAssets.length > 0
+            .col-xs-12
+              h2 Relaterede billeder
+              .slider
+                each asset in relatedAssets
+                  a(href=asset.href)
+                    img(data-lazy="#{asset.src}")
 
     .asset-bottom
       .container-fluid
@@ -124,17 +130,18 @@ block content
   .overlay__container(data-content="asset-download")
     .overlay__content 
       h2 Download - vælg størrelse
-      a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
-        | Lille (#{sources.imageSet.download800.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
-        | Mellem (#{sources.imageSet.download1200.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
-        | Stor (#{sources.imageSet.download2000.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
-        | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-      if(filename.match('.tif$') || filename.match('.tiff$'))
-        a.btn.btn-primary(href='#{sources.download}') 
-          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+      if(player === 'image-single' || player === 'image-single-animated')
+        a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+          | Lille (#{sources.imageSet.download800.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+          | Mellem (#{sources.imageSet.download1200.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+          | Stor (#{sources.imageSet.download2000.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+          | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
+        if(filename.match('.tif$') || filename.match('.tiff$'))
+          a.btn.btn-primary(href='#{sources.download}') 
+            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
       .overlay__license
         if(metadata.license)
@@ -152,20 +159,3 @@ block content
     br
     p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
       a(href="").ok trykke her.
-
-
-    //-       .related-assets
-    //-         each asset in relatedAssets.visible
-    //-           a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-    //-             href=asset.href)
-    //-         - if(relatedAssets.additional.length > 0)
-    //-           h2.collapsable-section-header
-    //-             a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-    //-               +icon('minus')
-    //-               +icon('plus')
-    //-               | Flere relaterede
-    //-           div#additional-related.collapse
-    //-             each asset in relatedAssets.additional
-    //-               a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-    //-                 href=asset.href)
-    //- 

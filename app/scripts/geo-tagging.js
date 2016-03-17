@@ -2,6 +2,7 @@
 
 var resizeMap;
 var map;
+var assetMap;
 var streetView;
 var marker;
 var headingMarker;
@@ -19,13 +20,12 @@ var mapHeading = 0;
   var $map = $('#geotagging-map');
   var $mapOverlay = $('.map-container .overlay');
   var $editCoordinates = $('#edit-coordinates');
-  var $assetImageWrapper = $('.fullscreen-wrap');
+  var $imageColumn = $('.img-col');
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
   resizeMap = function() {
-    var mapHeight = $map.width() * 0.8;
-    $map.height(mapHeight);
+    $map.height($map.width());
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(center);
@@ -35,8 +35,9 @@ var mapHeading = 0;
     if (!window.localStorage.getItem('geotagging-overlay-closed')) {
       $mapOverlay.addClass('overlay-visible');
     }
-    $assetImageWrapper.addClass('col-md-6');
+    $imageColumn.addClass('col-md-6');
     $mapWrap.addClass('map-visible');
+    $('.big-image').removeClass('big-image');
     $(window).bind('resize', resizeMap).trigger('resize');
     $('html, body').animate({
       scrollTop: $mapWrap.offset().top - 100
@@ -45,7 +46,7 @@ var mapHeading = 0;
 
   var hideMap = function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
-    $assetImageWrapper.removeClass('col-md-6');
+    $imageColumn.removeClass('col-md-6');
     $mapWrap.removeClass('map-visible');
     $(window).unbind('resize', resizeMap);
     $editCoordinates.removeClass('disabled');
@@ -138,8 +139,7 @@ var mapHeading = 0;
     var latitude = $('.asset').data('latitude');
     var longitude = $('.asset').data('longitude');
     var heading = $('.asset').data('heading');
-
-    map = new google.maps.Map(document.getElementById('geotagging-map'), {
+    var mapOptions = {
       center: initialPosition,
       zoom: 16,
       mapTypeControlOptions: {
@@ -155,7 +155,17 @@ var mapHeading = 0;
           visibility: 'off'
         }]
       }]
-    });
+    };
+
+    map = new google.maps.Map(document.getElementById('geotagging-map'),
+      mapOptions);
+
+    // Show asset location on map if asset has a geolocation
+    if (document.getElementById('asset-map')) {
+      assetMap = new google.maps.Map(document.getElementById('asset-map'),
+        mapOptions);
+      assetMap.setCenter({lat: latitude, lng: longitude});
+    }
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls

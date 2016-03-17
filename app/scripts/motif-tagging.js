@@ -18,6 +18,7 @@ var ga;
   var $visionTags = $('.tags-container.vision');
   var $crowdNoTags = $('.crowd .no-tags');
   var $crowdBtn = $('#crowd-btn');
+  var $stopCrowdBtn = $('#stop-crowd-btn');
   var $crowdTags = $('.tags-container.crowd');
   var $crowdInput = $('.tags-container.crowd input');
   var $asset = $('.asset');
@@ -117,6 +118,20 @@ var ga;
     }
   }
 
+  function confirmVisionTags() {
+    if (hasVisionTags()) {
+      $(VISION_TAGS_SELECTOR).addClass('confirming').on('click', function(e) {
+        e.preventDefault();
+        var $tag = $(this).closest('[data-tag]');
+        var tagName = $tag.attr('data-tag');
+
+        addTag(tagName);
+        ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
+        return false;
+      });
+    }
+  }
+
   // ACTIONS
   $visionBtn.click(function() {
     $(this).addClass('loading disabled');
@@ -148,9 +163,21 @@ var ga;
       addTag();
       ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Button click');
     } else {
+      confirmVisionTags();
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
+      $stopCrowdBtn.removeClass('hidden');
       $crowdNoTags.hide();
+    }
+  });
+
+  $stopCrowdBtn.click(function() {
+    $('.confirming').removeClass('confirming').unbind('click');
+    $crowdInput.parent('span').removeClass('focused valid');
+    $crowdTags.removeClass('inputting');
+    $stopCrowdBtn.addClass('hidden');
+    if (hasCrowdTags() === false) {
+      $crowdNoTags.show();
     }
   });
 
@@ -167,15 +194,12 @@ var ga;
   $crowdInput.focus(function() {
     $(this).parent('span').addClass('focused valid');
   });
+
   $crowdInput.blur(function() {
     var $this = $(this);
     $this.parent('span').removeClass('focused');
     if ($this.val().length === 0) {
       $this.parent('span').removeClass('valid');
-      $crowdTags.removeClass('inputting');
-      if (hasCrowdTags() === false) {
-        $crowdNoTags.show();
-      }
     }
   });
 
@@ -190,34 +214,6 @@ var ga;
   }, {
     name: 'tags',
     source: typeaheadTags
-  });
-
-
-  // Vision tags
-
-  $editVisionTags.on('click', function(e) {
-    $editVisionTags.addClass('hidden');
-    $cancelVisionTags.removeClass('hidden');
-    $(VISION_TAGS_SELECTOR).addClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).on('click', function(e) {
-      e.preventDefault();
-      var $tag = $(this).closest('[data-tag]');
-      var tagName = $tag.attr('data-tag');
-
-      addTag(tagName);
-      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
-      return false;
-    });
-  });
-
-  $cancelVisionTags.on('click', function(e) {
-    $editVisionTags.removeClass('hidden');
-    $cancelVisionTags.addClass('hidden');
-    $(VISION_TAGS_SELECTOR).removeClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).off('click');
-    $(ADD_VISION_TAG_SELECTOR).off('click');
   });
 
 })(jQuery);

@@ -1,6 +1,27 @@
 {
   "sections": [
     {
+      "title": "Sted",
+      "rows": [
+        {
+          "title": "Adresse",
+          "template": "= address || street"
+        }, {
+          "title": "By",
+          "template": "= city"
+        }, {
+          "title": "Topnr",
+          "template": "= topno"
+        }, {
+          "title": "Koordinater",
+          "type": "map-coordinates",
+          "fields": {
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        }
+      ]
+    }, {
       "title": "Tid",
       "rows": [
         {
@@ -20,27 +41,6 @@
         }, {
           "title": "Tidsnote",
           "template": "= timenote"
-        }
-      ]
-    }, {
-      "title": "Sted",
-      "rows": [
-        {
-          "title": "Adresse",
-          "template": "= address || street"
-        }, {
-          "title": "By",
-          "template": "= city"
-        }, {
-          "title": "Topnr",
-          "template": "= topno"
-        }, {
-          "title": "Koordinater",
-          "type": "map-coordinates",
-          "fields": {
-            "latitude": "latitude",
-            "longitude": "longitude"
-          }
         }
       ]
     }, {
