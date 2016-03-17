@@ -9,7 +9,8 @@
     "masonry": "~4.0.0",
     "picturefill": "~3.0.2",
     "scrollToTop": "1.0.3",
-    "typeahead.js": "~0.11.1"
+    "typeahead.js": "~0.11.1",
+    "slick-carousel": "^1.5.9"
   },
   "devDependencies": {},
   "overrides": {

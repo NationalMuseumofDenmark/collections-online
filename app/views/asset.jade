@@ -113,6 +113,14 @@ block content
                   span.add-tag
                     +icon('thumbup')
 
+          if relatedAssets.length > 0
+            .col-xs-12
+              h2 Relaterede billeder
+              .slider
+                each asset in relatedAssets
+                  a(href=asset.href)
+                    img(data-lazy="#{asset.src}")
+
     .asset-bottom
       .container-fluid
         .row
@@ -122,17 +130,18 @@ block content
   .overlay__container(data-content="asset-download")
     .overlay__content 
       h2 Download - vælg størrelse
-      a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
-        | Lille (#{sources.imageSet.download800.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
-        | Mellem (#{sources.imageSet.download1200.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
-        | Stor (#{sources.imageSet.download2000.size} jpg)
-      a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
-        | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-      if(filename.match('.tif$') || filename.match('.tiff$'))
-        a.btn.btn-primary(href='#{sources.download}') 
-          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+      if(player === 'image-single' || player === 'image-single-animated')
+        a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+          | Lille (#{sources.imageSet.download800.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+          | Mellem (#{sources.imageSet.download1200.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+          | Stor (#{sources.imageSet.download2000.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+          | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
+        if(filename.match('.tif$') || filename.match('.tiff$'))
+          a.btn.btn-primary(href='#{sources.download}') 
+            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
       .overlay__license
         if(metadata.license)
@@ -150,20 +159,3 @@ block content
     br
     p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
       a(href="").ok trykke her.
-
-
-    //-       .related-assets
-    //-         each asset in relatedAssets.visible
-    //-           a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-    //-             href=asset.href)
-    //-         - if(relatedAssets.additional.length > 0)
-    //-           h2.collapsable-section-header
-    //-             a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-    //-               +icon('minus')
-    //-               +icon('plus')
-    //-               | Flere relaterede
-    //-           div#additional-related.collapse
-    //-             each asset in relatedAssets.additional
-    //-               a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-    //-                 href=asset.href)
-    //- 

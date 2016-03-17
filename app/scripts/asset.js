@@ -6,6 +6,7 @@
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
   var CONTENT_BIG_IMG_WRAP = '.image-wrapper';
   var CONTENT_BIG_IMG_CLASS = 'big-image';
+  var CONTENT_SLIDER = '.slider';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
 
@@ -19,6 +20,26 @@
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
+      $(CONTENT_SLIDER).slick({
+        lazyLoad: 'ondemand',
+        infinite: true,
+        speed: 300,
+        slidesToShow: 4,
+        slidesToScroll: 4,
+        responsive: [{
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+          }
+        }, {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        }]
+      });
     },
 
     actionAssetDownloadShow: function(show) {

@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'geotagging';
+@import 'slick';
 
 .asset-top {
   background-color: $topbar-color;
@@ -115,17 +116,17 @@
       line-height: $asset-subject-headline-height * 1.7;
     }
   }
+}
 
+.add-tag {
+  display    : none;
+  margin-left: .2rem;
+  transform  : translateY(-2px);
+}
+
+.confirming {
   .add-tag {
-    display    : none;
-    margin-left: .2rem;
-    transform  : translateY(-2px);
-  }
-
-  .confirming {
-    .add-tag {
-      display: inline-block;
-    }
+    display: inline-block;
   }
 }
 
