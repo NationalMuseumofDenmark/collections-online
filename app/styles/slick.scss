@@ -1,4 +1,5 @@
 @import '../bower_components/slick-carousel/slick/slick.scss';
+$slider-padding: 15px;
 
 .slider {
   margin-top: .5rem;
@@ -6,4 +7,18 @@
   img {
     width: 100%;
   }
+}
+
+.slick-slider {
+  overflow: hidden;
+}
+
+.slick-list {
+  margin-left : -$slider-padding;
+  margin-right: -$slider-padding;
+}
+
+.slick-slide {
+  padding-left : $slider-padding;
+  padding-right: $slider-padding;
 }

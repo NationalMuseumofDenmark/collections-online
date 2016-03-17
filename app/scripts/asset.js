@@ -20,26 +20,28 @@
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
-      $(CONTENT_SLIDER).slick({
-        lazyLoad: 'ondemand',
-        infinite: true,
-        speed: 300,
-        slidesToShow: 4,
-        slidesToScroll: 4,
-        responsive: [{
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-          }
-        }, {
-          breakpoint: 480,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2
-          }
-        }]
-      });
+      if ($(CONTENT_SLIDER)) {
+        $(CONTENT_SLIDER).slick({
+          lazyLoad: 'progressive',
+          infinite: true,
+          speed: 300,
+          slidesToShow: 6,
+          slidesToScroll: 6,
+          responsive: [{
+            breakpoint: 768,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 4,
+            }
+          }, {
+            breakpoint: 480,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 3
+            }
+          }]
+        });
+      }
     },
 
     actionAssetDownloadShow: function(show) {
