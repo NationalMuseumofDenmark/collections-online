@@ -24,9 +24,14 @@ $slider-arrow-size: 4rem;
 .image-wrapper {
   cursor    : zoom-in;
   display   : block;
+  //max-height: $asset-max-height;
+  height: $asset-height-small;
   padding   : 0;
   position  : relative;
-  height: $asset-max-height;
+
+  @media (min-width: $medium-size) {
+    height: $asset-max-height;
+  }
 
   @media (min-width: $large-size) {
     padding-left : 15px;
@@ -39,13 +44,13 @@ $slider-arrow-size: 4rem;
     max-height: 100%;
     max-width : 100%;
 
-    @media (min-width: $medium-size) {
+    //@media (min-width: $medium-size) {
       // I wanted to use flexbox for this but it distorted the image
       left     : 50%;
       position : absolute;
       top      : 50%;
       transform: translate3d(-50%, -50%, 0);
-    }
+    //}
   }
 }
 
