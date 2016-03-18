@@ -24,13 +24,9 @@ $slider-arrow-size: 4rem;
 .image-wrapper {
   cursor    : zoom-in;
   display   : block;
-  max-height: $asset-max-height;
   padding   : 0;
   position  : relative;
-
-  @media (min-width: $medium-size) {
-    height: $asset-max-height;
-  }
+  height: $asset-max-height;
 
   @media (min-width: $large-size) {
     padding-left : 15px;
