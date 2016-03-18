@@ -141,7 +141,7 @@ var mapHeading = 0;
     var heading = $('.asset').data('heading');
     var mapOptions = {
       center: initialPosition,
-      zoom: 16,
+      zoom: 13,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         mapTypeIds: [
