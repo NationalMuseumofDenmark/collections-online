@@ -166,6 +166,11 @@ var mapHeading = 0;
         mapOptions);
       assetMap.setCenter({lat: latitude, lng: longitude});
     }
+    marker = new google.maps.Marker({
+      map: assetMap,
+      icon: '/images/map_pin_red.png',
+      position: {lat: latitude, lng: longitude}
+    });
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls
