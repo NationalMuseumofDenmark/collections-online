@@ -8,6 +8,23 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
+
+  - var address = metadata.address || metadata.street;
+  - var zipcode = metadata.zipcode;
+  - var city = metadata.city;
+  - var fullAddr = [];
+
+  - if(address || zipcode || city)
+    - if(address)
+      - fullAddr.push(address)
+    - if(zipcode)
+      - fullAddr.push(zipcode)
+    - if(city)
+      - fullAddr.push(city)
+
+  input#address(type='hidden', value=fullAddr.join(','))
+
+
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
           data-catalog=catalog.alias,

@@ -135,13 +135,13 @@ var mapHeading = 0;
 
   window.initMap = function() {
     var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
-    var address = $('#address').text();
+    var address = $('#address').val();
     var latitude = $('.asset').data('latitude');
     var longitude = $('.asset').data('longitude');
     var heading = $('.asset').data('heading');
     var mapOptions = {
       center: initialPosition,
-      zoom: 13,
+      zoom: 16,
       mapTypeControlOptions: {
         style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
         mapTypeIds: [
@@ -164,6 +164,7 @@ var mapHeading = 0;
     if (document.getElementById('asset-map')) {
       assetMap = new google.maps.Map(document.getElementById('asset-map'),
         mapOptions);
+      assetMap.setZoom(13);
       assetMap.setCenter({lat: latitude, lng: longitude});
     }
     marker = new google.maps.Marker({
