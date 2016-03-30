@@ -1,30 +1,21 @@
 footer {
-  margin: 0 -5px;
-  padding: 0 5px;
-  background: $black;
-}
-.footer {
-  .footer-title {
-    font-size: 18px;
-  }
-  @extend .text-center;
-  padding: 15px;
-  color: $white;
-  border-top: 1px solid $gray-lighter;
-  address {
-    font-weight: 600;
-    span {
-      display: block;
+  background    : $footer-background-color;
+  color         : $footer-text-color;
+  font-size     : 90%;
+  letter-spacing: .02em;
+  padding       : 1rem 0;
+
+  span,
+  a {
+    color: $footer-text-color;
+
+    &:not(:last-child)::after {
+      color  : $footer-text-color;
+      content: '\00a0\00a0/\00a0\00a0';
     }
-    a {
-      color: $white;
-      background: $black;
-      text-decoration: underline;
+
+    &:hover {
+      text-decoration: none;
     }
-  }
-  svg {
-    width: 40px;
-    height: 40px;
-    fill: $white;
   }
 }

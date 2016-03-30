@@ -1,0 +1,45 @@
+@import 'variables';
+
+.tags-container {
+  padding-bottom: .4rem;
+  padding-top   : .6rem;
+
+  .btn {
+    margin-bottom: .5rem;
+    transition     : $anim-default;
+
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+
+  &.crowd {
+    .material-input {
+      display: none;
+    }
+
+    &.inputting {
+      .material-input {
+        display: block;
+      }
+    }
+  }
+
+  .saving {
+    opacity: .5;
+  }
+}
+
+.tag {
+  color           : $white;
+
+  &.saved {
+    cursor: pointer;
+  }
+}
+
+.no-tags {
+  display       : inline-block;
+  margin-right  : .5rem;
+  padding-bottom: .4rem;
+}

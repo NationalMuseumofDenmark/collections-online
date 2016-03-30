@@ -1,18 +1,12 @@
-extends search-results
+extends index
 
-include frontpage-slider
 
-prepend content
-  +FrontPageSlider()
-
-append javascript
-  script.
-    $(window).load(function() {
-       $('.slider').flexslider({
-        animation: "slide",
-        controlNav: false,
-        start: function(slider) {
-          $(window).trigger('resize');
-        }
-      });
-    });
+block content
+  .container-fluid.content
+    .row
+      each catalog in catalogs
+        if catalog
+          a.cards.col-xs-6.col-sm-4(href="/#{catalog.alias}")
+            .thumb(style="background-image: url('#{catalog.sources.thumbnail}')")
+            h2= catalog.name
+  include includes/footer

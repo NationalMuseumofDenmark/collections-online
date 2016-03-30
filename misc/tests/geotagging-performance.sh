@@ -8,17 +8,16 @@ N="100"
 C="1"
 
 #ab \
-#	-n $N -c $C \
-#	-w \
-#	-T 'application/x-www-form-urlencoded; charset=UTF-8' \
-#	-p $DIR/geotagging-test-coords \
-#	http://$HOST/$CATALOG/$ASSET_ID/save-geotag \
-#	> $DIR/geotagging-test-result-$N-$C.html
+#  -n $N -c $C \
+#  -w \
+#  -T 'application/x-www-form-urlencoded; charset=UTF-8' \
+#  -p $DIR/geotagging-test-coords \
+#  http://$HOST/$CATALOG/$ASSET_ID/save-geotag \
+#  > $DIR/geotagging-test-result-$N-$C.html
 
 ab \
-	-n $N -c $C \
-	-T 'application/x-www-form-urlencoded; charset=UTF-8' \
-	-p $DIR/geotagging-test-coords \
-	http://$HOST/$CATALOG/$ASSET_ID/save-geotag \
-	> $DIR/geotagging-result-$N-$C
-
+  -n $N -c $C \
+  -T 'application/x-www-form-urlencoded; charset=UTF-8' \
+  -p $DIR/geotagging-test-coords \
+  http://$HOST/$CATALOG/$ASSET_ID/save-geotag \
+  > $DIR/geotagging-result-$N-$C

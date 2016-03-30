@@ -3,15 +3,14 @@
   "version": "0.0.1",
   "dependencies": {
     "bootstrap-sass-official": "~3.1.1",
-    "FlexSlider": "*",
-    "html5shiv": "3.7.2",
-    "imagesloaded": "~3.1.8",
-    "jquery": "~1.11.0",
-    "jquery-infinite-scroll": "~2.0.2",
-    "masonry": "~3.1.5",
-    "picturefill": "~2.2.0",
+    "jquery-infinite-scroll": "~2.1.0",
+    "imagesloaded": "~4.1.0",
+    "jquery": "~2.2.1",
+    "masonry": "~4.0.0",
+    "picturefill": "~3.0.2",
     "scrollToTop": "1.0.3",
-    "typeahead.js": "~0.10.2"
+    "typeahead.js": "~0.11.1",
+    "slick-carousel": "^1.5.9"
   },
   "devDependencies": {},
   "overrides": {

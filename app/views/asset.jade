@@ -1,231 +1,183 @@
 extends index
 
 append header
-  +assetMeta(item, sources)
-  +shareThisJS()
+  +assetMeta(metadata, sources)
 
 append javascript
   if(showGeotagging)
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-  article(itemscope,
+
+  - var address = metadata.address || metadata.street;
+  - var zipcode = metadata.zipcode;
+  - var city = metadata.city;
+  - var fullAddr = [];
+
+  - if(address || zipcode || city)
+    - if(address)
+      - fullAddr.push(address)
+    - if(zipcode)
+      - fullAddr.push(zipcode)
+    - if(city)
+      - fullAddr.push(city)
+
+  input#address(type='hidden', value=fullAddr.join(','))
+
+
+  article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
-          class='asset item',
-          data-catalog-alias=catalog.alias,
-          data-item-id=item.id,
-          data-latitude=item.latitude,
-          data-longitude=item.longitude,
-          data-heading=item.heading)
-    - var title = item.short_title || 'Ingen titel'
-    .row
-      .col-md-6.col-xs-12.image-row
-          - var filename = item.filename.toLowerCase();
-          - if(player === "image-single" || player === "image-single-animated")
-            .bleed.primary-asset
-              +responsiveImage(title, item, sources)
-          - else if(player === "image-rotation")
-            .bleed.primary-asset
-              +rotationImage(title, item, sources)
-          - else if(player === "audio")
-             audio(controls)
-               source(src=sources.audio)
-          - else if(player === "video")
-            video(width="100%", controls)
-              source(src=sources.video, type="video/mp4")
+          data-catalog=catalog.alias,
+          data-id=metadata.id,
+          data-latitude=metadata.latitude,
+          data-longitude=metadata.longitude,
+          data-heading=metadata.heading)
+    - var address = metadata.address || metadata.street;
+    - var description = metadata.description;
+    - var city = metadata.city;
+    - var filename = metadata.filename.toLowerCase();
+    - var title = metadata.short_title
+    - var zipcode = metadata.zipcode;
+    .asset-top
+      .container-fluid
+        .row
+          .col-xs-12.small-bleed.img-col
+            if(player === 'image-single' || player === 'image-single-animated')
+              .image-wrapper
+                img(src=sources.image, alt=title)
+            else if(player === "image-rotation")
+              .rotation-wrapper
+                picture(alt=title)
+                  source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
+                  source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
+                  source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
+                  source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
+                  a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
+                    img(src=sources.image, alt=title)
+            else if(player === "audio")
+              audio(controls)
+                source(src=sources.audio)
+            else if(player === "video")
+              video(width="100%", controls)
+                source(src=sources.video, type="video/mp4")
+          .col-md-6.map-wrap
+            if showGeotagging
+              include geotagging.jade
+      .container-fluid
+        .row.asset-info
+          .col-sm-8
+            if(title)
+              h1= title
+              if(description)
+                p.sr-only Beskrivelse
+                p.lead= description
+            else if(description)
+              p.sr-only Beskrivelse
+              h1= description
+              
+          .col-sm-4.social
+            if(player === 'image-single' || player === 'image-single-animated')
+              a(data-action="asset-image-size-toggle")
+                +icon('zoom-in')
+            a(data-action="asset-download-show")
+              +icon('download')
+            //- TODO there's a story for this in next sprint
+            //- a
+            //-   +icon('facebook')
+            //- a
+            //-   +icon('twitter')
+            //- a
+            //-   +icon('email')
+            
 
-          .asset-tools
-            .btn-group.dropup
-              a.btn.btn-default.dropdown-toggle(data-toggle='dropdown', role='button') Download
-                +icon('icon-download')
-              ul.dropdown-menu(role='menu')
-                - if(filename.match('.tif$') || filename.match('.tiff$'))
-                  li
-                    a(href='#{sources.image_set.download_800}') Lille
-                  li.divider
-                  li
-                    a(href='#{sources.image_set.download_1200}') Mellem
-                  li.divider
-                  li
-                    a(href='#{sources.image_set.download_2000}') Stor
-                  li.divider
-                li
-                  a(href='#{sources.download}') Original
-            +shareThisHTML()
-            span.licens
-              span.title Licens:
-              - if(item.license)
-                  - var license = helpers.license_tag(item.license.id);
-                  - if(license)
-                    a(href=license.url, rel='license', target='_blank')
-                      img(src=license.img, alt='Creative Commons licens')
-                  - else
-                    | #{item.license.displaystring}
-                - else
-                  | -
-          .related-assets
-            each asset in related_assets.visible
-              a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                href=asset.href)
-            - if(related_assets.additional.length > 0)
-              h2.collapsable-section-header
-                a(href='#additional-related', data-toggle='collapse', data-target='#additional-related').collapsed
-                  +icon('icon-minus')
-                  +icon('icon-plus')
-                  | Flere relaterede
-              div#additional-related.collapse
-                each asset in related_assets.additional
-                  a.related-asset.btn.btn-primary(style='background-image:url(#{asset.src})',
-                    href=asset.href)
+    .asset-middle
+      .container-fluid
+        .row
+          .col-md-4
+            // Tags
+            h2 Emneord
+            .tags-container
+              if(!metadata.tags)
+                span.no-tags Der er ingen emneord endnu.
+              each tag in metadata.tags || []
+                +tag(tag)
 
-      .col-md-6.col-xs-12.pull-right.text-row
-        #geotagging-anchor
-        if(showGeotagging)
-          include geotagging.jade
-        p.catalog
-          | Fra samlingen: 
-          a(href='/#{catalog.alias}') #{catalog.name}
+          .col-md-4
+            // User tags
+            b Tilføjet af brugere
+            .tags-container.crowd
+              if(!metadata.tags_crowd)
+                span.no-tags Der er ikke tilføjet nogle emneord endnu.
 
-        // Title
-        header
-          h1(itemprop='name')= title
+              each tag in metadata.tags_crowd || []
+                +tag(tag)
+              .material-input
+                input(type='text', required='')
+                span.bar
+                label Indtast nyt emneord og tryk enter
+              .btn.btn-primary.btn-small#crowd-btn Tilføj emneord
+              .btn.btn-link.btn-small.hidden#stop-crowd-btn Afslut
 
-        // Description
-        - if(item.description)
-          p.sr-only Beskrivelse
-          p(itemprop='description',
-            class='lead')= item.description
+          .col-md-4
+            // Vision tags
+            b Automatisk billedanalyse
+            .tags-container.vision
+              if(!metadata.tags_vision || metadata.tags_vision.length === 0)
+                .btn.btn-primary.btn-small#vision-btn
+                  +loader('Analysér billede')
+              each tag in metadata.tags_vision || []
+                +tag(tag)
+                  span.add-tag
+                    +icon('thumbup')
 
-        // Time and period
-        h2 Tidsperiode og årstal
-        table
-          tbody
-            tr
-              th Datering:
-              td
-                +addDating(item, catalog.alias)
-            tr
-              th Optagelsestid:
-              td(itemprop='dateCreated', class='date')
-                +formatDate(item.acceptance_time_from, item.acceptance_time_to)
-            tr
-              th Fremstillingstid:
-              td
-                +formatDate(item.creation_time_from, item.creation_time_to)
+    .asset-bottom
+      .container-fluid
+        .row
+          != assetLayout(metadata)
 
-        // Place
-        h2 Sted
-        table.place
-          tbody
-            tr
-              th Område:
-              td
-                +addPlace(item, catalog.alias)
-            tr
-              th Adresse:
-              td#address
-                - var address = item.address || item.street;
-                - var zipcode = item.zipcode;
-                - var city = item.city;
-
-                - if(address || zipcode || city)
-                  - if(address)
-                    | #{address}
-
-                  - if(zipcode)
-                    - if(address)
-                      | ,
-                    | #{zipcode}
-                  - if(city)
-                    - if(address || zipcode)
-                      | ,
-                    | #{city}
-                - else
-                  | -
-            if(item.longitude && item.latitude)
-              tr
-                th Koordinater:
-                td
-                  = item.latitude.toFixed(5) + ',' + item.longitude.toFixed(5)
-                  if(showGeotagging)
-                    a
-                      +icon('pencil-icon')
-              tr
-                td(colspan='2')
-                  a(href='http://maps.google.dk/maps?ll=' + item.latitude + ',' + item.longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + item.latitude + ',' + item.longitude, target='blank')
-                    img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + item.latitude + ',' + item.longitude + '&sensor=false&scale=2&zoom=14&maptype=terrain')
-            tr
-              th Noter:
-              td= item.locationnote || '-'
+          if relatedAssets && relatedAssets.length > 0
+            .col-xs-12
+              h2 Relaterede billeder
+              .related-assets
+                .related-assets__next-arrow 
+                  +icon('chevron-right')
+                .related-assets__prev-arrow
+                  +icon('chevron-right')
+                .slider
+                  each asset in relatedAssets
+                    a(href=asset.href)
+                      img(data-lazy="#{asset.src}")
 
 
-        // Technical info
-        h2 Tekniske oplysninger
-        table
-          tbody
-            tr
-              th Fil-ID:
-              td= id || '-'
-            tr
-              th Størrelse (pixel):
-              td
-                if item.width_px && item.height_px
-                | #{helpers.format_number(item.width_px, 0) || '-'} &times; #{helpers.format_number(item.height_px, 0) || '-'}
-            tr
-              th Størrelse (cm):
-              td
-                if item.width_cm && item.height_cm
-                | #{helpers.format_number(item.width_cm, 1) || '-'} &times; #{helpers.format_number(item.height_cm, 1) || '-'}
-            tr
-              th Opløsning (DPI):
-              td= helpers.format_number(item.dpi) || '-'
-            tr
-              th Filstørrelse:
-              td= helpers.filesize_mb(item.file_size) || '-'
-            tr
-              th Rettighedshaver:
-              td
-                span(itemprop='copyrightHolder')= item.copyright || '-'
-            tr
-              th Fotograf:
-                td
-                  span(itemprop='creator')= item.creator || '-'
+  .overlay__container(data-content="asset-download")
+    .overlay__content 
+      h2 Download - vælg størrelse
+      if(player === 'image-single' || player === 'image-single-animated')
+        a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+          | Lille (#{sources.imageSet.download800.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+          | Mellem (#{sources.imageSet.download1200.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+          | Stor (#{sources.imageSet.download2000.size} jpg)
+        a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+          | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
+      if(filename.match('.tif$') || filename.match('.tiff$'))
+        a.btn.btn-primary(href='#{sources.download}') 
+          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
 
-
-        // Additional info
-        .asset-block
-          h2.collapsable-section-header
-            - var path = req.path
-            a(href='#{path}#additional-info', data-toggle='collapse', data-target='#additional-info').collapsed
-              +icon('icon-minus')
-              +icon('icon-plus')
-              | Yderligere information
-
-          div#additional-info.collapse
-            table
-              tbody
-                tr
-                  th Filnavn:
-                  td= item.filename || '-'
-                tr
-                  th Arkivalie nr.:
-                  td= item.archiveno || '-'
-                tr
-                  th Negativ nr.:
-                  td= item.negative_number || '-'
-                tr
-                  th Genstands nr.:
-                  td= item.object_number || '-'
-                tr
-                  th Inventar nr.:
-                  td= item.inventory_number || '-'
-                tr
-                  th Arkivnavn:
-                  td= item.archivename ? item.archivename.displaystring : '-'
-                tr
-                  th Tidsnote:
-                  td= item.timenote || '-'
-
-                tr
-                  th Topnr.:
-                  td= item.topno || '-'
+      .overlay__license
+        if(metadata.license)
+          - var license = helpers.licenseTag(metadata.license.id);
+          if(license)
+            a(href=license.url, rel='license', target='_blank')
+              img(src=license.img, alt=license.short)
+          else
+            | #{metadata.license.displaystring}
+ 
+  .facebook-group
+    h2 Tusind tak for din hjælp!
+    p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
+      a(href="https://www.facebook.com/groups/1002729026439527/") Crowdsourcing af Nationalmuseets Samlinger.
+    br
+    p Dette er første og sidste gang vi forstyrrer dig. Skjul denne besked ved at&nbsp;
+      a(href="").ok trykke her.

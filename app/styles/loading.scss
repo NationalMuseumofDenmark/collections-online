@@ -1,0 +1,56 @@
+$size: .7em;
+$small-scale: scaleX(.5) scaleY(.5);
+$one-scale: scaleX(1) scaleY(1);
+
+.loader {
+  animation       : loading-dots 1.5s infinite ease-in-out 0s;
+  animation-delay : -.4s;
+  background-color: $white;
+  border-radius   : 50%;
+  height          : $size;
+  margin-left     : .5em;
+  width           : $size;
+
+  &.one {
+    animation-delay: -.2s;
+  }
+
+  &.two {
+    animation-delay: 0s;
+    margin-right   : .5em;
+  }
+}
+
+@keyframes loading-dots {
+  0% {
+    transform: $small-scale;
+  }
+
+  35% {
+    transform: $one-scale;
+  }
+
+  70% {
+    transform: $small-scale;
+  }
+
+  100% {
+    transform: $small-scale;
+  }
+}
+
+.btn {
+  .loader {
+    display: none;
+  }
+
+  &.loading {
+    .loader {
+      display: inline-block;
+    }
+
+    .text {
+      display: none;
+    }
+  }
+}

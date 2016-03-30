@@ -4,16 +4,17 @@
  * Running the indexing procedure in the catalog mode.
  */
 
-var all = require('./all');
-
-function recent(state) {
-	var timeDelta;
-	if(state.reference) {
-		timeDelta = state.reference;
-	} else {
-		timeDelta = '10m';
-	}
-	return all(state, '$now-'+timeDelta);
-}
-
-module.exports = recent;
+module.exports.generateQueries = function(state) {
+  var timeDelta;
+  if (state.reference) {
+    timeDelta = state.reference;
+  } else {
+    timeDelta = '10m';
+  }
+  return state.catalogs.map(function(catalogAlias) {
+    return {
+      catalogAlias: catalogAlias,
+      query: '"Record Modification Date" >= $now-' + timeDelta
+    };
+  });
+};

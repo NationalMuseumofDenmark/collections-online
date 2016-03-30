@@ -1,32 +1,52 @@
 @font-face {
-    font-family: 'nationale';
-    src: url('./fonts/nationale-demibold-webfont.eot');
-    src: url('./fonts/nationale-demibold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./fonts/nationale-demibold-webfont.woff2') format('woff2'),
-         url('./fonts/nationale-demibold-webfont.woff') format('woff'),
-         url('./fonts/nationale-demibold-webfont.ttf') format('truetype');
-    font-weight: 600;
-    font-style: normal;
+  font-family: 'nationale';
+  src        : url('./fonts/nationale-demibold.eot');
+  src        : url('./fonts/nationale-demibold.eot?#iefix') format('embedded-opentype'), url('./fonts/nationale-demibold.woff2') format('woff2'), url('./fonts/nationale-demibold.woff') format('woff'), url('./fonts/nationale-demibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style : normal;
 
 }
 
 @font-face {
-    font-family: 'nationale';
-    src: url('./fonts/nationale-regular-webfont.eot');
-    src: url('./fonts/nationale-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('./fonts/nationale-regular-webfont.woff2') format('woff2'),
-         url('./fonts/nationale-regular-webfont.woff') format('woff'),
-         url('./fonts/nationale-regular-webfont.ttf') format('truetype');
-    font-weight: 400;
-    font-style: normal;
+  font-family: 'nationale';
+  src        : url('./fonts/nationale-regular.eot');
+  src        : url('./fonts/nationale-regular.eot?#iefix') format('embedded-opentype'), url('./fonts/nationale-regular.woff2') format('woff2'), url('./fonts/nationale-regular.woff') format('woff'), url('./fonts/nationale-regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style : normal;
 
-}
-
-* {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale
 }
 
 .search-count {
-  font-weight: normal;;
+  font-weight: normal;
+}
+
+h1 {
+  font-size  : 1.62rem;
+  line-height: 1.25;
+}
+
+.page-header {
+  border-bottom : 0;
+  padding-bottom: 0;
+}
+
+h2,
+.lead {
+  font-size    : 1.31rem;
+  margin-bottom: .3rem;
+}
+
+@media (min-width: $medium-size) {
+  body {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2.62rem;
+  }
+
+  h2,
+  .lead {
+    font-size: 1.62rem;
+  }
 }

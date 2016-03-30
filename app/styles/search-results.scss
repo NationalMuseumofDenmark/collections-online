@@ -1,107 +1,147 @@
+@import 'variables';
 
-/* Search results */
 .search-results {
+  .thumbnail {
+    background-color: $white;
+    border          : 0;
+    padding         : 0;
+    position        : relative;
+  }
 
-  /* Responsive masonry boxes */
-  .box {
-    float:left;
-    box-sizing: border-box;
-    padding:0 15px;
-    min-height: 1px;
-    width:100%;
+  // Video thumbnail
+  .video-thumbnail {
+    background    : $gray;
+    padding-bottom: 75%; // Maintaining the 4:3 aspect ratio
+    position      : relative;
+    width         : 100%;
 
-    .overlay, .overlay img {
-      width: 100%;
+    .icon {
+      background       : url('/images/film-projector.svg');
+      background-repeat: no-repeat;
+      background-size  : contain;
+      height           : 80%;
+      margin           : 10%;
+      position         : absolute;
+      width            : 80%;
+    }
+  }
+  // The actual image
+  .image {
+    display   : block;
+    text-align: center;
+  }
+
+  .overlay {
+    display  : inline-block;
+    max-width: 100%;
+    position : relative;
+
+    img {
+      max-width: 100%;
     }
 
-    @media all and (max-width: 420px) {
-      width:100%;
-      padding: 0;
-      h2, p {
-        padding:0 10px;
-      }
-    }
-
-    @media all and (max-width: 635px) and (min-width: 420px) {
-      width:50%;
-    }
-
-    @media all and (max-width: 992px) and (min-width: 635px) {
-      width:33.3333%;
-    }
-
-    @media all and (min-width: 992px) {
-      width:25%;
+    svg {
+      bottom  : 1em;
+      height  : 2em;
+      opacity : .75;
+      position: absolute;
+      right   : 1em;
+      width   : 3em;
     }
   }
 
-  .thumbnail {
-    position: relative;
-    background-color: $white;
-    border: none;
-    padding:0;
+  a {
+    color  : $black;
+    display: block;
 
-    /* Video thumbnail */
-    .video-thumbnail {
-      position: relative;
-      width: 100%;
-      padding-bottom: 75%; // Maintaining the 4:3 aspect ratio
-      background: $gray;
-      .icon {
-        position: absolute;
-        width: 80%;
-        height: 80%;
-        background: url('/images/film-projector.svg');
-        background-repeat: no-repeat;
-        background-size: contain;
-        margin: 10%;
-      }
+    &:hover {
+      background-color: $white;
+      border          : 0;
+      color           : $link-hover-color;
+      text-decoration : none;
     }
+  }
 
-    /* The actual image */
-    .image {
-      display: block;
-      text-align: center;
-      .overlay {
-        position: relative;
-        display: inline-block;
-        max-width: 100%;
-        img {
-          max-width: 100%;
-        }
-        .rotation-icon {
-          position: absolute;
-          opacity: 0.75;
-          bottom: 1em;
-          right: 1em;
-          width: 3em;
-        }
-      }
-    }
-    a {
-      display: block;
-      color: $black;
-      &:hover {
-        text-decoration: none;
-        background-color: $white;
-        color:$link-hover-color;
-        border: none;
-      }
-    }
-    .cat-link a {
-      text-decoration:underline;
-      font-size: 97%;
-    }
+  .cat-link a {
+    font-size      : 97%;
+    text-decoration: underline;
   }
 }
 
-/* More button */
-#more {
-  @include clearfix;
-  clear:both;
-  border:2px solid $brand-primary;
-  margin-right: 15px;
-  text-decoration: none;
-  font-weight: bold;
-  color:$brand-primary;
+// Responsive masonry boxes
+.box {
+  box-sizing: border-box;
+  float     : left;
+  min-height: 1px;
+  padding   : 0 15px 20px;
+  width     : 100%;
+
+  &.loaded-more {
+    opacity: 0;
+  }
+
+  &.load-done {
+    animation: fadeIn $anim-duration-long forwards;
+    opacity  : 0;
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+  }
+
+  .overlay,
+  .overlay img {
+    width: 100%;
+  }
+
+  .h4 {
+    margin-bottom: 2px;
+  }
+
+  .description {
+    margin-bottom: 0;
+    overflow     : hidden;
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+  }
+
+  .cat-link {
+    margin-bottom: 0;
+    margin-top   : 5px;
+  }
+
+  @media all and (max-width: 420px) {
+    padding: 0;
+    width  : 100%;
+
+    h2,
+    p {
+      padding: 0 10px;
+    }
+  }
+
+  @media all and (max-width: 635px) and (min-width: 420px) {
+    width: 50%;
+  }
+
+  @media all and (max-width: 992px) and (min-width: 635px) {
+    width: 33.3333%;
+  }
+
+  @media all and (min-width: 992px) {
+    width: 25%;
+  }
+}
+
+// Load more button
+.load-more {
+  display  : block;
+  margin   : 4rem auto;
+  min-width: 12rem;
 }

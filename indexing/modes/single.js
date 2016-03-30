@@ -4,52 +4,54 @@
  * Running the indexing procedure in the single mode.
  */
 
-var Q = require('q');
-
-var processAssetReference = require('../processing/asset-reference');
-
 function parseReference(reference) {
-  if(typeof(reference) === 'string') {
+  var result = [];
+  if (typeof(reference) === 'string') {
     reference = reference.split(',');
   }
-	// In the single mode, each asset is a combination of a catalog alias
-	// and the asset ID, eg. DNT/101
-	for(var r in reference) {
-		reference[r] = reference[r].split('-');
-		if(reference[r].length !== 2) {
-			throw new Error( 'Every reference in the single mode must '+
-					'contain a catalog alias seperated by a dash (-), '+
-					'ex: ES-1234');
-		}
-	}
-	return reference;
+  // In the single mode, each asset is a combination of a catalog alias
+  // and the asset ID, eg. DNT-101
+  for (var r in reference) {
+    reference[r] = reference[r].replace('/', '-').split('-');
+    if (reference[r].length !== 2) {
+      throw new Error('Every reference in the single mode must ' +
+        'contain a catalog alias seperated by a slash (/) or dash (-), ' +
+        'ex: ES-1234,DNT/123');
+    } else {
+      result.push({
+        catalogAlias: reference[r][0],
+        assetId: reference[r][1]
+      });
+    }
+  }
+  return result;
 }
 
-function single(state) {
-	// Parse the reference
-	state.reference = parseReference(state.reference);
-	// Print this for the console.
-	console.log('Running in the single mode: ', state.reference.join(', '));
+module.exports.generateQueries = function(state) {
+  var reference = parseReference(state.reference);
+  var assetsPerCatalog = {};
 
-	var assetPromises = [];
-	for(var a in state.reference) {
-		var catalogAlias = state.reference[a][0];
-		var assetId = state.reference[a][1];
-		var assetPromise = processAssetReference(state, catalogAlias, assetId);
-		assetPromises.push( assetPromise );
-	}
+  reference.forEach(function(assetReference) {
+    if (!assetsPerCatalog[assetReference.catalogAlias]) {
+      assetsPerCatalog[assetReference.catalogAlias] = [];
+    }
+    assetsPerCatalog[assetReference.catalogAlias].push(assetReference.assetId);
+  });
 
-	return Q.all(assetPromises).then(function(indexedAssetIdsOrErrors) {
-		// Concat all arrays into one.
-		Array.prototype.concat.apply([], indexedAssetIdsOrErrors).forEach(function(idOrError) {
-			if(typeof(idOrError) === 'string') {
-				state.indexedAssetIds.push(idOrError);
-			} else {
-				state.assetExceptions.push(idOrError);
-			}
-		});
-		return state;
-	});
-}
+  var queries = [];
 
-module.exports = single;
+  Object.keys(assetsPerCatalog).forEach(function(catalogAlias) {
+    var assetIds = assetsPerCatalog[catalogAlias];
+    var query = assetIds.map(function(assetId) {
+      return 'ID is "' + assetId + '"';
+    }).join(' OR ');
+
+    queries.push({
+      catalogAlias: catalogAlias,
+      query: query,
+      assetIds: assetIds
+    });
+  });
+
+  return queries;
+};

@@ -6,59 +6,75 @@
  * the index.
  */
 
-function deleteRemovedAssets(state) {
-	if(state.mode === 'all') {
-		console.log('Deleting every asset in the index, except',
-								state.indexedAssetIds.length);
+var Q = require('q');
+var es = require('../../lib/services/elasticsearch');
+var _ = require('lodash');
 
-		var idsToBeRemoved = [];
+module.exports = function(state) {
+  var activity = 'Post-processing to delete removed assets';
 
-		var index = process.env.ES_INDEX || 'assets';
+  console.log('\n=== ' + activity + ' ===\n');
 
-		// first we do a search, and specify a scroll timeout
-		return state.es.search({
-			index: index,
-			// Set to 30 seconds because we are calling right back
-			scroll: '30s',
-			size: 1000,
-			fields: ['id']
-		}).then(function getMoreUntilDone(response) {
-			// Loop through each of these and collect the assets ID in case it was not
-			// indexed in this run of indexing.
-			response.hits.hits.forEach(function (hit) {
-				if(state.indexedAssetIds.indexOf(hit._id) === -1) {
-					idsToBeRemoved.push(hit._id);
-				}
-			});
+  if (['all', 'catalog', 'single'].indexOf(state.mode) !== -1) {
+    var deletedAssetIds;
+    if (state.mode === 'all' || state.mode === 'catalog') {
+      deletedAssetIds = state.queries.reduce(function(deletedAssetIds, query) {
+        return deletedAssetIds.then(function(deletedAssetIds) {
+          if (query.offset > 0) {
+            console.log('Skipping a query that had a non-zero offset.');
+            return deletedAssetIds;
+          }
+          // Scroll search for all assets in the catalog that was not indexed.
+          return es.scrollSearch({
+            'query': {
+              'bool': {
+                'must': {
+                  'match': {
+                    'catalog': query.catalogAlias
+                  }
+                },
+                'must_not': {
+                  'ids': {
+                    'values': query.indexedAssetIds
+                  }
+                }
+              }
+            }
+          }, function(deletedAsset) {
+            deletedAssetIds.push(deletedAsset._id);
+          }).then(function() {
+            return deletedAssetIds;
+          });
+        });
+      }, new Q([]));
+    } else {
+      deletedAssetIds = state.queries.reduce(function(deletedAssetIds, query) {
+        var assetIds = query.assetIds.map((assetId) => {
+          return query.catalogAlias + '-' + assetId;
+        });
+        var moreDeletedAssetIds = _.difference(assetIds, query.indexedAssetIds);
+        return _.union(deletedAssetIds, moreDeletedAssetIds);
+      }, []);
+    }
 
-			if(response.hits.hits.length > 0) {
-				// now we can call scroll over and over
-				return state.es.scroll({
-					scrollId: response._scroll_id,
-					scroll: '30s'
-				}).then(getMoreUntilDone);
-			} else {
-				return idsToBeRemoved;
-			}
-		}).then(function(idsToBeRemoved) {
-			console.log('Removing', idsToBeRemoved.length, 'assets from the index.');
-			return state.es.deleteByQuery({
-				index: index,
-				body: {
-					query: {
-						ids: {
-							values: idsToBeRemoved
-						}
-					}
-				}
-			});
-		}).then(function() {
-			return state;
-		});
-	} else {
-		console.log('Removed assets will only be deleted when running in all mode.');
-		return state;
-	}
-}
-
-module.exports = deleteRemovedAssets;
+    return Q.when(deletedAssetIds).then(function(deletedAssetIds) {
+      console.log('Deleting', deletedAssetIds.length, 'asset(s)');
+      var actions = deletedAssetIds.map(function(deletedAssetId) {
+        return {delete: {_id: deletedAssetId}};
+      });
+      if (actions.length > 0) {
+        return es.bulk({
+          index: state.index,
+          type: 'asset',
+          body: actions
+        });
+      }
+    }).then(function() {
+      return state;
+    });
+  } else {
+    console.log('Removed assets gets deleted only in "all", "catalog" or ' +
+                '"single" mode.');
+    return state;
+  }
+};

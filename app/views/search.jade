@@ -1,7 +1,5 @@
 extends index
 
-include frontpage-slider
-
 append header
   if results.is_search || results.is_front || results.is_category || results.is_catalog
     +searchMeta(results, catalog, breadcrumbs)
@@ -11,14 +9,10 @@ block before-content
     include filtering
 
 block content
-  section.section-wrapper
-    if results.is_front
-      +FrontPageSlider()
-
-    .clearfix
+  section.container-fluid
 
     if results.is_search
-      h1.page-header Søgning på "#{filters.freetext}" 
+      h1.page-header Søgning på "#{filters.freetext}"
         +searchCount
     if results.is_front
       h1.page-header Alle samlinger
@@ -44,24 +38,35 @@ block content
       h1.page-header #{catalog.name}
         +searchCount
 
-    div.search-results.row(id="masonry-container")
+    .search-results.row(id="masonry-container")
       each result in results.results
         +searchResultAsset(result)
-  div(id='page-nav')
+
+  .clearfix
+  
+  #page-nav
     a(href='#{infinitepath}')
 
   if(results.total_results_raw > 10)
-    div(style="width: 100%; text-align: center; margin: 30px auto; display:block; clear:both; height:44px;")
-      a.btn.btn-default.btn-lg(role="button",id="more", style="padding: 10px 60px")
-        | Vis flere...
+    button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
+      +loader('Vis flere...')
 
-  .clearfix
+  include includes/footer
 
 block after-footer
-  a#toTop
+  if !results.is_front
+    a#toTop
+      +icon('scrolltotop')
 
 append javascript
   script.
+    $(function() {
+      $('#toTop').scrollToTop(400);
+      // To ensure no boxes are hidden if the was some load error
+      $('.loaded-more').removeClass('loaded-more');
+    });
+  if results.is_front
+    script.
       $(window).load(function() {
          $('.slider').flexslider({
           animation: "slide",

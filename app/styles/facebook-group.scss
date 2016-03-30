@@ -1,0 +1,25 @@
+.facebook-group {
+  @include card(3);
+  background-color: rgba($white, .95);
+  bottom          : 0;
+  left            : 0;
+  padding         : 2rem;
+  position        : fixed;
+  right           : 0;
+  transform       : translate3d(0, 100%, 0);
+  transition      : .4s ease-in;
+  visibility      : hidden;
+  z-index         : 100;
+
+  &.show-face {
+    transform : translate3d(0, 0, 0);
+    transition: .4s ease-out;
+    visibility: visible;
+  }
+
+  > * {
+    display  : block;
+    margin   : 0 auto;
+    max-width: 30rem;
+  }
+}

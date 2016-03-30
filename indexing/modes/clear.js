@@ -1,16 +1,9 @@
 'use strict';
 
 /**
- * Clears the index.
+ * Clearing the index needs no queries.
  */
 
-function clear(state) {
-	return state.es.indices.delete({
-		index: process.env.ES_INDEX || 'assets'
-	}).then(function() {
-		console.log('Index cleared.');
-		return state;
-	});
-}
-
-module.exports = clear;
+module.exports.generateQueries = function() {
+  return [];
+};

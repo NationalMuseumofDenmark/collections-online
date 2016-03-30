@@ -8,5 +8,10 @@ heroku
 /views
 dist
 elasticsearch
+.DS_Store
+
 # Atom build settings
 .atom-build.json
+
+# Environment variables
+.env

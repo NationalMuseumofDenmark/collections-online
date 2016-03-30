@@ -1,129 +1,165 @@
 .topbar {
   background-color: $topbar-color;
-  z-index         : 10;
+  line-height     : 1.5;
   position        : relative;
-
-
-  .topbar-items {
-    display    : flex;
-    align-items: center;
-    height     : $topbar-height;
-  }
-
+  z-index         : 10;
 
   svg {
-    fill: white;
+    fill: $white;
   }
 
+  h1,
+  .tag-line {
+    margin: 0;
+  }
 
-  #heading-categories-menu,
-  .logo-wrap {
+  h1 {
+    font-size : 1.9rem;
+    margin-top: .3rem;
+  }
+
+  .tag-line {
+    font-size     : 1.1rem;
+    letter-spacing: .03rem;
+  }
+}
+
+.topbar-items {
+  align-items: center;
+  display    : flex;
+  height     : $topbar-height;
+
+  > a {
     flex-shrink: 0;
   }
+}
 
-
-  #heading-categories-menu {
-    padding-left   : 10px;
-    padding-right  : 2px;
-    height         : 100%;
-    display        : flex;
-    align-items    : center;
-    text-decoration: none;
-
-
-    svg {
-      height: 25px;
-      width : 25px;
-    }
-
-
-    .catalog-name {
-      font-size: 20px;
-      color    : $white;
-      margin   : 0 0 0 15px;
-    }
+// Frontpage styling
+.frontpage {
+  @media (min-width: $medium-size) {
+    height: 200px;
   }
+}
 
-
-  .logo-wrap {
-    display        : flex;
-    align-items    : center;
-    text-decoration: none;
-  }
-
-
-  .logo-text,
-  .logo {
-    display: inline-block;
-  }
-
-
-  .logo-text {
-    color       : $white;
-    margin-right: 10px;
-
-
-    span {
-      display: block;
-    }
-  }
-
+.big-wrap {
+  cursor    : default;
+  margin-top: .5rem;
 
   .logo {
-    margin-right: 10px;
-
-
     svg {
-      vertical-align: middle;
-      width         : 40px;
-      height        : 40px;
+      height: 60px;
+      width : 60px;
     }
+  }
+}
 
+// Logo and logo text
+.logo-wrap {
+  align-items: center;
+  display    : flex;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.logo,
+.logo-text {
+  display: inline-block;
+}
+
+.logo {
+  margin-right: 10px;
+
+  svg {
+    height        : 40px;
+    vertical-align: middle;
+    width         : 40px;
+  }
+}
+
+.logo-text {
+  color       : $white;
+  font-size   : 90%;
+  margin-right: 10px;
+
+  span {
+    display: block;
+  }
+}
+
+// Search box
+.search-box {
+  flex-grow  : 1;
+  flex-shrink: 1;
+  margin     : 0 10px;
+  position   : relative;
+  text-align : right;
+
+  .input-group {
+    border-bottom: 1px solid rgba($white, .5);
+    border-top   : 1px solid rgba($white, 0);
+    float        : right;
+    max-width    : 20rem;
   }
 
+  .btn-search {
+    line-height  : 1.2;
+    margin-left  : 0;
+    padding-right: 0;
+  }
 
-  .search-box {
-    flex-grow: 1;
-    position : relative;
-    margin   : 0 10px;
-
-
-    .btn-search {
-      @extend .btn;
-      @extend .btn-primary;
-
-
-      svg {
-        width : 18px;
-        height: 18px;
-        margin: -3px;
-      }
+  .btn {
+    svg {
+      height: 24px;
+      margin: 0;
+      width : 24px;
     }
+  }
 
+  .btn,
+  .form-control {
+    border       : 0;
+    border-radius: 0;
+    height       : $input-height-base + 2;
 
-    .btn,
-    .form-control {
-      height       : $input-height-base + 2;
-      border       : 0;
-      border-radius: 0;
-
-      &:focus,
-      &:active,
-      &:focus {
-        box-shadow: none;
-        outline   : none;
-      }
+    &:active,
+    &:focus {
+      box-shadow: none;
+      outline   : none;
     }
+  }
 
+  .form-control {
+    background-color: rgba($white, 0);
+  }
 
-    #search-input {
-      border       : 0;
-      border-radius: 0;
-    }
+  input {
+    border       : 0;
+    border-radius: 0;
+    color        : $white;
+    line-height  : 1.25;
+    padding-left : 0;
+  }
+}
 
-    #search-input::placeholder {
-      /* Standard one last! */
-      color: #999;
-    }
+// Menu button
+.hamburger {
+  align-items    : center;
+  display        : flex;
+  height         : 100%;
+  padding-left   : 10px;
+  padding-right  : 2px;
+  text-decoration: none;
+
+  svg {
+    height: 20px;
+    width : 26px;
+  }
+
+  .catalog-name {
+    color    : $white;
+    font-size: 20px;
+    margin   : 0 0 0 15px;
   }
 }

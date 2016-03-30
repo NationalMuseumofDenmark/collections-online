@@ -1,17 +1,47 @@
-.geotagging {
-  position: relative;
+@import 'variables';
 
+.map-wrap {
+  display        : none;
+  flex-direction : column;
+  justify-content: center;
 
-  .btn {
-    font-size: 15px;
+  @media (min-width: $medium-size) {
+    min-height: $asset-max-height;
   }
 
+  &.map-visible {
+    display: flex;
+  }
+}
 
-  .call-to-action {
-    margin-bottom: 17px;
-    min-height   : $input-height-base;
-    width        : 100%;
+.map-container {
+  margin  : 1rem 0;
+  position: relative;
 
+  .overlay {
+    background-color: rgba($topbar-color, .9);
+    color           : $white;
+    display         : none;
+    left            : 0;
+    // safari bug fix
+    margin          : -1px;
+    min-height      : 100%;
+    padding         : 2.5rem;
+    position        : absolute;
+    right           : 0;
+    top             : 0;
+
+    &.overlay-visible {
+      display        : flex;
+      flex-direction : column;
+      justify-content: center;
+      opacity        : 1;
+      visibility     : visible;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+    }
 
     .btn {
       width: 100%;
@@ -19,231 +49,94 @@
   }
 }
 
+.geotagging-map {
+  height: 0;
+  width : 100%;
 
-.map-container {
-  display : none;
-  position: relative;
-  height  : auto;
-
-
-  .overlay {
-    display         : none;
-    position        : absolute;
-    top             : 0;
-    left            : 0;
-    width           : 100%;
-    height          : 100%;
-    padding         : 40px;
-    color           : white;
-    background-color: #333;
-    opacity         : .95;
-    z-index         : 1;
-    font-size       : 15px;
-
-
-    h2 {
-      color        : white;
-      margin-bottom: 20px;
-    }
-
-
-    .btn {
-      bottom       : 3%;
-      margin-bottom: 5px;
-      position     : absolute;
-      width        : 25%;
-      left         : 37.5%;
-    }
+  &.map-visible {
+    height        : auto;
+    padding-bottom: 80%;
   }
 
+  * {
+    font-family: $font-family-sans-serif !important;
+  }
 
   .controls {
-    margin-top     : 10px;
-    border         : 1px solid transparent;
-    border-radius  : 2px 0 0 2px;
-    box-sizing     : border-box;
-    -moz-box-sizing: border-box;
-    height         : 32px;
-    outline        : none;
-    box-shadow     : 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-
-}
-
-
-#geotagging-map {
-  background: #eee;
-  max-height: 500px;
-  // TODO: Consider moving this to an option when initializing the map.
-  .gm-iv-address,
-  .gm-iv-container {
-    display: none;
-  }
-
-
-  .gm-fullscreen-control {
-    cursor: pointer;
-  }
-
-
-  .controls {
+    border       : 1px solid transparent;
     border-radius: 0;
+    box-shadow   : 0 2px 6px rgba($black, .3);
+    box-sizing   : border-box;
+    height       : 32px;
+    margin-top   : 10px;
+    outline      : none;
   }
 
-
-  .gmnoprint {
-    > div,
-    > .gm-style-mtc > div {
-      border-radius: 0 !important;
-    }
-  }
-
-
-  #pac-input {
-    background-color: #fff;
-    font-size       : 15px;
+  input {
+    background-color: $white;
+    color           : $text-color;
+    font-size       : $font-size-base;
     font-weight     : 300;
     margin-left     : 12px;
+    max-width       : 50%;
     padding         : 0 11px;
     text-overflow   : ellipsis;
     width           : 300px;
-    max-width       : 50%;
 
     &:focus {
-      border-color: #4d90fe;
-    }
-
-
-    #type-selector {
-      color           : #fff;
-      background-color: #4d90fe;
-      padding         : 5px 11px 0;
-    }
-
-
-    #type-selector label {
-      font-size  : 13px;
-      font-weight: 300;
+      border-color: $brand-primary;
     }
   }
-
 }
 
+// We have to use important to overide element style
+.gmnoprint {
+  > div,
+  > .gm-style-mtc > div {
+    border-radius: 0 !important;
+  }
+}
+
+// TODO: Consider moving this to an option when initializing the map.
+.gm-iv-container {
+  display: none;
+}
+
+.gm-fullscreen-control {
+  cursor: pointer;
+}
 
 .map-buttons {
-  text-align    : center;
-  width         : 100%;
+  bottom        : 19px;
   pointer-events: none;
   position      : absolute;
-  bottom        : 19px;
-
+  text-align    : center;
+  width         : 100%;
 
   &.back-to-map {
-    top   : 10px;
-    left  : 5px;
     bottom: auto;
+    left  : 5px;
+    top   : 10px;
     width : auto;
   }
 
-
   &.btn,
   .btn {
-    pointer-events: auto;
+    box-shadow    : 0 2px 6px rgba($black, .3);
     margin        : 0 5px;
-    box-shadow    : 0 2px 6px rgba(0, 0, 0, 0.3);
-  }
-
-
-  .loader {
-    position      : relative;
-    vertical-align: middle;
-    display       : none;
-    width         : 25px;
-
-    &:before {
-      content    : '';
-      display    : block;
-      padding-top: 100%;
-    }
-  }
-
-
-  .circular {
-    animation       : rotate 2.5s linear infinite;
-    transform-origin: center center;
-    position        : absolute;
-    top             : 0;
-    bottom          : 0;
-    left            : 0;
-    right           : 0;
-    margin          : auto;
-    height          : 30px;
-  }
-
-
-  .path {
-    stroke-dasharray : 1,200;
-    stroke-dashoffset: 0;
-    animation        : dash 1.5s ease-in-out infinite;
-    stroke           : #333;
+    pointer-events: auto;
   }
 }
 
-
-@keyframes rotate {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-
-@keyframes dash {
-  0% {
-    stroke-dasharray : 1,200;
-    stroke-dashoffset: 0;
-  }
-
-
-  50% {
-    stroke-dasharray : 89,200;
-    stroke-dashoffset: -35;
-  }
-
-
-  100% {
-    stroke-dasharray : 89,200;
-    stroke-dashoffset: -124px;
-  }
-}
-
-
-@media (max-height: 500px) {
-  .geotagging .overlay {
-    font-size: 11px !important;
-  }
-}
-
-
-@media (min-height: 500px) and (max-height: 600px) {
-  .geotagging .overlay {
-    font-size: 13px !important;
-  }
-}
-
-
-@media (max-width: 480px) {
+@media (max-width: $extra-small-size) {
   .geotagging {
-    #geotagging-map {
-      margin    : 0 -15px;
-      min-height: 75vh !important;
-      max-height: 75vh !important;
+    .geotagging-map {
+      min-height: 66vh;
     }
-
 
     .overlay {
-      padding: 10px !important;
+      padding: 10px;
     }
-
 
     .call-to-action .btn {
       font-size: 12px;

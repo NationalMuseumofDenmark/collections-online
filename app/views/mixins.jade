@@ -1,51 +1,32 @@
-mixin analytics
-  //- Tracking for live site (samlinger.natmus.dk)
-  if(config.googleAnalyticsPropertyID)
-    script.
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-      ga('create', '#{config.googleAnalyticsPropertyID}', 'auto');
-      ga('send', 'pageview');
-
-mixin head
-  // base(href='/') // Let's not specify a base.
-  meta(charset='utf-8')
-  meta(http-equiv="Content-Type", content="text/html; charset=UTF-8")
-  meta(http-equiv='X-UA-Compatible', content='IE=edge')
-  meta(name='viewport', content='width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0')
-
 mixin assetMeta(item, sources)
-  if item.short_title 
-    - title = item.short_title 
-  else 
+  if item.short_title
+    - title = item.short_title
+  else
     - title = 'Ingen titel'
-  if item.description 
+  if item.description
     - description = item.description
   if sources.image
     - image = sources.image
-    
+
   +meta(title,socialTitle,image,description)
-  
-mixin searchMeta(results, catalog, breadcrumbs)  
+
+mixin searchMeta(results, catalog, breadcrumbs)
   if results.is_search
     - title = filters.freetext
     - socialTitle = 'Søgning på "' + title + '"'
-    
+
   if results.is_category
     if breadcrumbs
       - title = breadcrumbs.last.name
-    else 
+    else
       - title = catalog.name
   if results.is_catalog
     - title = catalog.name
 
   +meta(title,socialTitle)
-  
+
 mixin meta(title,socialTitle,image,description)
-  - siteTitle = req.app.get('site_title')
+  - siteTitle = req.app.get('siteTitle')
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
@@ -55,7 +36,7 @@ mixin meta(title,socialTitle,image,description)
   - facebookType = 'website'
   - youtube = 'natmusdk'
 
-  if title 
+  if title
     - title += ' - ' + siteTitle
   else
     - title = siteTitle
@@ -68,12 +49,12 @@ mixin meta(title,socialTitle,image,description)
   if !description
     - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
     - description += ', hvor du finder mange former for kulturhistoriske fotos.'
-  
+
   if image
     - image = unsafeBaseUrl + image
   else
     - image = unsafeBaseUrl + '/images/defaultshare.jpg'
-  
+
   title #{title}
   meta(name='description', content='#{description}')
   meta(name='twitter:card', content='#{twitterCard}')
@@ -88,19 +69,15 @@ mixin meta(title,socialTitle,image,description)
   meta(property='og:description', content='#{description}')
   meta(property='og:site_name', content='#{title}')
 
-mixin sidebarMenu
-  nav.categories-menu
-    ul(aria-labelledby='heading-categories-menu', role='menu').nav.dropdown-menu-right
-  .gray-overlay
-  
-mixin svgFilter
-  svg.sprite
-    defs
-      filter#blur
-        fegaussianblur(stddeviation='2')
-  
+mixin loader(text)
+  if text
+    span.text #{text}
+  .loader
+  .loader.one
+  .loader.two
+
 mixin searchCount
-  span.search-count  #{results.total_results} poster
+  span.search-count &nbsp;#{results.total_results} poster
 
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
@@ -109,119 +86,37 @@ mixin recursiveCategoryItem(catalog, category)
         a.col-xs-10(href='/#{catalog.alias}?cat=#{category.id}') #{category.name}
           span #{category.count}
         if category.children.length > 0
-          a.expand-menu(href='')
-            +icon('icon-plus-minus')
+          .expand
+            +icon('plus')
       if category.children.length > 0
         ul.nav.menu-hidden
           each childCategory in category.children
             +recursiveCategoryItem(catalog, childCategory)
 
-mixin footer
-  footer
-    .footer
-      .container-fluid
-        .row
-          h4.footer-title Om Nationalmuseets Samlinger Online
-          address.col-xs-12
-            span Nationalmuseet
-            span Prinsens Palæ
-            span Ny Vestergade 10
-            span DK-1471 København K
-            span Tel. +45 3313 4411
-        .row
-          .col-xs-12
-            h2.h4 Følg os på:
-            p.social-links
-              a(href='https://www.facebook.com/nationalmuseet')
-                span.sr-only Facebook
-                +icon('icon-facebook')
-              a(href='https://twitter.com/Nationalmuseet')
-                span.sr-only Twitter
-                +icon('icon-twitter')
-              a(href='http://www.youtube.com/user/natmusdk')
-                span.sr-only YouTube
-                +icon('icon-youtube')
+mixin searchResultAsset(asset)
+  div(class='col-lg-3 box')
+    .thumbnail
+      a(href='#{asset.url}')
+        if asset.type == 'video'
+          div.video-thumbnail
+            div.icon
+        else
+          div.image
+            div.overlay
+              img(src='#{asset.thumbnail_url}').rotation
+              if asset.type == 'image-rotation'
+                +icon('rotation')
+        if asset.title
+          h2.h4 #{asset.title}
+        else
+          h2(class='h4') Ingen titel
+        p.description #{asset.description}
+      p.cat-link
+        a(href='#{asset.catalog_url}') #{asset.catalog}
 
 mixin icon(id)
-  case id
-    when 'pencil-icon'
-      svg.pencil-icon
-        use(xlink:href='#icon-pencil')
-    when 'icon-menu'
-      svg
-        use(xlink:href='#icon-menu')
-    when 'icon-logo'
-      svg
-        use(xlink:href='#icon-logo')
-    when 'icon-download'
-      svg
-        use(xlink:href='#icon-download')
-    when 'icon-share'
-      svg
-        use(xlink:href='#icon-share')
-    when 'icon-plus-minus'
-      svg
-        use(xlink:href='#icon-plus')
-    when 'icon-minus'
-      svg.icon-minus
-        use(xlink:href='#icon-minus')
-    when 'icon-plus'
-      svg.icon-plus
-        use(xlink:href='#icon-plus')
-    when 'icon-facebook'
-      svg
-        use(xlink:href='#icon-facebook')
-    when 'icon-twitter'
-      svg
-        use(xlink:href='#icon-twitter')
-    when 'icon-youtube'
-      svg
-        use(xlink:href='#icon-youtube')
-    when 'icon-search'
-      svg
-        use(xlink:href='#icon-search')
-    default
-      span #{id} is not a valid icon ID
-
-mixin license()
-  if(item.license)
-    - var license = helpers.license_tag(item.license.id);
-    if(license)
-      a(href=license.url, rel='license', class='hidden') Creative Commons Navngivelse 2.5
-
-mixin responsiveImage(title, item, sources)
-  img(src=sources.image, alt=title)
-  +license()
-
-mixin rotationImage(title, item, sources)
-  picture(alt=title)
-    //[if IE 9]><video style="display: none;"><![endif]
-    source(srcset=sources.image_set['2000'], media='(min-width: 1200px)')
-    source(srcset=sources.image_set['1200'], media='(min-width: 800px)')
-    source(srcset=sources.image_set['800'], media='(min-width: 400px)')
-    source(srcset=sources.image_set['400'], media='(max-width: 400px)')
-    //[if IE 9]></video><![endif]
-    a.Magic360(data-magic360-options=helpers.magic360_options(sources.image_rotation_set))
-      img(src=sources.image, alt=title)
-  +license()
-
-mixin shareThisHTML()
-  .btn-group.dropup
-    a(data-toggle='dropdown', data-target='#', href='./').dropdown-toggle.btn.btn-default Del
-      +icon('icon-share')
-    ul.dropdown-menu(role='menu')
-      li.st_facebook(displayText='Facebook')
-      li.divider
-      li.st_twitter(displayText='Twitter')
-      li.divider
-      li.st_pinterest(displayText='Pinterest')
-      li.divider
-      li.st_email(displayText='Email')
-
-mixin shareThisJS()
-  <script type="text/javascript">var switchTo5x=true;</script>
-  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
-  <script type="text/javascript">stLight.options({publisher: "1151a286-82a8-4988-9f00-6de37128d9d6", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+  svg
+    use(xlink:href='#icon-#{id}')
 
 mixin formatDate(from, to)
   if(from && to && from.day == to.day && from.month == to.month && from.day == to.day)
@@ -237,43 +132,11 @@ mixin formatDate(from, to)
       if(to)
         | #{to.day}/#{to.month}/#{to.year}
 
-mixin addDating(item, alias)
-  - var leaf_category = helpers.leaf_category_by_tag(categories, 'Tid');
-  if(leaf_category)
-    a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
-  else
-    | -
 
-mixin addPlace(item, alias)
-  - var leaf_category = helpers.leaf_category_by_tag(categories, 'Lokalitet');
-  if(leaf_category)
-    a(href=helpers.get_category_link(req, alias, leaf_category))= leaf_category.name
-  else
-    | -
-
-mixin searchResultAsset(asset)
-  div(class='col-lg-3 box')
-    .thumbnail
-      a(href='#{asset.url}')
-        if asset.type == 'video'
-          div.video-thumbnail
-            div.icon
-        else
-          div.image
-            div.overlay
-              img(src='#{asset.thumbnail_url}')
-              if asset.type == 'image-rotation'
-                img(src="/images/rotation-icon.svg", class="rotation-icon")
-        if asset.title
-          h2.h4 #{asset.title}
-        else
-          h2(class='h4') Ingen titel
-        p.description #{asset.description}
-      p.cat-link
-        a(href='#{asset.catalog_url}') #{asset.catalog}
-
-mixin assetIcon(small)
-  if small
-    span.asset-icon.glyphicon.glyphicon-picture.small
-  else
-    span.asset-icon.glyphicon.glyphicon-picture
+mixin tag(name)
+  a.btn.btn-default.btn-small(
+    href='/?q='+encodeURIComponent(name),
+    data-tag=name
+  )= name
+    if block
+      block

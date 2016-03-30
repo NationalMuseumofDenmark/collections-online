@@ -1,0 +1,57 @@
+@import 'variables';
+
+.btn-group {
+  margin-right: .5rem;
+}
+
+.btn {
+  background: transparent;
+  border    : 0;
+
+  svg {
+    margin        : 0 .2em;
+    vertical-align: middle;
+    height: 18px;
+    width : 18px;
+    fill: $white;
+  }
+
+  &-default {
+    background-color: $button-bg;
+    color           : $white;
+
+    &:hover, &:focus {
+      background-color: darken($button-bg, 10%);
+      color           : $white;
+    }
+  }
+
+  &-primary {
+    background-color: $brand-primary;
+    color           : $white;
+
+    &:hover,
+    &:focus {
+      background-color: lighten($brand-primary, 5%);
+    }
+  }
+
+  &-icon {
+    padding       : .2rem;
+    vertical-align: middle;
+  }
+
+  &-small {
+    font-size: 90%;
+    padding  : .32rem .5rem .2rem;
+
+    &.btn-icon {
+      padding: .22rem;
+    }
+
+    svg {
+      height: 18px;
+      width : 18px;
+    }
+  }
+}
