@@ -1,6 +1,27 @@
 {
   "sections": [
     {
+      "title": "Sted",
+      "rows": [
+        {
+          "title": "Adresse",
+          "template": "= address || street"
+        }, {
+          "title": "By",
+          "template": "= city"
+        }, {
+          "title": "Topnr",
+          "template": "= topno"
+        }, {
+          "title": "Koordinater",
+          "type": "map-coordinates",
+          "fields": {
+            "latitude": "latitude",
+            "longitude": "longitude"
+          }
+        }
+      ]
+    }, {
       "title": "Tid",
       "rows": [
         {
@@ -23,27 +44,6 @@
         }
       ]
     }, {
-      "title": "Sted",
-      "rows": [
-        {
-          "title": "Adresse",
-          "template": "= address || street"
-        }, {
-          "title": "By",
-          "template": "= city"
-        }, {
-          "title": "Topnr",
-          "template": "= topno"
-        }, {
-          "title": "Koordinater",
-          "type": "map-coordinates",
-          "fields": {
-            "latitude": "latitude",
-            "longitude": "longitude"
-          }
-        }
-      ]
-    }, {
       "title": "Yderligere oplysninger",
       "rows": [
         {
@@ -54,7 +54,7 @@
           "title": "Licens",
           "template": "!= licenseLinked(license)"
         }, {
-          "title": "Fotograf",
+          "title": "Fotograf/skaber",
           "template": "= creator"
         }, {
           "title": "Kilde",
@@ -82,9 +82,6 @@
         {
           "title": "Fil-ID",
           "template": "= id"
-        }, {
-          "title": "Filnavn",
-          "template": "= filename"
         }, {
           "title": "Filstørrelse (mb)",
           "template": "= filesizeMB(file_size)"

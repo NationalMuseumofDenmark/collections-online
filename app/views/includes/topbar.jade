@@ -1,11 +1,11 @@
-header.topbar
+header.topbar(class=frontpage ? 'frontpage' : '')
   .container-fluid
     nav
       .topbar-items
-        a.logo-wrap(href='/')
+        a.logo-wrap(href='/', class=frontpage ? 'hidden-md hidden-lg' : '')
           .logo
             +icon('logo')
-          .logo-text.hidden-sm.hidden-xs
+          .logo-text.hidden-xs
             span Nationalmuseets
             span Samlinger Online
         - var path = (req.path).split('/')
@@ -19,9 +19,16 @@ header.topbar
               autocomplete="off",
               value=req.query.q || '')
             span.input-group-btn
-              button.btn-search.btn.btn-primary
+              button.btn-search.btn
                 span.sr-only Søg
                 +icon('search')
         a(href='#')#heading-categories-menu.hamburger
           span.sr-only Kataloger og kategorier
           +icon('menu')
+      if frontpage
+        .logo-wrap.big-wrap.hidden-sm.hidden-xs
+          .logo
+            +icon('logo')
+          .logo-text
+            h1 Nationalmuseets Samlinger Online
+            .tag-line Udforsk #{totalAssets} billeder fra Nationalmuseets samling

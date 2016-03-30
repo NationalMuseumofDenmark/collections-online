@@ -1,23 +1,17 @@
-.geotagging#geotagging
-  .map-container.bleed
-    .overlay
-      h2 Hjælp os med at placere dette billede på kortet!
-      p Nationalmuseets fotosamling rummer over 500.000 billeder, og langt størstedelen af dem har desværre ingen geografisk placering tilknyttet. Og det er dér, vi kan bruge din hjælp.
-      p Kender du billedets geografiske placering kan du trække markøren hen på den præcise kortplacering. Du har også mulighed for at gå ned på gadeplan ved at trække den gule mand ned på kortet. Således kan du også registrere den korrekte retning, som billedet er taget i.
-      p Tak fordi du har lyst til at hjælpe os!
-      .btn.btn-primary.close-overlay
-        | Videre
-    #geotagging-map.geotagging-map
-    input#pac-input.controls(type="text", placeholder="Søg efter adresse")
-    .map-buttons
-      .btn.btn-primary.hide-map
-        | Annuller
-      .btn.btn-primary.save-coordinates
-        +loader('Gem placering')
-    .map-buttons.btn.btn-primary.back-to-map
-      | Tilbage til kortvisning
-  if(showCallToAction)
-    .call-to-action
-      .btn.btn-primary
-        span
-        | Hjælp os med at placere dette billede på kortet!
+.map-container
+  #geotagging-map.geotagging-map
+  input#pac-input.controls(type="text", placeholder="Søg efter adresse")
+  .map-buttons
+    .btn.btn-primary.hide-map
+      | Annuller
+    .btn.btn-primary.save-coordinates
+      +loader('Gem placering')
+  .map-buttons.btn.btn-primary.back-to-map
+    | Tilbage til kortvisning
+  .overlay
+    h2 Hjælp os med at placere dette billede på kortet!
+    p Nationalmuseets fotosamling rummer over 500.000 billeder, og langt størstedelen af dem har desværre ingen geografisk placering tilknyttet. Og det er dér, vi kan bruge din hjælp.
+    p Kender du billedets geografiske placering kan du trække markøren hen på den præcise kortplacering. Du har også mulighed for at gå ned på gadeplan ved at trække den gule mand ned på kortet. Således kan du også registrere den korrekte retning, som billedet er taget i.
+    p Tak fordi du har lyst til at hjælpe os!
+    .btn.btn-primary.close-overlay
+      | Videre

@@ -1,8 +1,14 @@
+-var i = 0
 each section in sections
-  if section.hasValues(options, metadata)
+  -i++
+  .col-sm-6
     h2= section.title
-    table
-      tbody
-        each row in section.rows
-          if row.hasValue(options, metadata)
-            != row.render(options, metadata)
+    if section.hasValues(options, metadata)
+      table
+        tbody
+          each row in section.rows
+            if row.hasValue(options, metadata)
+              != row.render(options, metadata)
+  //- waffle layout
+  if (i === 2)
+    .clearfix

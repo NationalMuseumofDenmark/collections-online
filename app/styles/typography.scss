@@ -19,3 +19,34 @@
 .search-count {
   font-weight: normal;
 }
+
+h1 {
+  font-size  : 1.62rem;
+  line-height: 1.25;
+}
+
+.page-header {
+  border-bottom : 0;
+  padding-bottom: 0;
+}
+
+h2,
+.lead {
+  font-size    : 1.31rem;
+  margin-bottom: .3rem;
+}
+
+@media (min-width: $medium-size) {
+  body {
+    font-size: 15px;
+  }
+
+  h1 {
+    font-size: 2.62rem;
+  }
+
+  h2,
+  .lead {
+    font-size: 1.62rem;
+  }
+}

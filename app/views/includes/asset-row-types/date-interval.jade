@@ -1,8 +1,8 @@
 include ../../mixins
 
 tr
-  th #{row.title}: 
-  td
+  th.col-xs-6.col-sm-4 #{row.title}: 
+  td.col-xs-6.col-sm-8
     - var startDate = metadata[row.fields.from];
     - var endDate = metadata[row.fields.to];
     if startDate && endDate

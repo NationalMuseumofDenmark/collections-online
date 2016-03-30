@@ -1,22 +1,21 @@
 footer {
-  background : $gray-lighter;
-  color      : $footer-text-color;
-  font-weight: 600;
-  padding    : 3rem 1rem;
-  text-align : center;
+  background    : $footer-background-color;
+  color         : $footer-text-color;
+  font-size     : 90%;
+  letter-spacing: .02em;
+  padding       : 1rem 0;
 
-  span {
-    display: block;
-  }
+  span,
+  a {
+    color: $footer-text-color;
 
-  svg {
-    fill  : $footer-text-color;
-    height: 3rem;
-    width : 3rem;
+    &:not(:last-child)::after {
+      color  : $footer-text-color;
+      content: '\00a0\00a0/\00a0\00a0';
+    }
 
-    &:hover,
-    &:focus {
-      fill: darken($footer-text-color, 10%);
+    &:hover {
+      text-decoration: none;
     }
   }
 }

@@ -1,8 +1,10 @@
 'use strict';
 
+var ga;
+
 (function($) {
 
-
+  var GA_EVENT_CATEGORY = 'CrowdTag';
   var EDIT_VISION_TAGS_SELECTOR = '.edit-vision-tags';
   var CANCEL_VISION_TAGS_SELECTOR = '.cancel-vision-tags';
   var VISION_CONTAINER_SELECTOR = '.tags-container.vision';
@@ -11,22 +13,22 @@
   var $editVisionTags = $(EDIT_VISION_TAGS_SELECTOR);
   var $cancelVisionTags = $(CANCEL_VISION_TAGS_SELECTOR);
   var isEditingVisionTags = false;
-
-  // VARIABLES
   var $visionNoTags = $('.vision .no-tags');
   var $visionBtn = $('#vision-btn');
   var $visionTags = $('.tags-container.vision');
   var $crowdNoTags = $('.crowd .no-tags');
   var $crowdBtn = $('#crowd-btn');
+  var $stopCrowdBtn = $('#stop-crowd-btn');
   var $crowdTags = $('.tags-container.crowd');
   var $crowdInput = $('.tags-container.crowd input');
-  var $item = $('.item');
-  var catalogAlias = $item.data('catalog');
-  var itemId = $item.data('id');
+  var $asset = $('.asset');
+  var catalogAlias = $asset.data('catalog');
+  var assetId = $asset.data('id');
   var showError = function(msg) {
     var $error = $('<div class="alert alert-danger">');
     $error.text(msg);
     $crowdTags.append($error);
+    ga('send', 'event', GA_EVENT_CATEGORY, 'Error', msg);
   };
   var typeaheadTags = new Bloodhound({
     datumTokenizer: function(tags) {
@@ -52,20 +54,19 @@
   function createTagObject(tag, type) {
     var url = '/?q=' + encodeURIComponent(tag);
     var tagClassName = 'btn btn-default btn-small';
-    var $new = $('<a href="' + url + '" class="'+ tagClassName +'" data-tag="' +
-                 tag + '">' + tag + '</a>');
-
+    var $new = $('<a href="' + url + '" class="' + tagClassName +
+      '" data-tag="' + tag + '">' + tag + '</a>');
     if (type === 'vision') {
       $new.append('<span class="add-tag">' +
-                    '<svg><use xlink:href="#icon-thumbup"></use></svg>' +
-                  '</span>');
+        '<svg><use xlink:href="#icon-thumbup"></use></svg>' +
+        '</span>');
     }
 
     return $new;
   }
 
   function saveTag(tag) {
-    var url = '/' + catalogAlias + '/' + itemId + '/save-crowd-tag';
+    var url = '/' + catalogAlias + '/' + assetId + '/save-crowd-tag';
     var data = {
       tag: tag
     };
@@ -85,7 +86,7 @@
         $crowdTags.prepend($new);
       }
       $crowdInput.typeahead('val', '');
-      $(VISION_CONTAINER_SELECTOR).children('[data-tag="'+ tag +'"]')
+      $(VISION_CONTAINER_SELECTOR).children('[data-tag="' + tag + '"]')
         .remove();
 
       $crowdNoTags.hide();
@@ -102,6 +103,7 @@
           if (window.showFacebookMaybe() === false) {
             Snackbar.info('Gemt! Tak for dit bidrag!');
           }
+          ga('send', 'event', GA_EVENT_CATEGORY, 'Save', 'Succes');
         })
         .fail(function(response) {
           $new.remove();
@@ -113,6 +115,20 @@
         });
     } else {
       console.log('Empty input');
+    }
+  }
+
+  function confirmVisionTags() {
+    if (hasVisionTags()) {
+      $(VISION_TAGS_SELECTOR).addClass('confirming').on('click', function(e) {
+        e.preventDefault();
+        var $tag = $(this).closest('[data-tag]');
+        var tagName = $tag.attr('data-tag');
+
+        addTag(tagName);
+        ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Vision topic');
+        return false;
+      });
     }
   }
 
@@ -145,10 +161,23 @@
   $crowdBtn.click(function() {
     if ($crowdTags.hasClass('inputting')) {
       addTag();
+      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Button click');
     } else {
+      confirmVisionTags();
       $crowdTags.addClass('inputting');
       $crowdTags.find('input').focus();
+      $stopCrowdBtn.removeClass('hidden');
       $crowdNoTags.hide();
+    }
+  });
+
+  $stopCrowdBtn.click(function() {
+    $('.confirming').removeClass('confirming').unbind('click');
+    $crowdInput.parent('span').removeClass('focused valid');
+    $crowdTags.removeClass('inputting');
+    $stopCrowdBtn.addClass('hidden');
+    if (hasCrowdTags() === false) {
+      $crowdNoTags.show();
     }
   });
 
@@ -156,6 +185,8 @@
     $('.crowd .alert').remove();
     if (event.keyCode === 13) {
       addTag();
+      ga('send', 'event', GA_EVENT_CATEGORY, 'Add', 'Enter press');
+      console.log(GA_EVENT_CATEGORY);
     }
   });
 
@@ -163,15 +194,12 @@
   $crowdInput.focus(function() {
     $(this).parent('span').addClass('focused valid');
   });
+
   $crowdInput.blur(function() {
     var $this = $(this);
     $this.parent('span').removeClass('focused');
-    if($this.val().length === 0){
+    if ($this.val().length === 0) {
       $this.parent('span').removeClass('valid');
-      $crowdTags.removeClass('inputting');
-      if (hasCrowdTags() === false) {
-        $crowdNoTags.show();
-      }
     }
   });
 
@@ -186,33 +214,6 @@
   }, {
     name: 'tags',
     source: typeaheadTags
-  });
-
-
-  // Vision tags
-
-  $editVisionTags.on('click', function(e) {
-    $editVisionTags.addClass('hidden');
-    $cancelVisionTags.removeClass('hidden');
-    $(VISION_TAGS_SELECTOR).addClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).on('click', function(e) {
-      e.preventDefault();
-      var $tag = $(this).closest('[data-tag]');
-      var tagName = $tag.attr('data-tag');
-
-      addTag(tagName);
-      return false;
-    });
-  });
-
-  $cancelVisionTags.on('click', function(e) {
-    $editVisionTags.removeClass('hidden');
-    $cancelVisionTags.addClass('hidden');
-    $(VISION_TAGS_SELECTOR).removeClass('confirming');
-
-    $(VISION_TAGS_SELECTOR).off('click');
-    $(ADD_VISION_TAG_SELECTOR).off('click');
   });
 
 })(jQuery);

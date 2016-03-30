@@ -1,210 +1,210 @@
+@import 'variables';
 @import 'geotagging';
-$asset--icon-shadow-color: #fff;
+@import 'slick';
+$slider-arrow-size: 4rem;
 
-// Assets
-.item {
-  padding-bottom: 3rem;
-
-  .primary-asset {
-    position: relative;
-
-    img {
-      @include center-block(); // Center tall asset images
-      width: 100%;
-    }
-
-  }
-
-  .add-tag {
-    display    : none;
-    margin-left: .2rem;
-    transform  : translateY(-2px);
-  }
-
-  .confirming {
-    .add-tag {
-      display: inline-block;
-    }
-  }
-
-  .asset-tools {
-    margin-bottom: $line-height-computed;
-    margin-top   : $line-height-computed;
-
-    .dropdown-menu {
-      min-width: 145px;
-
-      > li {
-        > a,
-        & > .stButton {
-          color: $gray !important;
-
-          &:hover,
-          &:focus {
-            background: $gray-lighter;
-            color     : $gray !important;
-          }
-        }
-
-        & > .stButton {
-          clear      : both;
-          display    : block !important;
-          font-size  : $font-size-base;
-          font-weight: normal;
-          line-height: $line-height-base;
-          margin     : 0;
-          padding    : 3px 20px;
-          white-space: nowrap;
-
-          .chicklets {
-            font-family: inherit;
-            font-size  : inherit;
-            height     : auto;
-            line-height: inherit;
-          }
-        }
-      }
-    }
-
-    .license {
-      float: right;
-
-      .title {
-        font-weight : bold;
-        margin-right: 5px;
-      }
-
-      img {
-        height: 31px;
-      }
-    }
-
-    @media all and (max-width:385px) {
-      a.btn-default {
-        margin-right: 5px;
-      }
-
-      .license .title {
-        display: none;
-      }
-    }
-  }
-
-  .map {
-    margin-top: .8rem;
-    width     : 100%;
-  }
-
-  .asset-block {
-    margin-bottom: $line-height-computed;
-  }
-
-  .related-assets {
-    margin-bottom: 15px;
-
-    .related-asset {
-      background-position: 50% 50%;
-      background-size    : cover;
-      display            : inline-block;
-      height             : 100px;
-      margin             : 1%;
-      position           : relative;
-      width              : 23%;
-      // border: 1px solid $brand-primary;
-    }
-  }
+.asset-top {
+  background-color: $topbar-color;
+  color           : $white;
+  padding         : 0 0 1rem;
 
   h1 {
-    font-size: 1.6rem;
+    margin-top: 0;
   }
 
-  h2,
-  .lead {
-    font-size: 1.3rem;
+  .asset-info {
+    padding-top: 1rem;
+  }
+}
+
+.img-col {
+  height: 100%;
+}
+
+.image-wrapper {
+  cursor    : zoom-in;
+  display   : block;
+  //max-height: $asset-max-height;
+  height: $asset-height-small;
+  padding   : 0;
+  position  : relative;
+
+  @media (min-width: $medium-size) {
+    height: $asset-max-height;
   }
 
-  h3 {
-    font-size    : 1rem;
-    margin-bottom: 0;
-    margin-top   : 0;
+  @media (min-width: $large-size) {
+    padding-left : 15px;
+    padding-right: 15px;
   }
 
-  h2 {
-    margin-bottom: .3rem;
+  img {
+    display   : block;
+    margin    : 0 auto;
+    max-height: 100%;
+    max-width : 100%;
+
+    //@media (min-width: $medium-size) {
+      // I wanted to use flexbox for this but it distorted the image
+      left     : 50%;
+      position : absolute;
+      top      : 50%;
+      transform: translate3d(-50%, -50%, 0);
+    //}
+  }
+}
+
+.rotation-wrapper {
+  margin: 0 auto;
+
+  @media (min-width: $medium-size) {
+    max-width: 85%;
   }
 
-  .lead {
-    font-weight  : 300;
-    margin-bottom: 0;
-    white-space  : pre-line;
+  @media (min-width: $large-size) {
+    max-width: 70%;
+  }
+}
+
+// Full blown image
+.container-fluid.big-image {
+  max-width: none;
+
+  .small-bleed {
+    padding: 0;
   }
 
-  th {
-    padding-right: .4rem;
+  .image-wrapper {
+    cursor    : zoom-out;
+    height    : auto;
+    max-height: none;
+    padding   : 0;
+
+    img {
+      max-height: none;
+      position  : static;
+      transform : none;
+    }
+  }
+}
+
+.social {
+  text-align: right;
+
+  > a {
+    display   : inline-block;
+    margin-top: .5rem;
+
+    &:not(:last-child) {
+      margin-right: $icon-size / 2;
+    }
+  }
+
+  svg {
+    fill  : $white;
+    height: $icon-size;
+    width : $icon-size;
+  }
+}
+
+.asset-middle {
+  background-color: $gray-lighter;
+  padding         : 1rem 0 2rem;
+
+  input {
+    background-color: rgba($white, 0);
+  }
+
+  @media (min-width: $medium-size) {
+    h2,
+    b {
+      display: block;
+      height : $asset-subject-headline-height;
+      margin : 0;
+    }
+
+    h2 {
+      line-height: $asset-subject-headline-height * 1.5;
+    }
+
+    b {
+      line-height: $asset-subject-headline-height * 1.7;
+    }
+  }
+}
+
+.related-assets {
+  position: relative;
+
+  .related-assets__next-arrow,
+  .related-assets__prev-arrow {
+    cursor    : pointer;
+    margin-top: -$slider-arrow-size / 2;
+    opacity   : .2;
+    position  : absolute;
+    top       : 50%;
+
+    &:hover {
+      opacity: .5;
+    }
+
+    svg {
+      height: $slider-arrow-size;
+      width : $slider-arrow-size;
+    }
+  }
+
+  .related-assets__next-arrow {
+    right: -5rem;
+  }
+
+  .related-assets__prev-arrow {
+    left: -5rem;
+
+    svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.add-tag {
+  display    : none;
+  margin-left: .2rem;
+  transform  : translateY(-2px);
+}
+
+.confirming {
+  .add-tag {
+    display: inline-block;
+  }
+}
+
+.asset-bottom {
+  padding: 1rem 0 3rem;
+
+  table {
+    width: 100%;
   }
 
   th,
   td {
-    display: inline-block;
+    // Override bootstrap col 15 px padding
+    padding: 0;
   }
 
-  .asset-icon {
-    color      : $black;
-    display    : none;
-    font-size  : 3em;
-    left       : 1em;
-    position   : absolute;
-    text-shadow: -1px -1px 0 $asset--icon-shadow-color, 1px -1px 0 $asset--icon-shadow-color, -1px 1px 0 $asset--icon-shadow-color, 1px 1px 0 $asset--icon-shadow-color;
-    top        : 1em;
+  // ensure som padding on mobile
+  th {
+    padding-right: 1rem;
 
-    &.small {
-      bottom   : .3em;
-      font-size: 1em;
-      left     : .3em;
+    @media (min-width: $small-size) {
+      padding-left: 0;
     }
   }
 }
 
-.collapsable-section-header {
-  a {
-    svg {
-      fill  : $brand-primary;
-      height: 1em;
-      margin: 0 .2em 0 0;
-      width : 1em;
-    }
-
-    &.collapsed svg:first-child {
-      display: none;
-    }
-
-    &:not(.collapsed) svg:nth-child(2) {
-      display: none;
-    }
-  }
-}
-
-// Zoom in and out cursor
-.asset .col-md-6 .zoomable {
-  cursor: zoom-in;
-}
-
-.asset .col-md-12 .zoomable {
-  cursor: zoom-out;
-}
-
-@media (min-width: $medium-size) {
-  .item {
-    h1 {
-      font-size: 2.6rem;
-    }
-
-    .lead {
-      font-size: 1.6rem;
-    }
-
-    h2 {
-      font-size: 1.6rem;
-    }
-  }
+// Map to show geolocation
+.mini-map {
+  height    : 10rem;
+  margin-top: .5rem;
+  width     : 100%;
 }

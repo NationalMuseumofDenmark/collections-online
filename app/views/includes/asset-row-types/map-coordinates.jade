@@ -2,16 +2,21 @@ include ../../mixins
 
 - var latitude = metadata[row.fields.latitude];
 - var longitude = metadata[row.fields.longitude];
+
 if latitude && longitude
   tr
-    th #{row.title}:
-    td
+    th.col-xs-6.col-sm-4 #{row.title}:
+    td.col-xs-6.col-sm-8
        = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
-       if options.showGeotagging
+       if options.editGeotagging
          | &nbsp;
          button.btn.btn-icon.btn-primary.btn-small(data-action='edit-place')
            +icon('pencil')
   tr
-   td.bleed(colspan='2')
-     a(href='http://maps.google.dk/maps?ll=' + latitude + ',' + longitude + '&spn=0.008039,0.015857&t=h&z=16&q=' + latitude + ',' + longitude, target='blank')
-       img.map(alt='Google Map', src='http://maps.google.dk/maps/api/staticmap?size=800x600&markers=' + latitude + ',' + longitude + '&sensor=false&zoom=14')
+   td(colspan='2')
+     #asset-map.mini-map
+
+else if options.showCallToAction
+  tr
+    td(colspan='2')
+      button.btn.btn-small.btn-primary#edit-coordinates Tilføj placering

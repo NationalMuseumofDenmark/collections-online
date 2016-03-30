@@ -9,11 +9,7 @@ block before-content
     include filtering
 
 block content
-  section.section-wrapper
-    if results.is_front
-      include includes/frontpage-slider
-
-    .clearfix
+  section.container-fluid
 
     if results.is_search
       h1.page-header Søgning på "#{filters.freetext}"
@@ -55,10 +51,12 @@ block content
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
 
+  include includes/footer
 
 block after-footer
-  a#toTop
-    +icon('scrolltotop')
+  if !results.is_front
+    a#toTop
+      +icon('scrolltotop')
 
 append javascript
   script.
