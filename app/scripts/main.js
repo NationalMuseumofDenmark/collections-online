@@ -22,4 +22,21 @@ $(function() {
         .addClass('pull-right');
     }
   });
+
+
+  var hideAllDropdowns = function() {
+    $('.dropdown').removeClass('dropdown--active');
+    $('body').off('click', hideAllDropdowns);
+  };
+
+  $('.dropdown__selected').on('click', function() {
+    var $this = $(this);
+    var $dropdown = $this.closest('.dropdown');
+    if ($dropdown.hasClass('dropdown--active') === false) {
+      $dropdown.addClass('dropdown--active');
+      setTimeout(function() {
+        $('body').off('click', hideAllDropdowns).on('click', hideAllDropdowns);
+      }, 1);
+    }
+  });
 });
