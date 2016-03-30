@@ -152,7 +152,7 @@ block content
   .overlay__container(data-content="asset-download")
     .overlay__content 
       h2 Download - vælg størrelse
-      if(player === 'image-single' || player === 'image-single-animated')
+      if(player === 'image-single')
         a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
           | Lille (#{sources.imageSet.download800.size} jpg)
         a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
@@ -164,6 +164,9 @@ block content
       if(filename.match('.tif$') || filename.match('.tiff$'))
         a.btn.btn-primary(href='#{sources.download}') 
           | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+      if(player === 'image-single-animated')
+        a.btn.btn-primary(href='#{sources.download}')
+          | Original (#{metadata.width_px} x #{metadata.height_px} gif)
 
       .overlay__license
         if(metadata.license)
