@@ -3,10 +3,10 @@ extends index
 
 block content
   .container-fluid.content
-    .row
+    .frontpage
       each catalog in catalogs
         if catalog
-          a.cards.col-xs-6.col-sm-4(href="/#{catalog.alias}")
+          a.frontpage__catalog(href="/#{catalog.alias}")
             .thumb(style="background-image: url('#{catalog.sources.thumbnail}')")
             h2= catalog.name
   include includes/footer

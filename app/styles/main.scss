@@ -3,7 +3,6 @@
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'asset';
 @import 'button';
-@import 'cards';
 @import 'facebook-group';
 @import 'filtering';
 @import 'footer';
@@ -19,6 +18,8 @@
 @import 'tags';
 @import 'snackbar';
 @import 'overlay';
+
+@import 'frontpage';
 
 html {
   font-size: 87.5%;
