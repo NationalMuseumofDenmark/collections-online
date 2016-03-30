@@ -30,6 +30,13 @@ $slider-arrow-size: 4rem;
 
   @media (min-width: $small-size) {
     height: $asset-max-height;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
   }
 
   @media (min-width: $large-size) {
@@ -39,7 +46,7 @@ $slider-arrow-size: 4rem;
 
   img {
     display   : block;
-    margin    : 0 auto;
+    margin    : auto;
     max-height: 100%;
     max-width : 100%;
   }
