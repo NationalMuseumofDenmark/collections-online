@@ -1,5 +1,26 @@
 @import 'variables';
 
+.search-page {
+
+}
+
+.search-page__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin-bottom: 0;
+  }
+}
+
+.search-page__sorting {
+  .dropdown {
+    margin-left: 0.5rem;
+  }
+}
+
 .search-results {
   .thumbnail {
     background-color: $white;
@@ -138,6 +159,7 @@
     width: 25%;
   }
 }
+
 
 // Load more button
 .load-more {

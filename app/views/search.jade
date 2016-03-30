@@ -11,32 +11,42 @@ block before-content
 block content
   section.container-fluid
 
-    if results.is_search
-      h1.page-header Søgning på "#{filters.freetext}"
-        +searchCount
-    if results.is_front
-      h1.page-header Alle samlinger
-        +searchCount
-    if results.is_category
-      h1.page-header
-        a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
-        if breadcrumbs
-          if breadcrumbs.second
-            | &nbsp; &gt; &nbsp;
-            a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
-            | &nbsp; &gt; &nbsp;
-            span #{breadcrumbs.second.name}
-              +searchCount
-          else if breadcrumbs.first
-            | &nbsp; &gt; &nbsp;
-            span #{breadcrumbs.first.name}
-              +searchCount
-        else
-          | &nbsp; &gt; Ingen titel
+    .search-page__header 
 
-    if results.is_catalog
-      h1.page-header #{catalog.name}
-        +searchCount
+      h1
+        if results.is_search
+          | Søgning på "#{filters.freetext}"
+          +searchCount
+        if results.is_category
+          a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
+          if breadcrumbs
+            if breadcrumbs.second
+              | &nbsp; &gt; &nbsp;
+              a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
+              | &nbsp; &gt; &nbsp;
+              span #{breadcrumbs.second.name}
+                +searchCount
+            else if breadcrumbs.first
+              | &nbsp; &gt; &nbsp;
+              span #{breadcrumbs.first.name}
+                +searchCount
+          else
+            | &nbsp; &gt; Ingen titel
+
+        if results.is_catalog
+          | #{catalog.name}
+          +searchCount
+
+      .search-page__sorting
+        | Sorteret efter
+        .dropdown
+          a.dropdown__selected= sortOptions[filters.params.sorting].label
+          .dropdown__options
+            each val, key in sortOptions
+              - var selected = (key === filters.params.sorting)
+              - var url = noSortingUrl + '&sort=' + key
+              a.dropdown__option(href=url, 
+                class=selected ? 'dropdown__option--active' : '') #{val.label} 
 
     .search-results.row(id="masonry-container")
       each result in results.results
