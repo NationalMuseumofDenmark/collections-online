@@ -70,7 +70,7 @@ $thick-line: 3px;
   width: 100%;
 
   .tt-menu {
-    @include card(2);
+    @include shadow(2);
     background-color: $white;
     cursor          : pointer;
     margin-top      : $thick-line - $thin-line;
@@ -120,3 +120,4 @@ $thick-line: 3px;
     }
   }
 }
+
