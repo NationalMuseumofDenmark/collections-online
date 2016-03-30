@@ -13,11 +13,6 @@ function initializeCipCategories(state) {
 
   state.categories = {};
 
-  // TODO: Consider implementing this to fetch categories just-in-time
-  state.getCategories = (catalogAlias) => {
-    return state.categories[catalogAlias];
-  };
-
   return cipCategories.loadCategories()
   .then(function(result) {
     // The categories pr catalog has been fetched from Cumulus.
