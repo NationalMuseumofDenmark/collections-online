@@ -25,11 +25,10 @@ $slider-arrow-size: 4rem;
   cursor    : zoom-in;
   display   : block;
   //max-height: $asset-max-height;
-  height: $asset-height-small;
   padding   : 0;
   position  : relative;
 
-  @media (min-width: $medium-size) {
+  @media (min-width: $small-size) {
     height: $asset-max-height;
   }
 
@@ -43,15 +42,8 @@ $slider-arrow-size: 4rem;
     margin    : 0 auto;
     max-height: 100%;
     max-width : 100%;
-
-    //@media (min-width: $medium-size) {
-      // I wanted to use flexbox for this but it distorted the image
-      left     : 50%;
-      position : absolute;
-      top      : 50%;
-      transform: translate3d(-50%, -50%, 0);
-    //}
   }
+
 }
 
 .rotation-wrapper {
