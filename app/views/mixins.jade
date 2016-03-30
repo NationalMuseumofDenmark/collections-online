@@ -118,19 +118,26 @@ mixin icon(id)
   svg
     use(xlink:href='#icon-#{id}')
 
+mixin fullDate(date) 
+  - var points = []
+  - if (date.day && date.month) points.push(date.day)
+  - if (date.month) points.push(date.month)
+  - if (date.year) points.push(date.year)
+  | #{points.join('/')}
+
 mixin formatDate(from, to)
   if(from && to && from.day == to.day && from.month == to.month && from.day == to.day)
-    | #{from.day}/#{from.month}/#{from.year}
+    +fullDate(from)
   else
     if(from && to && from.day == 1 && from.month == 1 && to.day == 31 && to.month == 12 && from.year == to.year)
       | #{from.year}
     else
       if(from)
-        | #{from.day}/#{from.month}/#{from.year}
+        +fullDate(from)
       if((from && to) || (!from && !to))
         |  - 
       if(to)
-        | #{to.day}/#{to.month}/#{to.year}
+        +fullDate(to)
 
 
 mixin tag(name)
