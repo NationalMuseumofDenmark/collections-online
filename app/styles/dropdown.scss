@@ -2,13 +2,13 @@
 @import 'functions-shadows';
 
 .dropdown {
-  position: relative;
-  display: inline-block;
-  font-size: 1rem;
-  cursor: pointer;
+  cursor     : pointer;
+  display    : inline-block;
+  font-size  : 1rem;
+  position   : relative;
   user-select: none;
 
-  &--active  {
+  &--active {
     z-index: 10;
 
     .dropdown__options {
@@ -16,67 +16,68 @@
     }
 
     .dropdown__selected {
-      position: relative;
       border-bottom-color: transparent;
-      z-index: 1;
+      position           : relative;
+      z-index            : 1;
     }
 
     .dropdown__selected::after {
-      border-bottom: 5px solid black;
-      border-top: none;
+      transform: rotate(180deg);
     }
   }
 }
 
 .dropdown__selected {
-  display: inline-block;
-  font-weight: bold;
-  min-width: 12rem;
-  padding: 0 10px;
-  line-height: 2rem;
-  border-bottom: 1px solid $black;
-  color: $black;
+  border-bottom: 1px solid $text-color;
+  color        : $text-color;
+  display      : inline-block;
+  font-weight  : bold;
+  line-height  : 2rem;
+  min-width    : 12rem;
+  padding      : 0 10px;
 
-  &:hover, &:focus {
-    color: $black;
+  &:focus,
+  &:hover {
+    color          : $text-color;
     text-decoration: none;
   }
 
   &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 10px;
-    bottom: 2px;
-    margin: auto;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
+    border-left : 5px solid transparent;
     border-right: 5px solid transparent;
-    border-top: 5px solid black;
+    border-top  : 5px solid $text-color;
+    bottom      : 2px;
+    content     : '';
+    height      : 0;
+    margin      : auto;
+    position    : absolute;
+    right       : 10px;
+    top         : 0;
+    transition  : transform $anim-default;
+    width       : 0;
   }
 }
 
 .dropdown__options {
-  display: none;
-  position: absolute;
   @include shadow(1);
-  top: -0.75rem;
-  padding: 3.5rem 0 0.75rem;
-  width: 100%;
   background: $dropdown-bg;
+  display   : none;
+  padding   : 3.5rem 0 .75rem;
+  position  : absolute;
+  top       : -.75rem;
+  width     : 100%;
 }
 
 .dropdown__option {
-  display: block;
-  padding: 0 10px;
+  color      : $text-color;
+  display    : block;
   line-height: 2.5rem;
-  color: $black;
+  padding    : 0 10px;
 
   &:hover {
-    color: $black;
+    background     : $dropdown-bg-hover;
+    color          : $text-color;
     text-decoration: none;
-    background: $dropdown-bg-hover;
   }
 
   &--active {
