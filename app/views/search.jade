@@ -60,13 +60,11 @@ block content
   if(results.total_results_raw > 10)
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
+      
+  a#toTop
+    +icon('scrolltotop')
 
   include includes/footer
-
-block after-footer
-  if !results.is_front
-    a#toTop
-      +icon('scrolltotop')
 
 append javascript
   script.
