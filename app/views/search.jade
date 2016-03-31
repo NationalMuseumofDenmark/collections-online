@@ -1,18 +1,15 @@
 extends index
 
 append header
-  if results.is_search || results.is_front || results.is_category || results.is_catalog
+  if results.is_search || results.is_category || results.is_catalog
     +searchMeta(results, catalog, breadcrumbs)
     
-block before-content
-  if !results.is_front
-    include filtering
-
 block content
+
+  include includes/filtering
+
   section.container-fluid
-
     .search-page__header 
-
       h1
         if results.is_search
           | Søgning på "#{filters.freetext}"
@@ -32,11 +29,9 @@ block content
                 +searchCount
           else
             | &nbsp; &gt; Ingen titel
-
         if results.is_catalog
           | #{catalog.name}
           +searchCount
-
       .search-page__sorting
         | Sorteret efter
         .dropdown
