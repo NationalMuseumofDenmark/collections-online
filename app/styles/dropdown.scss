@@ -12,7 +12,9 @@
     z-index: 10;
 
     .dropdown__options {
-      display: block;
+      @include shadow(1);
+      visibility: visible;
+      opacity   : 1;
     }
 
     .dropdown__selected {
@@ -53,18 +55,19 @@
     position    : absolute;
     right       : 10px;
     top         : 0;
-    transition  : transform $anim-default;
     width       : 0;
   }
 }
 
 .dropdown__options {
-  @include shadow(1);
+  @include shadow(0);
   background: $dropdown-bg;
-  display   : none;
+  opacity   : 0;
   padding   : 3.5rem 0 .75rem;
   position  : absolute;
   top       : -.75rem;
+  transition: $anim-duration-fast ease;
+  visibility: hidden;
   width     : 100%;
 }
 
