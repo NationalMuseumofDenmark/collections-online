@@ -10,17 +10,17 @@ mixin assetMeta(item, sources)
 
   +meta(title,socialTitle,image,description)
 
-mixin searchMeta(results, catalog, breadcrumbs)
-  if results.is_search
+mixin searchMeta(result, catalog, breadcrumbs)
+  if result.isSearch
     - title = filters.freetext
     - socialTitle = 'Søgning på "' + title + '"'
 
-  if results.is_category
+  if result.isCategory
     if breadcrumbs
       - title = breadcrumbs.last.name
     else
       - title = catalog.name
-  if results.is_catalog
+  if result.isCatalog
     - title = catalog.name
 
   +meta(title,socialTitle)
@@ -77,7 +77,7 @@ mixin loader(text)
   .loader.two
 
 mixin searchCount
-  span.search-count &nbsp;#{results.total_results} poster
+  span.search-count &nbsp;#{result.totalCount} poster
 
 mixin recursiveCategoryItem(catalog, category)
   if category.count > 0
@@ -96,14 +96,14 @@ mixin recursiveCategoryItem(catalog, category)
 mixin searchResultAsset(asset)
   div(class='col-lg-3 box')
     .thumbnail
-      a(href='#{asset.url}')
+      a(href='#{asset.link}')
         if asset.type == 'video'
           div.video-thumbnail
             div.icon
         else
           div.image
             div.overlay
-              img(src='#{asset.thumbnail_url}').rotation
+              img(src='#{asset.thumbnailURL}').rotation
               if asset.type == 'image-rotation'
                 +icon('rotation')
         if asset.title
@@ -112,7 +112,7 @@ mixin searchResultAsset(asset)
           h2(class='h4') Ingen titel
         p.description #{asset.description}
       p.cat-link
-        a(href='#{asset.catalog_url}') #{asset.catalog}
+        a(href='#{asset.catalogURL}') #{asset.catalog}
 
 mixin icon(id)
   svg

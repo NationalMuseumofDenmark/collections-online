@@ -1,20 +1,22 @@
 extends index
 
 append header
-  if results.is_search || results.is_category || results.is_catalog
-    +searchMeta(results, catalog, breadcrumbs)
+  if result.isSearch || result.isCategory || result.isCatalog
+    +searchMeta(result, catalog, breadcrumbs)
     
 block content
 
   include includes/filtering
 
   section.container-fluid
+
     .search-page__header 
+
       h1
-        if results.is_search
+        if result.isSearch
           | Søgning på "#{filters.freetext}"
           +searchCount
-        if results.is_category
+        if result.isCategory
           a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
           if breadcrumbs
             if breadcrumbs.second
@@ -29,9 +31,11 @@ block content
                 +searchCount
           else
             | &nbsp; &gt; Ingen titel
-        if results.is_catalog
+
+        if result.isCatalog
           | #{catalog.name}
           +searchCount
+
       .search-page__sorting
         | Sorteret efter
         .dropdown
@@ -44,15 +48,15 @@ block content
                 class=selected ? 'dropdown__option--active' : '') #{val.label} 
 
     .search-results.row(id="masonry-container")
-      each result in results.results
-        +searchResultAsset(result)
+      each asset in result.hits
+        +searchResultAsset(asset)
 
   .clearfix
   
   #page-nav
     a(href='#{infinitepath}')
 
-  if(results.total_results_raw > 10)
+  if(result.totalCountRaw > 10)
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
       
