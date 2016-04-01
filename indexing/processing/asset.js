@@ -18,6 +18,7 @@ function AssetIndexingError(catalogAlias, assetId, innerError) {
 // is passed on to the next function in the list.
 var METADATA_TRANSFORMATIONS = [
   require('../transformations/field-names'),
+  require('../transformations/empty-title'),
   require('../transformations/modification-time'),
   require('../transformations/dates'),
   require('../transformations/date-intervals'),
