@@ -20,7 +20,6 @@
     .dropdown__selected {
       border-bottom-color: transparent;
       position           : relative;
-      z-index            : 1;
     }
 
     .dropdown__selected::after {
@@ -34,9 +33,7 @@
   color        : $text-color;
   display      : inline-block;
   font-weight  : bold;
-  line-height  : 2rem;
-  min-width    : 12rem;
-  padding      : 0 10px;
+  padding      : 0 1.7em 0 .5em;
 
   &:focus,
   &:hover {
@@ -45,15 +42,15 @@
   }
 
   &::after {
-    border-left : 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top  : 5px solid $text-color;
-    bottom      : 2px;
+    border-left : .4em solid transparent;
+    border-right: .4em solid transparent;
+    border-top  : .4em solid $text-color;
+    bottom      : .1em;
     content     : '';
     height      : 0;
     margin      : auto;
     position    : absolute;
-    right       : 10px;
+    right       : .4em;
     top         : 0;
     width       : 0;
   }
@@ -63,21 +60,19 @@
   @include shadow(0);
   background: $dropdown-bg;
   opacity   : 0;
-  padding   : 3.5rem 0 .75rem;
+  padding   : .5em 0;
   position  : absolute;
-  top       : -.75rem;
+  right     : 0;
   transition: $anim-duration-fast ease;
   visibility: hidden;
-  width     : 100%;
-  min-width : 99%;
 }
 
 .dropdown__option {
   color      : $text-color;
   display    : block;
-  line-height: 2.5rem;
+  line-height: 2.5;
   white-space: nowrap;
-  padding    : 0 10px;
+  padding    : 0 .8em;
 
   &:hover {
     background     : $dropdown-bg-hover;
