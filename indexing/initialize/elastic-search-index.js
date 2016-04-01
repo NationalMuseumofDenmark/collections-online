@@ -20,7 +20,18 @@ module.exports = function(state) {
       console.log('Index was already created.');
       return state;
     } else {
-      var fields = {};
+      var fields = {
+        'short_title': {
+          'type': 'string',
+          'analyzer': 'english',
+          'fields': {
+            'raw': {
+              'type': 'string',
+              'index': 'not_analyzed'
+            }
+          }
+        }
+      };
       // Derive mappings from the asset field types
       config.assetFields.filter((field) => {
         return field.type;
