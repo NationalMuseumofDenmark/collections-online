@@ -20,11 +20,30 @@ module.exports = function(state) {
       console.log('Index was already created.');
       return state;
     } else {
+      var fields = {};
+      // Derive mappings from the asset field types
+      config.assetFields.filter((field) => {
+        return field.type;
+      }).forEach((field) => {
+        var fieldName = field.short;
+        if (field.type === 'date') {
+          fieldName += '.timestamp';
+        }
+        fields[fieldName] = {
+          type: field.type
+        };
+      });
+      // Create the actual index
       return es.indices.create({
         index: state.index,
         body: {
           'index': {
             'max_result_window': 100000 // We need this, so sitemaps can access all assets
+          },
+          'mappings': {
+            'asset': {
+              'properties': fields
+            }
           }
         }
       }).then(function() {
