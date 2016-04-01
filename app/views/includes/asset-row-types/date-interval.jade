@@ -3,7 +3,6 @@ include ../../mixins
 tr
   th.col-xs-6.col-sm-4 #{row.title}: 
   td.col-xs-6.col-sm-8
-    - var startDate = metadata[row.fields.from];
-    - var endDate = metadata[row.fields.to];
-    if startDate && endDate
-      +formatDate(startDate, endDate)
+    - var fromDate = metadata[row.fields.from];
+    - var toDate = metadata[row.fields.to];
+    +formatDate(fromDate, toDate)
