@@ -135,10 +135,11 @@ var mapHeading = 0;
 
   window.initMap = function() {
     var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
-    var address = $('#address').val();
     var latitude = $('.asset').data('latitude');
     var longitude = $('.asset').data('longitude');
     var heading = $('.asset').data('heading');
+    var address = $('.asset').data('full-address');
+
     var mapOptions = {
       center: initialPosition,
       zoom: 16,
@@ -167,11 +168,14 @@ var mapHeading = 0;
       assetMap.setZoom(13);
       assetMap.setCenter({lat: latitude, lng: longitude});
     }
-    marker = new google.maps.Marker({
-      map: assetMap,
-      icon: '/images/map_pin_red.png',
-      position: {lat: latitude, lng: longitude}
-    });
+
+    if (latitude && longitude) {
+      marker = new google.maps.Marker({
+        map: assetMap,
+        icon: '/images/map_pin_red.png',
+        position: {lat: latitude, lng: longitude}
+      });
+    }
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls
@@ -237,7 +241,6 @@ var mapHeading = 0;
 
     } else if (address) {
       var geocoder = new google.maps.Geocoder();
-
       geocoder.geocode({
         'address': address
       }, function(results, status) {
@@ -250,6 +253,8 @@ var mapHeading = 0;
           resizeMap();
         }
       });
+      // Let's show the user that we have searched for this address
+      $('#pac-input').val(address);
     }
 
     map.addListener('click', function(event) {

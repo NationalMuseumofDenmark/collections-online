@@ -12,17 +12,15 @@ block content
   - var address = metadata.address || metadata.street;
   - var zipcode = metadata.zipcode;
   - var city = metadata.city;
-  - var fullAddr = [];
+  - var fullAddress = [];
 
-  - if(address || zipcode || city)
-    - if(address)
-      - fullAddr.push(address)
-    - if(zipcode)
-      - fullAddr.push(zipcode)
-    - if(city)
-      - fullAddr.push(city)
-
-  input#address(type='hidden', value=fullAddr.join(','))
+  - if(address)
+    - fullAddress.push(address)
+  - if(zipcode)
+    - fullAddress.push(zipcode)
+  - if(city)
+    - fullAddress.push(city)
+  - fullAddress = fullAddress.join(', ')
 
 
   article.asset(itemscope,
@@ -31,12 +29,12 @@ block content
           data-id=metadata.id,
           data-latitude=metadata.latitude,
           data-longitude=metadata.longitude,
-          data-heading=metadata.heading)
-    - var address = metadata.address || metadata.street;
+          data-heading=metadata.heading,
+          data-full-address=fullAddress)
     - var description = metadata.description;
     - var city = metadata.city;
     - var filename = metadata.filename.toLowerCase();
-    - var title = metadata.short_title
+    - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
     .asset-top
       .container-fluid
