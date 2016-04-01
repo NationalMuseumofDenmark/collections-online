@@ -13,26 +13,26 @@
   },
   "modification|desc": {
     "label": "Opdateret: Nyeste",
-    "method": {"modification_time": "desc"}
+    "method": {"modification_time.timestamp": "desc"}
   },
   "modification|asc": {
     "label": "Opdateret: Ældste",
-    "method": {"modification_time": "asc"}
+    "method": {"modification_time.timestamp": "asc"}
   },
   "acceptance|desc": {
     "label": "Optaget: Nyeste",
-    "method": {"acceptance_time_from": "desc"}
+    "method": {"acceptance_time_from.timestamp": "desc"}
   },
   "acceptance|asc": {
     "label": "Optaget: Ældste",
-    "method": {"acceptance_time_from": "asc"}
+    "method": {"acceptance_time_from.timestamp": "asc"}
   },
   "creation|desc": {
     "label": "Fremstillet: Nyeste",
-    "method": {"creation_time_from": "desc"}
+    "method": {"creation_time_from.timestamp": "desc"}
   },
   "creation|asc": {
     "label": "Fremstillet: Ældste",
-    "method": {"creation_time_from": "asc"}
+    "method": {"creation_time_from.timestamp": "asc"}
   }
 }

@@ -61,16 +61,20 @@
     "short": "inventory_number"
   }, {
     "cumulusKey": "{59ac5106-a3b4-4152-8647-66cebcb6af48}",
-    "short": "creation_time_from"
+    "short": "creation_time_from",
+    "type": "date"
   }, {
     "cumulusKey": "{eaf2f030-2bfb-4d75-98ab-fb9bd33affcc}",
-    "short": "creation_time_to"
+    "short": "creation_time_to",
+    "type": "date"
   }, {
     "cumulusKey": "{65f668d1-b070-494f-a9a3-7b6c3d370e65}",
-    "short": "acceptance_time_from"
+    "short": "acceptance_time_from",
+    "type": "date"
   }, {
     "cumulusKey": "{0db7de9e-37fa-47a5-b087-0b1e6066ee86}",
-    "short": "acceptance_time_to"
+    "short": "acceptance_time_to",
+    "type": "date"
   }, {
     "cumulusKey": "{1cb94319-9e1f-428e-993f-a78c78947f60}",
     "short": "timenote"
@@ -109,7 +113,8 @@
     "short": "zipcode"
   }, {
     "cumulusKey": "{af4b2e02-5f6a-11d2-8f20-0000c0e166dc}",
-    "short": "modification_time"
+    "short": "modification_time",
+    "type": "date"
   }, {
     "cumulusKey": "{a493be21-0f70-4cae-9394-703eca848bad}",
     "short": "review_state"
