@@ -1,0 +1,38 @@
+{
+  "relevance": {
+    "label": "Relevans",
+    "method": "_score"
+  },
+  "title|asc": {
+    "label": "Alfabetisk: a-z",
+    "method": {"short_title": "asc"}
+  },
+  "title|desc": {
+    "label": "Alfabetisk: z-a",
+    "method": {"short_title": "desc"}
+  },
+  "modification|desc": {
+    "label": "Opdateret: Nyeste",
+    "method": {"modification_time": "desc"}
+  },
+  "modification|asc": {
+    "label": "Opdateret: Ældste",
+    "method": {"modification_time": "asc"}
+  },
+  "acceptance|desc": {
+    "label": "Optaget: Nyeste",
+    "method": {"acceptance_time_from": "desc"}
+  },
+  "acceptance|asc": {
+    "label": "Optaget: Ældste",
+    "method": {"acceptance_time_from": "asc"}
+  },
+  "creation|desc": {
+    "label": "Fremstillet: Nyeste",
+    "method": {"creation_time_from": "desc"}
+  },
+  "creation|asc": {
+    "label": "Fremstillet: Ældste",
+    "method": {"creation_time_from": "asc"}
+  }
+}
