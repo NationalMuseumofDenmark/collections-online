@@ -6,9 +6,8 @@ block content
       h1 Siden blev ikke fundet
     else
       h1 Der er sket en fejl
-    if(!showStacktrace)
+    if(showStacktrace)
       pre= err.stack
-    else
-      p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
+    p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
 
   include includes/footer
