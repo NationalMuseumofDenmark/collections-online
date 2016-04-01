@@ -13,11 +13,11 @@
   },
   "modification|desc": {
     "label": "Opdateret: Nyeste",
-    "method": {"modification_timestamp": "desc"}
+    "method": {"modification_time.timestamp": "desc"}
   },
   "modification|asc": {
     "label": "Opdateret: Ældste",
-    "method": {"modification_timestamp": "asc"}
+    "method": {"modification_time.timestamp": "asc"}
   },
   "acceptance|desc": {
     "label": "Optaget: Nyeste",
