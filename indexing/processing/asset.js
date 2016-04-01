@@ -20,6 +20,7 @@ var METADATA_TRANSFORMATIONS = [
   require('../transformations/field-names'),
   require('../transformations/modification-time'),
   require('../transformations/dates'),
+  require('../transformations/date-intervals'),
   require('../transformations/categories-and-suggest'),
   require('../transformations/relations'),
   require('../transformations/dimensions-in-cm'),
