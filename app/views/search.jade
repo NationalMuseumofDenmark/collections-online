@@ -1,18 +1,15 @@
 extends index
 
 append header
-  if results.is_search || results.is_front || results.is_category || results.is_catalog
+  if results.is_search || results.is_category || results.is_catalog
     +searchMeta(results, catalog, breadcrumbs)
     
-block before-content
-  if !results.is_front
-    include filtering
-
 block content
+
+  include includes/filtering
+
   section.container-fluid
-
     .search-page__header 
-
       h1
         if results.is_search
           | Søgning på "#{filters.freetext}"
@@ -32,11 +29,9 @@ block content
                 +searchCount
           else
             | &nbsp; &gt; Ingen titel
-
         if results.is_catalog
           | #{catalog.name}
           +searchCount
-
       .search-page__sorting
         | Sorteret efter
         .dropdown
@@ -60,13 +55,11 @@ block content
   if(results.total_results_raw > 10)
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
+      
+  a#toTop
+    +icon('scrolltotop')
 
   include includes/footer
-
-block after-footer
-  if !results.is_front
-    a#toTop
-      +icon('scrolltotop')
 
 append javascript
   script.
@@ -75,14 +68,3 @@ append javascript
       // To ensure no boxes are hidden if the was some load error
       $('.loaded-more').removeClass('loaded-more');
     });
-  if results.is_front
-    script.
-      $(window).load(function() {
-         $('.slider').flexslider({
-          animation: "slide",
-          controlNav: false,
-          start: function(slider) {
-            $(window).trigger('resize');
-          }
-        });
-      });

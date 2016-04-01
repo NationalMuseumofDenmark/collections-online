@@ -1,15 +1,14 @@
 extends index
 
 block content
-      .row
-      .col-md9.text-row
+  .container-fluid
+    if(err.status === 404)
+      h1 Siden blev ikke fundet
+    else
+      h1 Der er sket en fejl
+    if(!showStacktrace)
+      pre= err.stack
+    else
+      p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
 
-        header
-          h1 Ups der skete desværre en fejl
-
-        h2 Der skete desværre en fejl, prøv igen senere.
-
-        .asset
-          .asset-block
-            p
-              // Empty
+  include includes/footer
