@@ -63,7 +63,7 @@
   @include shadow(1);
   top: -0.75rem;
   padding: 3.5rem 0 0.75rem;
-  width: 100%;
+  min-width: 100%;
   background: $dropdown-bg;
 }
 
@@ -71,6 +71,7 @@
   display: block;
   padding: 0 10px;
   line-height: 2.5rem;
+  white-space: nowrap;
   color: $black;
 
   &:hover {
