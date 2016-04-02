@@ -34,14 +34,14 @@ module.exports = function(state) {
       };
       // Derive mappings from the asset field types
       config.assetFields.filter((field) => {
-        return field.type;
+        return field.type === 'date';
       }).forEach((field) => {
         var fieldName = field.short;
-        if (field.type === 'date') {
-          fieldName += '.timestamp';
-        }
         fields[fieldName] = {
-          type: field.type
+          type: 'nested',
+          properties: {
+            timestamp: {type: 'date'}
+          }
         };
       });
       // Create the actual index
