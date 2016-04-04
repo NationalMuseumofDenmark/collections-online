@@ -6,7 +6,7 @@
       "AS": {
         "label": "Antiksamlingen",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "AS"}}
         }
       },
       "BA": {
