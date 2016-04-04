@@ -13,7 +13,8 @@ $menu-no-shadow               : rgba(0, 0, 0, 0);
 $menu-highlight               : rgba(255, 255, 255, .1);
 
 $dropdown-bg                  : $white;
-$dropdown-bg-hover            : $gray-lighter;
+$dropdown-bg-hover            : rgba($gray-lighter, .5);
+$dropdown-padding             : .5em;
 
 // Scaffolding
 $body-bg                      : $white;

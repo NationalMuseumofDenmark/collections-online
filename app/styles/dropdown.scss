@@ -2,10 +2,10 @@
 @import 'functions-shadows';
 
 .dropdown {
-  cursor       : pointer;
-  display      : inline-block;
-  position     : relative;
-  user-select  : none;
+  cursor     : pointer;
+  display    : inline-block;
+  position   : relative;
+  user-select: none;
 
   &--active {
     z-index: 10;
@@ -61,9 +61,11 @@
 .dropdown__options {
   @include shadow(0);
   background: $dropdown-bg;
+  left      : -$dropdown-padding;
+  margin-top: $dropdown-padding / 2;
   min-width : 100%;
   opacity   : 0;
-  padding   : .5em 0;
+  padding   : $dropdown-padding 0;
   position  : absolute;
   text-align: left;
   transition: $anim-duration-fast ease;
@@ -74,7 +76,7 @@
   color      : $text-color;
   display    : block;
   line-height: 2.5;
-  padding    : 0 .8em;
+  padding    : 0 $dropdown-padding;
   white-space: nowrap;
 
   &:hover {
@@ -91,7 +93,8 @@
 .search-page__header {
   .dropdown__selected {
     border-bottom: 1px solid $text-color;
-    padding      : 0 1.7em 0 .5em;
+    margin-bottom: -1px;
+    padding      : 0 1.6em 0 .5em;
   }
 
   .dropdown--active {
@@ -101,6 +104,7 @@
   }
 
   .dropdown__options {
+    left : auto;
     right: 0;
   }
 }
