@@ -24,9 +24,14 @@ $(function() {
   });
 
 
-  var hideAllDropdowns = function() {
-    $('.dropdown').removeClass('dropdown--active');
-    $('body').off('click', hideAllDropdowns);
+  var hideAllDropdowns = function(e) {
+    var $target = $(e.target);
+    var $dropdown = $target.closest('.dropdown');
+    var isInputInDropdown = $target.is('input') || $dropdown.size() > 0;
+    if (isInputInDropdown === false) {
+      $('.dropdown').removeClass('dropdown--active');
+      $('body').off('click', hideAllDropdowns);
+    }
   };
 
   $('.dropdown__selected').on('click', function() {
