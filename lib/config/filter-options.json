@@ -3,6 +3,60 @@
     "label": "Samling",
     "notSelectedLabel": "Alle samlinger",
     "options": {
+      "AS": {
+        "label": "Antiksamlingen",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "BA": {
+        "label": "Bevaringsafdelingen",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "DMR": {
+        "label": "Danmarks Middelalder og Renæssance",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "DNT": {
+        "label": "Danmarks Nyere Tid",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "DO": {
+        "label": "Danmarks Oldtid",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "KMM": {
+        "label": "Den Kgl. Mønt- og Medaljesamling",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "ES": {
+        "label": "Etnografisk Samling",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "FHM": {
+        "label": "Frihedsmuseet",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "FLM": {
+        "label": "Frilandsmuseet",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      }
     }
   },
   "geolocation": {
@@ -33,16 +87,28 @@
     "label": "Medietype",
     "notSelectedLabel": "Alle medietyper",
     "options": {
-    }
-  },
-  "rotationImage": {
-    "label": "360°",
-    "notSelectedLabel": "Filtrer ikke efter 360°",
-    "options": {
-      "true": {
+      "picture": {
+        "label": "Billede",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "rotationPicture": {
         "label": "Rotationsbillede",
         "method": {
           "query": {"match": {"categories.name": "Rotationsbilleder"}}
+        }
+      },
+      "video": {
+        "label": "Film",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "sound": {
+        "label": "Lyd",
+        "method": {
+          "query": {"match": {"license.id": 8}}
         }
       }
     }
@@ -105,6 +171,24 @@
     "label": "Størrelse",
     "notSelectedLabel": "Alle størrelser",
     "options": {
+      "Small": {
+        "label": "> 500px",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "Medium": {
+        "label": "> 1000px",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "Large": {
+        "label": "> 2000px",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      }
     }
   }
 }
