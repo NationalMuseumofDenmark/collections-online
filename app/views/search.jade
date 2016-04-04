@@ -10,9 +10,9 @@ block content
 
   section.container-fluid
 
-    .search-page__header 
+    .search-page__header.row 
 
-      h1
+      h1.col-xs-12.col-sm-7.col-md-8.col-lg-8
         if result.isSearch
           | Søgning på "#{filters.freetext}"
           +searchCount
@@ -36,7 +36,7 @@ block content
           | #{catalog.name}
           +searchCount
 
-      .search-page__sorting
+      .search-page__sorting.col-xs-12.col-sm-5.col-md-4.col-lg-4
         | Sorteret efter
         .dropdown
           a.dropdown__selected= sortOptions[filters.params.sorting].label

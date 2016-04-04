@@ -1,24 +1,26 @@
 @import 'variables';
 
-.search-page {
-
-}
-
 .search-page__header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
   margin-bottom: 1rem;
 
   h1 {
     margin-bottom: 0;
   }
+
+  // Overwrite default bootstrap row-col float behaviour to align bottom
+  > * {
+    display: inline-block;
+    float  : none;
+  }
+
+  > *:last-child {
+    vertical-align: bottom;
+  }
 }
 
 .search-page__sorting {
-  .dropdown {
-    margin-left: 0.5rem;
-  }
+  padding-bottom: .2rem;
+  text-align: right;
 }
 
 .search-results {
@@ -104,7 +106,6 @@
   &.load-done {
     animation: fadeIn $anim-duration-long forwards;
     opacity  : 0;
-
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -159,7 +160,6 @@
     width: 25%;
   }
 }
-
 
 // Load more button
 .load-more {
