@@ -5,11 +5,6 @@
     "options": {
     }
   },
-  "recordingTime": {
-    "label": "Optagelsestid",
-    "notSelectedLabel": "Alle optagelsestider",
-    "option": "date-range"
-  },
   "geolocation": {
     "label": "Placering",
     "notSelectedLabel": "Filtrer ikke efter placering",
