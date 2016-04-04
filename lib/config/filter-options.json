@@ -12,49 +12,49 @@
       "BA": {
         "label": "Bevaringsafdelingen",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "BA"}}
         }
       },
       "DMR": {
         "label": "Danmarks Middelalder og Renæssance",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "DMR"}}
         }
       },
       "DNT": {
         "label": "Danmarks Nyere Tid",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "DNT"}}
         }
       },
       "DO": {
         "label": "Danmarks Oldtid",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "DO"}}
         }
       },
       "KMM": {
         "label": "Den Kgl. Mønt- og Medaljesamling",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "KMM"}}
         }
       },
       "ES": {
         "label": "Etnografisk Samling",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "ES"}}
         }
       },
       "FHM": {
         "label": "Frihedsmuseet",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "FHM"}}
         }
       },
       "FLM": {
         "label": "Frilandsmuseet",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"catalog": "FLM"}}
         }
       }
     }
