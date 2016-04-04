@@ -20,7 +20,7 @@ block content
           .dropdown__options
             a.dropdown__option(href=helpers.urlQuery(fullPath, filterKey, undefined), 
               class=!currentChoice ? 'dropdown__option--active' : '') 
-                | Filtrer ikke efter #{filter.label.toLowerCase()} 
+                | #{filter.notSelectedLabel} 
             each option, key in filter.options
               - var selected = key === currentChoice
               - var url = helpers.urlQuery(fullPath, filterKey, key)

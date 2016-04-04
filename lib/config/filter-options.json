@@ -1,44 +1,19 @@
 {
-  "license": {
-    "label": "Licens",
-    "options": {
-      "wiki": {
-        "label": "Må bruges på wikipedia",
-        "method": ""
-      },
-      "public": {
-        "label": "Public Domain",
-        "method": ""
-      }
-    }
-  },
   "catalog": {
     "label": "Samling",
+    "notSelectedLabel": "Alle samlinger",
     "options": {
     }
   },
   "recordingTime": {
     "label": "Optagelsestid",
-    "options": {
-    }
-  },
-  "resolution": {
-    "label": "Størrelse",
-    "options": {
-    }
-  },
-  "mediaType": {
-    "label": "Medietype",
-    "options": {
-    }
-  },
-  "rotationImage": {
-    "label": "360°",
+    "notSelectedLabel": "Alle optagelsestider",
     "options": {
     }
   },
   "geolocation": {
     "label": "Placering",
+    "notSelectedLabel": "Filtrer ikke efter placering",
     "options": {
       "true": {
         "label": "Har placering",
@@ -58,6 +33,38 @@
           ]
         }
       }
+    }
+  },
+  "mediaType": {
+    "label": "Medietype",
+    "notSelectedLabel": "Alle medietyper",
+    "options": {
+    }
+  },
+  "rotationImage": {
+    "label": "360°",
+    "notSelectedLabel": "Filtrer ikke efter 360°",
+    "options": {
+    }
+  },
+  "license": {
+    "label": "Licens",
+    "notSelectedLabel": "Alle licenser",
+    "options": {
+      "wiki": {
+        "label": "Må bruges på wikipedia",
+        "method": ""
+      },
+      "public": {
+        "label": "Public Domain",
+        "method": ""
+      }
+    }
+  },
+  "resolution": {
+    "label": "Størrelse",
+    "notSelectedLabel": "Alle størrelser",
+    "options": {
     }
   }
 }
