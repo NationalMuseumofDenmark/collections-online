@@ -45,6 +45,12 @@
     "label": "360°",
     "notSelectedLabel": "Filtrer ikke efter 360°",
     "options": {
+      "true": {
+        "label": "Rotationsbillede",
+        "method": {
+          "query": {"match": {"categories.name": "Rotationsbilleder"}}
+        }
+      }
     }
   },
   "license": {
@@ -53,11 +59,51 @@
     "options": {
       "wiki": {
         "label": "Må bruges på wikipedia",
-        "method": ""
+        "method": {
+          "or": [
+            {"query": {"match": {"license.id": 8}}},
+            {"query": {"match": {"license.id": 3}}}
+          ]
+        }
       },
       "public": {
-        "label": "Public Domain",
-        "method": ""
+        "label": "Må anvendes frit af alle",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "CC-BY": {
+        "label": "Må anvendes med ændringer",
+        "method": {
+          "or": [
+            {"query": {"match": {"license.id": 0}}},
+            {"query": {"match": {"license.id": 5}}}
+          ]
+        }
+      },
+      "CC-BY-ND": {
+        "label": "Må anvendes",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "CC-BY-NC": {
+        "label": "Må anvendes til ikke-kommercielle formål med ændringer",
+        "method": {
+          "query": {"match": {"license.id": 1}}
+        }
+      },
+      "CC-BY-NC-ND": {
+        "label": "Må anvendes til ikke-kommercielle formål",
+        "method": {
+          "query": {"match": {"license.id": 2}}
+        }
+      },
+      "no-known-rights": {
+        "label": "Må kun anvendes efter aftale med rettighedshaver",
+        "method": {
+          "query": {"match": {"license.id": 9}}
+        }
       }
     }
   },
