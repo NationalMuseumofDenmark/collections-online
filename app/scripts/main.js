@@ -31,11 +31,15 @@ $(function() {
 
   $('.dropdown__selected').on('click', function() {
     var $this = $(this);
+    $('body').off('click', hideAllDropdowns);
+
+    $('.dropdown').removeClass('dropdown--active');
     var $dropdown = $this.closest('.dropdown');
     if ($dropdown.hasClass('dropdown--active') === false) {
       $dropdown.addClass('dropdown--active');
+
       setTimeout(function() {
-        $('body').off('click', hideAllDropdowns).on('click', hideAllDropdowns);
+        $('body').on('click', hideAllDropdowns);
       }, 1);
     }
   });
