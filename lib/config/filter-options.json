@@ -8,8 +8,7 @@
   "recordingTime": {
     "label": "Optagelsestid",
     "notSelectedLabel": "Alle optagelsestider",
-    "options": {
-    }
+    "option": "date-range"
   },
   "geolocation": {
     "label": "Placering",

@@ -17,14 +17,28 @@ block content
             else 
               = filter.label
           .dropdown__options
-            a.dropdown__option(href=helpers.urlQuery(fullPath, filterKey, undefined), 
-              class=!currentChoice ? 'dropdown__option--active' : '') 
-                | #{filter.notSelectedLabel} 
-            each option, key in filter.options
-              - var selected = key === currentChoice
-              - var url = helpers.urlQuery(fullPath, filterKey, key)
-              a.dropdown__option(href=url, 
-                class=selected ? 'dropdown__option--active' : '') #{option.label} 
+            if filter.notSelectedLabel
+              a.dropdown__option(href=helpers.urlQuery(fullPath, filterKey, undefined), 
+                class=!currentChoice ? 'dropdown__option--active' : '') 
+                  | #{filter.notSelectedLabel} 
+            if filter.options
+              each option, key in filter.options
+                - var selected = key === currentChoice
+                - var url = helpers.urlQuery(fullPath, filterKey, key)
+                a.dropdown__option(href=url, 
+                  class=selected ? 'dropdown__option--active' : '') #{option.label} 
+            else if filter.option === 'date-range'
+              .form-group
+                form()
+                  label(for='creationFromDate') Fra dato
+                  input(type='date', name='#{filterKey}-from', 
+                    placeholder='fx 24/12/1849').form-control
+                  label(for='creationToDate') Til dato
+                  input(type='date', name='#{filterKey}-to', 
+                    placeholder='fx 24/12/1945').form-control
+                  button.btn.btn-primary(type='submit') Filtrer
+
+
 
   section.container-fluid
     .search-page__header.row 
