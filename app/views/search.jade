@@ -1,8 +1,7 @@
 extends index
 
 append header
-  if result.isSearch || result.isCategory || result.isCatalog
-    +searchMeta(result, catalog, breadcrumbs)
+  +searchMeta(result, catalog, breadcrumbs)
     
 block content
 

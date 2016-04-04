@@ -1,5 +1,11 @@
 extends index
 
+append header
+  if(err.status === 404)
+    +meta('Siden blev ikke fundet')
+  else
+    +meta('Der er sket en fejl')
+
 block content
   .container-fluid
     if(err.status === 404)
