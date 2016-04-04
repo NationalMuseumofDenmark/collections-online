@@ -31,16 +31,21 @@ $(function() {
 
   $('.dropdown__selected').on('click', function() {
     var $this = $(this);
-    $('body').off('click', hideAllDropdowns);
+    var $dropdown = $this.closest('.dropdown');
+    var wasActive = $dropdown.hasClass('dropdown--active');
 
     $('.dropdown').removeClass('dropdown--active');
-    var $dropdown = $this.closest('.dropdown');
-    if ($dropdown.hasClass('dropdown--active') === false) {
-      $dropdown.addClass('dropdown--active');
 
-      setTimeout(function() {
-        $('body').on('click', hideAllDropdowns);
-      }, 1);
+    if (wasActive === true) {
+      return;
     }
+
+    $('body').off('click', hideAllDropdowns);
+
+    $dropdown.addClass('dropdown--active');
+
+    setTimeout(function() {
+      $('body').on('click', hideAllDropdowns);
+    }, 1);
   });
 });
