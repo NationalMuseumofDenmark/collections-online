@@ -40,6 +40,24 @@
   "geolocation": {
     "label": "Placering",
     "options": {
+      "true": {
+        "label": "Har placering",
+        "method": {
+          "or": [
+            {"exists": {"field": "google_maps_coordinates"}},
+            {"exists": {"field": "google_maps_coordinates_crowd"}}
+          ]
+        }
+      },
+      "false": {
+        "label": "Mangler placering",
+        "method": {
+          "or": [
+            {"missing": {"field": "google_maps_coordinates"}},
+            {"missing": {"field": "google_maps_coordinates_crowd"}}
+          ]
+        }
+      }
     }
   }
 }
