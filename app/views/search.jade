@@ -45,7 +45,10 @@ block content
 
       h1.col-xs-12.col-sm-7.col-md-8.col-lg-8
         if result.isSearch
-          | Søgning på "#{filters.freetext}"
+          if filters.freetext
+            | Søgning på "#{filters.freetext}"
+          else
+            | Filtrering gav
           +searchCount
         if result.isCategory
           a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
@@ -60,6 +63,9 @@ block content
               | &nbsp; &gt; &nbsp;
               span #{breadcrumbs.first.name}
                 +searchCount
+          else
+            +searchCount
+
 
         if result.isCatalog
           | #{catalog.name}
