@@ -1,0 +1,45 @@
+{
+  "license": {
+    "label": "Licens",
+    "options": {
+      "wiki": {
+        "label": "Må bruges på wikipedia",
+        "method": ""
+      },
+      "public": {
+        "label": "Public Domain",
+        "method": ""
+      }
+    }
+  },
+  "catalog": {
+    "label": "Samling",
+    "options": {
+    }
+  },
+  "recordingTime": {
+    "label": "Optagelsestid",
+    "options": {
+    }
+  },
+  "resolution": {
+    "label": "Størrelse",
+    "options": {
+    }
+  },
+  "mediaType": {
+    "label": "Medietype",
+    "options": {
+    }
+  },
+  "rotationImage": {
+    "label": "360°",
+    "options": {
+    }
+  },
+  "geolocation": {
+    "label": "Placering",
+    "options": {
+    }
+  }
+}

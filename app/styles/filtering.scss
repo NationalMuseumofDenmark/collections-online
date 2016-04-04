@@ -1,37 +1,13 @@
 .filtering {
-  margin-top      : -10px;
-  padding         : 30px 15px 10px;
-  background-color: #525252;
+  background-color: $gray-lighter;
+  min-height      : $topbar-height;
+  padding-top     : $topbar-height / 3.1;
 
-  .filter-geotags {
-    p {
-      color      : white;
-      font-size  : 14px;
-      font-weight: bold;
+  .dropdown--filter {
+    margin-bottom: $topbar-height / 4;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
     }
-
-    .buttons {
-      display  : flex;
-      flex-wrap: wrap;
-
-      button {
-        font-weight     : normal;
-        margin-right    : 7px;
-        background-color: #C4C0C1;
-
-        &:hover,
-        &.active {
-          background-color: #333333;
-          color           : white;
-        }
-      }
-    }
-  }
-}
-
-@media (max-width: $large-size) {
-  .filtering {
-    margin-left : -15px;
-    margin-right: -15px;
   }
 }

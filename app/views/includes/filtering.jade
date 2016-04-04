@@ -1,18 +1,29 @@
 section.filtering
   .container-fluid
-    form.filter-geotags
-      if filters.freetext
-        input(type='hidden', name='q', value=filters.freetext)
-      if filters.params.category
-        input(type='hidden', name='cat', value=filters.params.category)
-      p Filtrering på geografisk placering:
-      .buttons
-        button.btn(class=filters.params.geotagged===null ? 'active' : null) Alle
-        button.btn(
-          class=filters.params.geotagged===true ? 'active' : null,
-          name='geotagged',
-          value='true') Har placering
-        button.btn(
-          class=filters.params.geotagged===false ? 'active' : null,
-          name='geotagged',
-          value='false') Mangler placering
+    //- form.filter-geotags
+    //-   if filters.freetext
+    //-     input(type='hidden', name='q', value=filters.freetext)
+    //-   if filters.params.category
+    //-     input(type='hidden', name='cat', value=filters.params.category)
+    //-   .buttons
+    //-     button.btn(class=filters.params.geotagged===null ? 'active' : null) Alle
+    //-     button.btn(
+    //-       class=filters.params.geotagged===true ? 'active' : null,
+    //-       name='geotagged',
+    //-       value='true') Har placering
+    //-     button.btn(
+    //-       class=filters.params.geotagged===false ? 'active' : null,
+    //-       name='geotagged',
+    //-       value='false') Mangler placering
+    each filter in filterOptions
+      .dropdown.dropdown--filter
+        //- - var selected = (key === filters.params.sorting)
+        //- - var url = noSortingUrl + '&sort=' + key
+        //- a.dropdown__selected= sortOptions[filters.params.sorting].label
+        //- a.dropdown__option(href=url, 
+        //-   class=selected ? 'dropdown__option--active' : '') #{val.label} 
+
+        a.dropdown__selected= filter.label
+        .dropdown__options
+          each option in filter
+            a.dropdown__option() #{option.label} 
