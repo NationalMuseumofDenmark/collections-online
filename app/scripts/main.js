@@ -53,4 +53,34 @@ $(function() {
       $('body').on('click', hideAllDropdowns);
     }, 1);
   });
+
+  var updateQueryStringParameter = function(uri, key, value) {
+    var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+    var separator = uri.indexOf('?') !== -1 ? '&' : '?';
+    if (uri.match(re)) {
+      return uri.replace(re, '$1' + key + '=' + value + '$2');
+    }
+    else {
+      return uri + separator + key + '=' + value;
+    }
+  };
+
+  $('form[data-method="modify-query"').on('submit', function(e) {
+    e.preventDefault();
+    var $this = $(this);
+    var $inputs = $this.find('[name]:input');
+
+    var url = window.location.pathname + window.location.search;
+
+    $inputs.each(function() {
+      var $this = $(this);
+      var key = $this.attr('name');
+      var val = $this.val();
+      url = updateQueryStringParameter(url, key, val);
+    });
+
+    window.location.href = url;
+
+    return false;
+  });
 });
