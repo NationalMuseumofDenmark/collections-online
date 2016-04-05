@@ -1,23 +1,25 @@
-
 # Retrospectives
 
 ### Continue
 - Godt med god hjælp, samarbejde, god stemning.
 - Inddrage Jacob i beslutninger.
 - Fuld ejerskab over stories.
-- Velbeskrevne userstories.
 - Reflekteret over kodestil + tage aktiv valg ved introduktion af ny kodestil.
 - Ikke flytte stories kritikløst over til næste sprint.
-- Peer review seneste 3 timer inden. (Ingen nye features herefter.)
+- Ikke starte længere ned i backloggen.
+- Acceptere stories løbende.
 
 ### Stop
 - Pushe kode vi ikke har testet.
 - Refrakturering - peer review inden påbegynde.
-- Ikke starte længere ned i backloggen.
+- Møde uforberedt til sprintplaning.
 
 ### Start
-- Tage højde for ferie/helligdage i stage-planing.
+- Store userstories først i backlog (efter bugs).
+- Velbeskrevne userstories.
+- Peer review seneste 3 timer inden release til produktion.
 - Snakke mere sammen, når vi introducerer nye komponenter/filer.
+- Slutte sidste sprint godt af.
 
 ## 8 March
 
