@@ -76,7 +76,7 @@
       "false": {
         "label": "Mangler placering",
         "method": {
-          "or": [
+          "and": [
             {"missing": {"field": "google_maps_coordinates"}},
             {"missing": {"field": "google_maps_coordinates_crowd"}}
           ]
