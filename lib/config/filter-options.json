@@ -59,11 +59,6 @@
       }
     }
   },
-  "recordingTime": {
-    "label": "Optagelsestid",
-    "notSelectedLabel": "Alle optagelsestider",
-    "option": "date-range"
-  },
   "geolocation": {
     "label": "Placering",
     "notSelectedLabel": "Filtrer ikke efter placering",
@@ -95,25 +90,19 @@
       "picture": {
         "label": "Billede",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"file_format": "image"}}
+        }
+      },
+      "video": {
+        "label": "Film",
+        "method": {
+          "query": {"match": {"file_format": "video"}}
         }
       },
       "rotationPicture": {
         "label": "Rotationsbillede",
         "method": {
           "query": {"match": {"categories.name": "Rotationsbilleder"}}
-        }
-      },
-      "video": {
-        "label": "Film",
-        "method": {
-          "query": {"match": {"license.id": 8}}
-        }
-      },
-      "sound": {
-        "label": "Lyd",
-        "method": {
-          "query": {"match": {"license.id": 8}}
         }
       }
     }
@@ -122,15 +111,6 @@
     "label": "Licens",
     "notSelectedLabel": "Alle licenser",
     "options": {
-      "wiki": {
-        "label": "Må bruges på wikipedia",
-        "method": {
-          "or": [
-            {"query": {"match": {"license.id": 8}}},
-            {"query": {"match": {"license.id": 3}}}
-          ]
-        }
-      },
       "public": {
         "label": "Må anvendes frit af alle",
         "method": {
@@ -147,9 +127,9 @@
         }
       },
       "CC-BY-ND": {
-        "label": "Må anvendes",
+        "label": "Må anvendes uden ændringer",
         "method": {
-          "query": {"match": {"license.id": 8}}
+          "query": {"match": {"license.id": 4}}
         }
       },
       "CC-BY-NC": {
@@ -159,7 +139,7 @@
         }
       },
       "CC-BY-NC-ND": {
-        "label": "Må anvendes til ikke-kommercielle formål",
+        "label": "Må anvendes til ikke-kommercielle formål uden ændringer",
         "method": {
           "query": {"match": {"license.id": 2}}
         }
@@ -168,30 +148,6 @@
         "label": "Må kun anvendes efter aftale med rettighedshaver",
         "method": {
           "query": {"match": {"license.id": 9}}
-        }
-      }
-    }
-  },
-  "resolution": {
-    "label": "Størrelse",
-    "notSelectedLabel": "Alle størrelser",
-    "options": {
-      "Small": {
-        "label": "> 500px",
-        "method": {
-          "query": {"match": {"license.id": 8}}
-        }
-      },
-      "Medium": {
-        "label": "> 1000px",
-        "method": {
-          "query": {"match": {"license.id": 8}}
-        }
-      },
-      "Large": {
-        "label": "> 2000px",
-        "method": {
-          "query": {"match": {"license.id": 8}}
         }
       }
     }
