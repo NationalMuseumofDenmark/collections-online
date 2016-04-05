@@ -18,13 +18,18 @@ block content
               = filter.label
           .dropdown__options
             if filter.notSelectedLabel
-              a.dropdown__option(href=helpers.urlQuery(fullPath, filterKey, undefined), 
+              - var noFilterUrl = helpers.urlQuery(fullPath, filterKey, undefined)
+              - if (filter.type === 'catalog') {
+              -   noFilterUrl = '/' + queryUrl
+              - }
+              a.dropdown__option(href=noFilterUrl, 
                 class=!currentChoice ? 'dropdown__option--active' : '') 
                   | #{filter.notSelectedLabel} 
             if filter.options
               each option, key in filter.options
                 - var selected = key === currentChoice
                 - var url = helpers.urlQuery(fullPath, filterKey, key)
+                - if (filter.type === 'catalog') { url = key + queryUrl }
                 a.dropdown__option(href=url, 
                   class=selected ? 'dropdown__option--active' : '') #{option.label} 
             else if filter.option === 'date-range'

@@ -2,6 +2,7 @@
   "catalog": {
     "label": "Samling",
     "notSelectedLabel": "Alle samlinger",
+    "type": "catalog",
     "options": {
       "AS": {
         "label": "Antiksamlingen",
