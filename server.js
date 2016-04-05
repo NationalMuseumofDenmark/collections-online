@@ -16,7 +16,7 @@ var app = express();
 require('./lib/config/express')(app);
 app.locals.config = config;
 
-app.locals.helpers = require('./app/views/helpers');
+app.locals.helpers = require('./lib/helpers');
 
 app.set('siteTitle', config.siteTitle);
 // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
