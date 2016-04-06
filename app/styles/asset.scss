@@ -21,36 +21,19 @@ $slider-arrow-size: 4rem;
   height: 100%;
 }
 
-.image-wrapper {
-  cursor    : zoom-in;
+.asset-image {
   display   : block;
-  //max-height: $asset-max-height;
+  margin    : 0 auto;
+  max-width : 100%;
   padding   : 0;
-  position  : relative;
 
   @media (min-width: $small-size) {
-    height: $asset-max-height;
-    img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-    }
+    max-height: $asset-max-height;
   }
 
-  @media (min-width: $large-size) {
-    padding-left : 15px;
-    padding-right: 15px;
+  &--zoomable {
+    cursor: zoom-in;
   }
-
-  img {
-    display   : block;
-    margin    : auto;
-    max-height: 100%;
-    max-width : 100%;
-  }
-
 }
 
 .rotation-wrapper {
@@ -69,21 +52,9 @@ $slider-arrow-size: 4rem;
 .container-fluid.big-image {
   max-width: none;
 
-  .small-bleed {
-    padding: 0;
-  }
-
-  .image-wrapper {
+  .asset-image {
     cursor    : zoom-out;
-    height    : auto;
     max-height: none;
-    padding   : 0;
-
-    img {
-      max-height: none;
-      position  : static;
-      transform : none;
-    }
   }
 }
 
@@ -113,10 +84,9 @@ $slider-arrow-size: 4rem;
   input {
     background-color: rgba($white, 0);
   }
-
   @media (min-width: $medium-size) {
-    h2,
-    b {
+    b,
+    h2 {
       display: block;
       height : $asset-subject-headline-height;
       margin : 0;
@@ -185,8 +155,8 @@ $slider-arrow-size: 4rem;
     width: 100%;
   }
 
-  th,
-  td {
+  td,
+  th {
     // Override bootstrap col 15 px padding
     padding: 0;
   }
@@ -194,7 +164,6 @@ $slider-arrow-size: 4rem;
   // ensure som padding on mobile
   th {
     padding-right: 1rem;
-
     @media (min-width: $small-size) {
       padding-left: 0;
     }
