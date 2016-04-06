@@ -1,0 +1,35 @@
+$elementSeparator: '__';
+$modifierSeparator: '--';
+
+@mixin block($block) {
+  .#{$block} {
+    @content;
+  }
+}
+@mixin element($element) {
+  $selector: &;
+  $block: getBlock($selector);
+  @if containsModifier($selector) {
+    @at-root {
+      #{$selector} {
+        #{$block+$elementSeparator+$element} {
+          @content;
+        }
+      }
+    }
+  }
+  @else {
+    @at-root {
+      #{$selector+$elementSeparator+$element} {
+        @content;
+      }
+    }
+  }
+}
+@mixin modifier($modifier) {
+  @at-root {
+    #{&}#{$modifierSeparator+$modifier} {
+      @content;
+    }
+  }
+}

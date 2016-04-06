@@ -1,93 +1,101 @@
 @import 'variables';
 @import 'functions-shadows';
+@import 'bem';
 
-.dropdown {
+
+@include block(dropdown) {
   display    : inline-block;
   position   : relative;
   user-select: none;
 
-  &--active {
+  @include modifier(active) {
     z-index: 10;
 
-    .dropdown__options {
+    @include element(options) {
       @include shadow(1);
       opacity   : 1;
       visibility: visible;
     }
 
-    .dropdown__selected {
+    @include element(selected {
       border-bottom-color: transparent;
       position           : relative;
+
+      &::after {
+        transform: rotate(180deg);
+      }
     }
-
-    .dropdown__selected::after {
-      transform: rotate(180deg);
-    }
-  }
-}
-
-.dropdown__selected {
-  color      : $text-color;
-  display    : inline-block;
-  font-weight: bold;
-  padding    : 0 1.7em 0 0;
-
-  &:focus,
-  &:hover {
-    color          : $text-color;
-    text-decoration: none;
   }
 
-  &::after {
-    border-left : .4em solid transparent;
-    border-right: .4em solid transparent;
-    border-top  : .4em solid $text-color;
-    bottom      : .1em;
-    content     : '';
-    height      : 0;
-    margin      : auto;
-    position    : absolute;
-    right       : .4em;
-    top         : 0;
-    width       : 0;
-  }
-
-  &--not-bold {
-    font-weight: normal;
-  }
-}
-
-.dropdown__options {
-  @include shadow(0);
-  background: $dropdown-bg;
-  left      : -$dropdown-padding;
-  margin-top: $dropdown-padding / 2;
-  min-width : 100%;
-  opacity   : 0;
-  padding   : $dropdown-padding 0;
-  position  : absolute;
-  text-align: left;
-  transition: $anim-duration-fast ease;
-  visibility: hidden;
-}
-
-.dropdown__option {
-  color      : $text-color;
-  display    : block;
-  line-height: 2.5;
-  padding    : 0 $dropdown-padding;
-  white-space: nowrap;
-
-  &:hover {
-    background     : $dropdown-bg-hover;
-    color          : $text-color;
-    text-decoration: none;
-  }
-
-  &--active {
+  @include element(selected) {
+    color      : $text-color;
+    display    : inline-block;
     font-weight: bold;
+    padding    : 0 1.7em 0 0;
+
+    &:focus,
+    &:hover {
+      color          : $text-color;
+      text-decoration: none;
+    }
+
+    &::after {
+      border-left : .4em solid transparent;
+      border-right: .4em solid transparent;
+      border-top  : .4em solid $text-color;
+      bottom      : .1em;
+      content     : '';
+      height      : 0;
+      margin      : auto;
+      position    : absolute;
+      right       : .4em;
+      top         : 0;
+      width       : 0;
+    }
+
+    @include modifier(not-bold) {
+      font-weight: normal;
+    }
+  }
+
+  @include element(options) {
+    @include shadow(0);
+    background: $dropdown-bg;
+    left      : -$dropdown-padding;
+    margin-top: $dropdown-padding / 2;
+    max-width : calc(100vw - #{$dropdown-padding * 2});
+    min-width : 100%; // Min width of the select element, so it doesn't look weird
+    opacity   : 0;
+    padding   : $dropdown-padding 0;
+    position  : absolute;
+    text-align: left;
+    transition: $anim-duration-fast ease;
+    visibility: hidden;
+  }
+
+  @include element(option) {
+    color        : $text-color;
+    display      : block;
+    line-height  : 2.5;
+    overflow-x   : hidden;
+    padding      : 0 $dropdown-padding;
+    text-overflow: ellipsis;
+    white-space  : nowrap;
+    width        : 100%;
+
+    &:hover {
+      background     : $dropdown-bg-hover;
+      color          : $text-color;
+      text-decoration: none;
+    }
+
+    @include modifier(active) {
+      font-weight: bold;
+    }
   }
 }
+
+
 
 .search-page__header {
   .dropdown__selected {
