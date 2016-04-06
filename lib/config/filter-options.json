@@ -100,6 +100,12 @@
           "query": {"match": {"file_format": "video"}}
         }
       },
+      "sound": {
+        "label": "Lyd",
+        "method": {
+          "query": {"match": {"file_format": "mp3"}}
+        }
+      },
       "rotationPicture": {
         "label": "Rotationsbillede",
         "method": {
