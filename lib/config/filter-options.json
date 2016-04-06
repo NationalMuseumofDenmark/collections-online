@@ -158,5 +158,49 @@
         }
       }
     }
+  },
+  "resolution": {
+    "label": "Størrelse",
+    "notSelectedLabel": "Alle størrelser",
+    "options": {
+      "small": {
+        "label": "800 pixels",
+        "method": {
+          "or": [
+            {"numeric_range": {"width_px": {"gte": 800}}},
+            {"numeric_range": {"height_px": {"gte": 800}}}
+          ]
+        }
+      },
+      "medium": {
+        "label": "1200 pixels",
+        "method": {
+          "or": [
+            {"numeric_range": {"width_px": {"gte": 1200}}},
+            {"numeric_range": {"height_px": {"gte": 1200}}}
+          ]
+        }
+      },
+      "large": {
+        "label": "2000 pixels",
+        "method": {
+          "or": [
+            {"numeric_range": {"width_px": {"gte": 2000}}},
+            {"numeric_range": {"height_px": {"gte": 2000}}}
+          ]
+        }
+      },
+      "printfriendly": {
+        "label": "Printvenlig",
+        "method": {
+          "or": [
+            {"numeric_range": {"dpi": {"gte": 300}}},
+            {"numeric_range": {"width_px": {"gte": 2400}}},
+            {"numeric_range": {"height_px": {"gte": 2400}}}
+          ]
+        }
+      }
+
+    }
   }
 }
