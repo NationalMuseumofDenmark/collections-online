@@ -2,9 +2,9 @@
 
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
+  var ACTION_ASSET_ZOOMABLE = '.asset-image--zoomable';
   var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
-  var CONTENT_BIG_IMG_WRAP = '.image-wrapper';
   var CONTENT_BIG_IMG_CLASS = 'big-image';
   var CONTENT_SLIDER = '.slider';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
@@ -16,7 +16,7 @@
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
-      $(CONTENT_BIG_IMG_WRAP)
+      $(ACTION_ASSET_ZOOMABLE)
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
@@ -63,7 +63,7 @@
 
     toggleBigImage: function() {
       var $use = $(ACTION_BIG_IMAGE_TOGGLE).find('use');
-      $(CONTENT_BIG_IMG_WRAP).closest('.container-fluid')
+      $(ACTION_ASSET_ZOOMABLE).closest('.container-fluid')
         .toggleClass(CONTENT_BIG_IMG_CLASS);
       if ($use.attr('xlink:href') === '#icon-zoom-in') {
         $use.attr('xlink:href', '#icon-zoom-out');

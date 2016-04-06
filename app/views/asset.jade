@@ -36,13 +36,13 @@ block content
     - var filename = metadata.filename.toLowerCase();
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
+    - if (metadata.width_px > 768) { zoom = true };
     .asset-top
       .container-fluid
         .row
           .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
-              .image-wrapper
-                img(src=sources.image, alt=title)
+              img(src=sources.image, alt=title, class="#{zoom===true ? 'asset-image--zoomable' : ''}").asset-image
             else if(player === "image-rotation")
               .rotation-wrapper
                 picture(alt=title)
@@ -75,8 +75,9 @@ block content
               
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
-              a(data-action="asset-image-size-toggle")
-                +icon('zoom-in')
+              if (zoom)
+                a(data-action="asset-image-size-toggle")
+                  +icon('zoom-in')
             a(data-action="asset-download-show")
               +icon('download')
             //- TODO there's a story for this in next sprint
