@@ -82,6 +82,7 @@
   white-space  : nowrap;
   width        : 100%;
 
+  &:focus,
   &:hover {
     background     : $dropdown-bg-hover;
     color          : $text-color;
