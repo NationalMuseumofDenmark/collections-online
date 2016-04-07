@@ -35,7 +35,7 @@ block content
     - var description = metadata.description;
     - var downloadable = false;
     - var filename = metadata.filename.toLowerCase();
-    - var license = helpers.licenseTag(metadata.license.id);
+    - var license = metadata.license && helpers.licenseTag(metadata.license.id);
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
     - if (metadata.width_px > 768) { zoom = true };
