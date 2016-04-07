@@ -56,6 +56,10 @@ $slider-arrow-size: 4rem;
     cursor    : zoom-out;
     max-height: none;
   }
+
+  .img-col {
+    padding: 0;
+  }
 }
 
 .social {
@@ -84,6 +88,7 @@ $slider-arrow-size: 4rem;
   input {
     background-color: rgba($white, 0);
   }
+
   @media (min-width: $medium-size) {
     b,
     h2 {
@@ -164,6 +169,7 @@ $slider-arrow-size: 4rem;
   // ensure som padding on mobile
   th {
     padding-right: 1rem;
+
     @media (min-width: $small-size) {
       padding-left: 0;
     }
