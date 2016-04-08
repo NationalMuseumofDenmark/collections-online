@@ -33,16 +33,11 @@ block content
           data-full-address=fullAddress)
     - var city = metadata.city;
     - var description = metadata.description;
-    - var downloadable = false;
     - var filename = metadata.filename.toLowerCase();
     - var license = metadata.license && helpers.licenseTag(metadata.license.id);
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
     - if (metadata.width_px > 768) { zoom = true };
-    if (license)
-      if (license.short)
-        if (!license.short.indexOf('CC') || !license.short.indexOf('Public'))
-          - downloadable = true;
     .asset-top
       .container-fluid
         .row
@@ -173,8 +168,11 @@ block content
         if(player === 'image-single-animated')
           a.btn.btn-primary(href='#{sources.download}')
             | Original (#{metadata.width_px} x #{metadata.height_px} gif)
-        a(href=license.url, rel='license', target='_blank')
-          img(src=license.img, alt=license.short)
+        if (license)
+          a(href=license.url, rel='license', target='_blank')
+            img(src=license.img, alt=license.short)
+        else
+          p No known rights
       else
         h2 Vi beklager
         p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
