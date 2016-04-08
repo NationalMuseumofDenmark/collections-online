@@ -192,9 +192,6 @@ module.exports = function(grunt) {
 
     // The following *-min tasks produce minified files in the dist folder
     imagemin: {
-      options: {
-        cache: true
-      },
       dist: {
         files: [{
           expand: true,
@@ -206,9 +203,6 @@ module.exports = function(grunt) {
     },
 
     svgmin: {
-      options: {
-        cache: true
-      },
       dist: {
         files: [{
           expand: true,
@@ -221,7 +215,6 @@ module.exports = function(grunt) {
 
     svg_sprite: {
       options: {
-        cache: true,
         mode: {
           symbol: {
             sprite: 'sprite.svg'
