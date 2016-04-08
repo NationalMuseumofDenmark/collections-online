@@ -20,6 +20,9 @@
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
+      $(ACTION_ASSET_ZOOMABLE).each(function(){
+        $(this).attr('src', $(this).data('src'));
+      });
 
       if ($(CONTENT_SLIDER).size() > 0) {
         $(CONTENT_SLIDER).slick({
