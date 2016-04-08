@@ -13,7 +13,10 @@ block content
           a.dropdown__selected(
             class=currentChoice ? '' : 'dropdown__selected--not-bold') 
             if currentChoice
-              = filter.options[currentChoice].label
+              if currentChoice.label
+                = currentChoice.label
+              else
+                = filter.options[currentChoice].label
             else 
               = filter.label
           .dropdown__options
@@ -25,6 +28,7 @@ block content
               a.dropdown__option(href=noFilterUrl, 
                 class=!currentChoice ? 'dropdown__option--active' : '') 
                   | #{filter.notSelectedLabel} 
+
             if filter.options
               each option, key in filter.options
                 - var selected = key === currentChoice
@@ -32,16 +36,19 @@ block content
                 - if (filter.type === 'catalog') { url = key + queryUrl }
                 a.dropdown__option(href=url, 
                   class=selected ? 'dropdown__option--active' : '') #{option.label} 
-            else if filter.option === 'date-range'
+
+            if filter.option && filter.option.type === 'date-range'
               .form-group
-                form()
-                  label(for='creationFromDate') Fra dato
+                form(method='get', data-method='modify-query')
+                  label(for='#{filterKey}-from-date') Fra dato
                   input(type='date', name='#{filterKey}-from', 
+                    id='#{filterKey}-from-date', value=currentChoice.from
                     placeholder='fx 24/12/1849').form-control
-                  label(for='creationToDate') Til dato
+                  label(for='#{filterKey}-to-date') Til dato
                   input(type='date', name='#{filterKey}-to', 
+                    id='#{filterKey}-to-date', value=currentChoice.to
                     placeholder='fx 24/12/1945').form-control
-                  button.btn.btn-primary(type='submit') Filtrer
+                  button.btn.btn-block.btn-primary(type='submit') Filtrer
 
 
 

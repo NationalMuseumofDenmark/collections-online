@@ -13,7 +13,7 @@ module.exports = function(state, metadata) {
       }
       return result;
     }, null);
-    metadata[destinationField] = date;
+    metadata[destinationField] = Date.parse(date);
   });
   return metadata;
 };
