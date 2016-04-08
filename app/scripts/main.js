@@ -65,7 +65,7 @@ $(function() {
     }
   };
 
-  $('form[data-method="modify-query"').on('submit', function(e) {
+  $('form[data-method="modify-query"]').on('submit', function(e) {
     e.preventDefault();
     var $this = $(this);
     var $inputs = $this.find('[name]:input');
