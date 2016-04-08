@@ -17,6 +17,8 @@ var mapHeading = 0;
 
   var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapWrap = $('.map-wrap');
+  var $imgWrap = $('.img-col')
+  var mapVisible = 'map-visible';
   var $map = $('#geotagging-map');
   var $mapOverlay = $('.map-container .overlay');
   var $editCoordinates = $('#edit-coordinates');
@@ -36,7 +38,8 @@ var mapHeading = 0;
       $mapOverlay.addClass('overlay-visible');
     }
     $imageColumn.addClass('col-md-6');
-    $mapWrap.addClass('map-visible');
+    $mapWrap.addClass(mapVisible);
+    $imgWrap.addClass(mapVisible);
     $('.big-image').removeClass('big-image');
     $(window).bind('resize', resizeMap).trigger('resize');
     $('html, body').animate({
@@ -47,7 +50,8 @@ var mapHeading = 0;
   var hideMap = function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
     $imageColumn.removeClass('col-md-6');
-    $mapWrap.removeClass('map-visible');
+    $mapWrap.removeClass(mapVisible);
+    $imgWrap.removeClass(mapVisible);
     $(window).unbind('resize', resizeMap);
     $editCoordinates.removeClass('disabled');
   };

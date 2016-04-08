@@ -1,16 +1,18 @@
 @import 'variables';
 
 .map-wrap {
-  display        : none;
+  &:not(.map-visible) {
+    display: none;
+  }
+}
+
+.map-visible {
+  display: flex;
   flex-direction : column;
   justify-content: center;
 
   @media (min-width: $medium-size) {
     min-height: $asset-max-height;
-  }
-
-  &.map-visible {
-    display: flex;
   }
 }
 
