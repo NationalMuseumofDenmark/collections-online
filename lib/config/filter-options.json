@@ -84,7 +84,7 @@
       }
     }
   },
-  "mediaType": {
+  "media": {
     "label": "Medietype",
     "notSelectedLabel": "Alle medietyper",
     "options": {
@@ -124,7 +124,7 @@
           "query": {"match": {"license.id": 8}}
         }
       },
-      "CC-BY": {
+      "cc-by": {
         "label": "Må anvendes med ændringer",
         "method": {
           "or": [
@@ -133,19 +133,19 @@
           ]
         }
       },
-      "CC-BY-ND": {
+      "cc-by-nd": {
         "label": "Må anvendes uden ændringer",
         "method": {
           "query": {"match": {"license.id": 4}}
         }
       },
-      "CC-BY-NC": {
+      "cc-by-nc": {
         "label": "Må anvendes til ikke-kommercielle formål med ændringer",
         "method": {
           "query": {"match": {"license.id": 1}}
         }
       },
-      "CC-BY-NC-ND": {
+      "cc-by-nc-nd": {
         "label": "Må anvendes til ikke-kommercielle formål uden ændringer",
         "method": {
           "query": {"match": {"license.id": 2}}
@@ -167,8 +167,8 @@
         "label": "800 pixels",
         "method": {
           "or": [
-            {"numeric_range": {"width_px": {"gte": 800}}},
-            {"numeric_range": {"height_px": {"gte": 800}}}
+            {"range": {"width_px": {"gte": 800}}},
+            {"range": {"height_px": {"gte": 800}}}
           ]
         }
       },
@@ -176,8 +176,8 @@
         "label": "1200 pixels",
         "method": {
           "or": [
-            {"numeric_range": {"width_px": {"gte": 1200}}},
-            {"numeric_range": {"height_px": {"gte": 1200}}}
+            {"range": {"width_px": {"gte": 1200}}},
+            {"range": {"height_px": {"gte": 1200}}}
           ]
         }
       },
@@ -185,8 +185,8 @@
         "label": "2000 pixels",
         "method": {
           "or": [
-            {"numeric_range": {"width_px": {"gte": 2000}}},
-            {"numeric_range": {"height_px": {"gte": 2000}}}
+            {"range": {"width_px": {"gte": 2000}}},
+            {"range": {"height_px": {"gte": 2000}}}
           ]
         }
       },
@@ -194,9 +194,9 @@
         "label": "Printvenlig",
         "method": {
           "or": [
-            {"numeric_range": {"dpi": {"gte": 300}}},
-            {"numeric_range": {"width_px": {"gte": 2400}}},
-            {"numeric_range": {"height_px": {"gte": 2400}}}
+            {"range": {"dpi": {"gte": 300}}},
+            {"range": {"width_px": {"gte": 2400}}},
+            {"range": {"height_px": {"gte": 2400}}}
           ]
         }
       }
