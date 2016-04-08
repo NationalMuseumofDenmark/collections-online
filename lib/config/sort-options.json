@@ -14,17 +14,13 @@
   "modification|desc": {
     "label": "Opdateret: Nyeste",
     "method": {
-      "modification_time.timestamp": {
-        "order": "desc", "nested_path": "modification_time"
-      }
+      "modification_time.timestamp": "desc"
     }
   },
   "modification|asc": {
     "label": "Opdateret: Ældste",
     "method": {
-      "modification_time.timestamp": {
-        "order": "asc", "nested_path": "modification_time"
-      }
+      "modification_time.timestamp": "asc"
     }
   },
   "acceptance|desc": {

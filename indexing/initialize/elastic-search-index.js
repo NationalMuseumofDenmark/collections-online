@@ -38,7 +38,7 @@ module.exports = function(state) {
       }).forEach((field) => {
         var fieldName = field.short;
         fields[fieldName] = {
-          type: 'nested',
+          type: 'object',
           properties: {
             timestamp: {type: 'date'}
           }
