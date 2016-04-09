@@ -5,10 +5,9 @@
   display    : inline-block;
   position   : relative;
   user-select: none;
+  z-index: 10;
 
   &--active {
-    z-index: 10;
-
     .dropdown__options {
       @include shadow(1);
       opacity   : 1;
