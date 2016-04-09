@@ -61,8 +61,8 @@
     }
   },
   "creation": {
-    "label": "Optagelsestid",
-    "notSelectedLabel": "Alle optagelsestider",
+    "label": "Tid",
+    "notSelectedLabel": "Alle tider",
     "option": {
       "type": "date-range",
       "from": "creation_time_from.timestamp",
@@ -70,8 +70,8 @@
     }
   },
   "geolocation": {
-    "label": "Placering",
-    "notSelectedLabel": "Filtrer ikke efter placering",
+    "label": "Sted",
+    "notSelectedLabel": "Filtrér ikke efter sted",
     "options": {
       "true": {
         "label": "Har placering",
