@@ -42,7 +42,7 @@
 
   .form-group {
     margin-bottom: 0;
-    padding      : $dropdown-padding;
+    padding      : $dropdown-padding $dropdown-padding * 2;
   }
 
   .form-control {
@@ -171,6 +171,7 @@
     margin-bottom: 0;
     margin-top   : 5px;
   }
+
   @media all and (max-width: 420px) {
     padding: 0;
     width  : 100%;
@@ -180,12 +181,15 @@
       padding: 0 10px;
     }
   }
+
   @media all and (max-width: 635px) and (min-width: 420px) {
     width: 50%;
   }
+
   @media all and (max-width: 992px) and (min-width: 635px) {
     width: 33.3333%;
   }
+
   @media all and (min-width: 992px) {
     width: 25%;
   }
@@ -195,5 +199,5 @@
 .load-more {
   display  : block;
   margin   : 4rem auto;
-  min-width: 12rem;
+  width    : 12rem;
 }

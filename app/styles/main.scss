@@ -18,7 +18,6 @@
 @import 'tags';
 @import 'snackbar';
 @import 'overlay';
-
 @import 'frontpage';
 
 html {
@@ -33,6 +32,16 @@ body {
   a {
     cursor : pointer;
     outline: none;
+  }
+}
+
+.main-wrapper {
+  display       : flex;
+  flex-direction: column;
+  min-height    : 100vh;
+
+  > .let-it-grow {
+    flex-grow: 1;
   }
 }
 

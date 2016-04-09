@@ -7,13 +7,14 @@ append header
     +meta('Der er sket en fejl')
 
 block content
-  .container-fluid
-    if(err.status === 404)
-      h1 Siden blev ikke fundet
-    else
-      h1 Der er sket en fejl
-    if(showStacktrace)
-      pre= err.stack
-    p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
+  .let-it-grow
+    .container-fluid
+      if(err.status === 404)
+        h1 Siden blev ikke fundet
+      else
+        h1 Der er sket en fejl
+      p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
+      if(showStacktrace)
+        pre= err.stack
 
   include includes/footer
