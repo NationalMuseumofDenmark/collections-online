@@ -101,14 +101,20 @@
     float    : right;
     max-width: 20rem;
 
-    &:after {
+    &::after {
       background-color: rgba($white, .5);
       bottom          : 1px;
       content         : '';
       height          : 1px;
+      left            : 0;
       position        : absolute;
       right           : 0;
-      width           : 100%;
+    }
+
+    &--focus {
+      &::after {
+        background-color: $white;
+      }
     }
   }
 

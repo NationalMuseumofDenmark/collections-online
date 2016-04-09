@@ -39,6 +39,13 @@ $(function() {
     }, 1);
   });
 
+  $('#search-input').on('focus', function(){
+    $(this).parent().addClass('input-group--focus');
+  });
+  $('#search-input').on('blur', function(){
+    $(this).parent().removeClass('input-group--focus');
+  });
+
   var updateQueryStringParameter = function(uri, key, value) {
     var re = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
     var separator = uri.indexOf('?') !== -1 ? '&' : '?';
