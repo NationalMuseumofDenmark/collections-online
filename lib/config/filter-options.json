@@ -64,9 +64,7 @@
     "label": "Tid",
     "notSelectedLabel": "Alle tider",
     "option": {
-      "type": "date-range",
-      "from": "creation_time_from.timestamp",
-      "to": "creation_time_to.timestamp"
+      "type": "date-range"
     }
   },
   "geolocation": {
