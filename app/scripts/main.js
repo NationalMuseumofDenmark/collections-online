@@ -1,6 +1,5 @@
 'use strict';
 
-// Toogle asset images - zome in and out
 $(function() {
 
   var Snackbar = window.Snackbar;
@@ -37,7 +36,22 @@ $(function() {
     setTimeout(function() {
       $('body').on('click', hideAllDropdowns);
     }, 1);
+
   });
+
+  // Check that dropdown options are on screen
+  $('.dropdown__options').each(function() {
+    var dropOffset = $(this).offset();
+    var dropOffLeft = dropOffset.left;
+    var dropdownWidth = $(this).width();
+    var wrapWidth = $('.main-wrapper').width();
+    var isEntirelyVisible = (dropOffLeft + dropdownWidth <= wrapWidth);
+    if (!isEntirelyVisible) {
+      $(this).addClass('edge');
+    }
+  });
+
+
 
   $('#search-input').on('focus', function(){
     $(this).parent().addClass('input-group--focus');
