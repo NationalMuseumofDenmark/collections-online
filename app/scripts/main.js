@@ -40,17 +40,22 @@ $(function() {
   });
 
   // Check that dropdown options are on screen
-  $('.dropdown__options').each(function() {
-    var dropOffset = $(this).offset();
-    var dropOffLeft = dropOffset.left;
-    var dropdownWidth = $(this).width();
-    var wrapWidth = $('.main-wrapper').width();
-    var isEntirelyVisible = (dropOffLeft + dropdownWidth <= wrapWidth);
-    if (!isEntirelyVisible) {
-      $(this).addClass('edge');
-    }
-  });
+  var repositionDropdowns = function(){
+    $('.dropdown__options').each(function() {
+      var dropOffLeft = $(this).offset().left;
+      var dropdownWidth = $(this).width();
+      var wrapWidth = $('.main-wrapper').width();
+      var isEntirelyVisible = (dropOffLeft + dropdownWidth <= wrapWidth);
+      if (!isEntirelyVisible) {
+        var topOffset = $(this).offset().top;
+        var paddingLeft = $(this).position().left;
+        var newLeftOffset = wrapWidth - dropdownWidth + paddingLeft / 2;
+        $(this).offset({top: topOffset, left: newLeftOffset});
+      }
+    });
+  };
 
+  repositionDropdowns();
 
 
   $('#search-input').on('focus', function(){

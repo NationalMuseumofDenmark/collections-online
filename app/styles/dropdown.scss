@@ -69,11 +69,6 @@
   transition: $anim-duration-fast ease;
   visibility: hidden;
   z-index   : 10;
-
-  &.edge {
-    left: auto;
-    right: -$dropdown-padding;
-  }
 }
 
 .dropdown__option {
