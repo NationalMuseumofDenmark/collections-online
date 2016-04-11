@@ -1,5 +1,15 @@
 'use strict';
 
+function checkDateInput() {
+    var input = document.createElement('input');
+    input.setAttribute('type','date');
+
+    var notADateValue = 'not-a-date';
+    input.setAttribute('value', notADateValue);
+
+    return (input.value !== notADateValue);
+}
+
 // Toogle asset images - zome in and out
 $(function() {
 
@@ -75,4 +85,10 @@ $(function() {
 
     return false;
   });
+
+  if (checkDateInput() === false) {
+    $('input[type="date"]').formatter({
+      'pattern': '{{99}}/{{99}}/{{9999}}'
+    });
+  }
 });
