@@ -1,13 +1,13 @@
 'use strict';
 
 function checkDateInput() {
-    var input = document.createElement('input');
-    input.setAttribute('type','date');
+  var input = document.createElement('input');
+  input.setAttribute('type','date');
 
-    var notADateValue = 'not-a-date';
-    input.setAttribute('value', notADateValue);
+  var notADateValue = 'not-a-date';
+  input.setAttribute('value', notADateValue);
 
-    return (input.value !== notADateValue);
+  return (input.value !== notADateValue);
 }
 
 // Toogle asset images - zome in and out
@@ -47,7 +47,27 @@ $(function() {
     setTimeout(function() {
       $('body').on('click', hideAllDropdowns);
     }, 1);
+
   });
+
+  // Check that dropdown options are on screen
+  var repositionDropdowns = function(){
+    $('.dropdown__options').each(function() {
+      var dropOffLeft = $(this).offset().left;
+      var dropdownWidth = $(this).width();
+      var wrapWidth = $('.main-wrapper').width();
+      var isEntirelyVisible = (dropOffLeft + dropdownWidth <= wrapWidth);
+      if (!isEntirelyVisible) {
+        var topOffset = $(this).offset().top;
+        var paddingLeft = $(this).position().left;
+        var newLeftOffset = wrapWidth - dropdownWidth + paddingLeft / 2;
+        $(this).offset({top: topOffset, left: newLeftOffset});
+      }
+    });
+  };
+
+  repositionDropdowns();
+
 
   $('#search-input').on('focus', function(){
     $(this).parent().addClass('input-group--focus');

@@ -5,7 +5,6 @@
   display    : inline-block;
   position   : relative;
   user-select: none;
-  z-index: 10;
 
   &--active {
     .dropdown__options {
@@ -69,6 +68,7 @@
   text-align: left;
   transition: $anim-duration-fast ease;
   visibility: hidden;
+  z-index   : 10;
 }
 
 .dropdown__option {
