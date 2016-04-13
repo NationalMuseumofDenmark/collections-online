@@ -11,7 +11,7 @@ function zeroPad(num) {
 }
 
 function generateTimestamp(date) {
-  if (date && typeof(date) === 'object' && date.year) {// && !date.timestamp) {
+  if (date && typeof(date) === 'object' && date.year && !date.timestamp) {
     var month = zeroPad(date.month || 1);
     var day = zeroPad(date.day || 1);
     date.timestamp = `${date.year}-${month}-${day}`;
