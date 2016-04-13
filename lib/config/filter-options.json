@@ -158,10 +158,10 @@
           "query": {"match": {"license.id": 2}}
         }
       },
-      "no-known-rights": {
+      "all-rights-reserved": {
         "label": "Må kun anvendes efter aftale med rettighedshaver",
         "method": {
-          "query": {"match": {"license.id": 9}}
+          "query": {"match": {"license.id": 7}}
         }
       }
     }
