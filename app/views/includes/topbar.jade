@@ -9,7 +9,8 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
             span Nationalmuseets
             span Samlinger Online
         - var path = (req.path).split('/')
-        form.search-box(method='get', data-method='modify-query')
+        - var searchMethod = (isSearching ? 'modify-query' : '')
+        form.search-box(method='get', action='/', data-method=searchMethod)
           .input-group
             input.form-control(
               type='text',
