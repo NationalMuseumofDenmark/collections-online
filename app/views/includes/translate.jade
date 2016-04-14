@@ -1,13 +1,13 @@
 .container-fluid.google-translate
-  #google_translate_element
+  #google_translate_element.hidden
 if(config.env !== 'development')
   script.
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'da', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, gaTrack: true, gaId: '#{config.googleAnalyticsPropertyID}'}, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'da', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false, gaTrack: true, gaId: '#{config.googleAnalyticsPropertyID}'}, 'google_translate_element');
     }
 else 
   script.
     function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'da', layout: google.translate.TranslateElement.InlineLayout.SIMPLE}, 'google_translate_element');
+      new google.translate.TranslateElement({pageLanguage: 'da', layout: google.translate.TranslateElement.InlineLayout.SIMPLE, autoDisplay: false}, 'google_translate_element');
     }
 script(src='//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit')

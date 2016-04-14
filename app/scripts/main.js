@@ -10,8 +10,13 @@ function checkDateInput() {
   return (input.value !== notADateValue);
 }
 
-// Toogle asset images - zome in and out
 $(function() {
+
+  // Show translate dropdown for non danish users only
+  var language = window.navigator.userLanguage || window.navigator.language;
+  if (language !== 'da') {
+    $('#google_translate_element').removeClass('hidden');
+  }
 
   var Snackbar = window.Snackbar;
   Snackbar.init();
