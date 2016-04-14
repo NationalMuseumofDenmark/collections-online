@@ -20,18 +20,29 @@
 }
 
 h1 {
-  font-size  : 1.62rem;
+  font-size  : 1.27rem;
   line-height: 1.25;
 }
 
 .lead,
 h2 {
-  font-size    : 1.31rem;
+  font-size    : 1.13rem;
   margin-bottom: .3rem;
 }
 
 pre {
   font-size: .8rem;
+}
+
+@media (min-width: $small-size) {
+  h1 {
+    font-size: 1.62rem;
+  }
+
+  .lead,
+  h2 {
+    font-size: 1.27rem;
+  }
 }
 
 @media (min-width: $medium-size) {
