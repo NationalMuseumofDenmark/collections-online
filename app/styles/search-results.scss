@@ -2,6 +2,7 @@
 
 .search-page__header {
   margin-bottom: 1rem;
+  margin-top   : 1rem;
 
   h1 {
     margin-bottom: 0;
@@ -47,7 +48,7 @@
 
   .form-control {
     margin-bottom: $dropdown-padding;
-    width: 12rem;
+    width        : 12rem;
   }
 }
 
@@ -197,7 +198,7 @@
 
 // Load more button
 .load-more {
-  display  : block;
-  margin   : 4rem auto;
-  width    : 12rem;
+  display: block;
+  margin : 4rem auto;
+  width  : 12rem;
 }

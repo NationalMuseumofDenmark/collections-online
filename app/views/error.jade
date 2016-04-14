@@ -7,6 +7,8 @@ append header
     +meta('Der er sket en fejl')
 
 block content
+  include includes/translate
+
   .let-it-grow
     .container-fluid
       if(err.status === 404)

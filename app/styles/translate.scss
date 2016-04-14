@@ -1,5 +1,8 @@
-#google_translate_element .skiptranslate {
-  margin: 0 auto;
-  max-width: $large-size;
-  padding-left: 15px;
+.google-translate {
+  height    : 0;
+  text-align: right;
+
+  .goog-te-gadget-simple {
+    border-top: 0;
+  }
 }
