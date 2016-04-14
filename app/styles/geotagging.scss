@@ -33,6 +33,7 @@
     right           : 0;
     top             : 0;
     transform       : translateZ(3px);
+    z-index         : 30;
 
     &.overlay-visible {
       display        : flex;
@@ -116,6 +117,7 @@
   text-align    : center;
   transform     : translateZ(2px);
   width         : 100%;
+  z-index       : 20;
 
   &.back-to-map {
     bottom: auto;
