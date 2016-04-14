@@ -17,7 +17,7 @@ var mapHeading = 0;
 
   var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapWrap = $('.map-wrap');
-  var $imgWrap = $('.img-col')
+  var $imgWrap = $('.img-col');
   var mapVisible = 'map-visible';
   var $map = $('#geotagging-map');
   var $mapOverlay = $('.map-container .overlay');
@@ -281,9 +281,9 @@ var mapHeading = 0;
       marker.setVisible(!this.getVisible());
       headingMarker.setVisible(!this.getVisible());
 
-      $('.map-buttons .hide-map').toggle(!this.getVisible());
-      $('.map-buttons .save-coordinates').toggle(!this.getVisible());
-      $('.map-buttons.back-to-map').toggle(this.getVisible());
+      $('.hide-map').toggle(!this.getVisible());
+      $('.save-coordinates').toggle(!this.getVisible());
+      $('.back-to-map').toggle(this.getVisible());
 
       if (this.getPosition()) {
         var offset = google.maps.geometry.spherical
