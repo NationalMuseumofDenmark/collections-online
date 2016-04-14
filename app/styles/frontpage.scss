@@ -8,7 +8,7 @@
 }
 
 .frontpage__catalog {
-  padding: 15px;
+  padding: 5px;
   width  : 50%;
 
   a {
@@ -30,8 +30,12 @@
     word-break: break-word;
   }
 
+  @media (min-width: $small-size) {
+    padding: 15px;
+  }
+
   @media (min-width: $medium-size) {
-    width: 33.33333%;
+    width  : 33.33333%;
 
     h2 {
       margin-left: -1px;
