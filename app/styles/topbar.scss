@@ -122,12 +122,10 @@
     padding-right: 0;
   }
 
-  .btn {
-    svg {
-      height: 24px;
-      margin: 0;
-      width : 24px;
-    }
+  svg {
+    height: $icon-size;
+    margin: 0;
+    width : $icon-size;
   }
 
   .btn,
@@ -157,8 +155,8 @@
 // Menu button
 .hamburger {
   align-items    : center;
-  display        : flex;
-  height         : 100%;
+  cursor         : pointer;
+  line-height    : 0;
   padding-left   : 10px;
   padding-right  : 2px;
   text-decoration: none;
