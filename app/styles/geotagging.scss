@@ -7,7 +7,7 @@
 }
 
 .map-visible {
-  display: flex;
+  display        : flex;
   flex-direction : column;
   justify-content: center;
 
@@ -27,11 +27,12 @@
     left            : 0;
     // safari bug fix
     margin          : -1px;
-    min-height      : 100%;
+    min-height      : calc(100% + 2px);
     padding         : 2.5rem;
     position        : absolute;
     right           : 0;
     top             : 0;
+    transform       : translateZ(3px);
 
     &.overlay-visible {
       display        : flex;
@@ -93,8 +94,8 @@
 
 // We have to use important to overide element style
 .gmnoprint {
-  > div,
-  > .gm-style-mtc > div {
+  > .gm-style-mtc > div,
+  > div {
     border-radius: 0 !important;
   }
 }
@@ -113,6 +114,7 @@
   pointer-events: none;
   position      : absolute;
   text-align    : center;
+  transform     : translateZ(2px);
   width         : 100%;
 
   &.back-to-map {
