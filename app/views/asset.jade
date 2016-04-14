@@ -81,11 +81,10 @@ block content
                   +icon('zoom-in')
             a(data-action="asset-download-show", class="#{downloadable===true ? '' : 'dimmed'}")
               +icon('download')
-            //- TODO there's a story for this in next sprint
-            //- a
-            //-   +icon('facebook')
-            //- a
-            //-   +icon('twitter')
+            a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
+              +icon('facebook')
+            a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
+              +icon('twitter')
             //- a
             //-   +icon('email')
             

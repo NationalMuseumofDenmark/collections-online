@@ -2,12 +2,26 @@
 
 function checkDateInput() {
   var input = document.createElement('input');
-  input.setAttribute('type','date');
+  input.setAttribute('type', 'date');
 
   var notADateValue = 'not-a-date';
   input.setAttribute('value', notADateValue);
 
   return (input.value !== notADateValue);
+}
+
+function fbshareCurrentPage() {
+  window.open('https://www.facebook.com/sharer/sharer.php?u='
+    + escape(window.location.href)
+  );
+  return false;
+}
+
+function twittershareCurrentPage() {
+  window.open('https://twitter.com/intent/tweet?url='
+    + escape(window.location.href) + '&via=nationalmuseet'
+  );
+  return false;
 }
 
 $(function() {
@@ -56,17 +70,22 @@ $(function() {
   });
 
   // Check that dropdown options are on screen
-  var repositionDropdowns = function(){
+  var repositionDropdowns = function() {
     $('.dropdown__options').each(function() {
       var dropOffLeft = $(this).offset().left;
       var dropdownWidth = $(this).width();
       var wrapWidth = $('.main-wrapper').width();
-      var isEntirelyVisible = (dropOffLeft + dropdownWidth <= wrapWidth);
+      var isEntirelyVisible = (dropOffLeft + dropdownWidth <=
+        wrapWidth);
       if (!isEntirelyVisible) {
         var topOffset = $(this).offset().top;
         var paddingLeft = $(this).position().left;
-        var newLeftOffset = wrapWidth - dropdownWidth + paddingLeft / 2;
-        $(this).offset({top: topOffset, left: newLeftOffset});
+        var newLeftOffset = wrapWidth - dropdownWidth + paddingLeft /
+          2;
+        $(this).offset({
+          top: topOffset,
+          left: newLeftOffset
+        });
       }
     });
   };
@@ -74,10 +93,10 @@ $(function() {
   repositionDropdowns();
 
 
-  $('#search-input').on('focus', function(){
+  $('#search-input').on('focus', function() {
     $(this).parent().addClass('input-group--focus');
   });
-  $('#search-input').on('blur', function(){
+  $('#search-input').on('blur', function() {
     $(this).parent().removeClass('input-group--focus');
   });
 
@@ -86,8 +105,7 @@ $(function() {
     var separator = uri.indexOf('?') !== -1 ? '&' : '?';
     if (uri.match(re)) {
       return uri.replace(re, '$1' + key + '=' + value + '$2');
-    }
-    else {
+    } else {
       return uri + separator + key + '=' + value;
     }
   };
