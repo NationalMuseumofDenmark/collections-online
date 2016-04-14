@@ -3,12 +3,12 @@ footer {
   color         : $footer-text-color;
   font-size     : 90%;
   letter-spacing: .02em;
+  padding       : 1rem 0;
 }
 
 .footer__element {
   color  : $footer-text-color;
   display: inline-block;
-  padding: 1rem 0;
 
   &:not(:last-child)::after {
     color  : rgba($footer-text-color, .5);
