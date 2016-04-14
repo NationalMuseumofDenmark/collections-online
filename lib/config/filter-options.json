@@ -171,29 +171,29 @@
     "notSelectedLabel": "Alle størrelser",
     "options": {
       "small": {
-        "label": "800 pixels",
+        "label": "Minimum 1000px",
         "method": {
           "or": [
-            {"range": {"width_px": {"gte": 800}}},
-            {"range": {"height_px": {"gte": 800}}}
+            {"range": {"width_px": {"gte": 1000}}},
+            {"range": {"height_px": {"gte": 1000}}}
           ]
         }
       },
       "medium": {
-        "label": "1200 pixels",
+        "label": "Minimum 2500px",
         "method": {
           "or": [
-            {"range": {"width_px": {"gte": 1200}}},
-            {"range": {"height_px": {"gte": 1200}}}
+            {"range": {"width_px": {"gte": 2500}}},
+            {"range": {"height_px": {"gte": 2500}}}
           ]
         }
       },
       "large": {
-        "label": "2000 pixels",
+        "label": "Minimum 4000px",
         "method": {
           "or": [
-            {"range": {"width_px": {"gte": 2000}}},
-            {"range": {"height_px": {"gte": 2000}}}
+            {"range": {"width_px": {"gte": 4000}}},
+            {"range": {"height_px": {"gte": 4000}}}
           ]
         }
       },
