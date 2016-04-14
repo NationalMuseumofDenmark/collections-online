@@ -4,18 +4,19 @@ footer {
   font-size     : 90%;
   letter-spacing: .02em;
   padding       : 1rem 0;
+}
 
-  span,
-  a {
-    color: $footer-text-color;
+.footer__element {
+  color  : $footer-text-color;
+  display: inline-block;
 
-    &:not(:last-child)::after {
-      color  : $footer-text-color;
-      content: '\00a0\00a0/\00a0\00a0';
-    }
+  &:not(:last-child)::after {
+    color  : rgba($footer-text-color, .5);
+    content: '\00a0\00a0/\00a0\00a0';
+  }
 
-    &:hover {
-      text-decoration: none;
-    }
+  &:focus,
+  &:hover {
+    text-decoration: none;
   }
 }

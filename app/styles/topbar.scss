@@ -91,11 +91,9 @@
 
 // Search box
 .search-box {
-  flex-grow  : 1;
-  flex-shrink: 1;
-  margin     : 0 10px;
-  position   : relative;
-  text-align : right;
+  flex-grow: 1;
+  margin   : 0 10px;
+  position : relative;
 
   .input-group {
     float    : right;
@@ -145,17 +143,14 @@
     }
   }
 
-  .form-control {
-    background-color: rgba($white, 0);
-  }
-
   input {
-    border        : 0;
-    border-radius : 0;
-    color         : $white;
-    padding-bottom: 5px;
-    padding-left  : 0;
-    padding-top   : 7px;
+    background-color: transparent;
+    border          : 0;
+    border-radius   : 0;
+    color           : $white;
+    padding-bottom  : 5px;
+    padding-left    : 0;
+    padding-top     : 7px;
   }
 }
 

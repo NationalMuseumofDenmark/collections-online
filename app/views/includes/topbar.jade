@@ -2,15 +2,17 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
   .container-fluid
     nav
       .topbar-items
-        a.logo-wrap(href='/', class=frontpage ? 'hidden-md hidden-lg' : '')
-          .logo
-            +icon('logo')
-          .logo-text.hidden-xs
-            span Nationalmuseets
-            span Samlinger Online
+        div(class=frontpage ? 'hidden-md hidden-lg' : '')
+          a.logo-wrap(href='/')
+            .logo
+              +icon('logo')
+            .logo-text.hidden-xs
+              | Nationalmuseets
+              br
+              | Samlinger Online
         - var path = (req.path).split('/')
         - var searchMethod = (isSearching ? 'modify-query' : '')
-        form.search-box(method='get', action='/', data-method=searchMethod)
+        form.search-box(method='get', data-method='modify-query')
           .input-group
             input.form-control(
               type='text',
@@ -19,7 +21,7 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
               name='q',
               autocomplete="off",
               value=req.query.q || '')
-            span.input-group-btn
+            .input-group-btn
               button.btn-search.btn
                 span.sr-only Søg
                 +icon('search')
