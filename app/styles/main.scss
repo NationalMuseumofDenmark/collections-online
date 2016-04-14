@@ -46,8 +46,10 @@ body {
   }
 }
 
-.container-fluid {
-  max-width: $large-size;
+@media (min-width: $large-size) {
+  .container-fluid {
+    width: $large-size;
+  }
 }
 
 @media (max-width: $small-size) {
