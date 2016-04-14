@@ -59,13 +59,6 @@
 }
 
 .search-results {
-  .thumbnail {
-    background-color: $white;
-    border          : 0;
-    padding         : 0;
-    position        : relative;
-  }
-
   // Video thumbnail
   .video-thumbnail {
     background    : $gray;
@@ -111,18 +104,18 @@
   a {
     color  : $black;
     display: block;
+    padding: 10px;
 
-    &:hover {
-      background-color: $white;
+    @media (min-width: $small-size) {
+      padding: 15px;
+    }
+
+    &:hover,
+    &:focus {
       border          : 0;
       color           : $link-hover-color;
       text-decoration : none;
     }
-  }
-
-  .cat-link a {
-    font-size      : 97%;
-    text-decoration: underline;
   }
 }
 
@@ -131,8 +124,14 @@
   box-sizing: border-box;
   float     : left;
   min-height: 1px;
-  padding   : 0 15px 20px;
-  width     : 100%;
+  padding   : 0;
+  width     : 50%;
+
+  &:hover,
+  &:focus {
+    @include shadow(3);
+    z-index: 1;
+  }
 
   &.loaded-more {
     opacity: 0;
@@ -152,39 +151,24 @@
     }
   }
 
+  img {
+    margin-bottom: 1rem;
+  }
+
   .overlay,
   .overlay img {
     width: 100%;
   }
 
   .h4 {
-    margin-bottom: 2px;
+    margin: 0;
   }
 
   .description {
-    margin-bottom: 0;
+    margin       : 0;
     overflow     : hidden;
     text-overflow: ellipsis;
     white-space  : nowrap;
-  }
-
-  .cat-link {
-    margin-bottom: 0;
-    margin-top   : 5px;
-  }
-
-  @media all and (max-width: 420px) {
-    padding: 0;
-    width  : 100%;
-
-    h2,
-    p {
-      padding: 0 10px;
-    }
-  }
-
-  @media all and (max-width: 635px) and (min-width: 420px) {
-    width: 50%;
   }
 
   @media all and (max-width: 992px) and (min-width: 635px) {

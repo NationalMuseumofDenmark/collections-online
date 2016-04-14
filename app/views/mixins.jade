@@ -94,25 +94,19 @@ mixin recursiveCategoryItem(catalog, category)
             +recursiveCategoryItem(catalog, childCategory)
 
 mixin searchResultAsset(asset)
-  div(class='col-lg-3 box')
-    .thumbnail
-      a(href='#{asset.link}')
-        if asset.type == 'video'
-          div.video-thumbnail
-            div.icon
-        else
-          div.image
-            div.overlay
-              img(src='#{asset.thumbnailURL}').rotation
-              if asset.type == 'image-rotation'
-                +icon('rotation')
-        if asset.title
-          h2.h4 #{asset.title}
-        else
-          h2(class='h4') Ingen titel
-        p.description #{asset.description}
-      p.cat-link
-        a(href='#{asset.catalogURL}') #{asset.catalog}
+  .box
+    a(href='#{asset.link}')
+      if asset.type == 'video'
+        .video-thumbnail
+          .icon
+      else
+        .image
+          .overlay
+            img(src='#{asset.thumbnailURL}').rotation
+            if asset.type == 'image-rotation'
+              +icon('rotation')
+      h2.h4 #{asset.title}
+      p.description #{asset.description}
 
 mixin icon(id)
   svg
