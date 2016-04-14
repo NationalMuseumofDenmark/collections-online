@@ -25,13 +25,6 @@ function twittershareCurrentPage() {
 }
 
 $(function() {
-
-  // Show translate dropdown for non danish users only
-  var language = window.navigator.userLanguage || window.navigator.language;
-  if (language.indexOf('da') === -1) {
-    $('#google_translate_element').removeClass('hidden');
-  }
-
   var Snackbar = window.Snackbar;
   Snackbar.init();
 
