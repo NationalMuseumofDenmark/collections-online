@@ -25,6 +25,7 @@
   padding-top     : $topbar-height / 3.1;
 
   .dropdown {
+    margin-bottom: $topbar-height / 4;
 
     &:not(:last-child) {
       margin-right: 1rem;
