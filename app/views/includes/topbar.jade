@@ -12,7 +12,7 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
               | Samlinger Online
         - var path = (req.path).split('/')
         - var searchMethod = (isSearching ? 'modify-query' : '')
-        form.search-box(method='get', data-method='modify-query')
+        form.search-box(method='get', action='/', data-method=searchMethod)
           .input-group
             input.form-control(
               type='text',
