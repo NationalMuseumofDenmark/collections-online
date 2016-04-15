@@ -5,11 +5,14 @@ html(lang='da').no-js
     meta(charset='utf-8')
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='viewport', content='initial-scale=1.0')
+    //- Prevents dates in filtering from being converted to phone numbers on iOS
+    meta(name="format-detection", content="telephone=no")
     meta(name='theme-color' content='#{config.themeColor}')
     meta(name="apple-mobile-web-app-title", content="#{config.appName}")
     meta(name="application-name", content="#{config.appName}")
     meta(name="msapplication-TileColor", content="#{config.themeColor}")
     meta(name="msapplication-TileImage", content="/mstile-144x144.png")
+    
     link(rel="apple-touch-icon", href="/apple-touch-icon.png")
     link(rel="icon", type="image/png", href="/favicon-32x32.png", sizes="32x32")
     link(rel="icon", type="image/png", href="/favicon-194x194.png", sizes="194x194")
