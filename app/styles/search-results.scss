@@ -129,10 +129,12 @@
   padding   : 0;
   width     : 50%;
 
-  &:hover,
-  &:focus {
-    @include shadow(3);
-    z-index: 1;
+  @media (pointer:fine) {
+    &:hover,
+    &:focus {
+      @include shadow(3);
+      z-index: 1;
+    }
   }
 
   &.loaded-more {
@@ -163,11 +165,13 @@
   }
 
   .h4 {
+    color     : $black;
     margin    : 0;
     word-break: break-all;
   }
 
   .description {
+    color        : $text-color;
     margin       : 0;
     overflow     : hidden;
     text-overflow: ellipsis;

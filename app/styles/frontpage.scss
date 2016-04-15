@@ -11,12 +11,11 @@
   padding: 10px;
   width  : 50%;
 
-  &:focus,
-  &:hover {
-    @include shadow(3);
-
-    a {
-      color: $link-color;
+  @media (pointer:fine) {
+    &:hover,
+    &:focus {
+      @include shadow(3);
+      z-index: 1;
     }
   }
 
