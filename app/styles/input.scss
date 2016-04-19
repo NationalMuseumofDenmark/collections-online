@@ -3,6 +3,16 @@ $input-animation: .2s ease all;
 $thin-line: 1px;
 $thick-line: 3px;
 
+.form-control {
+  box-shadow: none;
+  padding: 6px;
+
+  &:focus {
+    box-shadow: none;
+
+  }
+}
+
 .material-input {
   margin-bottom: .8rem;
   max-width    : 300px;
@@ -70,7 +80,7 @@ $thick-line: 3px;
   width: 100%;
 
   .tt-menu {
-    @include card(2);
+    @include shadow(2);
     background-color: $white;
     cursor          : pointer;
     margin-top      : $thick-line - $thin-line;

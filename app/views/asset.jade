@@ -12,17 +12,15 @@ block content
   - var address = metadata.address || metadata.street;
   - var zipcode = metadata.zipcode;
   - var city = metadata.city;
-  - var fullAddr = [];
+  - var fullAddress = [];
 
-  - if(address || zipcode || city)
-    - if(address)
-      - fullAddr.push(address)
-    - if(zipcode)
-      - fullAddr.push(zipcode)
-    - if(city)
-      - fullAddr.push(city)
-
-  input#address(type='hidden', value=fullAddr.join(','))
+  - if(address)
+    - fullAddress.push(address)
+  - if(zipcode)
+    - fullAddress.push(zipcode)
+  - if(city)
+    - fullAddress.push(city)
+  - fullAddress = fullAddress.join(', ')
 
 
   article.asset(itemscope,
@@ -31,20 +29,21 @@ block content
           data-id=metadata.id,
           data-latitude=metadata.latitude,
           data-longitude=metadata.longitude,
-          data-heading=metadata.heading)
-    - var address = metadata.address || metadata.street;
-    - var description = metadata.description;
+          data-heading=metadata.heading,
+          data-full-address=fullAddress)
     - var city = metadata.city;
+    - var description = metadata.description;
     - var filename = metadata.filename.toLowerCase();
-    - var title = metadata.short_title
+    - var license = metadata.license && helpers.licenseTag(metadata.license.id);
+    - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
+    - if (metadata.width_px > 768) { zoom = true };
     .asset-top
       .container-fluid
         .row
           .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
-              .image-wrapper
-                img(src=sources.image, alt=title)
+              img(src=sources.thumbnail, data-src=sources.image, alt=title, class="#{zoom===true ? 'asset-image--zoomable' : ''}").asset-image
             else if(player === "image-rotation")
               .rotation-wrapper
                 picture(alt=title)
@@ -62,7 +61,7 @@ block content
                 source(src=sources.video, type="video/mp4")
           .col-md-6.map-wrap
             if showGeotagging
-              include geotagging.jade
+              include includes/geotagging.jade
       .container-fluid
         .row.asset-info
           .col-sm-8
@@ -77,15 +76,15 @@ block content
               
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
-              a(data-action="asset-image-size-toggle")
-                +icon('zoom-in')
-            a(data-action="asset-download-show")
+              if (zoom)
+                a(data-action="asset-image-size-toggle")
+                  +icon('zoom-in')
+            a(data-action="asset-download-show", class="#{downloadable===true ? '' : 'dimmed'}")
               +icon('download')
-            //- TODO there's a story for this in next sprint
-            //- a
-            //-   +icon('facebook')
-            //- a
-            //-   +icon('twitter')
+            a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
+              +icon('facebook')
+            a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
+              +icon('twitter')
             //- a
             //-   +icon('email')
             
@@ -151,28 +150,32 @@ block content
 
   .overlay__container(data-content="asset-download")
     .overlay__content 
-      h2 Download - vælg størrelse
-      if(player === 'image-single' || player === 'image-single-animated')
-        a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
-          | Lille (#{sources.imageSet.download800.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
-          | Mellem (#{sources.imageSet.download1200.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
-          | Stor (#{sources.imageSet.download2000.size} jpg)
-        a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
-          | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-      if(filename.match('.tif$') || filename.match('.tiff$'))
-        a.btn.btn-primary(href='#{sources.download}') 
-          | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+      if (downloadable)
+        h2 Download
+        if(player === 'image-single')
+          a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+            | Lille (#{sources.imageSet.download800.size} jpg)
+          a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+            | Mellem (#{sources.imageSet.download1200.size} jpg)
+          a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+            | Stor (#{sources.imageSet.download2000.size} jpg)
+          a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+            | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
+        if(filename.match('.tif$') || filename.match('.tiff$'))
+          a.btn.btn-primary(href='#{sources.download}') 
+            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
+        if(player === 'image-single-animated')
+          a.btn.btn-primary(href='#{sources.download}')
+            | Original (#{metadata.width_px} x #{metadata.height_px} gif)
+        if (license)
+          a(href=license.url, rel='license', target='_blank')
+            img(src=license.img, alt=license.short)
+        else
+          p No known rights
+      else
+        h2 Vi beklager
+        p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
 
-      .overlay__license
-        if(metadata.license)
-          - var license = helpers.licenseTag(metadata.license.id);
-          if(license)
-            a(href=license.url, rel='license', target='_blank')
-              img(src=license.img, alt=license.short)
-          else
-            | #{metadata.license.displaystring}
  
   .facebook-group
     h2 Tusind tak for din hjælp!

@@ -1,12 +1,65 @@
 @import 'variables';
 
-.search-results {
-  .thumbnail {
-    background-color: $white;
-    border          : 0;
-    padding         : 0;
-    position        : relative;
+.search-page__header {
+  margin-bottom: 1.3rem;
+  margin-top   : 1.35rem;
+
+  h1 {
+    margin-bottom: 0;
   }
+
+  // Overwrite default bootstrap row-col float behaviour to align bottom
+  > * {
+    display: inline-block;
+    float  : none;
+  }
+
+  > *:last-child {
+    vertical-align: bottom;
+  }
+}
+
+.search-page__filtering {
+  background-color: $gray-lighter;
+  min-height      : $topbar-height;
+  padding-top     : $topbar-height / 3.1;
+
+  .dropdown {
+    margin-bottom: $topbar-height / 4;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+  }
+
+  // Overriding bootstrap defaults
+  label {
+    margin-bottom: 0;
+  }
+
+  button {
+    margin-top: $dropdown-padding;
+  }
+
+  .form-group {
+    margin-bottom: 0;
+    padding      : $dropdown-padding $dropdown-padding * 2;
+  }
+
+  .form-control {
+    margin-bottom: $dropdown-padding;
+    width        : 12rem;
+  }
+}
+
+.search-page__sorting {
+  padding-bottom: .3rem;
+  padding-top   : .5rem;
+  text-align    : right;
+}
+
+.search-results {
+  margin-bottom: 4.2rem;
 
   // Video thumbnail
   .video-thumbnail {
@@ -53,18 +106,18 @@
   a {
     color  : $black;
     display: block;
+    padding: 10px;
 
-    &:hover {
-      background-color: $white;
+    @media (min-width: $small-size) {
+      padding: 15px;
+    }
+
+    &:hover,
+    &:focus {
       border          : 0;
       color           : $link-hover-color;
       text-decoration : none;
     }
-  }
-
-  .cat-link a {
-    font-size      : 97%;
-    text-decoration: underline;
   }
 }
 
@@ -73,8 +126,16 @@
   box-sizing: border-box;
   float     : left;
   min-height: 1px;
-  padding   : 0 15px 20px;
-  width     : 100%;
+  padding   : 0;
+  width     : 50%;
+
+  @media (pointer:fine) {
+    &:hover,
+    &:focus {
+      @include shadow(3);
+      z-index: 1;
+    }
+  }
 
   &.loaded-more {
     opacity: 0;
@@ -83,7 +144,6 @@
   &.load-done {
     animation: fadeIn $anim-duration-long forwards;
     opacity  : 0;
-
     @keyframes fadeIn {
       0% {
         opacity: 0;
@@ -95,39 +155,27 @@
     }
   }
 
+  img {
+    margin-bottom: 1rem;
+  }
+
   .overlay,
   .overlay img {
     width: 100%;
   }
 
   .h4 {
-    margin-bottom: 2px;
+    color     : $black;
+    margin    : 0;
+    word-break: break-word;
   }
 
   .description {
-    margin-bottom: 0;
+    color        : $text-color;
+    margin       : 0;
     overflow     : hidden;
     text-overflow: ellipsis;
     white-space  : nowrap;
-  }
-
-  .cat-link {
-    margin-bottom: 0;
-    margin-top   : 5px;
-  }
-
-  @media all and (max-width: 420px) {
-    padding: 0;
-    width  : 100%;
-
-    h2,
-    p {
-      padding: 0 10px;
-    }
-  }
-
-  @media all and (max-width: 635px) and (min-width: 420px) {
-    width: 50%;
   }
 
   @media all and (max-width: 992px) and (min-width: 635px) {
@@ -141,7 +189,7 @@
 
 // Load more button
 .load-more {
-  display  : block;
-  margin   : 4rem auto;
-  min-width: 12rem;
+  display: block;
+  margin : 0 auto 4.2rem;
+  width  : 12rem;
 }

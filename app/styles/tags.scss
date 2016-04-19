@@ -6,7 +6,10 @@
 
   .btn {
     margin-bottom: .5rem;
-    transition     : $anim-default;
+    max-width    : 100%;
+    overflow     : hidden;
+    text-overflow: ellipsis;
+    transition   : $anim-default;
 
     &:not(:last-child) {
       margin-right: .5rem;
@@ -31,7 +34,7 @@
 }
 
 .tag {
-  color           : $white;
+  color: $white;
 
   &.saved {
     cursor: pointer;

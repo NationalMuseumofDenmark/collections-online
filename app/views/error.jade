@@ -1,15 +1,20 @@
 extends index
 
+append header
+  if(err.status === 404)
+    +meta('Siden blev ikke fundet')
+  else
+    +meta('Der er sket en fejl')
+
 block content
-      .row
-      .col-md9.text-row
+  .let-it-grow
+    .container-fluid
+      if(err.status === 404)
+        h1 Siden blev ikke fundet
+      else
+        h1 Der er sket en fejl
+      p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
+      if(showStacktrace)
+        pre= err.stack
 
-        header
-          h1 Ups der skete desværre en fejl
-
-        h2 Der skete desværre en fejl, prøv igen senere.
-
-        .asset
-          .asset-block
-            p
-              // Empty
+  include includes/footer

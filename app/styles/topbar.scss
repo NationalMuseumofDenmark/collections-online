@@ -8,8 +8,8 @@
     fill: $white;
   }
 
-  h1,
-  .tag-line {
+  .tag-line,
+  h1 {
     margin: 0;
   }
 
@@ -35,7 +35,7 @@
 }
 
 // Frontpage styling
-.frontpage {
+.topbar--frontpage {
   @media (min-width: $medium-size) {
     height: 200px;
   }
@@ -80,7 +80,8 @@
 
 .logo-text {
   color       : $white;
-  font-size   : 90%;
+  font-size   : $font-size-base * .9;
+  line-height : 1.4;
   margin-right: 10px;
 
   span {
@@ -90,17 +91,29 @@
 
 // Search box
 .search-box {
-  flex-grow  : 1;
-  flex-shrink: 1;
-  margin     : 0 10px;
-  position   : relative;
-  text-align : right;
+  flex-grow: 1;
+  margin   : 0 10px;
+  position : relative;
 
   .input-group {
-    border-bottom: 1px solid rgba($white, .5);
-    border-top   : 1px solid rgba($white, 0);
-    float        : right;
-    max-width    : 20rem;
+    float    : right;
+    max-width: 20rem;
+
+    &::after {
+      background-color: rgba($white, .5);
+      bottom          : 1px;
+      content         : '';
+      height          : 1px;
+      left            : 0;
+      position        : absolute;
+      right           : 0;
+    }
+
+    &--focus {
+      &::after {
+        background-color: $white;
+      }
+    }
   }
 
   .btn-search {
@@ -109,12 +122,10 @@
     padding-right: 0;
   }
 
-  .btn {
-    svg {
-      height: 24px;
-      margin: 0;
-      width : 24px;
-    }
+  svg {
+    height: $icon-size;
+    margin: 0;
+    width : $icon-size;
   }
 
   .btn,
@@ -130,24 +141,22 @@
     }
   }
 
-  .form-control {
-    background-color: rgba($white, 0);
-  }
-
   input {
-    border       : 0;
-    border-radius: 0;
-    color        : $white;
-    line-height  : 1.25;
-    padding-left : 0;
+    background-color: transparent;
+    border          : 0;
+    border-radius   : 0;
+    color           : $white;
+    padding-bottom  : 5px;
+    padding-left    : 0;
+    padding-top     : 7px;
   }
 }
 
 // Menu button
 .hamburger {
   align-items    : center;
-  display        : flex;
-  height         : 100%;
+  cursor         : pointer;
+  line-height    : 0;
   padding-left   : 10px;
   padding-right  : 2px;
   text-decoration: none;

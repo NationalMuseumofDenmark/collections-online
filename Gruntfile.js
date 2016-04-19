@@ -172,10 +172,24 @@ module.exports = function(grunt) {
     // additional tasks can operate on them
     useminPrepare: {
       html: ['<%= yeoman.app %>/views/includes/scripts.jade',
-      '<%= yeoman.app %>/views/includes/styles.jade'],
+        '<%= yeoman.app %>/views/includes/styles.jade'
+      ],
       options: {
         dest: '<%= yeoman.dist %>/public',
         root: '.tmp'
+      }
+    },
+
+    // gzip static files
+    compress: {
+      main: {
+        options: {
+          mode: 'gzip'
+        },
+        expand: true,
+        cwd: '<%= yeoman.dist %>/public/',
+        src: ['**/*'],
+        dest: '<%= yeoman.dist %>/public/'
       }
     },
 
@@ -192,9 +206,6 @@ module.exports = function(grunt) {
 
     // The following *-min tasks produce minified files in the dist folder
     imagemin: {
-      options: {
-        cache: false
-      },
       dist: {
         files: [{
           expand: true,
@@ -430,7 +441,8 @@ module.exports = function(grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    // 'compress'
   ]);
 
   grunt.registerTask('default', [

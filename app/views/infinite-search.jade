@@ -1,4 +1,4 @@
 include mixins
 
-each result in results
-  +searchResultAsset(result)
+each asset in result.hits
+  +searchResultAsset(asset)

@@ -4,10 +4,10 @@ if (process.env.NODE_ENV === 'development'){
   require('dotenv').config();
 }
 
-var express = require('express'),
-    cip = require('./lib/services/natmus-cip'),
-    cipCategories = require('./lib/cip-categories'),
-    es = require('./lib/services/elasticsearch');
+var express = require('express');
+var cip = require('./lib/services/natmus-cip');
+var cipCategories = require('./lib/cip-categories');
+var es = require('./lib/services/elasticsearch');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -15,6 +15,8 @@ var config = require('./lib/config/config');
 var app = express();
 require('./lib/config/express')(app);
 app.locals.config = config;
+
+app.locals.helpers = require('./lib/helpers');
 
 app.set('siteTitle', config.siteTitle);
 // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of

@@ -17,6 +17,8 @@ var mapHeading = 0;
 
   var GA_EVENT_CATEGORY = 'Geotagging';
   var $mapWrap = $('.map-wrap');
+  var $imgWrap = $('.img-col');
+  var mapVisible = 'map-visible';
   var $map = $('#geotagging-map');
   var $mapOverlay = $('.map-container .overlay');
   var $editCoordinates = $('#edit-coordinates');
@@ -36,7 +38,8 @@ var mapHeading = 0;
       $mapOverlay.addClass('overlay-visible');
     }
     $imageColumn.addClass('col-md-6');
-    $mapWrap.addClass('map-visible');
+    $mapWrap.addClass(mapVisible);
+    $imgWrap.addClass(mapVisible);
     $('.big-image').removeClass('big-image');
     $(window).bind('resize', resizeMap).trigger('resize');
     $('html, body').animate({
@@ -47,7 +50,8 @@ var mapHeading = 0;
   var hideMap = function() {
     ga('send', 'event', GA_EVENT_CATEGORY, 'Hide');
     $imageColumn.removeClass('col-md-6');
-    $mapWrap.removeClass('map-visible');
+    $mapWrap.removeClass(mapVisible);
+    $imgWrap.removeClass(mapVisible);
     $(window).unbind('resize', resizeMap);
     $editCoordinates.removeClass('disabled');
   };
@@ -135,10 +139,11 @@ var mapHeading = 0;
 
   window.initMap = function() {
     var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
-    var address = $('#address').val();
     var latitude = $('.asset').data('latitude');
     var longitude = $('.asset').data('longitude');
     var heading = $('.asset').data('heading');
+    var address = $('.asset').data('full-address');
+
     var mapOptions = {
       center: initialPosition,
       zoom: 16,
@@ -167,11 +172,14 @@ var mapHeading = 0;
       assetMap.setZoom(13);
       assetMap.setCenter({lat: latitude, lng: longitude});
     }
-    marker = new google.maps.Marker({
-      map: assetMap,
-      icon: '/images/map_pin_red.png',
-      position: {lat: latitude, lng: longitude}
-    });
+
+    if (latitude && longitude) {
+      marker = new google.maps.Marker({
+        map: assetMap,
+        icon: '/images/map_pin_red.png',
+        position: {lat: latitude, lng: longitude}
+      });
+    }
 
     streetView = map.getStreetView();
     // https://developers.google.com/maps/documentation/javascript/controls
@@ -237,7 +245,6 @@ var mapHeading = 0;
 
     } else if (address) {
       var geocoder = new google.maps.Geocoder();
-
       geocoder.geocode({
         'address': address
       }, function(results, status) {
@@ -250,6 +257,8 @@ var mapHeading = 0;
           resizeMap();
         }
       });
+      // Let's show the user that we have searched for this address
+      $('#pac-input').val(address);
     }
 
     map.addListener('click', function(event) {
@@ -272,9 +281,9 @@ var mapHeading = 0;
       marker.setVisible(!this.getVisible());
       headingMarker.setVisible(!this.getVisible());
 
-      $('.map-buttons .hide-map').toggle(!this.getVisible());
-      $('.map-buttons .save-coordinates').toggle(!this.getVisible());
-      $('.map-buttons.back-to-map').toggle(this.getVisible());
+      $('.hide-map').toggle(!this.getVisible());
+      $('.save-coordinates').toggle(!this.getVisible());
+      $('.back-to-map').toggle(this.getVisible());
 
       if (this.getPosition()) {
         var offset = google.maps.geometry.spherical

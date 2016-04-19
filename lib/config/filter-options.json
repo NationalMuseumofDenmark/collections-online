@@ -1,0 +1,213 @@
+{
+  "catalog": {
+    "label": "Samling",
+    "notSelectedLabel": "Alle samlinger",
+    "type": "catalog",
+    "options": {
+      "AS": {
+        "label": "Antiksamlingen",
+        "method": {
+          "query": {"match": {"catalog": "AS"}}
+        }
+      },
+      "BA": {
+        "label": "Bevaringsafdelingen",
+        "method": {
+          "query": {"match": {"catalog": "BA"}}
+        }
+      },
+      "DMR": {
+        "label": "Danmarks Middelalder og Renæssance",
+        "method": {
+          "query": {"match": {"catalog": "DMR"}}
+        }
+      },
+      "DNT": {
+        "label": "Danmarks Nyere Tid",
+        "method": {
+          "query": {"match": {"catalog": "DNT"}}
+        }
+      },
+      "DO": {
+        "label": "Danmarks Oldtid",
+        "method": {
+          "query": {"match": {"catalog": "DO"}}
+        }
+      },
+      "KMM": {
+        "label": "Den Kgl. Mønt- og Medaljesamling",
+        "method": {
+          "query": {"match": {"catalog": "KMM"}}
+        }
+      },
+      "ES": {
+        "label": "Etnografisk Samling",
+        "method": {
+          "query": {"match": {"catalog": "ES"}}
+        }
+      },
+      "FHM": {
+        "label": "Frihedsmuseet",
+        "method": {
+          "query": {"match": {"catalog": "FHM"}}
+        }
+      },
+      "FLM": {
+        "label": "Frilandsmuseet",
+        "method": {
+          "query": {"match": {"catalog": "FLM"}}
+        }
+      }
+    }
+  },
+  "creation": {
+    "label": "Tid",
+    "notSelectedLabel": "Alle tider",
+    "option": {
+      "type": "date-range"
+    }
+  },
+  "geolocation": {
+    "label": "Sted",
+    "notSelectedLabel": "Filtrér ikke efter sted",
+    "options": {
+      "true": {
+        "label": "Har placering",
+        "method": {
+          "or": [
+            {"exists": {"field": "google_maps_coordinates"}},
+            {"exists": {"field": "google_maps_coordinates_crowd"}}
+          ]
+        }
+      },
+      "false": {
+        "label": "Mangler placering",
+        "method": {
+          "and": [
+            {"missing": {"field": "google_maps_coordinates"}},
+            {"missing": {"field": "google_maps_coordinates_crowd"}}
+          ]
+        }
+      }
+    }
+  },
+  "media": {
+    "label": "Medietype",
+    "notSelectedLabel": "Alle medietyper",
+    "options": {
+      "picture": {
+        "label": "Billede",
+        "method": {
+          "query": {"match": {"file_format": "image"}}
+        }
+      },
+      "video": {
+        "label": "Film",
+        "method": {
+          "query": {"match": {"file_format": "video"}}
+        }
+      },
+      "sound": {
+        "label": "Lyd",
+        "method": {
+          "query": {"match": {"file_format": "mp3"}}
+        }
+      },
+      "rotationPicture": {
+        "label": "Rotationsbillede",
+        "method": {
+          "query": {"match": {"categories.name": "Rotationsbilleder"}}
+        }
+      }
+    }
+  },
+  "license": {
+    "label": "Licens",
+    "notSelectedLabel": "Alle licenser",
+    "options": {
+      "public": {
+        "label": "Må anvendes frit af alle",
+        "method": {
+          "query": {"match": {"license.id": 8}}
+        }
+      },
+      "cc-by": {
+        "label": "Må anvendes med ændringer",
+        "method": {
+          "or": [
+            {"query": {"match": {"license.id": 0}}},
+            {"query": {"match": {"license.id": 5}}}
+          ]
+        }
+      },
+      "cc-by-nd": {
+        "label": "Må anvendes uden ændringer",
+        "method": {
+          "query": {"match": {"license.id": 4}}
+        }
+      },
+      "cc-by-nc": {
+        "label": "Må anvendes til ikke-kommercielle formål med ændringer",
+        "method": {
+          "query": {"match": {"license.id": 1}}
+        }
+      },
+      "cc-by-nc-nd": {
+        "label": "Må anvendes til ikke-kommercielle formål uden ændringer",
+        "method": {
+          "query": {"match": {"license.id": 2}}
+        }
+      },
+      "all-rights-reserved": {
+        "label": "Må kun anvendes efter aftale med rettighedshaver",
+        "method": {
+          "query": {"match": {"license.id": 7}}
+        }
+      }
+    }
+  },
+  "resolution": {
+    "label": "Størrelse",
+    "notSelectedLabel": "Alle størrelser",
+    "options": {
+      "small": {
+        "label": "Minimum 1000px",
+        "method": {
+          "or": [
+            {"range": {"width_px": {"gte": 1000}}},
+            {"range": {"height_px": {"gte": 1000}}}
+          ]
+        }
+      },
+      "medium": {
+        "label": "Minimum 2500px",
+        "method": {
+          "or": [
+            {"range": {"width_px": {"gte": 2500}}},
+            {"range": {"height_px": {"gte": 2500}}}
+          ]
+        }
+      },
+      "large": {
+        "label": "Minimum 4000px",
+        "method": {
+          "or": [
+            {"range": {"width_px": {"gte": 4000}}},
+            {"range": {"height_px": {"gte": 4000}}}
+          ]
+        }
+      },
+      "printfriendly": {
+        "label": "Printvenlig",
+        "method": {
+          "or": [
+            {"range": {"dpi": {"gte": 300}}},
+            {"range": {"width_px": {"gte": 2400}}},
+            {"range": {"height_px": {"gte": 2400}}}
+          ]
+        }
+      }
+
+    }
+  }
+}

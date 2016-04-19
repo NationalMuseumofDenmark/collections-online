@@ -1,62 +1,115 @@
 extends index
 
 append header
-  if results.is_search || results.is_front || results.is_category || results.is_catalog
-    +searchMeta(results, catalog, breadcrumbs)
+  +searchMeta(result, catalog, breadcrumbs)
     
-block before-content
-  if !results.is_front
-    include filtering
-
 block content
-  section.container-fluid
 
-    if results.is_search
-      h1.page-header Søgning på "#{filters.freetext}"
-        +searchCount
-    if results.is_front
-      h1.page-header Alle samlinger
-        +searchCount
-    if results.is_category
-      h1.page-header
-        a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
-        if breadcrumbs
-          if breadcrumbs.second
-            | &nbsp; &gt; &nbsp;
-            a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
-            | &nbsp; &gt; &nbsp;
-            span #{breadcrumbs.second.name}
+  section.search-page__filtering
+    .container-fluid
+      each filter, filterKey in filterOptions
+        - var currentChoice = filters.params.filters[filterKey] || false
+        .dropdown
+          a.dropdown__selected(
+            class=currentChoice ? '' : 'dropdown__selected--not-bold') 
+            if currentChoice
+              if currentChoice.label
+                = currentChoice.label
+              else
+                = filter.options[currentChoice].label
+            else 
+              = filter.label
+          .dropdown__options
+            if filter.notSelectedLabel
+              - var noFilterUrl = helpers.urlQuery(fullPath, filterKey, undefined)
+              - if (filter.type === 'catalog') {
+              -   noFilterUrl = '/' + queryUrl
+              - }
+              a.dropdown__option(href=noFilterUrl, 
+                class=!currentChoice ? 'dropdown__option--active' : '') 
+                  | #{filter.notSelectedLabel} 
+
+            if filter.options
+              each option, key in filter.options
+                - var selected = key === currentChoice
+                - var url = helpers.urlQuery(fullPath, filterKey, key)
+                - if (filter.type === 'catalog') { url = key + queryUrl }
+                a.dropdown__option(href=url, 
+                  class=selected ? 'dropdown__option--active' : '') #{option.label} 
+
+            if filter.option && filter.option.type === 'date-range'
+              .form-group
+                form(method='get', data-method='modify-query')
+                  label(for='#{filterKey}-from-date') Fra dato
+                  input(type='date', name='#{filterKey}-from', 
+                    id='#{filterKey}-from-date', value=currentChoice.from
+                    placeholder='fx 24/12/1849').form-control
+                  label(for='#{filterKey}-to-date') Til dato
+                  input(type='date', name='#{filterKey}-to', 
+                    id='#{filterKey}-to-date', value=currentChoice.to
+                    placeholder='fx 24/12/1945').form-control
+                  button.btn.btn-block.btn-primary(type='submit') Filtrér
+
+  .let-it-grow
+    section.container-fluid
+      .search-page__header.row 
+
+        h1.col-xs-12.col-sm-7.col-md-8.col-lg-8
+          if result.isSearch
+            if filters.freetext
+              | Søgning på "#{filters.freetext}"
+            else
+              | Filtrering gav
+            +searchCount
+          if result.isCategory
+            a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
+            if breadcrumbs
+              if breadcrumbs.second
+                | &nbsp; &gt; &nbsp;
+                a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
+                | &nbsp; &gt; &nbsp;
+                span #{breadcrumbs.second.name}
+                  +searchCount
+              else if breadcrumbs.first
+                | &nbsp; &gt; &nbsp;
+                span #{breadcrumbs.first.name}
+                  +searchCount
+            else
               +searchCount
-          else if breadcrumbs.first
-            | &nbsp; &gt; &nbsp;
-            span #{breadcrumbs.first.name}
-              +searchCount
-        else
-          | &nbsp; &gt; Ingen titel
 
-    if results.is_catalog
-      h1.page-header #{catalog.name}
-        +searchCount
 
-    .search-results.row(id="masonry-container")
-      each result in results.results
-        +searchResultAsset(result)
+          if result.isCatalog
+            | #{catalog.name}
+            +searchCount
+
+        .search-page__sorting.col-xs-12.col-sm-5.col-md-4.col-lg-4
+          | Sorteret efter
+          .dropdown
+            a.dropdown__selected= sortOptions[sorting].label
+            .dropdown__options
+              each val, key in sortOptions
+                - var selected = (key === sorting)
+                - var url = helpers.urlQuery(fullPath, 'sort', key)
+                a.dropdown__option(href=url, 
+                  class=selected ? 'dropdown__option--active' : '') #{val.label} 
+
+      .search-results.row(id="masonry-container")
+        each asset in result.hits
+          +searchResultAsset(asset)
 
   .clearfix
   
   #page-nav
     a(href='#{infinitepath}')
 
-  if(results.total_results_raw > 10)
+  if(result.totalCountRaw > 10)
     button.btn.btn-primary.btn-lg.load-more(data-action="load-more")
       +loader('Vis flere...')
+      
+  a#toTop
+    +icon('scrolltotop')
 
   include includes/footer
-
-block after-footer
-  if !results.is_front
-    a#toTop
-      +icon('scrolltotop')
 
 append javascript
   script.
@@ -65,28 +118,3 @@ append javascript
       // To ensure no boxes are hidden if the was some load error
       $('.loaded-more').removeClass('loaded-more');
     });
-  if results.is_front
-    script.
-      $(window).load(function() {
-         $('.slider').flexslider({
-          animation: "slide",
-          controlNav: false,
-          start: function(slider) {
-            $(window).trigger('resize');
-          }
-        });
-      });
-  
-  if results.is_front
-    - baseURL = 'http://' + (req.get('x-forwarded-host') || req.get('host')) + '/'
-    script(type="application/ld+json").
-      {
-        "@context": "http://schema.org",
-        "@type": "WebSite",
-        "url": "#{baseURL}",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "#{baseURL}?q={search_term_string}",
-          "query-input": "required name=search_term_string"
-        }
-      }

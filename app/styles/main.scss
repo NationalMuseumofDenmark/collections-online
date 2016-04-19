@@ -3,22 +3,23 @@
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
 @import 'asset';
 @import 'button';
-@import 'cards';
+@import 'dropdown';
 @import 'facebook-group';
-@import 'filtering';
 @import 'footer';
+@import 'frontpage';
 @import 'input';
 @import 'loading';
 @import 'menu';
+@import 'overlay';
 @import 'search-results';
+@import 'snackbar';
 @import 'tab-focus';
+@import 'tags';
 @import 'thumbnails';
-@import 'typography';
 @import 'to-top';
 @import 'topbar';
-@import 'tags';
-@import 'snackbar';
-@import 'overlay';
+@import 'translate';
+@import 'typography';
 
 html {
   font-size: 87.5%;
@@ -35,13 +36,20 @@ body {
   }
 }
 
-.content {
-  padding-bottom: 2rem;
-  padding-top   : 2rem;
+.main-wrapper {
+  display       : flex;
+  flex-direction: column;
+  min-height    : 100vh;
+
+  > .let-it-grow {
+    flex-grow: 1;
+  }
 }
 
-.container-fluid {
-  max-width: $large-size;
+@media (min-width: $large-size) {
+  .container-fluid {
+    width: $large-size;
+  }
 }
 
 @media (max-width: $small-size) {
@@ -53,4 +61,8 @@ body {
 
 .sprite {
   display: none;
+}
+
+.dimmed {
+  opacity: .5;
 }

@@ -12,6 +12,10 @@ $menu-shadow                  : rgba(0, 0, 0, .5);
 $menu-no-shadow               : rgba(0, 0, 0, 0);
 $menu-highlight               : rgba(255, 255, 255, .1);
 
+$dropdown-bg                  : $white;
+$dropdown-bg-hover            : rgba($gray-lighter, .5);
+$dropdown-padding             : .5em;
+
 // Scaffolding
 $body-bg                      : $white;
 $text-color                   : $gray-dark;
@@ -31,6 +35,7 @@ $input-border-focus           : $brand-primary;
 // Animation
 $anim-duration                : 300ms;
 $anim-duration-long           : 400ms;
+$anim-duration-fast           : 150ms;
 $anim-entrance                : ease-out;
 $anim-exit                    : ease-in;
 $anim-default                 : $anim-duration ease;

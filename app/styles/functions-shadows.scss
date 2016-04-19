@@ -16,7 +16,7 @@
   @return 0 $primary-offset $blur $color;
 }
 
-@mixin card($depth) {
+@mixin shadow($depth) {
   @if $depth < 1 {
     box-shadow: none;
   } @else if $depth > 5 {
