@@ -5,7 +5,7 @@ module.exports = (config) => {
   // TODO: Make sure that the config object is returned when calling
   // require('./lib/config')
   // This could be: require('./lib/config').set(config);
-  
+
 
   var express = require('express');
   var cip = require('./lib/services/natmus-cip');
@@ -16,7 +16,7 @@ module.exports = (config) => {
 
   var config = require('./lib/config');
   var app = express();
-  require('./lib/config/express')(app);
+  require('./lib/express')(app);
   app.locals.config = config;
 
   app.locals.helpers = require('./lib/helpers');
