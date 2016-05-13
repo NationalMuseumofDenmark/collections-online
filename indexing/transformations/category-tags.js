@@ -4,9 +4,7 @@ var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
 
-const CONFIG_DIR = path.join(__dirname, '..', '..', 'lib', 'config');
-const TAGS_BLACKLIST_PATH = path.join(CONFIG_DIR, 'tags-blacklist.txt');
-var tagsBlacklist = fs.readFileSync(TAGS_BLACKLIST_PATH).toString();
+var tagsBlacklist = require('../../lib/config').tagsBlacklist;
 // Remove any linebreak from Linux, Windows or Mac and seperate tags
 tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
 
