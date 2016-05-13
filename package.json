@@ -1,9 +1,11 @@
 {
-  "name": "natmus-samlinger",
-  "version": "0.0.1",
+  "name": "collections-online",
+  "version": "0.1.0",
+  "description": "Collections Online establishes common functionality to publish digital images from archives and museums on the internet.",
+  "main": "server.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/NationalMuseumofDenmark/natmus-samlinger"
+    "url": "git://github.com/collections-online/collections-online"
   },
   "license": "MIT",
   "dependencies": {
