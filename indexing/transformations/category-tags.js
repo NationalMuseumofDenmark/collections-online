@@ -3,10 +3,7 @@
 var _ = require('lodash');
 var path = require('path');
 var fs = require('fs');
-
-var tagsBlacklist = require('../../lib/config').tagsBlacklist;
-// Remove any linebreak from Linux, Windows or Mac and seperate tags
-tagsBlacklist = tagsBlacklist.replace(/(\r\n|\n|\r)/gm,'\n').split('\n');
+var config = require('../../lib/config');
 
 const PREFIXED_NUMBERS_LETTERS_AND_DOTS = /^[\dA-Z\.]+ (- )?/;
 const PREFIXED_SPECIAL_CASE_ONE = /^\w+\d\w\s-\s/;
@@ -28,7 +25,7 @@ module.exports = function(state, metadata) {
       // We made it this far - let's consider tags lowercase only
       name = name.toLowerCase();
       // Don't include catalogs that are blacklisted.
-      if (tagsBlacklist.indexOf(name) !== -1) {
+      if (config.tagsBlacklist.indexOf(name) !== -1) {
         return null;
       }
       // Let's lower the case.
