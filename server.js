@@ -14,7 +14,7 @@ module.exports = (config) => {
 
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-  var config = require('./lib/config');
+  config = require('./lib/config').set(config);
   var app = express();
   require('./lib/express')(app);
   app.locals.config = config;
