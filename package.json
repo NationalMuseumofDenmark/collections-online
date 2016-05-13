@@ -22,7 +22,7 @@
     "gifsicle": "~3.0.3",
     "google-translate": "^1.0.6",
     "grunt-contrib-compress": "^1.2.0",
-    "iconv": "~2.1.11",
+    "iconv": "~2.2.0",
     "jade": "~1.11.0",
     "jpegtran-bin": "~3.0.6",
     "lodash": "~4.5.0",
