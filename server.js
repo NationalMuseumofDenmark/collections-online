@@ -1,9 +1,5 @@
 'use strict';
 
-if (process.env.NODE_ENV === 'development'){
-  require('dotenv').config();
-}
-
 var express = require('express');
 var cip = require('./lib/services/natmus-cip');
 var cipCategories = require('./lib/cip-categories');
