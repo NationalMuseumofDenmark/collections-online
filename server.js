@@ -1,13 +1,13 @@
 'use strict';
 
-module.exports = (config) => {
-  // TODO: Check that config is set
-  // TODO: Make sure that the config object is returned when calling
-  // require('./lib/config')
-  // This could be: require('./lib/config').set(config);
+module.exports = (app, config) => {
+  if(!app) {
+    throw new Error('Needed an Express app when initializing');
+  }
+  if(!config) {
+    throw new Error('Needed a config object when initializing');
+  }
 
-
-  var express = require('express');
   var cip = require('./lib/services/natmus-cip');
   var cipCategories = require('./lib/cip-categories');
   var es = require('./lib/services/elasticsearch');
@@ -15,8 +15,8 @@ module.exports = (config) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
   config = require('./lib/config').set(config);
-  var app = express();
   require('./lib/express')(app);
+
   app.locals.config = config;
 
   app.locals.helpers = require('./lib/helpers');
