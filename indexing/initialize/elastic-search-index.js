@@ -7,7 +7,7 @@
  */
 
 var es = require('../../lib/services/elasticsearch');
-var config = require('../../lib/config/config');
+var config = require('../../lib/config');
 
 module.exports = function(state) {
   state.index = config.esAssetsIndex;

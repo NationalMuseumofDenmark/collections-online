@@ -6,7 +6,7 @@
 
 var Q = require('q');
 var processQuery = require('../processing/query');
-var config = require('../../lib/config/config');
+var config = require('../../lib/config');
 
 const POST_PROCESSING_STEPS = [
   require('../post-processing/inherit-metadata'),

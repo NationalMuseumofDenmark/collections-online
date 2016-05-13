@@ -1,7 +1,7 @@
 'use strict';
 
 var union = require('lodash/union');
-var config = require('../../lib/config/config');
+var config = require('../../lib/config');
 var cip = require('../../lib/services/natmus-cip');
 
 const TAGS_VISION_FIELD = '{6864395c-c433-2148-8b05-56edf606d4d4}';

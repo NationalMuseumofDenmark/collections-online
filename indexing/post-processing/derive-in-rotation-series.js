@@ -10,7 +10,7 @@
 var Q = require('q');
 var _ = require('lodash');
 var es = require('../../lib/services/elasticsearch');
-var config = require('../../lib/config/config');
+var config = require('../../lib/config');
 
 // TODO: Consider taking the 'Rotationsbilleder' category name from a
 // configuration file.

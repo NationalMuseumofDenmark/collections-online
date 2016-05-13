@@ -7,7 +7,7 @@ var es = require('./lib/services/elasticsearch');
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var config = require('./lib/config/config');
+var config = require('./lib/config');
 var app = express();
 require('./lib/config/express')(app);
 app.locals.config = config;

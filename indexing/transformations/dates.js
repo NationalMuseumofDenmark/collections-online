@@ -1,6 +1,6 @@
 'use strict';
 
-var config = require('../../lib/config/config');
+var config = require('../../lib/config');
 
 function zeroPad(num) {
   num = String(num);
