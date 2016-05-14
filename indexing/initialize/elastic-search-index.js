@@ -17,7 +17,7 @@ module.exports = function(state) {
     index: state.index
   }).then(function(exists) {
     if (exists) {
-      console.log('Index was already created.');
+      console.log('Index was already created');
       return state;
     } else {
       var fields = {
@@ -49,7 +49,7 @@ module.exports = function(state) {
         index: state.index,
         body: {
           'index': {
-            'max_result_window': 100000 // We need this, so sitemaps can access all assets
+            'max_result_window': 100000 // So sitemaps can access all assets
           },
           'mappings': {
             'asset': {

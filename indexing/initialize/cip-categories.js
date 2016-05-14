@@ -9,7 +9,7 @@ var cipCategories = require('../../lib/cip-categories.js');
  */
 
 function initializeCipCategories(state) {
-  console.log('Initializing CIP categories.');
+  console.log('Initializing CIP categories');
 
   state.categories = {};
 
