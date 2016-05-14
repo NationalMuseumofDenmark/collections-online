@@ -7,16 +7,9 @@
  */
 
 var cip = require('../../lib/services/natmus-cip');
+var config = require('../../lib/config');
 
 module.exports = function(state) {
-  console.log('Fetching the CIP catalogs');
-
-  return cip.initSession().then(() => {
-    return cip.getCatalogs().then((catalogs) => {
-      state.catalogs = catalogs.map((catalog) => {
-        return catalog.alias;
-      });
-      return state;
-    });
-  });
+  state.catalogs = Object.keys(config.cip.catalogs);
+  return state;
 };
