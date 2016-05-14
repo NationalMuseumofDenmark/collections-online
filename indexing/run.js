@@ -4,13 +4,6 @@
  * Running the indexing procedure.
  */
 
-if (process.env.NODE_ENV === 'development') {
-  var path = require('path');
-  require('dotenv').config({
-    path: path.join(__dirname, '..', '.env')
-  });
-}
-
 var Q = require('q');
 
 var steps = [
