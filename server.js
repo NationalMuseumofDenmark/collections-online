@@ -1,24 +1,30 @@
 'use strict';
 
-module.exports = (app, config) => {
-  if(!app) {
-    throw new Error('Needed an Express app when initializing');
-  }
+exports.config = (config) => {
   if(!config) {
     throw new Error('Needed a config object when initializing');
   }
+  require('./lib/config').set(config);
+};
 
-  var cip = require('./lib/services/natmus-cip');
-  var cipCategories = require('./lib/cip-categories');
-  var es = require('./lib/services/elasticsearch');
+exports.initialize = (app, config) => {
+  if(!app) {
+    throw new Error('Needed an Express app when initializing');
+  }
+  if(config) {
+    exports.config(config);
+  }
 
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+  var config = require('./lib/config');
 
-  config = require('./lib/config').set(config);
+  var cip = require('./lib/services/natmus-cip');
+  var es = require('./lib/services/elasticsearch');
+  var cipCategories = require('./lib/cip-categories');
+
   require('./lib/express')(app);
 
   app.locals.config = config;
-
   app.locals.helpers = require('./lib/helpers');
 
   app.set('siteTitle', config.siteTitle);
@@ -35,43 +41,37 @@ module.exports = (app, config) => {
     console.log('Connecting to the Elasticsearch host', config.esHost);
     console.log('The assets index is created and contains',
                 response.count, 'documents.');
-    console.log('Loading categories...');
-  }, function() {
-    console.log('Could not connect to the Elasticsearch host', config.esHost);
-    // We have an error in the communication with the Elasticsearch server
-    // I is probably not started.
-    console.error('Is the elasticsearch service started?');
+  }, function(err) {
+    if(err.status === 404) {
+      console.error('Missing the Elasticsearch index: ' + config.esAssetsIndex);
+    } else {
+      console.error('Could not connect to the Elasticsearch:',
+                    'Is the elasticsearch service started?');
+    }
     process.exit(1);
   });
 
-  var categories = {};
-
-  cipCategories.loadCategories().then(function(result) {
-    for (var i = 0; i < result.length; ++i) {
-      if (result[i] && result[i].id) {
-        categories[result[i].id] = result[i];
-      } else {
-        console.error(result);
-        throw new Error('Could not read id from the result of loadCategories');
-      }
-    }
-    // Fetch the number of assets in the category.
-    return cipCategories.fetchCategoryCounts(es, categories)
-    .then(function(categoriesWithCounts) {
-      app.set('categories', categoriesWithCounts);
-    });
-  }).then(function() {
-    return cip.getCatalogs().then(function(catalogs) {
-      app.set('catalogs', catalogs);
-    });
-  }).then(function() {
+  function startServer() {
     // Start server
     app.listen(config.port, config.ip, function() {
       console.log('Express server listening on %s:%d, in %s mode',
                   config.ip, config.port, app.get('env'));
     });
-  }, function(err) {
-    console.error('Error when starting the app: ', err.stack);
-  });
+  }
 
+  if (config.cip.username && config.cip.password) {
+    require('./lib/cip-categories').initialize(app).then(startServer, (err) => {
+      console.error('Error when starting the app: ', err.stack);
+      system.exit(2);
+    });
+  } else {
+    startServer();
+  }
+};
+
+exports.indexing = (state, config) => {
+  if(config) {
+    exports.config(config);
+  }
+  return require('./indexing/run')(state);
 };
