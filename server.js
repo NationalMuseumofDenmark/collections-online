@@ -44,29 +44,36 @@ exports.initialize = (app, config) => {
   }, function(err) {
     if(err.status === 404) {
       console.error('Missing the Elasticsearch index: ' + config.esAssetsIndex);
+      // Well - let's create the index
+      var initIndexing = require('./indexing/initialize/elastic-search-index');
+      var state = {
+        'index': config.esAssetsIndex
+      };
+      return initIndexing(state);
     } else {
       console.error('Could not connect to the Elasticsearch:',
                     'Is the elasticsearch service started?');
+      process.exit(1);
     }
-    process.exit(1);
+  }).then(() => {
+    function startServer() {
+      // Start server
+      app.listen(config.port, config.ip, function() {
+        console.log('Express server listening on %s:%d, in %s mode',
+                    config.ip, config.port, app.get('env'));
+      });
+    }
+
+    if (config.cip.username && config.cip.password) {
+      require('./lib/cip-categories').initialize(app)
+      .then(startServer, (err) => {
+        console.error('Error when starting the app: ', err.stack);
+        process.exit(2);
+      });
+    } else {
+      startServer();
+    }
   });
-
-  function startServer() {
-    // Start server
-    app.listen(config.port, config.ip, function() {
-      console.log('Express server listening on %s:%d, in %s mode',
-                  config.ip, config.port, app.get('env'));
-    });
-  }
-
-  if (config.cip.username && config.cip.password) {
-    require('./lib/cip-categories').initialize(app).then(startServer, (err) => {
-      console.error('Error when starting the app: ', err.stack);
-      system.exit(2);
-    });
-  } else {
-    startServer();
-  }
 };
 
 exports.indexing = (state, config) => {
