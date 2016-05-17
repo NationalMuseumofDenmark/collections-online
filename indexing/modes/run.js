@@ -22,8 +22,8 @@ module.exports = function(state) {
 
   // Add any indexing restrictions from the configuration.
   state.queries.forEach((q) => {
-    if (config.cip.indexingRestriction) {
-      q.query = '(' + q.query + ') AND ' + config.cip.indexingRestriction;
+    if (config.cip.indexing.restriction) {
+      q.query = '(' + q.query + ') AND ' + config.cip.indexing.restriction;
     }
   });
 

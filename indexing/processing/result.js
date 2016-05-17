@@ -6,6 +6,7 @@
 
 var Q = require('q');
 var cip = require('../../lib/services/cip');
+var config = require('../../lib/config');
 
 var processAsset = require('./asset');
 
@@ -17,11 +18,6 @@ var VISION_THROTTLE_SPEED = Math.ceil(100 / (VISION_TAGS_PER_100s /
                                              (VISION_ASSETS_PER_REQUEST *
                                               AVG_TAG_CHARACTERS_PER_ASSET)));
 
-var ADDITIONAL_FIELDS = [
-  '{af4b2e71-5f6a-11d2-8f20-0000c0e166dc}', // Related Sub Assets
-  '{af4b2e72-5f6a-11d2-8f20-0000c0e166dc}' // Related Master Assets
-];
-
 function assetsPerRequest(state) {
   var isIndexVision = state.indexVisionTags || state.indexVisionTagsForce;
   return (isIndexVision ? VISION_ASSETS_PER_REQUEST : ASSETS_PER_REQUEST);
@@ -29,16 +25,20 @@ function assetsPerRequest(state) {
 
 
 function getResultPage(state, result, pointer, rowCount) {
+  var options = {
+    collection: result.collection_id,
+    startindex: pointer,
+    maxreturned: rowCount
+  };
+
+  if(config.cip.indexing.additionalFields) {
+    options.field = config.cip.indexing.additionalFields;
+  }
   return cip.request([
     'metadata',
     'getfieldvalues',
-    'web'
-  ], {
-    collection: result.collection_id,
-    startindex: pointer,
-    maxreturned: rowCount,
-    field: ADDITIONAL_FIELDS
-  }).then(function(response) {
+    config.cip.client.constants.layoutAlias
+  ], options).then(function(response) {
     if (!response ||
         !response.body ||
         typeof(response.body.items) === 'undefined') {
