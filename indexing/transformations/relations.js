@@ -1,6 +1,6 @@
 'use strict';
 
-var cip = require('../../lib/services/natmus-cip');
+var cip = require('../../lib/services/cip');
 
 function relatedFilenameComparison(assetA, assetB) {
   var filenameA = assetA.filename;

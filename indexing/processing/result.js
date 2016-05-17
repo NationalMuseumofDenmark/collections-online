@@ -5,7 +5,7 @@
  */
 
 var Q = require('q');
-var cip = require('../../lib/services/natmus-cip');
+var cip = require('../../lib/services/cip');
 
 var processAsset = require('./asset');
 

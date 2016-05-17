@@ -29,7 +29,7 @@
     "memory-cache": "~0.1.4",
     "method-override": "~2.3.5",
     "morgan": "~1.6.1",
-    "natmus-js": "git+https://github.com/NationalMuseumofDenmark/natmus.js.git#feature/promises",
+    "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js.git#feature/promises",
     "node-cloud-vision-api": "git+https://github.com/Socialsquare/node-cloud-vision-api.git",
     "project-oxford": "^1.1.0",
     "q": "~1.4.1",

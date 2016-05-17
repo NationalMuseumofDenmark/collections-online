@@ -6,7 +6,7 @@
  * @param {Object} state The state of which we are about to initialize.
  */
 
-var cip = require('../../lib/services/natmus-cip');
+var cip = require('../../lib/services/cip');
 var config = require('../../lib/config');
 
 module.exports = function(state) {

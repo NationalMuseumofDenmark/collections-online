@@ -18,7 +18,7 @@ exports.initialize = (app, config) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   var config = require('./lib/config');
 
-  var cip = require('./lib/services/natmus-cip');
+  var cip = require('./lib/services/cip');
   var es = require('./lib/services/elasticsearch');
   var cipCategories = require('./lib/cip-categories');
 

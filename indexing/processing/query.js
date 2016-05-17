@@ -5,7 +5,7 @@
  * to be processed, based on the querystring which is passed to the search.
  */
 
-var cip = require('../../lib/services/natmus-cip');
+var cip = require('../../lib/services/cip');
 var processResult = require('./result');
 
 module.exports = function(state, query) {

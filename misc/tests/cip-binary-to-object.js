@@ -1,6 +1,6 @@
 'use strict';
 
-var cip = require('../../lib/services/natmus-cip');
+var cip = require('../../lib/services/cip');
 var fs = require('fs');
 var path = require('path');
 var assert = require('assert');
