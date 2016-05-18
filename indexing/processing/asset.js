@@ -55,7 +55,6 @@ function processAsset(state, metadata, transformations) {
   if (typeof(transformations) === 'undefined') {
     if (config.assetTransformations) {
       transformations = config.assetTransformations.map(function(path){
-        console.log(path);
         return require(path);
       });
     } else {
