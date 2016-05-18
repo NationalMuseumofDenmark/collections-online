@@ -4,8 +4,10 @@
  * The processor handling a single asset.
  */
 
+var _ = require('lodash');
 var Q = require('q');
 var es = require('../../lib/services/elasticsearch');
+var config = require('../../lib/config');
 
 function AssetIndexingError(catalogAlias, assetId, innerError) {
   this.catalogAlias = catalogAlias;
@@ -51,7 +53,14 @@ function processAsset(state, metadata, transformations) {
   //console.log('Processing an asset.');
   // Use all transformations by default.
   if (typeof(transformations) === 'undefined') {
-    transformations = METADATA_TRANSFORMATIONS;
+    if (config.assetTransformations) {
+      transformations = config.assetTransformations.map(function(path){
+        console.log(path);
+        return require(path);
+      });
+    } else {
+      transformations = METADATA_TRANSFORMATIONS;
+    }
   }
   // Perform additional transformations and index the result.
   return transformMetadata(state, metadata, transformations)
