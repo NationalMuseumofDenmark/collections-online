@@ -15,7 +15,7 @@ module.exports = function(state, metadata) {
     return path.map(function(categoryOnPath) {
       var name = categoryOnPath.name;
       // Categories that starts with the dollar-sign are system categories.
-      if (name.indexOf('$') === 0) {
+      if (!name || name.indexOf('$') === 0) {
         return null;
       }
       // Remove prefixed numbers, letters and dots.
