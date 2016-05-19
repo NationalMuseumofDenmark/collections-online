@@ -138,7 +138,7 @@ block content
             .col-xs-12
               h2 Relaterede billeder
               .related-assets
-                .related-assets__next-arrow 
+                .related-assets__next-arrow
                   +icon('chevron-right')
                 .related-assets__prev-arrow
                   +icon('chevron-right')
@@ -149,11 +149,11 @@ block content
 
 
   .overlay__container(data-content="asset-download")
-    .overlay__content 
+    .overlay__content
       if (downloadable)
         h2 Download
         if(player === 'image-single')
-          a.btn.btn-primary(href='#{sources.imageSet.download800.src}') 
+          a.btn.btn-primary(href='#{sources.imageSet.download800.src}')
             | Lille (#{sources.imageSet.download800.size} jpg)
           a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
             | Mellem (#{sources.imageSet.download1200.size} jpg)
@@ -176,7 +176,7 @@ block content
         h2 Vi beklager
         p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
 
- 
+
   .facebook-group
     h2 Tusind tak for din hjælp!
     p Hvis du synes det er spændende at bidrage til Nationalmuseets samlinger, så følg med i facebookgruppen&nbsp;
