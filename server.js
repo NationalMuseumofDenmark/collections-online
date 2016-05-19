@@ -57,6 +57,7 @@ exports.initialize = (app, config) => {
     }
   }).then(() => {
     function startServer() {
+      console.log('Starting up the server');
       // Start server
       app.listen(config.port, config.ip, function() {
         console.log('Express server listening on %s:%d, in %s mode',
@@ -64,15 +65,12 @@ exports.initialize = (app, config) => {
       });
     }
 
-    if (config.cip.username && config.cip.password) {
-      require('./lib/cip-categories').initialize(app)
-      .then(startServer, (err) => {
-        console.error('Error when starting the app: ', err.stack);
-        process.exit(2);
-      });
-    } else {
-      startServer();
-    }
+    require('./lib/cip-categories')
+    .initialize(app)
+    .then(startServer, (err) => {
+      console.error('Error when starting the app: ', err.stack);
+      process.exit(2);
+    });
   });
 };
 
