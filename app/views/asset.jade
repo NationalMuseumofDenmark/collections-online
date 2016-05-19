@@ -33,7 +33,7 @@ block content
           data-full-address=fullAddress)
     - var city = metadata.city;
     - var description = metadata.description;
-    - var filename = metadata.filename.toLowerCase();
+    - var file_format = metadata.file_format;
     - var license = metadata.license && helpers.licenseTag(metadata.license.id);
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
@@ -73,7 +73,7 @@ block content
             else if(description)
               p.sr-only Beskrivelse
               h1= description
-              
+
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
               if (zoom)
@@ -87,7 +87,7 @@ block content
               +icon('twitter')
             //- a
             //-   +icon('email')
-            
+
 
     .asset-middle
       .container-fluid
@@ -161,8 +161,8 @@ block content
             | Stor (#{sources.imageSet.download2000.size} jpg)
           a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
             | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-        if(filename.match('.tif$') || filename.match('.tiff$'))
-          a.btn.btn-primary(href='#{sources.download}') 
+        if(file_format === 'TIFF Image')
+          a.btn.btn-primary(href='#{sources.download}')
             | Original (#{metadata.width_px} x #{metadata.height_px} tif)
         if(player === 'image-single-animated')
           a.btn.btn-primary(href='#{sources.download}')
