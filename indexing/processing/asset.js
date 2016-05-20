@@ -26,7 +26,7 @@ var METADATA_TRANSFORMATIONS = [
   require('../transformations/date-intervals'),
   require('../transformations/categories-and-suggest'),
   require('../transformations/relations'),
-  require('../transformations/dimensions-in-cm'),
+  require('../transformations/dimensions'),
   require('../transformations/is-searchable'),
   require('../transformations/latitude-longitude'),
   require('../transformations/split-tags'),
