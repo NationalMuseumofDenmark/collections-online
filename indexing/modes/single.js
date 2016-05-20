@@ -12,11 +12,11 @@ function parseReference(reference) {
   // In the single mode, each asset is a combination of a catalog alias
   // and the asset ID, eg. DNT-101
   for (var r in reference) {
-    reference[r] = reference[r].replace('/', '-').split('-');
+    reference[r] = reference[r].split('/');
     if (reference[r].length !== 2) {
       throw new Error('Every reference in the single mode must ' +
-        'contain a catalog alias seperated by a slash (/) or dash (-), ' +
-        'ex: ES-1234,DNT/123');
+        'contain a catalog alias seperated by a slash (/), ' +
+        'ex: ES/1234,DNT/123');
     } else {
       result.push({
         catalogAlias: reference[r][0],
