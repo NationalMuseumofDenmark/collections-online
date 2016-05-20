@@ -18,7 +18,8 @@ const ROTATIONAL_IMAGES_RELATION_UUID = '9ed0887f-40e8-4091-a91c-de356c869251';
 
 module.exports = function(state) {
   var activity = 'Post-processing to derive rotational series';
-  console.log('\n=== ' + activity + ' ===\n');
+  console.log('\n=== ' + activity + ' ===');
+
 
   // Let's take the queries one by one.
   return state.queries.reduce(function(state, query) {

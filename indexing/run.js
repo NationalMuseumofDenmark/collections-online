@@ -31,7 +31,7 @@ module.exports = run;
 if (module.id === '.') {
   // Call run here, if the module was not loaded by some other module.
   run().then(function() {
-    console.log('Good bye!');
+    console.log('\nAll done - good bye!');
     process.exit(0);
   }, function(err) {
     console.error('An error occured!');

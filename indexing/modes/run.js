@@ -27,7 +27,7 @@ module.exports = function(state) {
     }
   });
 
-  console.log('\n=== Starting to process ===\n');
+  console.log('\n=== Starting to process ===');
 
   // TODO: Consider if the two new Q(state)s need to be wrapped in promises.
 
@@ -38,7 +38,7 @@ module.exports = function(state) {
       return processQuery(state, query);
     });
   }, new Q(state)).then(function(state) {
-    console.log('\n=== Finished processing ===\n');
+    console.log('Finished processing!');
     return POST_PROCESSING_STEPS.reduce(Q.when, new Q(state));
   });
 };

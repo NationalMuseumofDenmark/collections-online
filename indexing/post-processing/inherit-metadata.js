@@ -102,7 +102,7 @@ function updateMetadataFromRelations(state, assetMetadata) {
 module.exports = function(state) {
 
   var activity = 'Post-processing to inherit metadata from master assets';
-  console.log('\n=== ' + activity + ' ===\n');
+  console.log('\n=== ' + activity + ' ===');
 
   var assetIdQueue = state.queries.reduce(function(result, query) {
     return result.concat(query.indexedAssetIds);

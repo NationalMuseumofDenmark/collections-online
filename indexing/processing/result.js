@@ -65,9 +65,9 @@ function processResultPage(state, result, pageIndex) {
               pageIndex + 1,
               'of',
               totalPages,
-              'in the',
+              'from the',
               catalog.alias,
-              'catalog.');
+              'catalog');
 
   return getResultPage(state,
                        result,
@@ -78,7 +78,7 @@ function processResultPage(state, result, pageIndex) {
                 pageIndex + 1,
                 'from the',
                 result.catalog.alias,
-                'catalog.');
+                'catalog');
     var assetPromises = assetsOnPage.map(function(asset) {
       asset.catalog = catalog.alias;
       var assetPromise = processAsset(state, asset);
@@ -127,7 +127,6 @@ function processNextResultPage(state, result, indexedAssetsIds) {
         }
 
       }).then(function() {
-        console.log('Fetch next result page');
         return processNextResultPage(state, result, indexedAssetsIds);
       });
     });

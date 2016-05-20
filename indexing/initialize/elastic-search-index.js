@@ -33,6 +33,7 @@ module.exports = function(state) {
         }
       };
       // Derive mappings from the asset field types
+      // First the fields with date types
       config.assetFields.filter((field) => {
         return field.type === 'date';
       }).forEach((field) => {

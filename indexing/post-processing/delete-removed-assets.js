@@ -13,7 +13,7 @@ var _ = require('lodash');
 module.exports = function(state) {
   var activity = 'Post-processing to delete removed assets';
 
-  console.log('\n=== ' + activity + ' ===\n');
+  console.log('\n=== ' + activity + ' ===');
 
   if (['all', 'catalog', 'single'].indexOf(state.mode) !== -1) {
     var deletedAssetIds;

@@ -14,7 +14,7 @@ function printAssetExceptions(state) {
 
   if (assetExceptions.length > 0) {
     var activity = 'Some errors occurred indexing assets';
-    console.log('\n=== ' + activity + ' ===\n');
+    console.log('\n=== ' + activity + ' ===');
 
     assetExceptions.forEach(function(error, errorIndex) {
       var message = '--- Exception ';
