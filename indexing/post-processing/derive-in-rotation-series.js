@@ -20,6 +20,11 @@ module.exports = function(state) {
   var activity = 'Post-processing to derive rotational series';
   console.log('\n=== ' + activity + ' ===');
 
+  // This should only run when a rotational category name is set.
+  if(!config.cip.rotationCategoryName) {
+    console.log('Skipping this, as the rotationCategoryName is not provided.');
+    return state;
+  }
 
   // Let's take the queries one by one.
   return state.queries.reduce(function(state, query) {
