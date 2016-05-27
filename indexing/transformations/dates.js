@@ -1,5 +1,6 @@
 'use strict';
 
+var DATA_REGEXP = new RegExp('\\d+');
 var config = require('../../lib/config');
 
 function zeroPad(num) {
@@ -8,6 +9,23 @@ function zeroPad(num) {
     num = '0' + num;
   }
   return num;
+}
+
+function convertDateStrings(date) {
+  if(date && typeof(date) === 'string') {
+    var date = DATA_REGEXP.exec(date);
+    if (date && date.length > 0) {
+      var timestamp = parseInt(date[0], 10);
+      var modificationDate = new Date(timestamp);
+      return {
+        year: modificationDate.getFullYear(),
+        month: modificationDate.getMonth() + 1,
+        day: modificationDate.getDate(),
+        timestamp
+      };
+    }
+  }
+  return date;
 }
 
 function generateTimestamp(date) {
@@ -24,9 +42,17 @@ module.exports = function(state, metadata) {
   var dateFields = config.assetFields.filter((field) => {
     return field.type === 'date';
   });
+
+  // Parse date fields given as strings
+  dateFields.forEach((field) => {
+    if(typeof(metadata[field.short]) === 'string') {
+      metadata[field.short] = convertDateStrings(metadata[field.short]);
+    }
+  });
+
+  // Generate a timestamp for every date
   dateFields.forEach((field) => {
     metadata[field.short] = generateTimestamp(metadata[field.short]);
-    //console.log(field.short, metadata[field.short]);
   });
   return metadata;
 };

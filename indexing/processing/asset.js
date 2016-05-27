@@ -21,7 +21,6 @@ function AssetIndexingError(catalogAlias, assetId, innerError) {
 var METADATA_TRANSFORMATIONS = [
   require('../transformations/field-names'),
   require('../transformations/empty-title'),
-  require('../transformations/modification-time'),
   require('../transformations/dates'),
   require('../transformations/date-intervals'),
   require('../transformations/categories-and-suggest'),
