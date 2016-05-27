@@ -81,7 +81,6 @@ module.exports = (gulp, config) => {
   });
 
 
-
   SCRIPTS = BOWER_SCRIPTS.concat(SCRIPTS);
 
   // Return only
