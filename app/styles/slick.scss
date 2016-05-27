@@ -1,4 +1,6 @@
-@import '../../bower_components/slick-carousel/slick/slick';
+// We need .scss because there is also a css file in the folder
+@import '../../bower_components/slick-carousel/slick/slick.scss';
+
 $slider-padding: 15px;
 
 .slider {

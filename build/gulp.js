@@ -8,6 +8,7 @@ module.exports = (gulp, config) => {
   var fs = require('fs');
   var autoprefixer = require('gulp-autoprefixer');
   var concat = require('gulp-concat');
+  var gulpif = require('gulp-if');
   var print = require('gulp-print');
   var rename = require('gulp-rename');
   var sass = require('gulp-sass');
@@ -27,7 +28,7 @@ module.exports = (gulp, config) => {
   var DEST_DIR = config.generatedDir;
   var COLLECTIONS_ONLINE = __dirname + '/..';
   var BOWER_COMPONENTS = COLLECTIONS_ONLINE + '/bower_components';
-  var STYLES_SRC = '/app/styles/main.scss';
+  var STYLES_SRC = './app/styles/main.scss';
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER = COLLECTIONS_ONLINE + '/app/scripts';
   var SCRIPTS_ALL = SCRIPTS_FOLDER + '/*.js';
@@ -38,7 +39,9 @@ module.exports = (gulp, config) => {
   var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
   var SVG_SRC = './app/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
+  var isProduction = process.env.NODE_ENV === 'production';
 
+  // Scripts that are connected to a feature
   var FEATURE_SCRIPTS = {
     geotagging: ['geo-tagging.js'],
     rotationalImages: ['magic360.da.js', 'magic360.js'],
@@ -90,18 +93,18 @@ module.exports = (gulp, config) => {
   gulp.task('css', function() {
     return gulp.src(STYLES_SRC)
       .pipe(autoprefixer({browsers: ['last 2 versions']}))
-      .pipe(sourcemaps.init())
+      .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(sass().on('error', sass.logError))
-      .pipe(sourcemaps.write())
+      .pipe(gulpif(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(STYLES_DEST));
   });
 
   gulp.task('js', function() {
     return gulp.src(SCRIPTS)
-      .pipe(sourcemaps.init())
+      .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(concat(SCRIPT_NAME))
-      .pipe(uglify())
-      .pipe(sourcemaps.write())
+      .pipe(gulpif(isProduction, uglify()))
+      .pipe(gulpif(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(SCRIPTS_DEST));
   });
 
