@@ -21,23 +21,25 @@ module.exports = (gulp, config) => {
   var sequence = require('run-sequence');
   var bower = require('gulp-bower');
   var uniqueFiles = require('gulp-unique-files');
+  var watch = require('gulp-watch');
 
   //------------------------------------------
   // Directories - note that they are relative to the project specific gulpfile
   //------------------------------------------
   var DEST_DIR = config.generatedDir;
   var COLLECTIONS_ONLINE = __dirname + '/..';
-  var BOWER_COMPONENTS = COLLECTIONS_ONLINE + '/bower_components';
-  var STYLES_SRC = './app/styles/main.scss';
+  var BOWER_COMPONENTS_CO = COLLECTIONS_ONLINE + '/bower_components';
+  var STYLES_SRC = config.appDir + '/styles/main.scss';
+  var STYLES_ALL = config.appDir + '/styles/*.scss';
   var STYLES_DEST = DEST_DIR + '/styles';
-  var SCRIPTS_FOLDER = COLLECTIONS_ONLINE + '/app/scripts';
-  var SCRIPTS_ALL = SCRIPTS_FOLDER + '/*.js';
-  var SCRIPTS = [SCRIPTS_ALL];
+  var SCRIPTS_FOLDER_CO = COLLECTIONS_ONLINE + '/app/scripts';
+  var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
+  var SCRIPTS = [SCRIPTS_CO];
   // Blacklisting scripts - this should be done smarter at some point
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
   var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
-  var SVG_SRC = './app/images/icons/*.svg';
+  var SVG_SRC = config.appDir + '/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
   var isProduction = process.env.NODE_ENV === 'production';
 
@@ -52,7 +54,7 @@ module.exports = (gulp, config) => {
   Object.keys(FEATURE_SCRIPTS).forEach((feature) => {
     if(config.features[feature] === false) {
       FEATURE_SCRIPTS[feature].forEach((script) => {
-        SCRIPTS.push('!' + SCRIPTS_FOLDER + '/' + script);
+        SCRIPTS.push('!' + SCRIPTS_FOLDER_CO + '/' + script);
       });
     }
   });
@@ -75,7 +77,7 @@ module.exports = (gulp, config) => {
     '/slick-carousel/slick/slick.min.js',
     '/formatter.js/dist/jquery.formatter.min.js'
   ].map((script) => {
-    return BOWER_COMPONENTS + script;
+    return BOWER_COMPONENTS_CO + script;
   });
 
 
@@ -117,6 +119,10 @@ module.exports = (gulp, config) => {
       .pipe(gulp.dest(SVG_DEST));
   });
 
+  gulp.task('watch', function() {
+    gulp.watch(STYLES_ALL, ['css']);
+  });
+
   gulp.task('clean', function() {
     return del([DEST_DIR]);
   });
@@ -124,5 +130,4 @@ module.exports = (gulp, config) => {
   gulp.task('console', function() {
     console.log(SCRIPTS);
   });
-
 };
