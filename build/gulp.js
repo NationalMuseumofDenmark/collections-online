@@ -9,6 +9,7 @@ module.exports = (gulp, config) => {
   var autoprefixer = require('gulp-autoprefixer');
   var concat = require('gulp-concat');
   var print = require('gulp-print');
+  var rename = require('gulp-rename');
   var sass = require('gulp-sass');
   var sourcemaps = require('gulp-sourcemaps');
   var svgmin = require('gulp-svgmin');
@@ -25,6 +26,7 @@ module.exports = (gulp, config) => {
   //------------------------------------------
   var DEST_DIR = config.generatedDir;
   var COLLECTIONS_ONLINE = __dirname + '/..';
+  var BOWER_COMPONENTS = COLLECTIONS_ONLINE + '/bower_components';
   var STYLES_SRC = '/app/styles/main.scss';
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER = COLLECTIONS_ONLINE + '/app/scripts';
@@ -52,6 +54,30 @@ module.exports = (gulp, config) => {
     }
   });
 
+  // Add bower scripts
+  var BOWER_SCRIPTS = [
+    '/jquery/dist/jquery.js',
+    '/ev-emitter/ev-emitter.js',
+    '/imagesloaded/imagesloaded.js',
+    '/jquery-infinite-scroll/jquery.infinitescroll.js',
+    '/get-size/get-size.js',
+    '/desandro-matches-selector/matches-selector.js',
+    '/fizzy-ui-utils/utils.js',
+    '/outlayer/item.js',
+    '/outlayer/outlayer.js',
+    '/masonry/masonry.js',
+    '/picturefill/dist/picturefill.js',
+    '/typeahead.js/dist/typeahead.bundle.js',
+    '/scrollToTop/jquery.scrollToTop.js',
+    '/slick-carousel/slick/slick.min.js',
+    '/formatter.js/dist/jquery.formatter.min.js'
+  ].map((script) => {
+    return BOWER_COMPONENTS + script;
+  });
+
+
+
+  SCRIPTS = BOWER_SCRIPTS.concat(SCRIPTS);
 
   // Return only
   //------------------------------------------
@@ -82,17 +108,8 @@ module.exports = (gulp, config) => {
   gulp.task('svg', function() {
     return gulp.src([SVG_SRC_CO, SVG_SRC])
       .pipe(uniqueFiles())
-      .pipe(svgmin(function(file) {
-        var prefix = path.basename(file.relative, path.extname(file.relative));
-        return {
-          plugins: [{
-            cleanupIDs: {
-              prefix: prefix + '-',
-              minify: true
-            }
-          }]
-        };
-      }))
+      .pipe(svgmin())
+      .pipe(rename({prefix: 'icon-'}))
       .pipe(svgstore())
       .pipe(gulp.dest(SVG_DEST));
   });
@@ -102,7 +119,7 @@ module.exports = (gulp, config) => {
   });
 
   gulp.task('console', function() {
-    console.log(SVG_SRC);
+    console.log(SCRIPTS);
   });
 
 };

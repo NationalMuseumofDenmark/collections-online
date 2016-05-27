@@ -1,7 +1,7 @@
 'use strict';
 
 var ajax = new XMLHttpRequest();
-ajax.open('GET', '/images/symbol/sprite.svg', true);
+ajax.open('GET', '/images/icons.svg', true);
 ajax.send();
 ajax.onload = function() {
   var div = document.createElement('div');
