@@ -28,8 +28,9 @@
     "project-oxford": "^1.1.0",
     "q": "~1.4.1",
     "request": "^2.27.0",
-  },
-  "devDependencies": {
+    "serve-favicon": "~2.3.0",
+    "yargs": "^4.2.0",
+
     "bower": "^1.7.7",
     "del": "^2.2.0",
     "dotenv": "^2.0.0",
@@ -48,6 +49,8 @@
     "gulp-unique-files": "^0.1.2",
     "gulp-util": "^3.0.7",
     "gulp-watch": "^4.3.6",
+    "run-sequence": "^1.1.5",
+
     "jscs": "^2.10.1",
     "jshint": "^2.9.1",
   },
