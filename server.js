@@ -74,6 +74,9 @@ exports.initialize = (app, config) => {
   });
 };
 
+// FIXME: Exposure of the indexing this way is not really needed - when using
+// the lib from a branded deployment, consider simply using
+// require('collections-online/indexing/run') instead.
 exports.indexing = (state, config) => {
   if(config) {
     exports.config(config);
