@@ -8,6 +8,7 @@ module.exports = (gulp, config) => {
   var fs = require('fs');
   var autoprefixer = require('gulp-autoprefixer');
   var concat = require('gulp-concat');
+  var cleanCSS = require('gulp-clean-css');
   var gulpif = require('gulp-if');
   var print = require('gulp-print');
   var rename = require('gulp-rename');
@@ -16,7 +17,6 @@ module.exports = (gulp, config) => {
   var svgmin = require('gulp-svgmin');
   var svgstore = require('gulp-svgstore');
   var uglify = require('gulp-uglify');
-  var gutil = require('gulp-util');
   var path = require('path');
   var sequence = require('run-sequence');
   var bower = require('gulp-bower');
@@ -35,7 +35,6 @@ module.exports = (gulp, config) => {
   var SCRIPTS_FOLDER_CO = COLLECTIONS_ONLINE + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
   var SCRIPTS = [SCRIPTS_CO];
-  // Blacklisting scripts - this should be done smarter at some point
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
   var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
@@ -96,6 +95,7 @@ module.exports = (gulp, config) => {
       .pipe(autoprefixer({browsers: ['last 2 versions']}))
       .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(sass().on('error', sass.logError))
+      .pipe(cleanCSS())
       .pipe(gulpif(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(STYLES_DEST));
   });
