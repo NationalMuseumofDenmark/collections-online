@@ -34,7 +34,8 @@ module.exports = (gulp, config) => {
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER_CO = COLLECTIONS_ONLINE + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
-  var SCRIPTS = [SCRIPTS_CO];
+  var SCRIPTS_ARRAY_CO = [SCRIPTS_CO];
+  var SCRIPTS = config.appDir + '/scripts/*.js';
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
   var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
@@ -53,7 +54,7 @@ module.exports = (gulp, config) => {
   Object.keys(FEATURE_SCRIPTS).forEach((feature) => {
     if(config.features[feature] === false) {
       FEATURE_SCRIPTS[feature].forEach((script) => {
-        SCRIPTS.push('!' + SCRIPTS_FOLDER_CO + '/' + script);
+        SCRIPTS_ARRAY_CO.push('!' + SCRIPTS_FOLDER_CO + '/' + script);
       });
     }
   });
@@ -80,7 +81,14 @@ module.exports = (gulp, config) => {
   });
 
 
-  SCRIPTS = BOWER_SCRIPTS.concat(SCRIPTS);
+  SCRIPTS_ARRAY_CO = BOWER_SCRIPTS.concat(SCRIPTS_ARRAY_CO);
+
+  // Add Project specific scripts at the end.
+  // Overwrites thanks to uniqueFiles in the js task
+  SCRIPTS_ARRAY_CO.push(SCRIPTS);
+
+  var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
+
 
   // Return only
   //------------------------------------------
@@ -101,7 +109,8 @@ module.exports = (gulp, config) => {
   });
 
   gulp.task('js', function() {
-    return gulp.src(SCRIPTS)
+    return gulp.src(SCRIPTS_ALL)
+      .pipe(uniqueFiles())
       .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(concat(SCRIPT_NAME))
       .pipe(gulpif(isProduction, uglify()))
@@ -129,6 +138,6 @@ module.exports = (gulp, config) => {
   });
 
   gulp.task('console', function() {
-    console.log(SCRIPTS);
+    console.log(SCRIPTS_ALL);
   });
 };
