@@ -120,6 +120,8 @@ module.exports = (gulp, config) => {
 
   gulp.task('watch', function() {
     gulp.watch(STYLES_ALL, ['css']);
+    gulp.watch(SVG_SRC, ['svg']);
+    gulp.watch(SVG_SRC_CO, ['svg']);
   });
 
   gulp.task('clean', function() {
