@@ -18,8 +18,9 @@ function fbshareCurrentPage() {
 }
 
 function twittershareCurrentPage() {
+  var twitterAccount = $('meta[name="twitter:site"]').attr('content');
   window.open('https://twitter.com/intent/tweet?url='
-    + escape(window.location.href) + '&via=nationalmuseet'
+    + escape(window.location.href) + '&via=' + twitterAccount
   );
   return false;
 }
