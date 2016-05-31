@@ -132,7 +132,15 @@ block content
     .asset-bottom
       .container-fluid
         .row
-          != assetLayout(metadata)
+          .col-sm-6
+            != assetSection('place', metadata)
+          .col-sm-6
+            != assetSection('time', metadata)
+          .clearfix
+          .col-sm-6
+            != assetSection('additional-information', metadata)
+          .col-sm-6
+            != assetSection('technical-information', metadata)
 
           if relatedAssets && relatedAssets.length > 0
             .col-xs-12
