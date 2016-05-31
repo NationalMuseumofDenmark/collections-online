@@ -7,8 +7,11 @@ mixin assetMeta(item, sources)
     - description = item.description
   if sources.image
     - image = sources.image
+    
+  - twitterAccount = helpers.getTwitterAccount(item)
+  - facebookAppId = helpers.getFacebookAppId(item)
 
-  +meta(title,socialTitle,image,description)
+  +meta(title, socialTitle, twitterAccount, facebookAppId, image, description)
 
 mixin searchMeta(result, catalog, breadcrumbs)
   if result.isSearch
@@ -22,19 +25,19 @@ mixin searchMeta(result, catalog, breadcrumbs)
       - title = catalog.name
   if result.isCatalog
     - title = catalog.name
+    
+  - twitterAccount = helpers.getTwitterAccount()
+  - facebookAppId = helpers.getFacebookAppId()
 
-  +meta(title,socialTitle)
+  +meta(title, socialTitle, twitterAccount, facebookAppId)
 
-mixin meta(title,socialTitle,image,description)
+mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description)
   - siteTitle = req.app.get('siteTitle')
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
-  - twitter = '@Nationalmuseet'
   - twitterCard = 'summary_large_image'
-  - facebook = 'nationalmuseet'
   - facebookType = 'website'
-  - youtube = 'natmusdk'
 
   if title
     - title += ' - ' + siteTitle
@@ -47,8 +50,7 @@ mixin meta(title,socialTitle,image,description)
     - socialTitle = title
 
   if !description
-    - description = 'Søg og udforsk Nationalmuseets Samlinger Online'
-    - description += ', hvor du finder mange former for kulturhistoriske fotos.'
+    - description = 'Søg og udforsk ' + siteTitle
 
   if image
     - image = unsafeBaseUrl + image
@@ -58,7 +60,8 @@ mixin meta(title,socialTitle,image,description)
   title #{title}
   meta(name='description', content='#{description}')
   meta(name='twitter:card', content='#{twitterCard}')
-  meta(name='twitter:site', content='#{twitter}')
+  if twitterAccount
+    meta(name='twitter:site', content='#{twitterAccount}')
   meta(name='twitter:title', content='#{socialTitle}')
   meta(name='twitter:description', content='#{description}')
   meta(name='twitter:image', content='#{image}')
@@ -68,6 +71,8 @@ mixin meta(title,socialTitle,image,description)
   meta(property='og:image', content='#{image}')
   meta(property='og:description', content='#{description}')
   meta(property='og:site_name', content='#{title}')
+  if facebookAppId
+    meta(property='fb:app_id', content='#{facebookAppId}')
 
 mixin loader(text)
   if text
@@ -112,7 +117,7 @@ mixin icon(id)
   svg
     use(xlink:href='#icon-#{id}')
 
-mixin fullDate(date) 
+mixin fullDate(date)
   - var points = []
   - if (date.day && date.month) points.push(date.day)
   - if (date.month) points.push(date.month)
@@ -129,7 +134,7 @@ mixin formatDate(from, to)
       if(from)
         +fullDate(from)
       if((from && to) || (!from && !to))
-        |  - 
+        |  -
       if(to)
         +fullDate(to)
 
