@@ -131,6 +131,7 @@ module.exports = (gulp, config) => {
     gulp.watch(STYLES_ALL, ['css']);
     gulp.watch(SVG_SRC, ['svg']);
     gulp.watch(SVG_SRC_CO, ['svg']);
+    gulp.watch(SCRIPTS_ALL, ['js']);
   });
 
   gulp.task('clean', function() {
