@@ -30,7 +30,10 @@ module.exports = (gulp, config) => {
   var COLLECTIONS_ONLINE = __dirname + '/..';
   var BOWER_COMPONENTS_CO = COLLECTIONS_ONLINE + '/bower_components';
   var STYLES_SRC = config.appDir + '/styles/main.scss';
-  var STYLES_ALL = config.appDir + '/styles/*.scss';
+  var STYLES_ALL = [
+    config.appDir + '/styles/*.scss',
+    COLLECTIONS_ONLINE + '/app/styles/**/*.scss'
+  ];
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER_CO = COLLECTIONS_ONLINE + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
