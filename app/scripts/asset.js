@@ -3,8 +3,10 @@
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
   var ACTION_ASSET_ZOOMABLE = '.asset-image--zoomable';
-  var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]';
+  var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]:not(.dimmed)';
+  var ACTION_BIG_IMAGE_DISABLED = '[data-action="asset-image-size-toggle"].dimmed';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
+  var CONTENT_ASSET_NO_ZOOM = '.no-zoom-message';
   var CONTENT_BIG_IMG_CLASS = 'big-image';
   var CONTENT_SLIDER = '.slider';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
@@ -16,6 +18,10 @@
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
+      $(ACTION_BIG_IMAGE_DISABLED)
+        .on('click', this.actionAssetNoZoom.bind(this, true));
+      $(CONTENT_ASSET_NO_ZOOM)
+        .on('click', this.actionAssetNoZoom.bind(this, false));
       $(ACTION_ASSET_ZOOMABLE)
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
@@ -53,6 +59,19 @@
 
     actionAssetDownloadShow: function(show) {
       var $el = $(CONTENT_ASSET_DOWNLOAD);
+      if (show === true) {
+        $el.addClass(OVERLAY_ACTIVE_CLASS);
+        $el.addClass(OVERLAY_ANIM_IN_CLASS);
+      } else if (show === false) {
+        $el.removeClass(OVERLAY_ANIM_IN_CLASS);
+        setTimeout(function() {
+          $el.removeClass(OVERLAY_ACTIVE_CLASS);
+        }, 300);
+      }
+    },
+
+    actionAssetNoZoom: function(show) {
+      var $el = $(CONTENT_ASSET_NO_ZOOM);
       if (show === true) {
         $el.addClass(OVERLAY_ACTIVE_CLASS);
         $el.addClass(OVERLAY_ANIM_IN_CLASS);

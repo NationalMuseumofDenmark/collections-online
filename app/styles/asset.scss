@@ -40,7 +40,7 @@ $slider-arrow-size: 4rem;
     max-height: $asset-max-height;
   }
 
-  &--zoomable {
+  &--zoomable:not(.dimmed) {
     cursor: zoom-in;
   }
 }
