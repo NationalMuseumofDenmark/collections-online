@@ -3,7 +3,7 @@
 $slider-arrow-size: 4rem;
 
 .asset-top {
-  background-color: $topbar-color;
+  background-color: $asset-top-bg;
   color           : $white;
   padding         : 0 0 1rem;
 
@@ -85,7 +85,7 @@ $slider-arrow-size: 4rem;
 }
 
 .asset-middle {
-  background-color: $gray-lighter;
+  background-color: $asset-middle-bg;
   padding         : 1rem 0 2rem;
 
   input {
@@ -157,6 +157,7 @@ $slider-arrow-size: 4rem;
 }
 
 .asset-bottom {
+  background-color: $asset-bottom-bg;
   padding: 1rem 0 3rem;
 
   table {
