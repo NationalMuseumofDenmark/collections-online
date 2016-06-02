@@ -2,9 +2,15 @@
 @import 'slick';
 $slider-arrow-size: 4rem;
 
+.asset {
+  h1, h2, h3 {
+    font-family: $asset-heading-font;
+  }
+}
+
 .asset-top {
   background-color: $asset-top-bg;
-  color           : $white;
+  color           : $asset-top-color;
   padding         : 0 0 1rem;
 
   h1 {
