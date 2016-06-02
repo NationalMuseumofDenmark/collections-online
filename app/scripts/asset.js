@@ -5,6 +5,7 @@
   var ACTION_ASSET_ZOOMABLE = '.asset-image--zoomable';
   var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]:not(.dimmed)';
   var ACTION_BIG_IMAGE_DISABLED = '[data-action="asset-image-size-toggle"].dimmed';
+  var CONTENT_ASSET_TOP = '.asset-top';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
   var CONTENT_ASSET_NO_ZOOM = '.no-zoom-message';
   var CONTENT_BIG_IMG_CLASS = 'big-image';
@@ -85,8 +86,7 @@
 
     toggleBigImage: function() {
       var $use = $(ACTION_BIG_IMAGE_TOGGLE).find('use');
-      $(ACTION_ASSET_ZOOMABLE).closest('.container-fluid')
-        .toggleClass(CONTENT_BIG_IMG_CLASS);
+      $(CONTENT_ASSET_TOP).toggleClass(CONTENT_BIG_IMG_CLASS);
       if ($use.attr('xlink:href') === '#icon-zoom-in') {
         $use.attr('xlink:href', '#icon-zoom-out');
       } else {
