@@ -7,12 +7,9 @@ exports.config = (config) => {
   require('./lib/config').set(config);
 };
 
-exports.initialize = (app, config) => {
+exports.initialize = (app) => {
   if(!app) {
     throw new Error('Needed an Express app when initializing');
-  }
-  if(config) {
-    exports.config(config);
   }
 
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
@@ -31,9 +28,6 @@ exports.initialize = (app, config) => {
   // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
   // the app (See http://expressjs.com/api.html#app.set)
   app.set('trust proxy', 'loopback');
-
-  require('./lib/routes')(app);
-  require('./lib/errors')(app);
 
   es.count({
     index: config.esAssetsIndex
@@ -82,4 +76,12 @@ exports.indexing = (state, config) => {
     exports.config(config);
   }
   return require('./indexing/run')(state);
+};
+
+exports.registerRoutes = (app) => {
+  require('./lib/routes')(app);
+};
+
+exports.registerErrors = (app) => {
+  require('./lib/errors')(app);
 };
