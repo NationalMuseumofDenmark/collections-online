@@ -5,3 +5,5 @@ if section.hasValues(options, metadata)
       each row in section.rows
         if row.hasValue(options, metadata)
           != row.render(options, metadata)
+else if section.emptyMessage 
+  p= section.emptyMessage

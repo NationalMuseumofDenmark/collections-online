@@ -68,6 +68,12 @@ $snackbar-zindex              : 1000;
 $icon-size                    : 24px;
 
 // Asset
+$asset-top-bg                 : $topbar-color;
+$asset-top-color              : $white;
+$asset-middle-bg              : $gray-lighter;
+$asset-bottom-bg              : $white;
+$asset-heading-font           : inherit;
+
 $asset--icon-shadow-color     : #fff;
 $asset-subject-headline-height: 3rem;
 $asset-max-height             : calc(100vh - #{$topbar-height}*2);

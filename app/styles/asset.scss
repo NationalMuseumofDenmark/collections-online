@@ -2,9 +2,15 @@
 @import 'slick';
 $slider-arrow-size: 4rem;
 
+.asset {
+  h1, h2, h3 {
+    font-family: $asset-heading-font;
+  }
+}
+
 .asset-top {
-  background-color: $topbar-color;
-  color           : $white;
+  background-color: $asset-top-bg;
+  color           : $asset-top-color;
   padding         : 0 0 1rem;
 
   h1 {
@@ -78,14 +84,14 @@ $slider-arrow-size: 4rem;
   }
 
   svg {
-    fill  : $white;
+    fill  : $asset-top-color;
     height: $icon-size;
     width : $icon-size;
   }
 }
 
 .asset-middle {
-  background-color: $gray-lighter;
+  background-color: $asset-middle-bg;
   padding         : 1rem 0 2rem;
 
   input {
@@ -157,6 +163,7 @@ $slider-arrow-size: 4rem;
 }
 
 .asset-bottom {
+  background-color: $asset-bottom-bg;
   padding: 1rem 0 3rem;
 
   table {
