@@ -125,6 +125,7 @@
   float     : left;
   min-height: 1px;
   padding   : 0;
+  transition: box-shadow $anim-default;
   width     : 50%;
 
   @media (pointer:fine) {
