@@ -43,3 +43,7 @@ body {
 .dimmed {
   opacity: .5;
 }
+
+svg {
+  fill-rule: evenodd;
+}
