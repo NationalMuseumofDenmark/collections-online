@@ -15,6 +15,15 @@ exports.initialize = (app) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   var config = require('./lib/config');
 
+  function startServer() {
+    console.log('Starting up the server');
+    // Start server
+    app.listen(config.port, config.ip, function() {
+      console.log('Express server listening on %s:%d, in %s mode',
+                  config.ip, config.port, app.get('env'));
+    });
+  }
+
   var cip = require('./lib/services/cip');
   var es = require('./lib/services/elasticsearch');
   var cipCategories = require('./lib/cip-categories');
@@ -50,16 +59,16 @@ exports.initialize = (app) => {
       process.exit(1);
     }
   }).then(() => {
-    function startServer() {
-      console.log('Starting up the server');
-      // Start server
-      app.listen(config.port, config.ip, function() {
-        console.log('Express server listening on %s:%d, in %s mode',
-                    config.ip, config.port, app.get('env'));
-      });
-    }
-
-    require('./lib/cip-categories')
+    // Initialize the cip client and make sure a valid session exists
+    return cip.initSession().then(() => {
+      setInterval(() => {
+        // Consider calling close session ..
+        cip.sessionRenew();
+      }, config.cip.sessionRenewalRate || 60*60*1000);
+      console.log('CIP session initialized');
+    });
+  }).then(() => {
+    return require('./lib/cip-categories')
     .initialize(app)
     .then(startServer, (err) => {
       console.error('Error when starting the app: ', err.stack);
