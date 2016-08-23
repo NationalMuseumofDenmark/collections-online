@@ -1,4 +1,4 @@
-# Nationalmuseets Samlinger Online
+# Collections Online
 
 [![Code Climate](https://codeclimate.com/github/NationalMuseumofDenmark/natmus-samlinger/badges/gpa.svg)](https://codeclimate.com/github/NationalMuseumofDenmark/natmus-samlinger)
 
