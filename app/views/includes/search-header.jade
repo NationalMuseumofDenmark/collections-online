@@ -1,32 +1,33 @@
 .search-page__header.row 
 
-  h1.col-xs-12.col-sm-7.col-md-8.col-lg-8
-    if result.isSearch
-      if filters.freetext
-        | Søgning på "#{filters.freetext}"
-      else
-        | Filtrering gav
-      +searchCount
-    if result.isCategory
-      a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
-      if breadcrumbs
-        if breadcrumbs.second
-          | &nbsp; &gt; &nbsp;
-          a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
-          | &nbsp; &gt; &nbsp;
-          span #{breadcrumbs.second.name}
-            +searchCount
-        else if breadcrumbs.first
-          | &nbsp; &gt; &nbsp;
-          span #{breadcrumbs.first.name}
-            +searchCount
-      else
+  .col-xs-12.col-sm-7.col-md-8.col-lg-8
+    h1
+      if result.isSearch
+        if filters.freetext
+          | Søgning på "#{filters.freetext}"
+        else
+          | Filtrering gav
         +searchCount
+      if result.isCategory
+        a.breadcrumbs-link.dark(href='/#{catalog.alias}') #{catalog.name}
+        if breadcrumbs
+          if breadcrumbs.second
+            | &nbsp; &gt; &nbsp;
+            a.breadcrumbs-link(href='/#{catalog.alias}?cat=#{breadcrumbs.first.id}') #{breadcrumbs.first.name}
+            | &nbsp; &gt; &nbsp;
+            span #{breadcrumbs.second.name}
+              +searchCount
+          else if breadcrumbs.first
+            | &nbsp; &gt; &nbsp;
+            span #{breadcrumbs.first.name}
+              +searchCount
+        else
+          +searchCount
 
 
-    if result.isCatalog
-      | #{catalog.name}
-      +searchCount
+      if result.isCatalog
+        | #{catalog.name}
+        +searchCount
 
   .search-page__sorting.col-xs-12.col-sm-5.col-md-4.col-lg-4
     | Sorteret efter

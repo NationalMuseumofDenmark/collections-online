@@ -2,18 +2,13 @@
   margin-bottom: 1.3rem;
   margin-top   : 1.35rem;
 
+  @media (min-width: $small-size) {
+    display: flex;
+    align-items: flex-end;
+  }
+
   h1 {
     margin-bottom: 0;
-  }
-
-  // Overwrite default bootstrap row-col float behaviour to align bottom
-  > * {
-    display: inline-block;
-    float  : none;
-  }
-
-  > *:last-child {
-    vertical-align: bottom;
   }
 }
 
