@@ -1,4 +1,7 @@
-module.exports = (gulp, config) => {
+module.exports = (gulp, specializedConfig) => {
+
+  var config = require('../lib/config');
+  config.set(specializedConfig);
 
   //------------------------------------------
   // Require
@@ -22,6 +25,10 @@ module.exports = (gulp, config) => {
   var bower = require('gulp-bower');
   var uniqueFiles = require('gulp-unique-files');
   var watch = require('gulp-watch');
+  var pug = require('gulp-pug');
+  var browserify = require('browserify');
+  var source = require('vinyl-source-stream');
+  var customPug = require('./custom-pug.js')(config);
 
   //------------------------------------------
   // Directories - note that they are relative to the project specific gulpfile
@@ -44,6 +51,9 @@ module.exports = (gulp, config) => {
   var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
   var SVG_SRC = config.appDir + '/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
+  var PUG_SRC_CO = COLLECTIONS_ONLINE + '/app/views/**/*.pug';
+  var PUG_SRC = config.appDir + '/views/**/*.pug';
+  var PUG_DEST = DEST_DIR + '/views';
   var isProduction = process.env.NODE_ENV === 'production';
 
   // Scripts that are connected to a feature
@@ -90,6 +100,10 @@ module.exports = (gulp, config) => {
   // Overwrites thanks to uniqueFiles in the js task
   SCRIPTS_ARRAY_CO.push(SCRIPTS);
 
+  // Add the runtime lib used to run pug templates
+  var SCRIPT_BROWSERIFY_SRC = COLLECTIONS_ONLINE + '/app/scripts-browserify/index.js';
+  SCRIPTS_ARRAY_CO.push(SCRIPTS_DEST + '/browserify-index.js');
+
   var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
 
 
@@ -111,7 +125,17 @@ module.exports = (gulp, config) => {
       .pipe(gulp.dest(STYLES_DEST));
   });
 
-  gulp.task('js', function() {
+  gulp.task('js-browserify', ['pug'], function() {
+    return browserify({
+      entries: SCRIPT_BROWSERIFY_SRC,
+      paths: [DEST_DIR],
+      debug: !isProduction
+    }).bundle()
+      .pipe(source('browserify-index.js'))
+      .pipe(gulp.dest(SCRIPTS_DEST));
+  });
+
+  gulp.task('js', ['js-browserify'], function() {
     return gulp.src(SCRIPTS_ALL)
       .pipe(uniqueFiles())
       .pipe(gulpif(!isProduction, sourcemaps.init()))
@@ -130,10 +154,21 @@ module.exports = (gulp, config) => {
       .pipe(gulp.dest(SVG_DEST));
   });
 
+  gulp.task('pug', function() {
+    return gulp.src([PUG_SRC_CO, PUG_SRC])
+      .pipe(uniqueFiles())
+      .pipe(pug({
+        client: true,
+        compileDebug: !isProduction,
+        pug: customPug
+      }))
+      .pipe(gulp.dest(PUG_DEST));
+  });
+
   gulp.task('watch', function() {
     gulp.watch(STYLES_ALL, ['css']);
-    gulp.watch(SVG_SRC, ['svg']);
-    gulp.watch(SVG_SRC_CO, ['svg']);
+    gulp.watch([SVG_SRC, SVG_SRC_CO], ['svg']);
+    gulp.watch([PUG_SRC_CO, PUG_SRC], ['js']);
     gulp.watch(SCRIPTS_ALL, ['js']);
   });
 
