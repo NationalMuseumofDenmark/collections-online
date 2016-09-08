@@ -99,7 +99,7 @@ mixin recursiveCategoryItem(catalog, category)
             +recursiveCategoryItem(catalog, childCategory)
 
 mixin searchResultAsset(asset)
-  .box
+  .box.col-xs-6.col-md-4.col-lg-3
     a(href='#{asset.link}')
       if asset.type == 'video'
         .video-thumbnail

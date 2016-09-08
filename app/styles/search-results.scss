@@ -99,10 +99,10 @@
   a {
     color  : $black;
     display: block;
-    padding: 10px;
+    padding: 10px 0;
 
     @media (min-width: $small-size) {
-      padding: 15px;
+      padding: 15px 0;
     }
 
     &:hover,
@@ -116,12 +116,7 @@
 
 // Responsive masonry boxes
 .box {
-  box-sizing: border-box;
-  float     : left;
-  min-height: 1px;
-  padding   : 0;
   transition: box-shadow $anim-default;
-  width     : 50%;
 
   @media (pointer:fine) {
     &:hover,
@@ -170,14 +165,6 @@
     overflow     : hidden;
     text-overflow: ellipsis;
     white-space  : nowrap;
-  }
-
-  @media all and (max-width: 992px) and (min-width: 635px) {
-    width: 33.3333%;
-  }
-
-  @media all and (min-width: 992px) {
-    width: 25%;
   }
 }
 
