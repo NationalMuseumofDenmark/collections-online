@@ -115,7 +115,7 @@ mixin searchResultAsset(asset)
 
 mixin icon(id)
   svg
-    use(xlink:href='#icon-#{id}')
+    use(xlink:href='#icon-'+id)
 
 mixin fullDate(date)
   - var points = []
