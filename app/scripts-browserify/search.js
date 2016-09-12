@@ -15,16 +15,18 @@ if(config.features.clientSideSearchResultRendering) {
 
   var $results = $('#results');
 
-  var elasticsearchBody = require('elasticsearch-body');
+  var elasticsearchQueryBody = require('es-query-body');
+
+  var searchParams = getSearchParams();
+
+  var queryBody = elasticsearchQueryBody({
+    filters: searchParams.filters
+  });
 
   es.search({
-    q: getSearchParams().q,
+    q: searchParams.q,
     index: config.es.assetsIndex,
-    body: elasticsearchBody({
-      filters: {
-        city: 'København'
-      }
-    }),
+    body: queryBody,
     size: 24
   }).then(function (response) {
     console.log('response:', response);
@@ -34,14 +36,33 @@ if(config.features.clientSideSearchResultRendering) {
       });
       $results.append(markup);
     });
-
-    if(config.features.filterSidebar) {
-      var sidebar = require('search-filter-sidebar');
-      sidebar.update(response.aggregations, {
-        district: ['Østerbro']
-      });
-    }
   }, function (error) {
     console.trace(error.message);
   });
+
+  if(config.features.filterSidebar) {
+    var elasticsearchAggregationsBody = require('es-aggregations-body');
+
+    es.search({
+      q: searchParams.q,
+      index: config.es.assetsIndex,
+      body: elasticsearchAggregationsBody({
+        filters: searchParams.filters
+      }, queryBody),
+      size:0
+    }).then(function (response) {
+      console.log('response:', response);
+      response.hits.hits.forEach(function(asset) {
+        var markup = templates.searchResultAsset({
+          asset: asset._source
+        });
+        $results.append(markup);
+      });
+
+      var sidebar = require('search-filter-sidebar');
+      sidebar.update(response.aggregations, searchParams.filters);
+    }, function (error) {
+      console.trace(error.message);
+    });
+  }
 }

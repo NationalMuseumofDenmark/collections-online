@@ -1,7 +1,8 @@
 include ../mixins/icon
 
 mixin filterSection(displayString, field)
-  - var aggregation = aggregations[field]
+  - var outerAggregation = aggregations[field + '_independent']
+  - var aggregation = outerAggregation[field]
   .search-filter-sidebar__heading
     h2= displayString
   .search-filter-sidebar__filters
