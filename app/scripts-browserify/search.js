@@ -1,3 +1,5 @@
+var getSearchParams = require('get-search-parameters');
+
 /* global config */
 if(config.features.clientSideSearchResultRendering) {
 
@@ -5,7 +7,7 @@ if(config.features.clientSideSearchResultRendering) {
     searchFilterSidebar: require('views/includes/search-filter-sidebar'),
     searchResultAsset: require('views/includes/search-result-asset')
   };
-  
+
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
     host: location.origin + '/es',
@@ -15,7 +17,7 @@ if(config.features.clientSideSearchResultRendering) {
   var $results = $('#results');
 
   es.search({
-    q: 'hestevogne',
+    q: getSearchParams().q,
     index: config.es.assetsIndex,
     size: 24
   }).then(function (body) {
