@@ -15,7 +15,8 @@ if(config.features.clientSideSearchResultRendering) {
 
   es.search({
     q: 'hestevogne',
-    index: config.es.assetsIndex
+    index: config.es.assetsIndex,
+    size: 24
   }).then(function (body) {
     body.hits.hits.forEach(function(asset) {
       var markup = templates.searchResultAsset({
