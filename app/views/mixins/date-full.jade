@@ -1,0 +1,6 @@
+mixin fullDate(date)
+  - var points = []
+  - if (date.day && date.month) points.push(date.day)
+  - if (date.month) points.push(date.month)
+  - if (date.year) points.push(date.year)
+  | #{points.join('/')}
