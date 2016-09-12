@@ -1,0 +1,26 @@
+include ../mixins/icon
+
+mixin filterSection(displayString, field)
+  - var aggregation = aggregations[field]
+  .search-filter-sidebar__heading
+    h2= displayString
+  .search-filter-sidebar__filters
+    for bucket in aggregation.buckets
+      //- The user has not filtered this field or has not selected this value
+      if !filters[field] || filters[field].indexOf(bucket.key) == -1
+        button.btn.btn-default= bucket.key
+          span.search-filter-sidebar__filter-count= bucket.doc_count
+    button.btn.btn-default Resten
+      span.search-filter-sidebar__filter-count= aggregation.sum_other_doc_count
+
+.search-filter-sidebar
+  .search-filter-sidebar__heading
+    h2 Valgte filtre
+  .search-filter-sidebar__filters.search-filter-sidebar__chosen-filters
+    for values, field in filters
+      for value in values
+        button.btn.btn-primary.btn-close= value
+          +icon('close')
+
+  if aggregations
+    +filterSection('Bydele', 'district')
