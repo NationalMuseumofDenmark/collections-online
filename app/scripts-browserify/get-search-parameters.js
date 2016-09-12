@@ -15,8 +15,7 @@ module.exports = function() {
   // The rest are filters
   var filters = {};
   Object.keys(result).forEach(function(field) {
-    var values = result[field];
-    filters[field] = values.split(',');
+    filters[field] = result[field].split(',');
   });
 
   return {

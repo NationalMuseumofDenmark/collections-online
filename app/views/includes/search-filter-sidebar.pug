@@ -6,22 +6,34 @@ mixin filterSection(displayString, field)
   .search-filter-sidebar__heading
     h2= displayString
   .search-filter-sidebar__filters
+    - var availableBuckets = 0
     for bucket in aggregation.buckets
       //- The user has not filtered this field or has not selected this value
       if !filters[field] || filters[field].indexOf(bucket.key) == -1
-        button.btn.btn-default= bucket.key
+        - availableBuckets++;
+        button.btn.btn-default(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
           span.search-filter-sidebar__filter-count= bucket.doc_count
-    button.btn.btn-default Resten
-      span.search-filter-sidebar__filter-count= aggregation.sum_other_doc_count
+    if aggregation.sum_other_doc_count > 0
+      button.btn.btn-default Resten
+        span.search-filter-sidebar__filter-count= aggregation.sum_other_doc_count
+    if availableBuckets === 0
+      = 'Du kan ikke vælge andre ' + displayString
 
 .search-filter-sidebar
-  .search-filter-sidebar__heading
-    h2 Valgte filtre
-  .search-filter-sidebar__filters.search-filter-sidebar__chosen-filters
-    for values, field in filters
-      for value in values
-        button.btn.btn-primary.btn-close= value
-          +icon('close')
+  .search-filter-sidebar__chosen-filters
+    .search-filter-sidebar__heading
+      h2 Valgte filtre
+    .search-filter-sidebar__filters
+      if filterCount > 0
+        for values, field in filters
+          for value in values
+            button.btn.btn-primary.btn-close(data-field=field,data-value=value,data-action='remove-filter')= value
+              +icon('close')
+      else
+        | Tryk på en af knapperne nedenunder
+
+
 
   if aggregations
-    +filterSection('Bydele', 'district')
+    +filterSection('bydele', 'district')
+    +filterSection('vejnavne', 'street_name')
