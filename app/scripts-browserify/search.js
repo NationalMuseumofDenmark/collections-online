@@ -5,6 +5,7 @@ if(config.features.clientSideSearchResultRendering) {
     searchFilterSidebar: require('views/includes/search-filter-sidebar'),
     searchResultAsset: require('views/includes/search-result-asset')
   };
+  
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
     host: location.origin + '/es',
@@ -27,12 +28,11 @@ if(config.features.clientSideSearchResultRendering) {
     console.trace(error.message);
   });
 
-  /*
-  if(config.features.searchFilterSidebar) {
-
-    var hest = templates.searchFilterSidebar();
-    console.log('Hest:', hest);
-
+  if(config.features.filterSidebar) {
+    var sidebar = require('search-filter-sidebar');
+    $(function() {
+      // Update the sidebar when the page has loaded
+      sidebar.update();
+    });
   }
-  */
 }
