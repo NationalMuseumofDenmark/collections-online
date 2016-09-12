@@ -1,0 +1,7 @@
+mixin tag(name)
+  a.btn.btn-default.btn-small(
+    href='/?q='+encodeURIComponent(name),
+    data-tag=name
+  )= name
+    if block
+      block

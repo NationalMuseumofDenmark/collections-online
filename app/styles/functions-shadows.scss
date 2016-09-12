@@ -3,15 +3,15 @@
 @function top-shadow($depth) {
   $primary-offset: nth(1.5 3 10 14 19, $depth) * 1px;
   $blur: nth(1.5 3 10 14 19, $depth) * 4px;
-  $color: rgba($black, nth(.09 .12 .15 .18 .23, $depth));
+  $color: rgba($black, nth(.09 .12 .06 .18 .23, $depth));
 
   @return 0 $primary-offset $blur $color;
 }
 
 @function bottom-shadow($depth) {
-  $primary-offset: nth(1.5 3 6 10 15, $depth) * 1px;
+  $primary-offset: nth(1.5 3 3 10 15, $depth) * 1px;
   $blur: nth(1 3 3 5 6, $depth) * 4px;
-  $color: rgba($black, nth(.18 .18 .18 .17 .17, $depth));
+  $color: rgba($black, nth(.18 .18 .08 .17 .17, $depth));
 
   @return 0 $primary-offset $blur $color;
 }

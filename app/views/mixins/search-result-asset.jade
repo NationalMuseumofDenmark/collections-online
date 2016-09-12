@@ -1,0 +1,16 @@
+include icon
+
+mixin searchResultAsset(asset)
+  .box.col-xs-6.col-md-4.col-lg-3
+    a(href='#{asset.link}')
+      if asset.type == 'video'
+        .video-thumbnail
+          .icon
+      else
+        .image
+          .overlay
+            img(src='#{asset.thumbnailURL}').rotation
+            if asset.type == 'image-rotation'
+              +icon('rotation')
+      h2.h4 #{asset.title}
+      p.description #{asset.description}
