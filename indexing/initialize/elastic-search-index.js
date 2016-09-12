@@ -20,8 +20,13 @@ module.exports = function(state) {
       console.log('Index was already created');
       return state;
     } else {
-      var fields = {
-        'short_title': {
+      var fields = {};
+      // Get all fields that needs a raw value included in the index
+      config.assetFields.filter((field) => {
+        return field.includeRaw;
+      }).forEach((field) => {
+        var fieldName = field.short;
+        fields[fieldName] = {
           'type': 'string',
           'analyzer': 'english',
           'fields': {
@@ -30,8 +35,8 @@ module.exports = function(state) {
               'index': 'not_analyzed'
             }
           }
-        }
-      };
+        };
+      });
       // Derive mappings from the asset field types
       // First the fields with date types
       config.assetFields.filter((field) => {
