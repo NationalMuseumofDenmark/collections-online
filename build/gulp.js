@@ -57,6 +57,8 @@ module.exports = (gulp, specializedConfig) => {
   var isProduction = process.env.NODE_ENV === 'production';
 
   // Scripts that are connected to a feature
+  // TODO: Transition this to browserified scripts, checking the config
+  // parameter instead.
   var FEATURE_SCRIPTS = {
     geotagging: ['geo-tagging.js'],
     rotationalImages: ['magic360.da.js', 'magic360.js'],
@@ -105,8 +107,6 @@ module.exports = (gulp, specializedConfig) => {
   var SCRIPTS_BROWSERIFY_DIR = config.appDir &&
                                config.appDir  + '/scripts-browserify';
 
-  SCRIPTS_ARRAY_CO.push(SCRIPTS_DEST + '/browserify-index.js');
-
   var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
 
 
@@ -154,7 +154,10 @@ module.exports = (gulp, specializedConfig) => {
   });
 
   gulp.task('js', ['js-browserify'], function() {
-    return gulp.src(SCRIPTS_ALL)
+    var scriptPaths = SCRIPTS_ARRAY_CO.concat([
+      SCRIPTS_DEST + '/browserify-index.js'
+    ]);
+    return gulp.src(scriptPaths)
       .pipe(uniqueFiles())
       .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(concat(SCRIPT_NAME))
