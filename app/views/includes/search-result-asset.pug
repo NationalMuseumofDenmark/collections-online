@@ -1,9 +1,9 @@
 include ../mixins/icon.jade
 
 .box.col-xs-6.col-md-4.col-lg-3
-  a(href=asset.link)
+  a(href='/' + asset.catalog + '/' + asset.id)
     .image
       .overlay.square-container
-        img(src=asset.catalog + '/' + asset.id + '/thumbnail')
-    h2.h4= asset.title
+        img(src=asset.catalog + '/' + asset.id + '/thumbnail').object-fit
+    h2.h4= asset.short_title
     p.description= asset.description
