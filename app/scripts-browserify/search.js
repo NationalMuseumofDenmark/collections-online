@@ -1,3 +1,5 @@
+var getSearchParams = require('get-search-parameters');
+
 /* global config */
 if(config.features.clientSideSearchResultRendering) {
 
@@ -16,6 +18,7 @@ if(config.features.clientSideSearchResultRendering) {
   var elasticsearchBody = require('elasticsearch-body');
 
   es.search({
+    q: getSearchParams().q,
     index: config.es.assetsIndex,
     body: elasticsearchBody({
       filters: {
