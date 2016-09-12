@@ -1,1 +1,1 @@
-require('./search');
+require('search');

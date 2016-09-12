@@ -34,24 +34,24 @@ module.exports = (gulp, specializedConfig) => {
   // Directories - note that they are relative to the project specific gulpfile
   //------------------------------------------
   var DEST_DIR = config.generatedDir;
-  var COLLECTIONS_ONLINE = __dirname + '/..';
-  var BOWER_COMPONENTS_CO = COLLECTIONS_ONLINE + '/bower_components';
+  var ROOT_CO = __dirname + '/..';
+  var BOWER_COMPONENTS_CO = ROOT_CO + '/bower_components';
   var STYLES_SRC = config.appDir + '/styles/main.scss';
   var STYLES_ALL = [
     config.appDir + '/styles/*.scss',
-    COLLECTIONS_ONLINE + '/app/styles/**/*.scss'
+    ROOT_CO + '/app/styles/**/*.scss'
   ];
   var STYLES_DEST = DEST_DIR + '/styles';
-  var SCRIPTS_FOLDER_CO = COLLECTIONS_ONLINE + '/app/scripts';
+  var SCRIPTS_FOLDER_CO = ROOT_CO + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
   var SCRIPTS_ARRAY_CO = [SCRIPTS_CO];
   var SCRIPTS = config.appDir + '/scripts/*.js';
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
-  var SVG_SRC_CO = COLLECTIONS_ONLINE + '/app/images/icons/*.svg';
+  var SVG_SRC_CO = ROOT_CO + '/app/images/icons/*.svg';
   var SVG_SRC = config.appDir + '/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
-  var PUG_SRC_CO = COLLECTIONS_ONLINE + '/app/views/**/*.pug';
+  var PUG_SRC_CO = ROOT_CO + '/app/views/**/*.pug';
   var PUG_SRC = config.appDir + '/views/**/*.pug';
   var PUG_DEST = DEST_DIR + '/views';
   var isProduction = process.env.NODE_ENV === 'production';
@@ -101,7 +101,10 @@ module.exports = (gulp, specializedConfig) => {
   SCRIPTS_ARRAY_CO.push(SCRIPTS);
 
   // Add the runtime lib used to run pug templates
-  var SCRIPT_BROWSERIFY_SRC = COLLECTIONS_ONLINE + '/app/scripts-browserify/index.js';
+  var SCRIPTS_BROWSERIFY_DIR_CO = ROOT_CO + '/app/scripts-browserify';
+  var SCRIPTS_BROWSERIFY_DIR = config.appDir &&
+                               config.appDir  + '/scripts-browserify';
+
   SCRIPTS_ARRAY_CO.push(SCRIPTS_DEST + '/browserify-index.js');
 
   var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
@@ -112,7 +115,7 @@ module.exports = (gulp, specializedConfig) => {
   // Individual tasks
   //------------------------------------------
   gulp.task('bower', function() {
-    return bower({cwd: COLLECTIONS_ONLINE});
+    return bower({cwd: ROOT_CO});
   });
 
   gulp.task('css', function() {
@@ -127,8 +130,22 @@ module.exports = (gulp, specializedConfig) => {
 
   gulp.task('js-browserify', ['pug'], function() {
     return browserify({
-      entries: SCRIPT_BROWSERIFY_SRC,
-      paths: [DEST_DIR],
+      paths: [
+        SCRIPTS_BROWSERIFY_DIR_CO,
+        SCRIPTS_BROWSERIFY_DIR,
+        DEST_DIR
+      ],
+      basedir: config.appDir ?
+               SCRIPTS_BROWSERIFY_DIR :
+               SCRIPTS_BROWSERIFY_DIR_CO,
+      entries: './index.js',
+      insertGlobalVars: {
+        config: function(file, dir) {
+          return JSON.stringify({
+            features: config.features
+          });
+        }
+      },
       debug: !isProduction
     }).bundle()
       .pipe(source('browserify-index.js'))
@@ -169,7 +186,11 @@ module.exports = (gulp, specializedConfig) => {
     gulp.watch(STYLES_ALL, ['css']);
     gulp.watch([SVG_SRC, SVG_SRC_CO], ['svg']);
     gulp.watch([PUG_SRC_CO, PUG_SRC], ['js']);
-    gulp.watch(SCRIPTS_ALL, ['js']);
+    gulp.watch([
+      SCRIPTS_ALL,
+      SCRIPTS_BROWSERIFY_DIR_CO + '/**/*.js',
+      SCRIPTS_BROWSERIFY_DIR + '/**/*.js'
+    ], ['js']);
   });
 
   gulp.task('clean', function() {
