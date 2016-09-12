@@ -142,7 +142,8 @@ module.exports = (gulp, specializedConfig) => {
       insertGlobalVars: {
         config: function(file, dir) {
           return JSON.stringify({
-            features: config.features
+            features: config.features,
+            es: config.es
           });
         }
       },

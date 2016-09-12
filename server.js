@@ -39,18 +39,18 @@ exports.initialize = (app) => {
   app.set('trust proxy', 'loopback');
 
   es.count({
-    index: config.esAssetsIndex
+    index: config.es.assetsIndex
   }).then(function(response) {
-    console.log('Connecting to the Elasticsearch host', config.esHost);
+    console.log('Connecting to the Elasticsearch host', config.es.host);
     console.log('The assets index is created and contains',
                 response.count, 'documents.');
   }, function(err) {
     if(err.status === 404) {
-      console.error('Missing the Elasticsearch index: ' + config.esAssetsIndex);
+      console.error('Missing the Elasticsearch index: ' + config.es.assetsIndex);
       // Well - let's create the index
       var initIndexing = require('./indexing/initialize/elastic-search-index');
       var state = {
-        'index': config.esAssetsIndex
+        'index': config.es.assetsIndex
       };
       return initIndexing(state);
     } else {
