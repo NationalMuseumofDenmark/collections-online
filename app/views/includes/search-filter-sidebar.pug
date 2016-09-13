@@ -17,7 +17,7 @@ mixin filterSection(displayString, field)
       button.btn.btn-default Resten
         span.search-filter-sidebar__filter-count= aggregation.sum_other_doc_count
     if availableBuckets === 0
-      = 'Du kan ikke vælge andre ' + displayString
+      p= 'Der er ikke flere ' + displayString + ', der matcher din filtrering.'
 
 .search-filter-sidebar
   .search-filter-sidebar__chosen-filters
@@ -30,7 +30,7 @@ mixin filterSection(displayString, field)
             button.btn.btn-primary.btn-close(data-field=field,data-value=value,data-action='remove-filter')= value
               +icon('close')
       else
-        | Tryk på en af knapperne nedenunder
+        p Ingen filtre valgt — tryk på knapperne nedenunder for at filtrere dit søgeresultat.
 
 
 
