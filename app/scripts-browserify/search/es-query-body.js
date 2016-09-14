@@ -22,10 +22,10 @@ module.exports = function(parameters) {
     });
   }
 
-  if(parameters.q) {
+  if(parameters.filters.freetext) {
     queries.push({
       match: {
-        '_all': parameters.q
+        '_all': parameters.filters.freetext.join(' ')
       }
     });
   }

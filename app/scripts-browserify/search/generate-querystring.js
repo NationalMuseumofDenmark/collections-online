@@ -2,12 +2,17 @@ var querystring = require('querystring');
 
 module.exports = function(searchParameters) {
   var parameters = searchParameters.filters || {};
-  if (searchParameters.q) {
-    parameters.q = searchParameters.q;
+
+  // Rename freetext to q when represented in the URL
+  if (parameters.freetext) {
+    parameters.q = parameters.freetext.join(' ');
+    delete parameters.freetext;
   }
+
   if (searchParameters.sort) {
     parameters.sort = searchParameters.sort;
   }
+
   Object.keys(parameters).forEach(function(field) {
     var value = parameters[field];
     if(typeof(value) === 'object' && value.length > 0) {

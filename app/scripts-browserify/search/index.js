@@ -1,15 +1,29 @@
+/* global config */
+
 var getSearchParams = require('./get-parameters');
 var elasticsearchQueryBody = require('./es-query-body');
 var elasticsearchAggregationsBody = require('./es-aggregations-body');
 var generateQuerystring = require('./generate-querystring');
 
+var templates = {
+  searchResultAsset: require('views/includes/search-result-asset'),
+  resultsHeader: require('views/includes/results-header'),
+};
+
 function update() {
   var $results = $('#results');
+  var $resultsHeader = $('#results-header');
 
   var searchParams = getSearchParams();
-  console.log('searchParams before', searchParams);
 
   var queryBody = elasticsearchQueryBody(searchParams);
+
+  // Update the freetext search input
+  var $searchInput = $('#search-input');
+  var freetext = searchParams.filters.freetext ?
+                 searchParams.filters.freetext.join(' ') :
+                 '';
+  $searchInput.val(freetext);
 
   // Get actual results from the index
   es.search({
@@ -24,6 +38,18 @@ function update() {
       });
       $results.append(markup);
     });
+    $resultsHeader.html(templates.resultsHeader({
+      filters: searchParams.filters,
+      sorting: 'default',
+      sortOptions: {
+        default: {
+          label: 'Relevans'
+        }
+      },
+      result: {
+        totalCount: response.hits.total
+      }
+    }));
   }, function (error) {
     console.trace(error.message);
   });
@@ -64,12 +90,7 @@ function changeFilters(filters) {
   update();
 }
 
-/* global config */
 if(config.features.clientSideSearchResultRendering) {
-
-  var templates = {
-    searchResultAsset: require('views/includes/search-result-asset'),
-  };
 
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({

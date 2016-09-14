@@ -8,7 +8,6 @@ function buildFilter(parameters, field) {
     }
   });
   var independentParameters = {
-    q: parameters.q,
     sort: parameters.sort,
     filters: independentFilters
   };

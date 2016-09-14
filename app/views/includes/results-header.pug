@@ -1,1 +1,20 @@
-include results-header.jade
+include ../mixins/search-count
+
+.search-page__header
+  .col-xs-12.col-sm-7.col-md-8.col-lg-8
+    h1
+      if filters.freetext
+        | Søgning på "#{filters.freetext.join(' ')}"
+      else
+        | Filtrering gav
+      +searchCount
+
+  .search-page__sorting.col-xs-12.col-sm-5.col-md-4.col-lg-4
+    | Sorteret efter
+    .dropdown
+      a.dropdown__selected= sortOptions[sorting].label
+      .dropdown__options
+        each val, key in sortOptions
+          - var selected = (key === sorting)
+          a.dropdown__option(href=url,
+            class=selected ? 'dropdown__option--active' : '') #{val.label}

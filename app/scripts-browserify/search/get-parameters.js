@@ -2,24 +2,27 @@ var querystring = require('querystring');
 
 module.exports = function() {
   var urlParams = window.location.search.substring(1);
-  var result = querystring.parse(urlParams);
-
-  // Extract the freetext query parameter
-  var q = result.q;
-  delete result.q;
+  var parameters = querystring.parse(urlParams);
 
   // Extract the sorting query parameter
-  var sort = result.sort;
-  delete result.sort;
+  var sort = parameters.sort;
+  delete parameters.sort;
+
+  var filters = {};
+
+  // Rename the q parameter to freetext, split by space
+  if(parameters.q) {
+    var freetext = parameters.q;
+    delete parameters.q;
+    filters.freetext = freetext.split(' ');
+  }
 
   // The rest are filters
-  var filters = {};
-  Object.keys(result).forEach(function(field) {
-    filters[field] = result[field].split(',');
+  Object.keys(parameters).forEach(function(field) {
+    filters[field] = parameters[field].split(',');
   });
 
   return {
-    q: q,
     filters: filters,
     sort: sort
   };
