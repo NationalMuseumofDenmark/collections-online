@@ -1,14 +1,26 @@
 .search-page__header {
-  margin-bottom: 1.3rem;
-  margin-top   : 1.35rem;
+  align-items: flex-end;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: $spacer-md;
+  margin-top: $spacer-lg;
 
   @media (min-width: $small-size) {
-    display: flex;
-    align-items: flex-end;
+    margin-top: $spacer-lg * 2;
   }
 
   h1 {
-    margin-bottom: 0;
+    margin: 0;
+  }
+}
+
+.has-sidebar {
+  .search-page__header {
+    margin-top: $spacer-md;
+    @media (min-width: $small-size) {
+      margin-top: $spacer-lg + $spacer-md;
+    }
   }
 }
 
@@ -46,9 +58,10 @@
 }
 
 .search-page__sorting {
-  padding-bottom: .3rem;
+  padding-bottom: 1px;
   padding-top   : .5rem;
-  text-align    : right;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .search-results {

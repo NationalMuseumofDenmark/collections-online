@@ -18,7 +18,7 @@ block content
           .col-md-3.col-sm-4.col-xs-12#sidebar
             block sidebar
           .col-md-9.col-sm-8.col-xs-12
-            .row#results-header
+            #results-header.has-sidebar
               block results-header
             .row#results.search-results
               block results
@@ -28,7 +28,7 @@ block content
       else
         .row#results-header
           block results-header
-        .row#results.search-results
+        #results.search-results
           block results
         block after-results
           button.btn.btn-primary.btn-lg.load-more#load-more-btn

@@ -3,9 +3,9 @@ include ../mixins/search-filter-section.jade
 - var filterLabels = { 'district': 'bydele', 'street_name': 'vejnavne' }
 
 .search-filter-sidebar
-  h2.search-filter-sidebar__heading Filtrering
-  .search-filter-sidebar__chosen-filters
-    if filterCount > 0
+  if filterCount > 0
+    h2.search-filter-sidebar__heading.hidden-xs Valgte filtre
+    .search-filter-sidebar__chosen-filters
       for values, field in filters
         for value in values
           button.btn.btn-primary.btn-filter.btn-close(data-field=field,data-value=value,data-action='remove-filter')
@@ -15,8 +15,6 @@ include ../mixins/search-filter-section.jade
             if field === 'freetext'
               | &rsquo;
             +icon('close')
-    else
-      p.filter-text Ingen filtre valgt — tryk på knapperne nedenunder for at filtrere dit søgeresultat.
 
   if aggregations
     .search-filter-sidebar__options#search-filter-options

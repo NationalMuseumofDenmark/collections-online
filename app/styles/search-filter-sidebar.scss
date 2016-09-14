@@ -1,30 +1,42 @@
+$heading-adjustment: 2px;
+
 .search-filter-sidebar {
-  margin: $spacer-md 0;
+  margin: 0 $spacer-md * -1 $spacer-md;
   position: -webkit-sticky;
   position: sticky;
-  top: $spacer-md;
+  top: $spacer-lg;
+
+  @media (min-width: $small-size) {
+    margin: $spacer-lg + $spacer-md 0 $spacer-md;
+  }
 
   &__heading {
-    background-color: $gray-light;
-    height: $topbar-height;
-    line-height: $topbar-height + $spacer-xs;
+    background-color: $gray-lighter;
+    line-height: $topbar-height - $spacer-sm;
     margin: 0;
     padding-left: $spacer-sm;
+    padding-top: $spacer-xs + $heading-adjustment;
+    padding-bottom: $spacer-xs - $heading-adjustment;
     font-size: 1.285714286rem; // 18/14
     font-family: $font-family-medium;
-    text-transform: capitalize;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
 
     span {
       display: inline-block;
-      text-transform: capitalize;
       position: relative;
       padding-right: $spacer-lg;
       cursor: pointer;
+      &::first-letter {
+        text-transform: uppercase;
+      }
 
       &:after {
         content: '';
         background-image:
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.6 8.6L12 13.2 7.4 8.6 6 10l6 6 6-6z' fill='rgba(0,0,0,0.4)'/%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.6 8.6L12 13.2 7.4 8.6 6 10l6 6 6-6z' fill='rgba(0,0,0,0.3)'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-size: $spacer-lg;
         background-position: center;
@@ -32,7 +44,7 @@
         position: absolute;
         right: $spacer-xs;
         top: 0;
-        bottom: $spacer-xs;
+        bottom: $spacer-xs / 2;
         width: $spacer-lg;
       }
 
@@ -53,19 +65,24 @@
   }
 
   &__filters, &__chosen-filters {
-    background-color: $gray-lighter;
     padding: $spacer-xs;
     padding-bottom: $spacer-sm;
+    background-color: rgba($gray-lighter, 0.5);
   }
 
-  &__options, &__toggle {
-    margin-top: $spacer-md;
+  &__chosen-filters {
+    @media (max-width: $small-size) {
+      padding-bottom: $spacer-xs;
+    }
+  }
+  .btn-filter, .filter-text {
+    margin: $spacer-xs;
+  }
+  .filter-text {
+    line-height: 1.4;
   }
 }
 
-.btn-filter, .filter-text {
-  margin: $spacer-xs;
-}
 
 .btn-filter {
   &__count {

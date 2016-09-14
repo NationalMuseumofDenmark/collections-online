@@ -23,6 +23,14 @@ body {
   }
 }
 
+.row.is-flex {
+  display: flex;
+}
+.row.is-flex > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
+}
+
 @media (min-width: $large-size) {
   .container-fluid {
     width: $large-size;
