@@ -128,5 +128,5 @@ if(config.features.clientSideSearchResultRendering) {
         changeFilters(filters);
       }
     });
-
+  });
 }
