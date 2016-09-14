@@ -1,7 +1,7 @@
-var getSearchParams = require('get-search-parameters');
-var elasticsearchQueryBody = require('es-query-body');
-var elasticsearchAggregationsBody = require('es-aggregations-body');
-var generateQuerystring = require('generate-search-querystring');
+var getSearchParams = require('./get-parameters');
+var elasticsearchQueryBody = require('./es-query-body');
+var elasticsearchAggregationsBody = require('./es-aggregations-body');
+var generateQuerystring = require('./generate-querystring');
 
 function update() {
   var $results = $('#results');
@@ -42,7 +42,7 @@ function update() {
         $results.append(markup);
       });
 
-      var sidebar = require('search-filter-sidebar');
+      var sidebar = require('./filter-sidebar');
       sidebar.update(response.aggregations, searchParams.filters);
     }, function (error) {
       console.trace(error.message);

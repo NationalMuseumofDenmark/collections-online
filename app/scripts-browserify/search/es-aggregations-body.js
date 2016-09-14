@@ -1,4 +1,4 @@
-var elasticsearchQueryBody = require('es-query-body');
+var elasticsearchQueryBody = require('./es-query-body');
 
 function buildFilter(parameters, field) {
   var independentFilters = {};
