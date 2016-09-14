@@ -5,6 +5,9 @@ var elasticsearchQueryBody = require('./es-query-body');
 var elasticsearchAggregationsBody = require('./es-aggregations-body');
 var generateQuerystring = require('./generate-querystring');
 
+const DEFAULT_SORTING = 'relevance';
+module.exports.DEFAULT_SORTING = DEFAULT_SORTING;
+
 // How many assets should be loaded at once?
 const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;

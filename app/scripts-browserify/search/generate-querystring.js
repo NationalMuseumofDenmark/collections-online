@@ -1,6 +1,8 @@
 var querystring = require('querystring');
+const DEFAULT_SORTING = require('.').DEFAULT_SORTING;
 
 module.exports = function(searchParameters) {
+
   var parameters = searchParameters.filters || {};
 
   // Rename freetext to q when represented in the URL
@@ -9,7 +11,7 @@ module.exports = function(searchParameters) {
     delete parameters.freetext;
   }
 
-  if (searchParameters.sort) {
+  if (searchParameters.sort && searchParameters.sort != DEFAULT_SORTING) {
     parameters.sort = searchParameters.sort;
   }
 
