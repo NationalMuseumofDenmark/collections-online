@@ -6,27 +6,28 @@ include mixins/search-result-asset
 
 append header
   +searchMeta(result, catalog, breadcrumbs)
-    
+
 block content
 
   block before-results
 
   .let-it-grow
     section.container-fluid
-      
+
       #results-header
         block results-header
-      
+
       .row
         .col-md-3.col-sm-4.col-xs-12#sidebar
           block sidebar
-        .col-md-9.col-sm-8.col-xs-12#results.search-results
-          block results
+        .col-md-9.col-sm-8.col-xs-12
+          .row#results.search-results
+            block results
 
   .clearfix
-  
+
   block after-results
-      
+
   a#toTop
     +icon('scrolltotop')
 
