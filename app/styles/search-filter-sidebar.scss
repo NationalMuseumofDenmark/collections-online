@@ -13,15 +13,52 @@
     font-size: 1.285714286rem; // 18/14
     font-family: $font-family-medium;
     text-transform: capitalize;
+
+    span {
+      display: inline-block;
+      text-transform: capitalize;
+      position: relative;
+      padding-right: $spacer-lg;
+      cursor: pointer;
+
+      &:after {
+        content: '';
+        background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M16.6 8.6L12 13.2 7.4 8.6 6 10l6 6 6-6z' fill='rgba(0,0,0,0.4)'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-size: $spacer-lg;
+        background-position: center;
+        transition: 0.3s ease;
+        position: absolute;
+        right: $spacer-xs;
+        top: 0;
+        bottom: $spacer-xs;
+        width: $spacer-lg;
+      }
+
+      &.expanded:after {
+        transform: rotate(180deg);
+      }
+
+      &:not(:last-child) {
+        margin-right: $spacer-sm;
+      }
+    }
   }
 
-  &__filters {
+  &__filters:not(.search-filter-sidebar__filters--expanded) {
+    @media (max-width: $small-size) {
+      display: none;
+    }
+  }
+
+  &__filters, &__chosen-filters {
     background-color: $gray-lighter;
     padding: $spacer-xs;
     padding-bottom: $spacer-sm;
   }
 
-  &__options {
+  &__options, &__toggle {
     margin-top: $spacer-md;
   }
 }

@@ -1,8 +1,9 @@
 mixin filterSection(displayString, field)
   - var outerAggregation = aggregations[field + '_independent']
   - var aggregation = outerAggregation[field]
-  h2.search-filter-sidebar__heading= displayString
-  .search-filter-sidebar__filters
+  - var dataId = field + '-filters'
+  h2.search-filter-sidebar__heading.hidden-xs= displayString
+  .search-filter-sidebar__filters(data-id=dataId)
     - var availableBuckets = 0
     for bucket in aggregation.buckets
       //- The user has not filtered this field or has not selected this value

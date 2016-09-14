@@ -1,9 +1,10 @@
 include ../mixins/icon
 include ../mixins/search-filter-section.jade
+- var filterLabels = { 'district': 'bydele', 'street_name': 'vejnavne' }
 
 .search-filter-sidebar
-  h2.search-filter-sidebar__heading Valgte filtre
-  .search-filter-sidebar__filters
+  h2.search-filter-sidebar__heading Filtrering
+  .search-filter-sidebar__chosen-filters
     if filterCount > 0
       for values, field in filters
         for value in values
@@ -18,6 +19,9 @@ include ../mixins/search-filter-section.jade
       p.filter-text Ingen filtre valgt — tryk på knapperne nedenunder for at filtrere dit søgeresultat.
 
   if aggregations
-    .search-filter-sidebar__options
-      +filterSection('bydele', 'district')
-      +filterSection('vejnavne', 'street_name')
+    .search-filter-sidebar__options#search-filter-options
+    h2.search-filter-sidebar__heading.visible-xs
+      each label, key in filterLabels
+        span(data-action='show-filters' data-id=key)= label
+    each label, key in filterLabels
+      +filterSection(label, key)

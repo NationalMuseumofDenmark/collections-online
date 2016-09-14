@@ -180,4 +180,20 @@ $(function() {
     enableEndlessScrolling();
     $(window).scroll();
   });
+
+  // Toggle filtersection visibility on mobile
+  $('#sidebar').on('click', '[data-action="show-filters"]', function() {
+    var filterSection = $(this).data('id') + '-filters';
+    var $filterSection = $('[data-id="' + filterSection + '"]');
+    var wasExpanded = $(this).hasClass('expanded');
+    var visibleClass = 'search-filter-sidebar__filters--expanded';
+
+    $('.search-filter-sidebar__filters').removeClass(visibleClass);
+    $('[data-action="show-filters"]').removeClass('expanded');
+
+    if (!wasExpanded) {
+      $(this).addClass('expanded');
+      $filterSection.addClass(visibleClass);
+    }
+  });
 });
