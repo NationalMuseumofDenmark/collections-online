@@ -7,36 +7,33 @@
   &__heading {
     background-color: $gray-light;
     height: $topbar-height;
-    display: flex;
-    align-items: center;
-
-    h2 {
-      font-size: 1.285714286rem; // 18/14
-      line-height: 1;
-      font-family: $font-family-medium;
-      margin: 2px 0 0 $spacer-sm;
-      text-transform: capitalize;
-    }
+    line-height: $topbar-height + $spacer-xs;
+    margin: 0;
+    padding-left: $spacer-sm;
+    font-size: 1.285714286rem; // 18/14
+    font-family: $font-family-medium;
+    text-transform: capitalize;
   }
 
   &__filters {
-    // font-size: 0; // because space between buttons
     background-color: $gray-lighter;
     padding: $spacer-xs;
     padding-bottom: $spacer-sm;
-
-    .btn, p {
-      margin: $spacer-xs;
-    }
   }
 
-  &__filter-count {
+  &__options {
+    margin-top: $spacer-md;
+  }
+}
+
+.btn-filter, .filter-text {
+  margin: $spacer-xs;
+}
+
+.btn-filter {
+  &__count {
     font-family: $font-family-light;
     font-weight: 300;
     padding-left: $spacer-xs;
-  }
-
-  &__chosen-filters {
-    margin-bottom: $spacer-lg;
   }
 }

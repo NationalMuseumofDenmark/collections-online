@@ -1,18 +1,17 @@
 mixin filterSection(displayString, field)
   - var outerAggregation = aggregations[field + '_independent']
   - var aggregation = outerAggregation[field]
-  .search-filter-sidebar__heading
-    h2= displayString
+  h2.search-filter-sidebar__heading= displayString
   .search-filter-sidebar__filters
     - var availableBuckets = 0
     for bucket in aggregation.buckets
       //- The user has not filtered this field or has not selected this value
       if !filters[field] || filters[field].indexOf(bucket.key) == -1
         - availableBuckets++;
-        button.btn.btn-default(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
-          span.search-filter-sidebar__filter-count= bucket.doc_count
+        button.btn.btn-default.btn-filter(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
+          span.btn-filter__count= bucket.doc_count
     if aggregation.sum_other_doc_count > 0
-      button.btn.btn-default Resten
-        span.search-filter-sidebar__filter-count= aggregation.sum_other_doc_count
+      button.btn.btn-default.btn-filter Resten
+        span.btn-filter__count= aggregation.sum_other_doc_count
     if availableBuckets === 0
-      p= 'Der er ikke flere ' + displayString + ', der matcher din filtrering.'
+      p.filter-text= 'Der er ikke flere ' + displayString + ', der matcher din filtrering.'

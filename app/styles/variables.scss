@@ -53,11 +53,11 @@ $medium-size                  : 992px;
 $large-size                   : 1070px;
 
 // Spacers
-$spacer-base                  : 5;
-$spacer-xs                    : #{$spacer-base}px;
-$spacer-sm                    : #{2*$spacer-base}px;
-$spacer-md                    : #{3*$spacer-base}px;
-$spacer-lg                    : #{6*$spacer-base}px;
+$spacer-base                  : 5px;
+$spacer-xs                    : $spacer-base;
+$spacer-sm                    : $spacer-base * 2;
+$spacer-md                    : $spacer-base * 3;
+$spacer-lg                    : $spacer-base * 6;
 
 // item
 $button-bg                    : $gray-light;
