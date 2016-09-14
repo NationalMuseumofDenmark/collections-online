@@ -22,10 +22,11 @@ block content
             block results-header
           .row#results.search-results
             block results
+          block after-results
+            button.btn.btn-primary.btn-lg.load-more#load-more-btn
+              +loader('Vis flere...')
 
   .clearfix
-
-  block after-results
 
   a#toTop
     +icon('scrolltotop')
