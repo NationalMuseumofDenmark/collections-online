@@ -52,4 +52,20 @@
       width : 18px;
     }
   }
+
+  &-toggle {
+    &__toggled-text {
+      display: none;
+    }
+  }
+  &-toggle--toggled {
+    .btn-toggle {
+      &__toggled-text {
+        display: inline-block;
+      }
+      &__default-text {
+        display: none;
+      }
+    }
+  }
 }
