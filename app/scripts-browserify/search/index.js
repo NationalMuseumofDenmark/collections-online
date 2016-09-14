@@ -16,8 +16,6 @@ function update() {
 
   var searchParams = getSearchParams();
 
-  var queryBody = elasticsearchQueryBody(searchParams);
-
   // Update the freetext search input
   var $searchInput = $('#search-input');
   var freetext = searchParams.filters.freetext ?
@@ -28,7 +26,7 @@ function update() {
   // Get actual results from the index
   es.search({
     index: config.es.assetsIndex,
-    body: queryBody,
+    body: elasticsearchQueryBody(searchParams, true),
     size: 24
   }).then(function (response) {
     $results.empty();
@@ -40,12 +38,8 @@ function update() {
     });
     $resultsHeader.html(templates.resultsHeader({
       filters: searchParams.filters,
-      sorting: 'default',
-      sortOptions: {
-        default: {
-          label: 'Relevans'
-        }
-      },
+      sorting: searchParams.sort,
+      sortOptions: config.sortOptions,
       result: {
         totalCount: response.hits.total
       }
@@ -76,9 +70,7 @@ function update() {
   }
 }
 
-function changeFilters(filters) {
-  var searchParams = getSearchParams();
-  searchParams.filters = filters;
+function changeSearchParams(searchParams) {
   // Change the URL
   if(history) {
     var qs = generateQuerystring(searchParams);
@@ -109,7 +101,8 @@ if(config.features.clientSideSearchResultRendering) {
       var action = $(this).data('action');
       var field = $(this).data('field');
       var value = $(this).data('value');
-      var filters = getSearchParams().filters;
+      var searchParams = getSearchParams();
+      var filters = searchParams.filters;
       if(action === 'add-filter') {
         console.log('Adding ', field, 'value', value);
         if(typeof(filters[field]) === 'object') {
@@ -117,15 +110,22 @@ if(config.features.clientSideSearchResultRendering) {
         } else {
           filters[field] = [value];
         }
-        changeFilters(filters);
+        changeSearchParams(searchParams);
       } else if(action === 'remove-filter') {
         console.log('Removing ', field, 'value', value);
         filters[field] = filters[field].filter(function(v) {
           return v !== value;
         });
-        changeFilters(filters);
+        changeSearchParams(searchParams);
       }
     });
+  });
+
+  $('#results-header').on('click', '#sorting .dropdown__options a', function() {
+    var sorting = $(this).data('value');
+    var searchParams = getSearchParams();
+    searchParams.sort = sorting;
+    changeSearchParams(searchParams);
   });
 
 }

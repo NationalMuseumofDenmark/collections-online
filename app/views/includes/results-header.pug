@@ -11,10 +11,13 @@ include ../mixins/search-count
 
   .search-page__sorting.col-xs-12.col-sm-5.col-md-4.col-lg-4
     | Sorteret efter
-    .dropdown
+    .dropdown#sorting
       a.dropdown__selected= sortOptions[sorting].label
       .dropdown__options
         each val, key in sortOptions
           - var selected = (key === sorting)
-          a.dropdown__option(href=url,
-            class=selected ? 'dropdown__option--active' : '') #{val.label}
+          a.dropdown__option(
+            href=url,
+            class=selected ? 'dropdown__option--active' : '',
+            data-value=key
+          ) #{val.label}

@@ -5,7 +5,7 @@ module.exports = function() {
   var parameters = querystring.parse(urlParams);
 
   // Extract the sorting query parameter
-  var sort = parameters.sort;
+  var sort = parameters.sort || 'relevance';
   delete parameters.sort;
 
   var filters = {};

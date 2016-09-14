@@ -143,7 +143,8 @@ module.exports = (gulp, specializedConfig) => {
         config: function(file, dir) {
           return JSON.stringify({
             features: config.features,
-            es: config.es
+            es: config.es,
+            sortOptions: config.sortOptions
           });
         }
       },
