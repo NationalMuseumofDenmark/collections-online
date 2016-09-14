@@ -10,7 +10,12 @@ const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;
 
 var resultsDesired = PAGE_SIZE;
+if(window.location.hash) {
+  resultsDesired = parseInt(window.location.hash.substr(1), 10) + PAGE_SIZE;
+}
 var resultsLoaded = 0;
+var resultsTotal = Number.MAX_SAFE_INTEGER;
+var loadingResults = false;
 
 var templates = {
   searchResultAsset: require('views/includes/search-result-asset'),
@@ -20,14 +25,20 @@ var templates = {
 // We have to listen to #sidebar since the other elements doesn't exist at
 // $documentready
 $(function() {
-
-  // parseInt(window.location.hash.substr(1), 10)
-
   var $results = $('#results');
   var $resultsHeader = $('#results-header');
 
   // Update the freetext search input
   var $searchInput = $('#search-input');
+
+  function reset() {
+    $results.empty();
+    resultsLoaded = 0;
+    resultsTotal = Number.MAX_SAFE_INTEGER;
+    resultsDesired = PAGE_SIZE;
+    $(window).off('scroll');
+    $('#load-more-btn').show();
+  }
 
   function update() {
     var searchParams = getSearchParams();
@@ -35,6 +46,12 @@ $(function() {
                    searchParams.filters.freetext.join(' ') :
                    '';
     $searchInput.val(freetext);
+    loadingResults = true;
+
+    if(resultsLoaded >= resultsDesired || resultsLoaded >= resultsTotal) {
+      // We've loaded enough
+      return;
+    }
 
     // Get actual results from the index
     es.search({
@@ -44,6 +61,8 @@ $(function() {
       size: resultsDesired - resultsLoaded
     }).then(function (response) {
       resultsLoaded += response.hits.hits.length;
+      resultsTotal = response.hits.total;
+      loadingResults = false;
       response.hits.hits.forEach(function(asset) {
         var markup = templates.searchResultAsset({
           asset: asset._source
@@ -88,7 +107,7 @@ $(function() {
     // Change the URL
     if(history) {
       var qs = generateQuerystring(searchParams);
-      $results.empty();
+      reset();
       history.pushState({}, '', location.pathname + qs);
       update();
     } else {
@@ -97,12 +116,17 @@ $(function() {
   }
 
   function enableEndlessScrolling() {
-    $(window).on('scroll', function() {
+    $(window).on('scroll', function(e) {
       var $lastResult = $('#results .box:last-child');
-      console.log('Scrolled!', $lastResult);
+      var lastResultOffset = $lastResult.offset();
+      var scrollTop = $(window).scrollTop();
+      var scrollBottom = scrollTop + $(window).height();
+      if(scrollBottom > lastResultOffset.top && !loadingResults) {
+        console.log('Loading more results');
+        resultsDesired += PAGE_SIZE;
+        update();
+      }
     });
-    resultsDesired += PAGE_SIZE;
-    update();
   }
 
   if(config.features.clientSideSearchResultRendering) {
@@ -152,7 +176,8 @@ $(function() {
 
   // Enabled the load-more button
   $('#load-more-btn').on('click', function() {
-    $(this).addClass('loading');
+    $(this).hide();
     enableEndlessScrolling();
+    $(window).scroll();
   });
 });
