@@ -104,14 +104,16 @@ if(config.features.clientSideSearchResultRendering) {
     update();
   }, false);
 
+  // We have to listen to #sidebar since the other elements doesn't exist at
+  // $documentready
   $(function() {
-    $('#sidebar').on('click', 'button', function(e) {
+    $('#sidebar').on('click', '.btn-filter', function() {
       var action = $(this).data('action');
       var field = $(this).data('field');
       var value = $(this).data('value');
       var filters = getSearchParams().filters;
       if(action === 'add-filter') {
-        console.log('Adding ', field, 'value', value);
+        // console.log('Adding ', field, 'value', value);
         if(typeof(filters[field]) === 'object') {
           filters[field].push(value);
         } else {
@@ -119,13 +121,12 @@ if(config.features.clientSideSearchResultRendering) {
         }
         changeFilters(filters);
       } else if(action === 'remove-filter') {
-        console.log('Removing ', field, 'value', value);
+        // console.log('Removing ', field, 'value', value);
         filters[field] = filters[field].filter(function(v) {
           return v !== value;
         });
         changeFilters(filters);
       }
     });
-  });
 
 }
