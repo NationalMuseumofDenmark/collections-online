@@ -25,6 +25,11 @@ $('body').on('click', '.dropdown__selected', function() {
 
   $dropdown.addClass('dropdown--active');
 
+  // Clicking an option in a dropdown makes it deactivate
+  $dropdown.on('click', '.dropdown__options a', function() {
+    $dropdown.removeClass('dropdown--active');
+  })
+
   setTimeout(function() {
     $('body').on('click', hideAllDropdowns);
   }, 1);
