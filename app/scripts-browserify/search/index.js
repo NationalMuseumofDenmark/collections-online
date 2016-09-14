@@ -13,9 +13,6 @@ const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;
 
 var resultsDesired = PAGE_SIZE;
-if(window.location.hash) {
-  resultsDesired = parseInt(window.location.hash.substr(1), 10) + PAGE_SIZE;
-}
 var resultsLoaded = 0;
 var resultsTotal = Number.MAX_SAFE_INTEGER;
 var loadingResults = false;
@@ -63,15 +60,17 @@ $(function() {
       from: resultsLoaded,
       size: resultsDesired - resultsLoaded
     }).then(function (response) {
-      resultsLoaded += response.hits.hits.length;
       resultsTotal = response.hits.total;
       loadingResults = false;
       response.hits.hits.forEach(function(asset) {
         var markup = templates.searchResultAsset({
-          asset: asset._source
+          asset: asset._source,
+          index: resultsLoaded
         });
         $results.append(markup);
+        resultsLoaded++;
       });
+
       $resultsHeader.html(templates.resultsHeader({
         filters: searchParams.filters,
         sorting: searchParams.sort,
@@ -91,13 +90,6 @@ $(function() {
         body: elasticsearchAggregationsBody(searchParams),
         size: 0
       }).then(function (response) {
-        response.hits.hits.forEach(function(asset) {
-          var markup = templates.searchResultAsset({
-            asset: asset._source
-          });
-          $results.append(markup);
-        });
-
         var sidebar = require('./filter-sidebar');
         sidebar.update(response.aggregations, searchParams.filters);
       }, function (error) {
@@ -119,21 +111,31 @@ $(function() {
   }
 
   function enableEndlessScrolling() {
+    $('#load-more-btn').hide();
     $(window).on('scroll', function(e) {
       var $lastResult = $('#results .box:last-child');
-      var lastResultOffset = $lastResult.offset();
-      var scrollTop = $(window).scrollTop();
-      var scrollBottom = scrollTop + $(window).height();
-      if(scrollBottom > lastResultOffset.top && !loadingResults) {
-        console.log('Loading more results');
-        resultsDesired += PAGE_SIZE;
-        update();
+      if($lastResult.length > 0) {
+        var lastResultOffset = $lastResult.offset();
+        var scrollTop = $(window).scrollTop();
+        var scrollBottom = scrollTop + $(window).height();
+        if(scrollBottom > lastResultOffset.top && !loadingResults) {
+          console.log('Loading more results');
+          resultsDesired += PAGE_SIZE;
+          update();
+        }
+        // Update the location hash
+        if(history) {
+          // Find the first box that has a top offset below the scrollTop
+          var $boxesAboveScroll = $('#results .box').filter(function() {
+            return $(this).offset().top < scrollTop;
+          });
+          history.replaceState(null, null, '#' + $boxesAboveScroll.length);
+        }
       }
-    });
+    }).scroll();
   }
 
   if(config.features.clientSideSearchResultRendering) {
-
     var elasticsearch = require('elasticsearch');
     var es = new elasticsearch.Client({
       host: location.origin + '/es',
@@ -179,10 +181,17 @@ $(function() {
 
   // Enabled the load-more button
   $('#load-more-btn').on('click', function() {
-    $(this).hide();
     enableEndlessScrolling();
-    $(window).scroll();
   });
+
+  // If the location hash is present, the results desired should reflect this
+  // and endless scrolling should be enabled
+  if(window.location.hash) {
+    var referencedResult = parseInt(window.location.hash.substr(1), 10);
+    resultsDesired = referencedResult + PAGE_SIZE;
+    enableEndlessScrolling();
+    // TODO: Scroll to the referenced result, when done loading
+  }
 
   // Toggle filtersection visibility on mobile
   $('#sidebar').on('click', '[data-action="show-filters"]', function() {
