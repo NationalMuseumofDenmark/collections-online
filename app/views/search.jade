@@ -26,9 +26,9 @@ block content
               button.btn.btn-primary.btn-lg.load-more#load-more-btn
                 +loader('Vis flere...')
       else
-        .row#results-header
+        #results-header
           block results-header
-        #results.search-results
+        .row#results.search-results
           block results
         block after-results
           button.btn.btn-primary.btn-lg.load-more#load-more-btn
