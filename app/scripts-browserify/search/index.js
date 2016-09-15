@@ -83,14 +83,17 @@ $(function() {
         $loadMoreBtn.addClass('invisible');
       }
 
-      $resultsHeader.html(templates.resultsHeader({
-        filters: searchParams.filters,
-        sorting: searchParams.sorting,
-        sortOptions: config.sortOptions,
-        result: {
-          totalCount: response.hits.total
-        }
-      }));
+      // Update the results header
+      if(freshUpdate) {
+        $resultsHeader.html(templates.resultsHeader({
+          filters: searchParams.filters,
+          sorting: searchParams.sorting,
+          sortOptions: config.sortOptions,
+          result: {
+            totalCount: response.hits.total
+          }
+        }));
+      }
     }, function (error) {
       console.trace(error.message);
     });
