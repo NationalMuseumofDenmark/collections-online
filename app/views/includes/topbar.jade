@@ -14,6 +14,10 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
               | Samlinger Online
         - var path = (req.path).split('/')
         - var searchMethod = (isSearching ? 'modify-query' : '')
+        - if(config.features.clientSideSearchResultRendering) {
+        -   // Turning off the search related behaviour defined in main.js
+        -   searchMethod = false;
+        - }
         form.search-box(method='get', action='/', data-method=searchMethod)
           .input-group
             input.form-control(
