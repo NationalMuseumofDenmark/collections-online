@@ -1,8 +1,6 @@
 include ../mixins/icon.jade
 
-- var sidebar = config.features.filterSidebar
-- var boxCol = sidebar ? 'col-xs-6 col-md-4' : ' col-xs-6 col-md-4 col-lg-3'
-.box(class=boxCol)
+.box.col-xs-6.col-sm-4.col-lg-3
   a(href='/' + asset.catalog + '/' + asset.id, name=index||false)
     .image
       .overlay.square-container
