@@ -132,6 +132,7 @@ $(function() {
           resultsDesired += PAGE_SIZE;
           update();
         }
+        /*
         // Update the location hash
         if(history) {
           // Find the first box that has a top offset below the scrollTop
@@ -140,6 +141,7 @@ $(function() {
           });
           history.replaceState(null, null, '#' + $boxesAboveScroll.length);
         }
+        */
       }
     }).scroll();
   }
@@ -195,12 +197,14 @@ $(function() {
 
   // If the location hash is present, the results desired should reflect this
   // and endless scrolling should be enabled
+  /*
   if(window.location.hash) {
     var referencedResult = parseInt(window.location.hash.substr(1), 10);
     resultsDesired = referencedResult + PAGE_SIZE;
     enableEndlessScrolling();
     // TODO: Scroll to the referenced result, when done loading
   }
+  */
 
   // Toggle filtersection visibility on mobile
   $('#sidebar').on('click', '[data-action="show-filters"]', function() {
