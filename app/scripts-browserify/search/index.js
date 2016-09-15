@@ -29,7 +29,8 @@ $(function() {
   var $searchInput = $('#search-input');
 
   function reset() {
-    $results.empty();
+    // Remove all boxes (search results) from $results
+    $results.find('.box').remove();
     resultsLoaded = 0;
     resultsTotal = Number.MAX_SAFE_INTEGER;
     resultsDesired = PAGE_SIZE;
