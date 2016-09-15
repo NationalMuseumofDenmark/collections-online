@@ -13,27 +13,19 @@ block content
 
   .let-it-grow
     section.container-fluid
-      if config.features.filterSidebar
-        .row
-          .col-md-3.col-sm-4.col-xs-12#sidebar
+      #results.search-results.row
+        if config.features.filterSidebar
+          #sidebar.col-lg-3.col-sm-4.col-xs-12
             block sidebar
-          .col-md-9.col-sm-8.col-xs-12
-            #results-header.has-sidebar
-              block results-header
-            .row#results.search-results
-              block results
-            block after-results
-              button.btn.btn-primary.btn-lg.load-more#load-more-btn
-                +loader('Vis flere...')
-      else
-        #results-header
-          block results-header
-        .row#results.search-results
+          #results-header.col-lg-9.col-sm-8.col-xs-12
+            block results-header
+        else
+          #results-header.col-xs-12
+            block results-header
           block results
-        block after-results
-          button.btn.btn-primary.btn-lg.load-more#load-more-btn
-            +loader('Vis flere...')
-
+      block after-results
+        button.btn.btn-primary.btn-lg.load-more#load-more-btn
+          +loader('Vis flere...')
   .clearfix
 
   a#toTop

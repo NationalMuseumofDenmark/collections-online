@@ -12,13 +12,20 @@ $heading-adjustment: 2px;
 
   &__heading {
     background-color: $gray-lighter;
-    line-height: $topbar-height - $spacer-sm;
+    line-height: $topbar-height;
     margin: 0;
-    padding-left: $spacer-sm;
-    padding-top: $spacer-xs + $heading-adjustment;
-    padding-bottom: $spacer-xs - $heading-adjustment;
-    font-size: 1.285714286rem; // 18/14
+    padding-left: $spacer-sm + $spacer-xs;
+    padding-right: $spacer-sm + $spacer-xs;
     font-family: $font-family-medium;
+    font-size: 1rem;
+
+    @media (min-width: $small-size) {
+      padding-left: $spacer-sm;
+      padding-right: $spacer-sm;
+      padding-top: $heading-adjustment;
+      padding-bottom: -$heading-adjustment;
+      font-size: 1.285714286rem; // 18/14
+    }
 
     &::first-letter {
       text-transform: uppercase;
@@ -65,16 +72,14 @@ $heading-adjustment: 2px;
   }
 
   &__filters, &__chosen-filters {
-    padding: $spacer-xs;
-    padding-bottom: $spacer-sm;
+    padding: $spacer-sm;
     background-color: rgba($gray-lighter, 0.5);
-  }
-
-  &__chosen-filters {
-    @media (max-width: $small-size) {
-      padding-bottom: $spacer-xs;
+    @media (min-width: $small-size) {
+      padding: $spacer-xs;
+      padding-bottom: $spacer-sm;
     }
   }
+
   .btn-filter, .filter-text {
     margin: $spacer-xs;
   }
