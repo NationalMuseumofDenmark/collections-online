@@ -58,7 +58,7 @@
 }
 
 .search-page__sorting {
-  padding-bottom: .2rem;
+  padding-bottom: 7px;
   padding-top   : .5rem;
   flex-shrink: 0;
   margin-left: auto;
@@ -108,24 +108,21 @@
       width   : 3em;
     }
   }
-
-  a {
-    color  : $black;
-    display: block;
-    padding: 15px 0 10px;
-
-    &:hover,
-    &:focus {
-      border          : 0;
-      color           : $link-hover-color;
-      text-decoration : none;
-    }
-  }
 }
 
 // Responsive masonry boxes
 .box {
   transition: box-shadow $anim-default;
+  color  : $black;
+  display: block;
+  padding: $spacer-md $spacer-md $spacer-sm;
+
+  &:hover,
+  &:focus {
+    border          : 0;
+    color           : $link-hover-color;
+    text-decoration : none;
+  }
 
   @media (pointer:fine) {
     &:hover,
