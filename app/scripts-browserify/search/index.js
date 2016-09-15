@@ -29,8 +29,6 @@ $(function() {
   var $loadMoreBtn = $('#load-more-btn');
 
   function reset() {
-    // Remove all boxes (search results) from $results
-    $results.find('.box').remove();
     resultsLoaded = 0;
     resultsTotal = Number.MAX_SAFE_INTEGER;
     resultsDesired = PAGE_SIZE;
@@ -62,6 +60,11 @@ $(function() {
       from: resultsLoaded,
       size: resultsDesired - resultsLoaded
     }).then(function (response) {
+      // If no results are loaded yet, it might be because we just called reset
+      if(freshUpdate) {
+        // Remove all boxes (search results) from $results, that might be there
+        $results.find('.box').remove();
+      }
       resultsTotal = response.hits.total;
       loadingResults = false;
       response.hits.hits.forEach(function(asset) {
