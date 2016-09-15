@@ -24,9 +24,9 @@ var templates = {
 $(function() {
   var $results = $('#results');
   var $resultsHeader = $('#results-header');
-
   // Update the freetext search input
   var $searchInput = $('#search-input');
+  var $loadMoreBtn = $('#load-more-btn');
 
   function reset() {
     // Remove all boxes (search results) from $results
@@ -35,7 +35,7 @@ $(function() {
     resultsTotal = Number.MAX_SAFE_INTEGER;
     resultsDesired = PAGE_SIZE;
     $(window).off('scroll');
-    $('#load-more-btn').show();
+    $loadMoreBtn.show();
   }
 
   function update() {
@@ -68,6 +68,11 @@ $(function() {
         $results.append(markup);
         resultsLoaded++;
       });
+
+      // If we have loaded all available results, let's hide any load more btn.
+      if(resultsLoaded >= resultsTotal) {
+        $loadMoreBtn.hide();
+      }
 
       $resultsHeader.html(templates.resultsHeader({
         filters: searchParams.filters,
@@ -178,7 +183,7 @@ $(function() {
   });
 
   // Enabled the load-more button
-  $('#load-more-btn').on('click', function() {
+  $loadMoreBtn.on('click', function() {
     enableEndlessScrolling();
   });
 
