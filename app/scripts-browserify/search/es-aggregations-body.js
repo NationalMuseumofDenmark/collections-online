@@ -8,7 +8,6 @@ function buildFilter(parameters, field) {
     }
   });
   var independentParameters = {
-    sort: parameters.sort,
     filters: independentFilters
   };
   return elasticsearchQueryBody(independentParameters);

@@ -1,6 +1,6 @@
 /* global config */
 
-module.exports = function(parameters, includeSorting) {
+module.exports = function(parameters) {
   var result = {};
   var query = {};
   var queries = [];
@@ -37,8 +37,8 @@ module.exports = function(parameters, includeSorting) {
     };
   }
 
-  if(parameters.sort && includeSorting) {
-    var sortOption = config.sortOptions[parameters.sort];
+  if(parameters.sorting) {
+    var sortOption = config.sortOptions[parameters.sorting];
     result.sort = sortOption.method;
   }
 

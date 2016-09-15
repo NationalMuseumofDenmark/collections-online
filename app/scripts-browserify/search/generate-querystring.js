@@ -1,5 +1,5 @@
 var querystring = require('querystring');
-const DEFAULT_SORTING = require('.').DEFAULT_SORTING;
+const DEFAULT_SORTING = require('./default-sorting');
 
 module.exports = function(searchParameters) {
 
@@ -11,8 +11,8 @@ module.exports = function(searchParameters) {
     delete parameters.freetext;
   }
 
-  if (searchParameters.sort && searchParameters.sort != DEFAULT_SORTING) {
-    parameters.sort = searchParameters.sort;
+  if (searchParameters.sorting && searchParameters.sorting != DEFAULT_SORTING) {
+    parameters.sort = searchParameters.sorting;
   }
 
   Object.keys(parameters).forEach(function(field) {

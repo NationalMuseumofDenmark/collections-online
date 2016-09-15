@@ -5,9 +5,6 @@ var elasticsearchQueryBody = require('./es-query-body');
 var elasticsearchAggregationsBody = require('./es-aggregations-body');
 var generateQuerystring = require('./generate-querystring');
 
-const DEFAULT_SORTING = 'relevance';
-module.exports.DEFAULT_SORTING = DEFAULT_SORTING;
-
 // How many assets should be loaded at once?
 const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;
@@ -73,7 +70,7 @@ $(function() {
 
       $resultsHeader.html(templates.resultsHeader({
         filters: searchParams.filters,
-        sorting: searchParams.sort,
+        sorting: searchParams.sorting,
         sortOptions: config.sortOptions,
         result: {
           totalCount: response.hits.total
@@ -175,7 +172,7 @@ $(function() {
   $('#results-header').on('click', '#sorting .dropdown__options a', function() {
     var sorting = $(this).data('value');
     var searchParams = getSearchParams();
-    searchParams.sort = sorting;
+    searchParams.sorting = sorting;
     changeSearchParams(searchParams);
   });
 

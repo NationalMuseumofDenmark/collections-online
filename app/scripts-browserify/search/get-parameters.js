@@ -1,12 +1,12 @@
 var querystring = require('querystring');
-const DEFAULT_SORTING = require('.').DEFAULT_SORTING;
+const DEFAULT_SORTING = require('./default-sorting');
 
 module.exports = function() {
   var urlParams = window.location.search.substring(1);
   var parameters = querystring.parse(urlParams);
 
   // Extract the sorting query parameter
-  var sort = parameters.sort;
+  var sorting = parameters.sort || DEFAULT_SORTING;
   delete parameters.sort;
 
   var filters = {};
@@ -25,6 +25,6 @@ module.exports = function() {
 
   return {
     filters: filters,
-    sort: sort
+    sorting: sorting
   };
 };
