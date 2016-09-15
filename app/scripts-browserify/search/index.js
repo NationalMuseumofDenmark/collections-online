@@ -206,4 +206,13 @@ $(function() {
       $filterSection.addClass(visibleClass);
     }
   });
+
+  $searchInput.closest('form').submit(function(e) {
+    e.preventDefault();
+    var $form = $(this);
+    var freetext = $searchInput.val() || '';
+    var searchParams = getSearchParams();
+    searchParams.filters.freetext = freetext.split(' ');
+    changeSearchParams(searchParams);
+  });
 });
