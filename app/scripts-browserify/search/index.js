@@ -35,7 +35,7 @@ $(function() {
     resultsTotal = Number.MAX_SAFE_INTEGER;
     resultsDesired = PAGE_SIZE;
     $(window).off('scroll');
-    $loadMoreBtn.show();
+    $loadMoreBtn.addClass('invisible');
   }
 
   function update() {
@@ -50,6 +50,10 @@ $(function() {
       // We've loaded enough
       return;
     }
+
+    // A fresh update is the first of potentially many updates with the same
+    // search parameters.
+    var freshUpdate = resultsLoaded === 0;
 
     // Get actual results from the index
     es.search({
@@ -69,9 +73,11 @@ $(function() {
         resultsLoaded++;
       });
 
-      // If we have loaded all available results, let's hide any load more btn.
-      if(resultsLoaded >= resultsTotal) {
-        $loadMoreBtn.hide();
+      // If we have not loaded all available results, let's show the btn to load
+      if(freshUpdate && resultsLoaded < resultsTotal) {
+        $loadMoreBtn.removeClass('invisible');
+      } else {
+        $loadMoreBtn.addClass('invisible');
       }
 
       $resultsHeader.html(templates.resultsHeader({
@@ -114,7 +120,7 @@ $(function() {
   }
 
   function enableEndlessScrolling() {
-    $('#load-more-btn').hide();
+    $loadMoreBtn.addClass('invisible');
     $(window).on('scroll', function(e) {
       var $lastResult = $('#results .box:last-child');
       if($lastResult.length > 0) {
