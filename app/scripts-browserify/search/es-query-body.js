@@ -1,5 +1,10 @@
 /* global config */
 
+/**
+ * This module generates queries that can be sent to elastic search
+ * TODO: Move everything that is specific to the field names configurable
+ */
+
 module.exports = function(parameters) {
   var result = {};
   var query = {};

@@ -1,3 +1,9 @@
+/**
+ * This module generates queries that can be sent to elastic search to get the
+ * aggregations that are used for filter buttons.
+ * TODO: Move everything that is specific to the field names configurable
+ */
+
 var elasticsearchQueryBody = require('./es-query-body');
 
 function buildFilter(parameters, field) {

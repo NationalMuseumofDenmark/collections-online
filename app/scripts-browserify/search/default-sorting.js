@@ -1,5 +1,9 @@
 /* global config */
 
+/**
+ * This module gets the default search field from the configuration.
+ */
+
 const DEFAULT_SORTING = Object.keys(config.sortOptions)
 .reduce(function(result, o) {
   var option = config.sortOptions[o];

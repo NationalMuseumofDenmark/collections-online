@@ -1,5 +1,9 @@
 /* global config */
 
+/**
+ * This module handles all clientside searching
+ */
+
 var getSearchParams = require('./get-parameters');
 var elasticsearchQueryBody = require('./es-query-body');
 var elasticsearchAggregationsBody = require('./es-aggregations-body');

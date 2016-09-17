@@ -1,3 +1,9 @@
+/**
+ * This module generates search parameters that will lead to a specific
+ * filtering and sorting being activated, based on the querystring.
+ * This is the inverse of generate-querystring.
+ */
+
 var querystring = require('querystring');
 const DEFAULT_SORTING = require('./default-sorting');
 

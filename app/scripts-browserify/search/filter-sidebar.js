@@ -1,3 +1,7 @@
+/**
+ * This module handles the rendering of the search filter sidebar.
+ */
+
 var template = require('views/includes/search-filter-sidebar');
 //var qs = require('querystring');
 
