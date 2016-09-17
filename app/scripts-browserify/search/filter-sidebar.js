@@ -28,7 +28,12 @@ exports.update = function(aggregations, filters) {
   var markup = template({
     aggregations: aggregations,
     filters: filters,
-    filterCount: filterCount
+    filterCount: filterCount,
+    filterLabels: {
+      'district': 'bydele',
+      'street_name': 'vejnavne',
+      'creation': 'tid' // TODO: Consider renaming this to 'Fremstillelsestid'
+    }
   });
   $sidebar.html(markup);
 };
