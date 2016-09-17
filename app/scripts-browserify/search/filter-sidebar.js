@@ -3,10 +3,9 @@
  */
 
 var template = require('views/includes/search-filter-sidebar');
-//var qs = require('querystring');
 
 /**
- * Looks at the location and updates the search filter sidebar
+ * Updates the search filter sidebar based on the selected and available filters
  */
 exports.update = function(aggregations, filters) {
   var $sidebar = $('#sidebar');
@@ -25,6 +24,8 @@ exports.update = function(aggregations, filters) {
         });
       }
     });
+  });
+  // Render the markup
   var markup = template({
     aggregations: aggregations,
     filters: filters,

@@ -28,7 +28,6 @@ var templates = {
 function initialize() {
   var $results = $('#results');
   var $resultsHeader = $('#results-header');
-  // Update the freetext search input
   var $searchInput = $('#search-input');
   var $loadMoreBtn = $('#load-more-btn');
 
@@ -42,6 +41,7 @@ function initialize() {
 
   function update() {
     var searchParams = getSearchParams();
+    // Update the freetext search input
     var freetext = searchParams.filters.freetext ?
                    searchParams.filters.freetext.join(' ') :
                    '';
@@ -60,7 +60,7 @@ function initialize() {
     // Get actual results from the index
     es.search({
       index: config.es.assetsIndex,
-      body: elasticsearchQueryBody(searchParams, true),
+      body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded,
       size: resultsDesired - resultsLoaded
     }).then(function (response) {
@@ -166,6 +166,7 @@ function initialize() {
     update();
     // When the user navigates the state, update it
     window.addEventListener('popstate', function(event) {
+      reset();
       update();
     }, false);
 
