@@ -28,6 +28,32 @@ module.exports = function(parameters) {
     });
   }
 
+  if(parameters.filters.creation) {
+    var creationQueries = parameters.filters.creation.map(function(interval) {
+      var intervalSplit = interval.split('-');
+      var range = {
+        format: 'yyy'
+      };
+      if(intervalSplit[0] && intervalSplit[0] !== '*') {
+        range.gte = intervalSplit[0];
+      }
+      if(intervalSplit[1] && intervalSplit[1] !== '*') {
+        range.lt = intervalSplit[1];
+      }
+      return {
+        range: {
+          'creation_time.timestamp': range
+        }
+      };
+    });
+
+    queries.push({
+      bool: {
+        should: creationQueries
+      }
+    });
+  }
+
   if(parameters.filters.freetext) {
     queries.push({
       match: {
