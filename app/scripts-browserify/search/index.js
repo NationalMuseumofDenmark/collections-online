@@ -21,7 +21,7 @@ var templates = {
 
 // We have to listen to #sidebar since the other elements doesn't exist at
 // $documentready
-$(function() {
+function initialize() {
   var $results = $('#results');
   var $resultsHeader = $('#results-header');
   // Update the freetext search input
@@ -236,4 +236,9 @@ $(function() {
     searchParams.filters.freetext = freetext.split(' ');
     changeSearchParams(searchParams);
   });
-});
+}
+
+// If the path is right - let's initialize
+if(decodeURIComponent(location.pathname) === '/' + config.searchPath) {
+  $(initialize);
+}

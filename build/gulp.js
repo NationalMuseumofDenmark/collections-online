@@ -142,9 +142,10 @@ module.exports = (gulp, specializedConfig) => {
       insertGlobalVars: {
         config: function(file, dir) {
           return JSON.stringify({
-            features: config.features,
             es: config.es,
-            sortOptions: config.sortOptions
+            features: config.features,
+            searchPath: config.searchPath,
+            sortOptions: config.sortOptions,
           });
         }
       },
