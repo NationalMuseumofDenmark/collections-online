@@ -1,5 +1,3 @@
-console.log('dropdown.js loaded');
-
 var hideAllDropdowns = function(e) {
   var $target = $(e.target);
   var $dropdown = $target.closest('.dropdown');
