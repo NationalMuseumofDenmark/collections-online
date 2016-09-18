@@ -33,7 +33,7 @@ exports.update = function(aggregations, filters) {
     filterLabels: {
       'district': 'bydele',
       'street_name': 'vejnavne',
-      'creation': 'tid' // TODO: Consider renaming this to 'Fremstillelsestid'
+      'creation': 'tid (fremstillet)'
     }
   });
   $sidebar.html(markup);
