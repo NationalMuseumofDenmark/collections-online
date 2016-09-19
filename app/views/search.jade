@@ -13,16 +13,20 @@ block content
 
   .let-it-grow
     section.container-fluid
-      #results.search-results.row
+      .search-results.row
         if config.features.filterSidebar
           #sidebar.col-lg-3.col-sm-4.col-xs-12
             block sidebar
-          #results-header.col-lg-9.col-sm-8.col-xs-12
-            block results-header
+          .col-lg-9.col-sm-8.col-xs-12
+            #results-header
+              block results-header
+            #results.row
+              block results
         else
           #results-header.col-xs-12
             block results-header
-          block results
+          #results
+            block results
       block after-results
         button.btn.btn-primary.btn-lg.invisible.load-more#load-more-btn
           +loader('Vis flere...')
