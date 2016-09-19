@@ -30,6 +30,7 @@ function initialize() {
   var $resultsHeader = $('#results-header');
   var $searchInput = $('#search-input');
   var $loadMoreBtn = $('#load-more-btn');
+  var $noResultsText = $('#no-results-text');
 
   function reset() {
     resultsLoaded = 0;
@@ -79,6 +80,13 @@ function initialize() {
         $results.append(markup);
         resultsLoaded++;
       });
+
+      // Show some text if we don't have any results
+      if (resultsTotal == 0) {
+        $noResultsText.removeClass('hidden');
+      } else {
+        $noResultsText.addClass('hidden');
+      }
 
       // If we have not loaded all available results, let's show the btn to load
       if(freshUpdate && resultsLoaded < resultsTotal) {

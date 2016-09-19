@@ -20,11 +20,13 @@ block content
           .col-lg-9.col-sm-8.col-xs-12
             #results-header
               block results-header
+            include includes/no-results-text
             #results.row
               block results
         else
           #results-header.col-xs-12
             block results-header
+          include includes/no-results-text
           #results
             block results
       block after-results
