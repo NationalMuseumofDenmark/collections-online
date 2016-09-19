@@ -164,43 +164,41 @@ function initialize() {
     }).scroll();
   }
 
-  if(config.features.clientSideSearchResultRendering) {
-    var elasticsearch = require('elasticsearch');
-    var es = new elasticsearch.Client({
-      host: location.origin + '/es',
-      log: config.es.log
-    });
+  var elasticsearch = require('elasticsearch');
+  var es = new elasticsearch.Client({
+    host: location.origin + '/es',
+    log: config.es.log
+  });
 
+  update();
+  // When the user navigates the state, update it
+  window.addEventListener('popstate', function(event) {
+    reset();
     update();
-    // When the user navigates the state, update it
-    window.addEventListener('popstate', function(event) {
-      reset();
-      update();
-    }, false);
+  }, false);
 
-    $('#sidebar').on('click', '.btn-filter', function() {
-      var action = $(this).data('action');
-      var field = $(this).data('field');
-      var value = $(this).data('value');
-      var searchParams = getSearchParams();
-      var filters = searchParams.filters;
-      if(action === 'add-filter') {
-        // console.log('Adding ', field, 'value', value);
-        if(typeof(filters[field]) === 'object') {
-          filters[field].push(value);
-        } else {
-          filters[field] = [value];
-        }
-        changeSearchParams(searchParams);
-      } else if(action === 'remove-filter') {
-        // console.log('Removing ', field, 'value', value);
-        filters[field] = filters[field].filter(function(v) {
-          return v !== value;
-        });
-        changeSearchParams(searchParams);
+  $('#sidebar').on('click', '.btn-filter', function() {
+    var action = $(this).data('action');
+    var field = $(this).data('field');
+    var value = $(this).data('value');
+    var searchParams = getSearchParams();
+    var filters = searchParams.filters;
+    if(action === 'add-filter') {
+      // console.log('Adding ', field, 'value', value);
+      if(typeof(filters[field]) === 'object') {
+        filters[field].push(value);
+      } else {
+        filters[field] = [value];
       }
-    });
-  }
+      changeSearchParams(searchParams);
+    } else if(action === 'remove-filter') {
+      // console.log('Removing ', field, 'value', value);
+      filters[field] = filters[field].filter(function(v) {
+        return v !== value;
+      });
+      changeSearchParams(searchParams);
+    }
+  });
 
   $('#results-header').on('click', '#sorting .dropdown__options a', function() {
     var sorting = $(this).data('value');
