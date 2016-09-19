@@ -3,6 +3,9 @@ mixin filterSection(displayString, field)
   - var aggregation = outerAggregation[field]
   - var dataId = field + '-filters'
   h2.search-filter-sidebar__heading.hidden-xs= displayString
+  h2.search-filter-sidebar__heading.visible-xs
+    span(data-action='show-filters' data-id=field)= displayString
+
   .search-filter-sidebar__filters(data-id=dataId)
     - var availableBuckets = 0
     for bucket in aggregation.buckets

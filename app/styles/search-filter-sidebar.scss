@@ -31,11 +31,14 @@ $heading-adjustment: 2px;
       text-transform: uppercase;
     }
 
+    // Used for mobile accordion navigation
     span {
       display: inline-block;
       position: relative;
       padding-right: $spacer-lg;
       cursor: pointer;
+      width: 100%;
+
       &::first-letter {
         text-transform: uppercase;
       }
@@ -49,7 +52,7 @@ $heading-adjustment: 2px;
         background-position: center;
         transition: 0.3s ease;
         position: absolute;
-        right: $spacer-xs;
+        right: - $spacer-xs;
         top: 0;
         bottom: $spacer-xs / 2;
         width: $spacer-lg;
