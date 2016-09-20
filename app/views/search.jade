@@ -13,8 +13,8 @@ block content
 
   .let-it-grow
     section.container-fluid
-      .search-results.row
-        if config.features.filterSidebar
+      if config.features.filterSidebar
+        .search-results.row
           #sidebar.col-lg-3.col-sm-4.col-xs-12
             block sidebar
           .col-lg-9.col-sm-8.col-xs-12
@@ -23,11 +23,12 @@ block content
             include includes/no-results-text
             #results.row
               block results
-        else
-          #results-header.col-xs-12
+      else
+        .search-results
+          #results-header
             block results-header
           include includes/no-results-text
-          #results
+          #results.row
             block results
       block after-results
         button.btn.btn-primary.btn-lg.invisible.load-more#load-more-btn
