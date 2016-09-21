@@ -47,7 +47,11 @@ block content
         .row
           .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
-              img(src=sources.thumbnail, data-src=sources.image, alt=title, class="#{zoom===true ? 'asset-image--zoomable' : ''}").asset-image
+              .image-wrap
+                if zoom
+                  img(src=sources.thumbnail, data-src=sources.image, alt=title).asset-image--zoomable.asset-image--lazy.asset-image
+                else
+                  img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
             else if(player === "image-rotation")
               .rotation-wrapper
                 picture(alt=title)

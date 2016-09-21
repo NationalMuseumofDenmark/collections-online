@@ -58,8 +58,9 @@ $slider-arrow-size: 4rem;
 }
 
 // Full blown image
-.container-fluid.big-image {
+.big-image .container-fluid {
   max-width: none;
+  width: auto;
 
   .asset-image {
     cursor    : zoom-out;
