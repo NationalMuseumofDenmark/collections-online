@@ -70,18 +70,14 @@
   // Video thumbnail
   .video-thumbnail {
     background    : $gray;
-    padding-bottom: 75%; // Maintaining the 4:3 aspect ratio
     position      : relative;
     width         : 100%;
 
-    .icon {
-      background       : url('/images/film-projector.svg');
-      background-repeat: no-repeat;
-      background-size  : contain;
-      height           : 80%;
-      margin           : 10%;
-      position         : absolute;
-      width            : 80%;
+    svg {
+      width: 100%;
+      height: 75%; // Maintaining the 4:3 aspect ratio
+      fill: $white;
+      transform: scale(0.5);
     }
   }
   // The actual image
@@ -150,7 +146,7 @@
     }
   }
 
-  img {
+  .image {
     margin-bottom: 1rem;
   }
 
