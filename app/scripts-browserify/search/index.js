@@ -166,7 +166,7 @@ function initialize() {
 
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
-    host: location.origin + '/es',
+    host: location.origin + '/api',
     log: config.es.log
   });
 
