@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "Collections Online establishes common functionality to publish digital images from archives and museums on the internet.",
   "main": "server.js",
+  "scripts": {
+    "test": "node test"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/collections-online/collections-online"
@@ -60,5 +63,9 @@
   },
   "engines": {
     "node": ">=6.1.0"
+  },
+  "devDependencies": {
+    "circleci": "^0.3.2",
+    "git-rev-sync": "^1.6.0"
   }
 }
