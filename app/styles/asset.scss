@@ -59,8 +59,11 @@ $slider-arrow-size: 4rem;
 
 // Full blown image
 .big-image .container-fluid {
-  max-width: none;
-  width: auto;
+
+  @if $asset-full-width-on-big-image {
+    max-width: none;
+    width: auto;
+  }
 
   .asset-image {
     cursor    : zoom-out;
