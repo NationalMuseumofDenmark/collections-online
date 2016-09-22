@@ -1,88 +1,88 @@
 // Colors
-$black                        : #000;
-$white                        : #fff;
-$topbar-color                 : #262626;
-$gray-darker                  : $black; //lighten(#000, 13.5%) !default; // #222
-$gray-dark                    : #333; //lighten(#000, 20%) !default;   // #333
-$gray                         : #555; //lighten(#000, 33.5%) !default; // #555
-$gray-light                   : #999; //lighten(#000, 60%) !default;   // #999
-$gray-lighter                 : hsl(345, 3%, 88%); //lighten(#000, 93.5%) !default; // #eee
-$brand-primary                : #9e0b0f; // #971623; //#428bca !default;
-$menu-shadow                  : rgba(0, 0, 0, .5);
-$menu-no-shadow               : rgba(0, 0, 0, 0);
-$menu-highlight               : rgba(255, 255, 255, .1);
+$black                        : #000 !default;
+$white                        : #fff !default;
+$topbar-color                 : #262626 !default;
+$gray-darker                  : $black !default;
+$gray-dark                    : #333 !default;
+$gray                         : #555 !default;
+$gray-light                   : #999 !default;
+$gray-lighter                 : hsl(345, 3%, 88%) !default;
+$brand-primary                : #9e0b0f !default;
+$menu-shadow                  : rgba(0, 0, 0, .5) !default;
+$menu-no-shadow               : rgba(0, 0, 0, 0) !default;
+$menu-highlight               : rgba(255, 255, 255, .1) !default;
 
-$dropdown-bg                  : $white;
-$dropdown-bg-hover            : rgba($gray-lighter, .5);
-$dropdown-padding             : .5em;
+$dropdown-bg                  : $white !default;
+$dropdown-bg-hover            : rgba($gray-lighter, .5) !default;
+$dropdown-padding             : .5em !default;
 
 // Scaffolding
-$body-bg                      : $white;
-$text-color                   : $gray-dark;
-$link-color                   : $brand-primary;
-$link-hover-color             : lighten($link-color, 10%);
+$body-bg                      : $white !default;
+$text-color                   : $gray-dark !default;
+$link-color                   : $brand-primary !default;
+$link-hover-color             : lighten($link-color, 10%) !default;
 
 // Typography
-$font-family-sans-serif       : 'Nationale', sans-serif;
-$font-size-base               : 14px;
-$line-height-base             : 1.6;
-$headings-font-weight         : 600;
-$border-radius-base           : 0;
-$border-radius-large          : 0;
-$border-radius-small          : 0;
-$input-border-focus           : $brand-primary;
+$font-family-sans-serif       : 'Nationale', sans-serif !default;
+$font-size-base               : 14px !default;
+$line-height-base             : 1.6 !default;
+$headings-font-weight         : 600 !default;
+$border-radius-base           : 0 !default;
+$border-radius-large          : 0 !default;
+$border-radius-small          : 0 !default;
+$input-border-focus           : $brand-primary !default;
 
 // Animation
-$anim-duration                : 300ms;
-$anim-duration-long           : 400ms;
-$anim-duration-fast           : 150ms;
-$anim-entrance                : ease-out;
-$anim-exit                    : ease-in;
-$anim-default                 : $anim-duration ease;
+$anim-duration                : 300ms !default;
+$anim-duration-long           : 400ms !default;
+$anim-duration-fast           : 150ms !default;
+$anim-entrance                : ease-out !default;
+$anim-exit                    : ease-in !default;
+$anim-default                 : $anim-duration ease !default;
 
 // Menu
-$menu-width                   : 280px;
-$menu-width-small             : 440px;
-$topbar-height                : 60px;
+$menu-width                   : 280px !default;
+$menu-width-small             : 440px !default;
+$topbar-height                : 60px !default;
 
 // Breakpoints
-$extra-small-size             : 480px;
-$extra-small-size-min         : $extra-small-size + 1px;
-$small-size                   : 768px;
-$medium-size                  : 992px;
-$large-size                   : 1070px;
+$extra-small-size             : 480px !default;
+$extra-small-size-min         : $extra-small-size + 1px !default;
+$small-size                   : 768px !default;
+$medium-size                  : 992px !default;
+$large-size                   : 1070px !default;
 
 // Spacers
-$spacer-base                  : 5px;
-$spacer-xs                    : $spacer-base;
-$spacer-sm                    : $spacer-base * 2;
-$spacer-md                    : $spacer-base * 3;
-$spacer-lg                    : $spacer-base * 6;
+$spacer-base                  : 5px !default;
+$spacer-xs                    : $spacer-base !default;
+$spacer-sm                    : $spacer-base * 2 !default;
+$spacer-md                    : $spacer-base * 3 !default;
+$spacer-lg                    : $spacer-base * 6 !default;
 
 // item
-$button-bg                    : $gray-light;
-$snackbar-bg                  : $gray-dark;
-$snackbar-front               : $white;
+$button-bg                    : $gray-light !default;
+$snackbar-bg                  : $gray-dark !default;
+$snackbar-front               : $white !default;
 
 // Footer
-$footer-background-color      : $topbar-color;
-$footer-text-color            : $white;
+$footer-background-color      : $topbar-color !default;
+$footer-text-color            : $white !default;
 
 //z-indexes
-$snackbar-zindex              : 1000;
+$snackbar-zindex              : 1000 !default;
 
 // SVG
-$icon-size                    : 24px;
+$icon-size                    : 24px !default;
 
 // Asset
-$asset-top-bg                 : $topbar-color;
-$asset-top-color              : $white;
-$asset-middle-bg              : $gray-lighter;
-$asset-bottom-bg              : $white;
-$asset-heading-font           : inherit;
+$asset-top-bg                 : $topbar-color !default;
+$asset-top-color              : $white !default;
+$asset-middle-bg              : $gray-lighter !default;
+$asset-bottom-bg              : $white !default;
+$asset-heading-font           : inherit !default;
 $asset-full-width-on-big-image: true !default;
 
-$asset--icon-shadow-color     : #fff;
-$asset-subject-headline-height: 3rem;
-$asset-max-height             : calc(100vh - #{$topbar-height}*2);
-$asset-height-small           : calc(80vh - #{$topbar-height}*2);
+$asset--icon-shadow-color     : #fff !default;
+$asset-subject-headline-height: 3rem !default;
+$asset-max-height             : calc(100vh - #{$topbar-height}*2) !default;
+$asset-height-small           : calc(80vh - #{$topbar-height}*2) !default;
