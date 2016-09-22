@@ -9,7 +9,7 @@
   var CONTENT_ASSET_TOP = '.asset-top';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
   var CONTENT_ASSET_NO_ZOOM = '.no-zoom-message';
-  var CONTENT_BIG_IMG_CLASS = 'big-image';
+  var CONTENT_EXPANDED_CLASS = 'expanded';
   var CONTENT_SLIDER = '.slider';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
@@ -87,7 +87,7 @@
 
     toggleBigImage: function() {
       var $use = $(ACTION_BIG_IMAGE_TOGGLE).find('use');
-      $(CONTENT_ASSET_TOP).toggleClass(CONTENT_BIG_IMG_CLASS);
+      $(CONTENT_ASSET_TOP).toggleClass(CONTENT_EXPANDED_CLASS);
       if ($use.attr('xlink:href') === '#icon-zoom-in') {
         $use.attr('xlink:href', '#icon-zoom-out');
       } else {

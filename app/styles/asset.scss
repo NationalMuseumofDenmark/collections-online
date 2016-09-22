@@ -35,6 +35,7 @@ $slider-arrow-size: 4rem;
   margin    : 0 auto;
   max-width : 100%;
   padding   : 0;
+  transition: $anim-default;
 
   @media (min-width: $small-size) {
     max-height: $asset-max-height;
@@ -58,21 +59,9 @@ $slider-arrow-size: 4rem;
 }
 
 // Full blown image
-.big-image .container-fluid {
-
-  @if $asset-full-width-on-big-image {
-    max-width: none;
-    width: auto;
-  }
-
-  .asset-image {
-    cursor    : zoom-out;
-    max-height: none;
-  }
-
-  .img-col {
-    padding: 0;
-  }
+.expanded .asset-image {
+  cursor    : zoom-out;
+  max-height: 2000px; // Should match the size given in the image path
 }
 
 .social {
