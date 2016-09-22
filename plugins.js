@@ -1,3 +1,4 @@
+var Q = require('q');
 
 var plugins = {};
 
@@ -45,3 +46,31 @@ exports.getFirst = (type) => {
 };
 
 exports.all = plugins;
+
+exports.initialize = (pluginPackages, app, config) => {
+  // Initialize all the plugins
+  if(!pluginPackages) {
+    pluginPackages = [];
+  }
+  // Register plugins
+  pluginPackages.forEach((package) => {
+    if(typeof(package.registerPlugins) !== 'function') {
+      throw new Error('Expected plugin to have a registerPlugins function');
+    } else {
+      package.registerPlugins();
+    }
+  });
+  // Initialize every plugin package
+  var pluginPromises = pluginPackages.map((package) => {
+    if(typeof(package.initialize) !== 'function') {
+      throw new Error('Expected plugin to have an initialize function');
+    } else {
+      var result = package.initialize(app, config);
+      if(!result.then) {
+        throw new Error('Expected plugin return a promise when initialized');
+      }
+      return result;
+    }
+  });
+  return Q.all(pluginPromises);
+};
