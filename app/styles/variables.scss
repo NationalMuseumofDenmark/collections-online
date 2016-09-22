@@ -7,7 +7,7 @@ $gray-dark                    : #333 !default;
 $gray                         : #555 !default;
 $gray-light                   : #999 !default;
 $gray-lighter                 : hsl(345, 3%, 88%) !default;
-$brand-primary                : #9e0b0f !default;
+$brand-primary                : hsl(185, 95%, 30%) !default;
 $menu-shadow                  : rgba(0, 0, 0, .5) !default;
 $menu-no-shadow               : rgba(0, 0, 0, 0) !default;
 $menu-highlight               : rgba(255, 255, 255, .1) !default;
@@ -23,7 +23,7 @@ $link-color                   : $brand-primary !default;
 $link-hover-color             : lighten($link-color, 10%) !default;
 
 // Typography
-$font-family-sans-serif       : 'Nationale', sans-serif !default;
+$font-family-sans-serif       : Avenir, 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Verdana, sans-serif !default;
 $font-size-base               : 14px !default;
 $line-height-base             : 1.6 !default;
 $headings-font-weight         : 600 !default;
