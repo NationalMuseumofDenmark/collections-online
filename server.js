@@ -15,6 +15,9 @@ exports.initialize = (app) => {
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   var config = require('./lib/config');
 
+  // TODO: Remove collections-online-cumulus as a required dependency
+  require('collections-online-cumulus');
+
   function startServer() {
     console.log('Starting up the server');
     // Start server
