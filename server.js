@@ -24,7 +24,8 @@ exports.initialize = (app) => {
     });
   }
 
-  var cip = require('./lib/services/cip');
+  // TODO: Move all cumulus specific that runs on startup to a registered hook
+  var cip = require('collections-online-cumulus/services/cip');
   var es = require('./lib/services/elasticsearch');
   var cipCategories = require('./lib/cip-categories');
 
@@ -46,9 +47,9 @@ exports.initialize = (app) => {
                 response.count, 'documents.');
   }, function(err) {
     if(err.status === 404) {
-      console.error('Missing the Elasticsearch index: ' + config.es.assetsIndex);
+      console.error('Missing the Elasticsearch index:', config.es.assetsIndex);
       // Well - let's create the index
-      var initIndexing = require('./indexing/initialize/elastic-search-index');
+      var initIndexing = require('collections-online-cumulus/indexing/initialize/elastic-search-index');
       var state = {
         'index': config.es.assetsIndex
       };
@@ -84,7 +85,7 @@ exports.indexing = (state, config) => {
   if(config) {
     exports.config(config);
   }
-  return require('./indexing/run')(state);
+  return require('collections-online-cumulus/indexing/run')(state);
 };
 
 exports.registerRoutes = (app) => {
