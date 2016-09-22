@@ -9,9 +9,7 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
             .logo
               +icon('logo')
             .logo-text.hidden-xs
-              | Nationalmuseets
-              br
-              | Samlinger Online
+              | Collections Online
         - var path = (req.path).split('/')
         - var searchMethod = (isSearching ? 'modify-query' : '')
         - if(config.features.clientSideSearchResultRendering) {
@@ -23,21 +21,21 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
             input.form-control(
               type='text',
               id='search-input',
-              placeholder='Søg på samlinger.natmus.dk',
+              placeholder='Seach using Collections Online',
               name='q',
               autocomplete="off",
               value=req.query.q || '')
             .input-group-btn
               button.btn-search.btn
-                span.sr-only Søg
+                span.sr-only Search
                 +icon('search')
         #heading-categories-menu.hamburger
-          span.sr-only Kataloger og kategorier
+          span.sr-only Catalogs and categories
           +icon('menu')
       if frontpage
         .logo-wrap.big-wrap.hidden-sm.hidden-xs
           .logo
             +icon('logo')
           .logo-text
-            h1 Nationalmuseets Samlinger Online
-            .tag-line Udforsk #{totalAssets} billeder fra Nationalmuseets samling
+            h1 Collections Online
+            .tag-line Explore #{totalAssets} assets via Collections Online
