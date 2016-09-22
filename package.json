@@ -17,7 +17,6 @@
     "bower": "^1.7.7",
     "browserify": "^13.1.0",
     "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js.git#feature/promises",
-    "collections-online-cumulus": "git+https://github.com/collections-online/collections-online-cumulus.git",
     "compression": "~1.6.1",
     "cookie-parser": "~1.4.1",
     "cors": "^2.7.1",
@@ -68,5 +67,8 @@
   "devDependencies": {
     "circleci": "^0.3.2",
     "git-rev-sync": "^1.6.0"
+  },
+  "peerDependencies": {
+    "collections-online-cumulus": "^0.1.0"
   }
 }
