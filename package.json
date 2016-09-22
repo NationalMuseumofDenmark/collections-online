@@ -4,7 +4,6 @@
   "description": "Collections Online establishes common functionality to publish digital images from archives and museums on the internet.",
   "main": "server.js",
   "scripts": {
-    "install": "check-node-version --package",
     "test": "node test"
   },
   "repository": {
@@ -17,7 +16,6 @@
     "body-parser": "~1.14.2",
     "bower": "^1.7.7",
     "browserify": "^13.1.0",
-    "check-node-version": "^1.1.2",
     "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js.git#feature/promises",
     "compression": "~1.6.1",
     "cookie-parser": "~1.4.1",
@@ -64,7 +62,7 @@
     "yargs": "^4.2.0"
   },
   "engines": {
-    "node": "^6.1.0"
+    "node": "^6.1"
   },
   "devDependencies": {
     "circleci": "^0.3.2",
