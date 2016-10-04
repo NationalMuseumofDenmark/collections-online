@@ -68,9 +68,11 @@ $heading-adjustment: 2px;
     }
   }
 
-  &__filters:not(.search-filter-sidebar__filters--expanded) {
-    @media (max-width: $small-size) {
-      display: none;
+  &__filters {
+    display: none;
+
+    &--expanded {
+      display: block;
     }
   }
 

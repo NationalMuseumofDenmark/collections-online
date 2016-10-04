@@ -17,8 +17,5 @@ include ../mixins/search-filter-section.jade
 
   if aggregations
     .search-filter-sidebar__options#search-filter-options
-    //- h2.search-filter-sidebar__heading.visible-xs
-    //-   each label, key in filterLabels
-    //-     span(data-action='show-filters' data-id=key)= label
     each label, key in filterLabels
       +filterSection(label, key)
