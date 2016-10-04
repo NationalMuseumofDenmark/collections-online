@@ -30,7 +30,7 @@ function generateDateRanges() {
   // Every houndred years
   for(var y = CREATION_INTERVAL_FROM; y < 1900; y+= 100) {
     var from = y;
-    var to = y + 100;
+    var to = y + 99;
     result.push({
       from: from.toString(),
       to: to.toString()
@@ -40,7 +40,7 @@ function generateDateRanges() {
   var lastYear;
   for(var y = 1900; y < CREATION_INTERVAL_TO; y+= 10) {
     var from = y;
-    var to = y + 10;
+    var to = y + 9;
     lastYear = to;
     result.push({
       from: from.toString(),
