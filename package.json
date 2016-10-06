@@ -67,8 +67,5 @@
   "devDependencies": {
     "circleci": "^0.3.2",
     "git-rev-sync": "^1.6.0"
-  },
-  "peerDependencies": {
-    "collections-online-cumulus": "^0.1.0"
   }
 }
