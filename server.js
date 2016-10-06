@@ -20,6 +20,9 @@ exports.initialize = (app, pluginPackages) => {
 
   // After all plugins have initialized, the main server should start
   return plugins.initialize(pluginPackages, app, config).then(() => {
+    // Save the pluginPackages for later use
+    app.set('co-plugins', pluginPackages);
+
     var es = require('./lib/services/elasticsearch');
 
     require('./lib/express')(app);
@@ -62,6 +65,20 @@ exports.initialize = (app, pluginPackages) => {
 };
 
 exports.registerRoutes = (app) => {
+  // Register routes for all plugins
+  var pluginPackages = app.get('co-plugins') || [];
+  // Require routes from each plugin, if they register routes
+  pluginPackages.forEach((plugin) => {
+    try {
+      if(typeof(plugin.registerRoutes) === 'function') {
+        plugin.registerRoutes(app);
+      }
+    } catch (err) {
+      console.error('Error registering routes for a plugin: ', err);
+    }
+  });
+  console.log('Setting up routing for the collections-online core');
+  // Register the core collections-online routes
   require('./lib/routes')(app);
 };
 
