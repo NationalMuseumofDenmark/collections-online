@@ -33,7 +33,10 @@ exports.update = function(aggregations, filters) {
     filterLabels: {
       'district': 'bydele',
       'street_name': 'vejnavne',
-      'creation': 'perioder'
+      'creation': 'perioder',
+      'original_material': 'originalmaterialer',
+      'license': 'licenser',
+      'institution': 'institutioner'
     }
   });
   $sidebar.html(markup);

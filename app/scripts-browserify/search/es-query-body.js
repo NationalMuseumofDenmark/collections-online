@@ -28,6 +28,30 @@ module.exports = function(parameters) {
     });
   }
 
+  if(parameters.filters.original_material) {
+    queries.push({
+      terms: {
+        'original_material.raw': parameters.filters.original_material
+      }
+    });
+  }
+
+  if(parameters.filters.license) {
+    queries.push({
+      terms: {
+        'license.raw': parameters.filters.license
+      }
+    });
+  }
+
+  if(parameters.filters.institution) {
+    queries.push({
+      terms: {
+        'institution.raw': parameters.filters.institution
+      }
+    });
+  }
+
   if(parameters.filters.creation) {
     var creationQueries = parameters.filters.creation.map(function(interval) {
       var intervalSplit = interval.split('-');

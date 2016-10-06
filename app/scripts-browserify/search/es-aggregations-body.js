@@ -74,7 +74,7 @@ module.exports = function(parameters, body) {
           street_name: {
             terms: {
               field: 'street_name.raw',
-              size: 5
+              size: 10
             }
           }
         }
@@ -90,6 +90,39 @@ module.exports = function(parameters, body) {
             }
           }
         }
+      },
+      institution_independent: {
+        filter: buildFilter(parameters, 'institution'),
+        aggs: {
+          institution: {
+            terms: {
+              field: 'institution.raw',
+              size: 100 // All basicly
+            }
+          }
+        }
+      },
+      license_independent: {
+        filter: buildFilter(parameters, 'license'),
+        aggs: {
+          license: {
+            terms: {
+              field: 'license.raw',
+              size: 100 // All basicly
+            }
+          }
+        }
+      },
+      original_material_independent: {
+        filter: buildFilter(parameters, 'original_material'),
+        aggs: {
+          original_material: {
+            terms: {
+              field: 'original_material.raw',
+              size: 100 // All basicly
+            }
+          }
+        }
       }
     }
   };
@@ -99,3 +132,8 @@ module.exports = function(parameters, body) {
 
   return result;
 };
+
+
+
+// TODO make it work by including the right stuff as defined in asset-section.js
+// and asset-layout.json
