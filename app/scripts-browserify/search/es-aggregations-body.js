@@ -33,7 +33,7 @@ function generateDateRanges() {
     var to = y + 100;
     result.push({
       from: from.toString(),
-      to: to.toString()
+      to: to.toString() + '||-1s'
     });
   }
   // Every ten years
@@ -44,7 +44,7 @@ function generateDateRanges() {
     lastYear = to;
     result.push({
       from: from.toString(),
-      to: to.toString()
+      to: to.toString() + '||-1s'
     });
   }
   // And beyound

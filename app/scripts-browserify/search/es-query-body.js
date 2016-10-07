@@ -42,7 +42,10 @@ module.exports = function(parameters) {
         range.gte = intervalSplit[0];
       }
       if(intervalSplit[1] && intervalSplit[1] !== '*') {
-        range.lt = intervalSplit[1];
+        // intervalSplit[1] might be 1919
+        // Let's ask for dates less than the year+1, because as '1919-02-01'
+        // is not less than or equal to 1919=1919-01-01.
+        range.lt = (parseInt(intervalSplit[1], 10) + 1).toString();
       }
       return {
         range: {
