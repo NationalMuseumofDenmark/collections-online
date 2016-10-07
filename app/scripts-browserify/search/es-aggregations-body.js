@@ -118,7 +118,7 @@ module.exports = function(parameters, body) {
         aggs: {
           institution: {
             terms: {
-              field: 'institution.raw',
+              field: 'catalog_name.raw',
               size: 100 // All basicly
             }
           }

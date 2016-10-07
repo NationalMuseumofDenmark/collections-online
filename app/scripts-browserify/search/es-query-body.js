@@ -51,7 +51,7 @@ module.exports = function(parameters) {
   if(parameters.filters.institution) {
     queries.push({
       terms: {
-        'institution.raw': parameters.filters.institution
+        'catalog_name.raw': parameters.filters.institution
       }
     });
   }
