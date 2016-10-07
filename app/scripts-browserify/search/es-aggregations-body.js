@@ -91,12 +91,12 @@ module.exports = function(parameters, body) {
           }
         }
       },
-      institution_independent: {
-        filter: buildFilter(parameters, 'institution'),
+      original_material_independent: {
+        filter: buildFilter(parameters, 'original_material'),
         aggs: {
-          institution: {
+          original_material: {
             terms: {
-              field: 'institution.raw',
+              field: 'original_material.displaystring',
               size: 100 // All basicly
             }
           }
@@ -107,18 +107,18 @@ module.exports = function(parameters, body) {
         aggs: {
           license: {
             terms: {
-              field: 'license.raw',
+              field: 'license.displaystring',
               size: 100 // All basicly
             }
           }
         }
       },
-      original_material_independent: {
-        filter: buildFilter(parameters, 'original_material'),
+      institution_independent: {
+        filter: buildFilter(parameters, 'institution'),
         aggs: {
-          original_material: {
+          institution: {
             terms: {
-              field: 'original_material.raw',
+              field: 'institution.raw',
               size: 100 // All basicly
             }
           }

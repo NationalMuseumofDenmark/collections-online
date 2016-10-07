@@ -35,7 +35,7 @@ module.exports = function(parameters) {
   if(parameters.filters.original_material) {
     queries.push({
       terms: {
-        'original_material.raw': parameters.filters.original_material
+        'original_material.displaystring': parameters.filters.original_material
       }
     });
   }
@@ -43,7 +43,7 @@ module.exports = function(parameters) {
   if(parameters.filters.license) {
     queries.push({
       terms: {
-        'license.raw': parameters.filters.license
+        'license.displaystring': parameters.filters.license
       }
     });
   }
