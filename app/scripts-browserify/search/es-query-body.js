@@ -87,9 +87,9 @@ module.exports = function(parameters) {
 
   if(parameters.filters.queryString) {
     queries.push({
-      'query_string': {
+      'simple_query_string': {
         'query': parameters.filters.queryString.join(' '),
-        'default_operator': 'AND'
+        'default_operator': 'and'
       }
     });
   }
