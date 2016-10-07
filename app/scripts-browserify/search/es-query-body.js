@@ -8,7 +8,11 @@
 module.exports = function(parameters) {
   var result = {};
   var query = {};
-  var queries = [];
+
+  // Start with a query that selects only the searchable results
+  var queries = [
+    {match: {'is_searchable': true}}
+  ];
 
   // TODO: Fix the issues that happens when ?q is sat
 
