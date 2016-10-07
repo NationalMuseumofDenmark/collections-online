@@ -1,6 +1,6 @@
 {
   "name": "collections-online",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Collections Online establishes common functionality to publish digital images from archives and museums on the internet.",
   "main": "server.js",
   "scripts": {
