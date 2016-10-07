@@ -43,10 +43,10 @@ function initialize() {
   function update() {
     var searchParams = getSearchParams();
     // Update the freetext search input
-    var freetext = searchParams.filters.freetext ?
-                   searchParams.filters.freetext.join(' ') :
-                   '';
-    $searchInput.val(freetext);
+    var queryString = searchParams.filters.queryString ?
+                      searchParams.filters.queryString.join(' ') :
+                      '';
+    $searchInput.val(queryString);
     loadingResults = true;
 
     if(resultsLoaded >= resultsDesired || resultsLoaded >= resultsTotal) {
@@ -242,9 +242,9 @@ function initialize() {
   $searchInput.closest('form').submit(function(e) {
     e.preventDefault();
     var $form = $(this);
-    var freetext = $searchInput.val() || '';
+    var queryString = $searchInput.val() || '';
     var searchParams = getSearchParams();
-    searchParams.filters.freetext = freetext.split(' ');
+    searchParams.filters.queryString = queryString.split(' ');
     changeSearchParams(searchParams);
   });
 }

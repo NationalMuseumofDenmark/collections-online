@@ -10,10 +10,11 @@ module.exports = function(searchParameters) {
 
   var parameters = searchParameters.filters || {};
 
-  // Rename freetext to q when represented in the URL
-  if (parameters.freetext) {
-    parameters.q = parameters.freetext.join(' ');
-    delete parameters.freetext;
+  // Rename queryString to q when represented in the URL
+  if (parameters.queryString) {
+    // Joining on space, but this just has a single element
+    parameters.q = parameters.queryString.join(' ');
+    delete parameters.queryString;
   }
 
   if (searchParameters.sorting && searchParameters.sorting != DEFAULT_SORTING) {

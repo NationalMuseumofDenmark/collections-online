@@ -17,10 +17,9 @@ module.exports = function() {
 
   var filters = {};
 
-  // Rename the q parameter to freetext, split by space
+  // Let's not split the querystring on comma
   if(parameters.q) {
-    var freetext = parameters.q;
-    filters.freetext = freetext.split(' ');
+    filters.queryString = [parameters.q];
   }
   delete parameters.q;
 

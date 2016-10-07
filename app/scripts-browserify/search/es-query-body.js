@@ -85,10 +85,11 @@ module.exports = function(parameters) {
     });
   }
 
-  if(parameters.filters.freetext) {
+  if(parameters.filters.queryString) {
     queries.push({
-      match: {
-        '_all': parameters.filters.freetext.join(' ')
+      'query_string': {
+        'query': parameters.filters.queryString.join(' '),
+        'default_operator': 'AND'
       }
     });
   }
