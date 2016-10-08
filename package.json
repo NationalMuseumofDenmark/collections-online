@@ -19,6 +19,7 @@
     "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js.git#feature/promises",
     "compression": "~1.6.1",
     "cookie-parser": "~1.4.1",
+    "cookieconsent": "^3.0.1",
     "cors": "^2.7.1",
     "del": "^2.2.0",
     "dotenv": "^2.0.0",
