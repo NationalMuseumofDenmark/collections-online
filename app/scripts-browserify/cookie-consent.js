@@ -1,4 +1,4 @@
-require('../../node_modules/cookieconsent/build/cookieconsent.min.js');
+require('cookieconsent/build/cookieconsent.min.js');
 
 // We're using http://cookieconsent.wpengine.com/documentation/javascript-api/
 
