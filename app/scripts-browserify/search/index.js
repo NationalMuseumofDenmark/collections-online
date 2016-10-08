@@ -95,9 +95,16 @@ function initialize() {
         $loadMoreBtn.addClass('invisible');
       }
 
+      // Have we used any filters at all (to render correct text in header)
+      var noFilters = false;
+      if (Object.keys(searchParams.filters).length === 0) {
+        noFilters = true;
+      }
+
       // Update the results header
       if(freshUpdate) {
         $resultsHeader.html(templates.resultsHeader({
+          noFilters: noFilters,
           filters: searchParams.filters,
           sorting: searchParams.sorting,
           sortOptions: config.sortOptions,

@@ -4,6 +4,8 @@ include ../mixins/search-count
   h1
     if filters.freetext
       | Søgning på "#{filters.freetext.join(' ')}"
+    else if noFilters
+      | Søg blandt
     else
       | Filtrering gav
     +searchCount
