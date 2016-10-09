@@ -1,13 +1,14 @@
 .cc {
   &-window {
+    align-items: center;
     background-color: black;
     bottom: 0;
     color: white;
     display: flex;
+    min-height: $topbar-height;
     justify-content: space-around;
-    align-items: center;
-    height: $topbar-height;
     left: 0;
+    line-height: 1.2;
     padding: 8px;
     position: fixed;
     right: 0;
