@@ -3,6 +3,7 @@ include mixins/icon
 include mixins/loader
 include mixins/meta-asset
 include mixins/tag
+include mixins/display-license
 
 append header
   +assetMeta(metadata, sources)
@@ -38,7 +39,6 @@ block content
     - var city = metadata.city;
     - var description = metadata.description;
     - var file_format = metadata.file_format;
-    - var license = metadata.license && helpers.licenseTag(metadata.license.id);
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
     - if (metadata.width_px > 768) { zoom = true };
@@ -183,11 +183,7 @@ block content
         if(player === 'image-single-animated')
           a.btn.btn-primary(href='#{sources.download}')
             | Original (#{metadata.width_px} x #{metadata.height_px} gif)
-        if (license)
-          a(href=license.url, rel='license', target='_blank')
-            img(src=license.img, alt=license.short)
-        else
-          p No known rights
+        +displayLicense(metadata.license)
       else
         h2 Vi beklager
         p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
