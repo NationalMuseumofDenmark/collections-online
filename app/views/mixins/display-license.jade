@@ -1,16 +1,16 @@
 mixin licenseImageOrText(license)
-  - if(license.img)
+  - if(license && license.img)
     img(src=license.img, alt=license.short).license-img
-  - else if(license.short)
+  - else if(license && license.short)
     = license.short
-  - else if(license.displaystring)
+  - else if(license && license.displaystring)
     = license.displaystring
   - else
     p No known rights
 
 mixin displayLicense(license)
   - license = helpers.licenseMapped(license)
-  - if (license.url)
+  - if (license && license.url)
     a(href=license.url, rel='license', target='_blank')
       +licenseImageOrText(license)
   - else
