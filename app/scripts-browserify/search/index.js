@@ -237,12 +237,12 @@ function initialize() {
     var wasExpanded = $(this).hasClass('expanded');
     var visibleClass = 'search-filter-sidebar__filters--expanded';
 
-    $('.search-filter-sidebar__filters').removeClass(visibleClass);
-    $('[data-action="show-filters"]').removeClass('expanded');
-
     if (!wasExpanded) {
       $(this).addClass('expanded');
       $filterSection.addClass(visibleClass);
+    } else {
+      $(this).removeClass('expanded');
+      $filterSection.removeClass(visibleClass);
     }
   });
 
