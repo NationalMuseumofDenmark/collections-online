@@ -96,6 +96,7 @@ $heading-adjustment: 2px;
 
 .btn-filter {
   display: flex;
+  align-items: center;
   // expected max-width: 100%; would work, but margin gives issues.
   max-width: 90%;
   max-width: calc(100% - #{$spacer-xs * 2});
@@ -107,5 +108,8 @@ $heading-adjustment: 2px;
   &__text {
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  svg {
+    flex-shrink: 0;
   }
 }
