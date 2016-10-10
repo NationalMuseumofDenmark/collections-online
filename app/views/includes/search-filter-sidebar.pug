@@ -8,11 +8,7 @@ include ../mixins/search-filter-section.jade
       for values, field in filters
         for value in values
           button.btn.btn-primary.btn-filter.btn-close(data-field=field,data-value=value,data-action='remove-filter')
-            if field === 'freetext'
-              | &lsquo;
-            = value
-            if field === 'freetext'
-              | &rsquo;
+            .btn-filter__text= value
             +icon('close')
 
   if aggregations
