@@ -1,0 +1,11 @@
+
+mixin formatDateInterval(from, to)
+  if(from && to && from.day == to.day && from.month == to.month && from.year == to.year)
+    = helpers.formatDate(from)
+  else
+    if(from)
+      = helpers.formatDate(from)
+    if(from && to)
+      | &nbsp;&ndash;&nbsp;
+    if(to)
+      = helpers.formatDate(to)

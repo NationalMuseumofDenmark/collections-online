@@ -1,8 +1,8 @@
-include ../../mixins/date-format
+include ../../mixins/format-date-interval
 
 tr
   th.col-xs-6.col-sm-4 #{row.title}: 
   td.col-xs-6.col-sm-8
     - var fromDate = metadata[row.fields.from];
     - var toDate = metadata[row.fields.to];
-    +formatDate(fromDate, toDate)
+    +formatDateInterval(fromDate, toDate)
