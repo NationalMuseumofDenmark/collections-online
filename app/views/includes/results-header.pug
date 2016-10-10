@@ -2,12 +2,10 @@ include ../mixins/search-count
 
 .search-page__header
   h1
-    if filters.freetext
-      | Søgning på "#{filters.freetext.join(' ')}"
-    else if noFilters
-      | Søg blandt
-    else
+    if isFiltered
       | Filtrering gav
+    else
+      | I alt
     +searchCount
 
   .search-page__sorting
