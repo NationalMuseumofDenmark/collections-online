@@ -1,9 +1,9 @@
-mixin filterSection(displayString, field)
+mixin filterSection(displayStringSingular, displayStringPlural, field)
   - var outerAggregation = aggregations[field + '_independent']
   - var aggregation = outerAggregation[field]
   - var dataId = field + '-filters'
   h2.search-filter-sidebar__heading
-    span(data-action='show-filters' data-id=field)= displayString
+    span(data-action='show-filters' data-id=field)= displayStringSingular
 
   .search-filter-sidebar__filters(data-id=dataId)
     - var availableBuckets = 0
@@ -17,4 +17,4 @@ mixin filterSection(displayString, field)
       button.btn.btn-default.btn-filter Resten
         span.btn-filter__count= aggregation.sum_other_doc_count
     if availableBuckets === 0
-      p.filter-text= 'Der er ikke flere ' + displayString + ', der matcher din filtrering.'
+      p.filter-text= 'Der er ikke flere ' + displayStringPlural + ', der matcher din filtrering.'

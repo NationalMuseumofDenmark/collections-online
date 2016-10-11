@@ -31,12 +31,30 @@ exports.update = function(aggregations, filters) {
     filters: filters,
     filterCount: filterCount,
     filterLabels: {
-      'district': 'bydele',
-      'street_name': 'vejnavne',
-      'creation': 'perioder',
-      'original_material': 'originalmaterialer',
-      'license': 'licenser',
-      'institution': 'institutioner'
+      'district': {
+        'singular': 'bydel',
+        'plural': 'bydele'
+      },
+      'street_name': {
+        'singular': 'gadenavn',
+        'plural': 'gadenavne'
+      },
+      'creation': {
+        'singular': 'periode',
+        'plural': 'perioder'
+      },
+      'original_material': {
+        'singular': 'originalmateriale',
+        'plural': 'originalmaterialer'
+      },
+      'license': {
+        'singular': 'licens',
+        'plural': 'licenser'
+      },
+      'institution': {
+        'singular': 'institution',
+        'plural': 'institutioner'
+      }
     }
   });
   $sidebar.html(markup);
