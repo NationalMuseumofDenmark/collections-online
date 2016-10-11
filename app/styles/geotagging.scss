@@ -1,3 +1,10 @@
+// Map to show geolocation
+.mini-map {
+  height    : 10rem;
+  margin-top: .5rem;
+  width     : 100%;
+}
+
 .map-wrap {
   &:not(.map-visible) {
     display: none;

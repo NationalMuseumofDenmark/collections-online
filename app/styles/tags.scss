@@ -44,3 +44,15 @@
   margin-right  : .5rem;
   padding-bottom: .4rem;
 }
+
+.add-tag {
+  display    : none;
+  margin-left: .2rem;
+  transform  : translateY(-2px);
+}
+
+.confirming {
+  .add-tag {
+    display: inline-block;
+  }
+}

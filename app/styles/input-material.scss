@@ -1,0 +1,67 @@
+// Material style inputs
+$input-animation: .2s ease all;
+$thin-line: 1px;
+$thick-line: 3px;
+
+.material-input {
+  margin-bottom: .8rem;
+  max-width    : 300px;
+  position     : relative;
+  width        : 100%;
+
+  input {
+    border        : 0;
+    border-bottom : $thin-line solid $text-color;
+    display       : block;
+    padding-bottom: .1rem;
+    transition    : $input-animation;
+    width         : 100%;
+
+    &:focus {
+      outline: none;
+
+      ~ .bar::after {
+        width: 100%;
+      }
+
+      ~ label {
+        color: $brand-primary;
+      }
+    }
+
+    &:focus,
+    &:valid {
+      margin-top: 1rem;
+
+      ~ label {
+        font-size: .8rem;
+        top      : -1rem;
+      }
+    }
+  }
+
+  label {
+    color         : $gray-light;
+    font-weight   : 300;
+    pointer-events: none;
+    position      : absolute;
+    top           : .2rem;
+    transition    : $input-animation;
+  }
+
+  .bar {
+    display : block;
+    position: relative;
+
+    &::after {
+      background: $brand-primary;
+      content   : '';
+      height    : $thick-line;
+      left      : 0;
+      position  : absolute;
+      top       : -$thin-line;
+      transition: $input-animation;
+      width     : 0;
+    }
+  }
+}
