@@ -96,10 +96,13 @@ $heading-adjustment: 2px;
 
 .btn-filter {
   display: flex;
-  align-items: center;
   // expected max-width: 100%; would work, but margin gives issues.
   max-width: 90%;
   max-width: calc(100% - #{$spacer-xs * 2});
+
+  &__count, &__text, svg {
+    align-self: center
+  }
   &__count {
     font-family: $font-family-light;
     font-weight: 300;
@@ -111,5 +114,6 @@ $heading-adjustment: 2px;
   }
   svg {
     flex-shrink: 0;
+    margin: 0 .2em 0 .5em;
   }
 }
