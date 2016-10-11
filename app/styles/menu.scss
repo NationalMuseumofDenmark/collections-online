@@ -15,6 +15,7 @@
 
   .dropdown-menu-right {
     box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
+    padding-left: 0;
     right     : 0;
     transition: right $anim-entrance $anim-duration;
   }
