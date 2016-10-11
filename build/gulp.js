@@ -120,10 +120,10 @@ module.exports = (gulp, specializedConfig) => {
 
   gulp.task('css', function() {
     return gulp.src(STYLES_SRC)
-      .pipe(autoprefixer({browsers: ['last 2 versions']}))
       .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(sass().on('error', sass.logError))
       .pipe(cleanCSS())
+      .pipe(autoprefixer({browsers: ['last 4 versions']}))
       .pipe(gulpif(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(STYLES_DEST));
   });
