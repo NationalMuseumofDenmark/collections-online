@@ -14,7 +14,6 @@ mixin filterSection(displayStringSingular, displayStringPlural, field)
         button.btn.btn-default.btn-filter(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
           span.btn-filter__count= bucket.doc_count
     if aggregation.sum_other_doc_count > 0
-      button.btn.btn-default.btn-filter Resten
-        span.btn-filter__count= aggregation.sum_other_doc_count
+      p.filter-text Resten (#{aggregation.sum_other_doc_count}) - søg efter #{displayStringSingular} i stedet.
     if availableBuckets === 0
-      p.filter-text= 'Der er ikke flere ' + displayStringPlural + ', der matcher din filtrering.'
+      p.filter-text Der er ikke flere #{displayStringPlural}, der matcher din filtrering.

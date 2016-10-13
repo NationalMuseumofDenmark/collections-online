@@ -74,7 +74,7 @@ module.exports = function(parameters, body) {
           street_name: {
             terms: {
               field: 'street_name.raw',
-              size: 10
+              size: 20
             }
           }
         }
