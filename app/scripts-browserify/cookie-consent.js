@@ -12,5 +12,9 @@ window.cookieconsent.initialise({
     dismiss: 'OK',
     link: 'Læs mere',
     href: '/cookies',
+  },
+  elements: {
+    dismiss: '<a aria-label="Ok til cookies" tabindex="0" class="cc-btn cc-dismiss">{{ok}}</a>',
+    messagelink: '<span>{{message}} <a href="{{href}}">{{link}}</a></span>',
   }
 });
