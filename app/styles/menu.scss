@@ -75,6 +75,8 @@ $expand-width: 50px;
     // This is needed, because an expanded li is otherwise placing itself
     // ontop of the menu items above it.
     overflow: hidden;
+    // Chrome fix
+    display: block;
 
     > div {
       align-items: stretch;
