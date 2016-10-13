@@ -1,2 +1,3 @@
 mixin searchCount
-  span.search-count &nbsp;#{result.totalCount} poster
+  - var pluralMaybe = result.totalCount > 1 ? 'er' : '';
+  span.search-count &nbsp;#{result.totalCount} post#{pluralMaybe}
