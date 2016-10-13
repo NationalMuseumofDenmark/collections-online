@@ -14,7 +14,7 @@ const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;
 
 var resultsDesired = PAGE_SIZE;
-var resultsLoaded = 0;
+var resultsLoaded = [];
 var resultsTotal = Number.MAX_SAFE_INTEGER;
 var loadingResults = false;
 
@@ -33,14 +33,15 @@ function initialize() {
   var $noResultsText = $('#no-results-text');
 
   function reset() {
-    resultsLoaded = 0;
+    resultsLoaded = [];
     resultsTotal = Number.MAX_SAFE_INTEGER;
     resultsDesired = PAGE_SIZE;
     $(window).off('scroll');
     $loadMoreBtn.addClass('invisible');
   }
 
-  function update() {
+  function update(freshUpdate) {
+    console.log('updating freshUpdate=', freshUpdate);
     var searchParams = getSearchParams();
     // Update the freetext search input
     var queryString = searchParams.filters.queryString ?
@@ -49,24 +50,39 @@ function initialize() {
     $searchInput.val(queryString);
     loadingResults = true;
 
-    if(resultsLoaded >= resultsDesired || resultsLoaded >= resultsTotal) {
-      // We've loaded enough
-      return;
-    }
-
     // A fresh update is the first of potentially many updates with the same
     // search parameters.
-    var freshUpdate = resultsLoaded === 0;
+    freshUpdate = resultsLoaded.length === 0 || freshUpdate;
+
+    if(config.features.filterSidebar && freshUpdate) {
+      // Get aggragations for the sidebar
+      es.search({
+        index: config.es.assetsIndex,
+        body: elasticsearchAggregationsBody(searchParams),
+        size: 0
+      }).then(function (response) {
+        var sidebar = require('./filter-sidebar');
+        /*
+        if(history.replaceState) {
+          history.state.aggregations = response.aggregations;
+          history.replaceState(history.state);
+        }
+        */
+        sidebar.update(response.aggregations, searchParams.filters);
+      }, function (error) {
+        console.trace(error.message);
+      });
+    }
 
     // Get actual results from the index
     es.search({
       index: config.es.assetsIndex,
       body: elasticsearchQueryBody(searchParams),
-      from: resultsLoaded,
-      size: resultsDesired - resultsLoaded
+      from: resultsLoaded.length,
+      size: resultsDesired - resultsLoaded.length
     }).then(function (response) {
       // If no results are loaded yet, it might be because we just called reset
-      if(freshUpdate) {
+      if(resultsLoaded.length === 0) {
         // Remove all boxes (search results) from $results, that might be there
         $results.find('.box').remove();
       }
@@ -74,12 +90,18 @@ function initialize() {
       loadingResults = false;
       response.hits.hits.forEach(function(asset) {
         var markup = templates.searchResultAsset({
-          asset: asset._source,
-          index: resultsLoaded
+          asset: asset._source
         });
         $results.append(markup);
-        resultsLoaded++;
+        resultsLoaded.push(asset._source);
       });
+
+      // Replace the state of in the history if supported
+      if(history.replaceState) {
+        history.replaceState({
+          resultsLoaded: resultsLoaded
+        }, null, null);
+      }
 
       // Show some text if we don't have any results
       if (resultsTotal == 0) {
@@ -89,7 +111,7 @@ function initialize() {
       }
 
       // If we have not loaded all available results, let's show the btn to load
-      if(freshUpdate && resultsLoaded < resultsTotal) {
+      if(freshUpdate && resultsLoaded.length < resultsTotal) {
         $loadMoreBtn.removeClass('invisible');
       } else {
         $loadMoreBtn.addClass('invisible');
@@ -110,20 +132,6 @@ function initialize() {
     }, function (error) {
       console.trace(error.message);
     });
-
-    if(config.features.filterSidebar) {
-      // Get aggragations for the sidebar
-      es.search({
-        index: config.es.assetsIndex,
-        body: elasticsearchAggregationsBody(searchParams),
-        size: 0
-      }).then(function (response) {
-        var sidebar = require('./filter-sidebar');
-        sidebar.update(response.aggregations, searchParams.filters);
-      }, function (error) {
-        console.trace(error.message);
-      });
-    }
   }
 
   function changeSearchParams(searchParams) {
@@ -131,7 +139,9 @@ function initialize() {
     if(history) {
       var qs = generateQuerystring(searchParams);
       reset();
-      history.pushState({}, '', location.pathname + qs);
+      history.pushState({
+        searchParams: searchParams
+      }, '', location.pathname + qs);
       update();
     } else {
       throw new Error('History API is required');
@@ -165,18 +175,45 @@ function initialize() {
     }).scroll();
   }
 
+  function inflateHistoryState(state) {
+    // Render results from the state
+    if(state.resultsLoaded) {
+      reset();
+      // Remove all the boxes right away
+      $results.find('.box').remove();
+      // Show the button by removing the invisible class
+      // $loadMoreBtn.removeClass('invisible');
+      // Append rendered markup, once per asset loaded from the state.
+      resultsLoaded = state.resultsLoaded;
+      resultsDesired = resultsLoaded.length;
+      resultsLoaded.forEach(function(asset) {
+        var markup = templates.searchResultAsset({
+          asset: asset
+        });
+        $results.append(markup);
+      });
+      // Using the freshUpdate=true, updates the header as well
+      update(true);
+    }
+  }
+
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
     host: location.origin + '/api',
     log: config.es.log
   });
 
-  update();
   // When the user navigates the state, update it
   window.addEventListener('popstate', function(event) {
-    reset();
-    update();
+    inflateHistoryState(event.state);
   }, false);
+
+  // Update at least once when loading the page
+  if(!history.state) {
+    update();
+  } else {
+    inflateHistoryState(history.state);
+  }
 
   $('#sidebar').on('click', '.btn-filter', function() {
     var action = $(this).data('action');
