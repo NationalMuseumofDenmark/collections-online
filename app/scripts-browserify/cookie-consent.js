@@ -7,9 +7,8 @@ window.cookieconsent.initialise({
     name: config.features.cookieName
   },
   content: {
-    header: 'Cookies used on the website!',
     message: 'Vi bruger cookies for at give dig en bedre brugeroplevelse.',
-    dismiss: 'OK',
+    ok: 'OK',
     link: 'Læs mere',
     href: '/cookies',
   },

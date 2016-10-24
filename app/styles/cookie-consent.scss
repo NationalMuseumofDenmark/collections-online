@@ -1,25 +1,29 @@
 .cc {
   &-window {
+    -webkit-font-smoothing: subpixel-antialiased;
     align-items: center;
     background-color: black;
     bottom: 0;
     color: white;
     display: flex;
-    min-height: $topbar-height;
-    justify-content: space-around;
+    font-family: $font-family-sans-serif;
+    justify-content: center;
     left: 0;
     line-height: 1.2;
+    min-height: $topbar-height;
     padding: 8px;
-    position: fixed;
     right: 0;
+    position: fixed;
     z-index: 9999;
+    @include shadow(4);
   }
-  &-btn {
+  &-dismiss {
     background-color: $brand-primary;
-    color: white !important;
     border-radius: 3px;
-    text-decoration: none !important;
+    color: white !important;
+    margin-left: 16px;
     padding: 5px 6px 4px;
+    text-decoration: none !important;
   }
   &-invisible {
     display: none;
