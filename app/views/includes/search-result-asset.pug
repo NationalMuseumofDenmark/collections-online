@@ -1,8 +1,0 @@
-include ../mixins/icon.jade
-
-a(href='/' + asset.catalog + '/' + asset.id).box.col-xs-6.col-sm-4.col-lg-3
-  .image
-    .overlay.square-container
-      img(src=asset.catalog + '/' + asset.id + '/thumbnail').object-fit
-  h2.h4= asset.short_title
-  p.description= asset.description

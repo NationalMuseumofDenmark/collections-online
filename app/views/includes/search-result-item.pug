@@ -1,0 +1,14 @@
+include ../mixins/icon.jade
+
+- var href = '/' + metadata.catalog;
+- if(config.types.length > 1) {
+-   href += '/' + metadata.type;
+- }
+- href += '/' + metadata.id;
+
+a(href=href).box.col-xs-6.col-sm-4.col-lg-3
+  .image
+    .overlay.square-container
+      img(src=href + '/thumbnail').object-fit
+  h2.h4= metadata.short_title
+  p.description= metadata.description

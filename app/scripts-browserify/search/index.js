@@ -19,7 +19,7 @@ var resultsTotal = Number.MAX_SAFE_INTEGER;
 var loadingResults = false;
 
 var templates = {
-  searchResultAsset: require('views/includes/search-result-asset'),
+  searchResultItem: require('views/includes/search-result-item'),
   resultsHeader: require('views/includes/results-header'),
 };
 
@@ -41,7 +41,6 @@ function initialize() {
   }
 
   function update(freshUpdate) {
-    console.log('updating freshUpdate=', freshUpdate);
     var searchParams = getSearchParams();
     // Update the freetext search input
     var queryString = searchParams.filters.queryString ?
@@ -89,8 +88,8 @@ function initialize() {
       resultsTotal = response.hits.total;
       loadingResults = false;
       response.hits.hits.forEach(function(asset) {
-        var markup = templates.searchResultAsset({
-          asset: asset._source
+        var markup = templates.searchResultItem({
+          metadata: asset._source
         });
         $results.append(markup);
         resultsLoaded.push(asset._source);
@@ -187,8 +186,8 @@ function initialize() {
       resultsLoaded = state.resultsLoaded;
       resultsDesired = resultsLoaded.length;
       resultsLoaded.forEach(function(asset) {
-        var markup = templates.searchResultAsset({
-          asset: asset
+        var markup = templates.searchResultItem({
+          metadata: asset
         });
         $results.append(markup);
       });
