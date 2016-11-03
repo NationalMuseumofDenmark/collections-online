@@ -144,9 +144,10 @@ module.exports = (gulp, specializedConfig) => {
           return JSON.stringify({
             es: config.es,
             features: config.features,
+            googleAnalyticsPropertyID: config.googleAnalyticsPropertyID,
             searchPath: config.searchPath,
             sortOptions: config.sortOptions,
-            googleAnalyticsPropertyID: config.googleAnalyticsPropertyID
+            types: config.types
           });
         }
       },

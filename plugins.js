@@ -5,10 +5,8 @@ var plugins = {};
 var requiredMethods = {
   'image-controller': [
     'proxy',
-    'image',
-    'downloadImage',
-    'thumbnail',
-    'download'
+    'proxyDownload',
+    'proxyThumbnail'
   ]
 };
 
