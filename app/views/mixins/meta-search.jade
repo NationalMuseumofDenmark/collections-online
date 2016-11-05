@@ -2,7 +2,7 @@ include meta
 
 mixin searchMeta(result, catalog, breadcrumbs)
   if result.isSearch
-    - title = filters.freetext
+    - title = filters.q
     - socialTitle = 'Søgning på "' + title + '"'
 
   if result.isCategory
