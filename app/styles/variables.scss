@@ -24,6 +24,9 @@ $link-hover-color             : lighten($link-color, 10%) !default;
 
 // Typography
 $font-family-sans-serif       : Avenir, 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Verdana, sans-serif !default;
+$font-family-thin             : $font-family-sans-serif !default;
+$font-family-light            : $font-family-sans-serif !default;
+$font-family-medium           : $font-family-sans-serif !default;
 $font-size-base               : 14px !default;
 $line-height-base             : 1.6 !default;
 $headings-font-weight         : 600 !default;
