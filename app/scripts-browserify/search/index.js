@@ -56,7 +56,7 @@ function initialize() {
     if(config.features.filterSidebar && freshUpdate) {
       // Get aggragations for the sidebar
       es.search({
-        index: config.es.assetsIndex,
+        index: 'all', // config.es.assetsIndex,
         body: elasticsearchAggregationsBody(searchParams),
         size: 0
       }).then(function (response) {
@@ -75,7 +75,7 @@ function initialize() {
 
     // Get actual results from the index
     es.search({
-      index: config.es.assetsIndex,
+      index: 'all', // config.es.assetsIndex,
       body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded.length,
       size: resultsDesired - resultsLoaded.length
