@@ -49,7 +49,7 @@ block content
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrap
                 if zoom
-                  img(src=sources.thumbnail, data-src=sources.image, alt=title).asset-image--zoomable.asset-image--lazy.asset-image
+                  img(src=sources.thumbnail, data-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image--lazy.asset-image
                 else
                   img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
             else if(player === "image-rotation")
