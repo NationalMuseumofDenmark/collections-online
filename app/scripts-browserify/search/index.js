@@ -87,12 +87,14 @@ function initialize() {
       }
       resultsTotal = response.hits.total;
       loadingResults = false;
-      response.hits.hits.forEach(function(asset) {
-        var markup = templates.searchResultItem({
-          metadata: asset._source
-        });
+      response.hits.hits.forEach(function(hit) {
+        var item = {
+          type: hit._type,
+          metadata: hit._source
+        };
+        var markup = templates.searchResultItem(item);
         $results.append(markup);
-        resultsLoaded.push(asset._source);
+        resultsLoaded.push(item);
       });
 
       // Replace the state of in the history if supported
@@ -185,10 +187,8 @@ function initialize() {
       // Append rendered markup, once per asset loaded from the state.
       resultsLoaded = state.resultsLoaded;
       resultsDesired = resultsLoaded.length;
-      resultsLoaded.forEach(function(asset) {
-        var markup = templates.searchResultItem({
-          metadata: asset
-        });
+      resultsLoaded.forEach(function(item) {
+        var markup = templates.searchResultItem(item);
         $results.append(markup);
       });
       // Using the freshUpdate=true, updates the header as well

@@ -1,8 +1,8 @@
 include ../mixins/icon.jade
 
 - var href = '/' + metadata.catalog;
-- if(config.types.length > 1) {
--   href += '/' + metadata.type;
+- if(Object.keys(config.types).length > 1) {
+-   href += '/' + type;
 - }
 - href += '/' + metadata.id;
 
