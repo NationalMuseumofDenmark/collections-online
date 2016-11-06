@@ -8,6 +8,10 @@ exports.config = (config) => {
     throw new Error('Needed a config object when initializing');
   }
   require('./lib/config').set(config);
+  if(config.es.assetsIndex) {
+    console.warn('The config parameter "es.assetsIndex" is deprecated',
+                 'use "types.asset.index" instead.');
+  }
 };
 
 exports.initialize = (app, pluginPackages) => {
