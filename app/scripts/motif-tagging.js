@@ -66,7 +66,7 @@ var ga;
   }
 
   function saveTag(tag) {
-    var url = '/' + catalogAlias + '/' + assetId + '/save-crowd-tag';
+    var url = location.pathname + '/save-crowd-tag';
     var data = {
       tag: tag
     };
@@ -138,7 +138,7 @@ var ga;
     $visionNoTags.remove();
     $.ajax({
       dataType: 'json',
-      url: window.location + '/suggested-motif-tags'
+      url: location.pathname + '/suggested-motif-tags'
     }).done(function(data) {
 
       $visionBtn.remove();
