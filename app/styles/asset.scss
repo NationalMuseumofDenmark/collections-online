@@ -1,7 +1,9 @@
 $slider-arrow-size: 4rem;
 
 .asset {
-  h1, h2, h3 {
+  h1,
+  h2,
+  h3 {
     font-family: $asset-heading-font;
   }
 }
@@ -124,6 +126,7 @@ $slider-arrow-size: 4rem;
   // ensure som padding on mobile
   th {
     padding-right: 1rem;
+    text-align: left;
 
     @media (min-width: $small-size) {
       padding-left: 0;
@@ -133,6 +136,6 @@ $slider-arrow-size: 4rem;
 
 // License img
 .license-img {
-  max-width: 100%;
   max-height: 3rem;
+  max-width: 100%;
 }
