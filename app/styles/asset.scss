@@ -112,26 +112,6 @@ $slider-arrow-size: 4rem;
 .asset-bottom {
   background-color: $asset-bottom-bg;
   padding: 1rem 0 3rem;
-
-  table {
-    width: 100%;
-  }
-
-  td,
-  th {
-    // Override bootstrap col 15 px padding
-    padding: 0;
-  }
-
-  // ensure som padding on mobile
-  th {
-    padding-right: 1rem;
-    text-align: left;
-
-    @media (min-width: $small-size) {
-      padding-left: 0;
-    }
-  }
 }
 
 // License img
