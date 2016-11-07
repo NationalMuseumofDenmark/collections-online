@@ -1,3 +1,5 @@
+/* global config */
+
 /**
  * This module generates queries that can be sent to elastic search to get the
  * aggregations that are used for filter buttons.
@@ -56,84 +58,41 @@ function generateDateRanges() {
 
 module.exports = function(parameters, body) {
   var result = {
-    aggs: {
-      district_independent: {
-        filter: buildFilter(parameters, 'district'),
-        aggs: {
-          district: {
-            terms: {
-              field: 'district.raw',
-              size: 100 // All basicly
-            }
-          }
-        }
-      },
-      street_name_independent: {
-        filter: buildFilter(parameters, 'street_name'),
-        aggs: {
-          street_name: {
-            terms: {
-              field: 'street_name.raw',
-              size: 20
-            }
-          }
-        }
-      },
-      creation_independent: {
-        filter: buildFilter(parameters, 'creation'),
-        aggs: {
-          creation: {
-            date_range: {
-              field: 'creation_time.timestamp',
-              format: 'yyy',
-              ranges: generateDateRanges()
-            }
-          }
-        }
-      },
-      original_material_independent: {
-        filter: buildFilter(parameters, 'original_material'),
-        aggs: {
-          original_material: {
-            terms: {
-              field: 'original_material.displaystring',
-              size: 100 // All basicly
-            }
-          }
-        }
-      },
-      license_independent: {
-        filter: buildFilter(parameters, 'license'),
-        aggs: {
-          license: {
-            terms: {
-              field: 'license.displaystring',
-              size: 100 // All basicly
-            }
-          }
-        }
-      },
-      institution_independent: {
-        filter: buildFilter(parameters, 'institution'),
-        aggs: {
-          institution: {
-            terms: {
-              field: 'catalog_name.raw',
-              size: 100 // All basicly
-            }
-          }
-        }
-      }
-    }
+    aggs: {}
   };
 
-  // Tried the date histogram /w interval: '3650d' // Not really 10 years
-  // See https://github.com/elastic/elasticsearch/issues/8939
+  Object.keys(config.search.filters).forEach(function(field) {
+    var filter = config.search.filters[field];
+    var aggs = {};
+    if(filter.type === 'term') {
+      aggs[field] = {
+        terms: {
+          field: filter.field,
+          size: filter.size || 2147483647 // Basically any possible value
+        }
+      };
+    } else if(filter.type === 'date-range') {
+      // Tried the date histogram /w interval: '3650d' // Not really 10 years
+      // See https://github.com/elastic/elasticsearch/issues/8939
+      aggs[field] = {
+        date_range: {
+          field: filter.field,
+          format: 'yyy',
+          ranges: generateDateRanges()
+        }
+      };
+    }
+    // Let's only add the _independent aggregation, if aggs exists
+    if(aggs[field]) {
+      result.aggs[field + '_independent'] = {
+        filter: buildFilter(parameters, field),
+        aggs: aggs
+      };
+    }
+  });
 
   return result;
 };
-
-
 
 // TODO make it work by including the right stuff as defined in asset-section.js
 // and asset-layout.json

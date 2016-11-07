@@ -1,3 +1,5 @@
+/* global config */
+
 /**
  * This module generates search parameters that will lead to a specific
  * filtering and sorting being activated, based on the querystring.
@@ -17,15 +19,14 @@ module.exports = function() {
 
   var filters = {};
 
-  // Let's not split the querystring on comma
-  if(parameters.q) {
-    filters.queryString = [parameters.q];
-  }
-  delete parameters.q;
-
   // The rest are filters
   Object.keys(parameters).forEach(function(field) {
-    filters[field] = parameters[field].split(',');
+    // TODO: Look for the skipSplit config parameter
+    var value = parameters[field];
+    if(!config.search.filters[field].skipSplit) {
+      value = value.split(',');
+    }
+    filters[field] = value;
   });
 
   return {

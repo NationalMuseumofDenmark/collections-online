@@ -20,7 +20,7 @@ var loadingResults = false;
 
 var templates = {
   searchResultItem: require('views/includes/search-result-item'),
-  resultsHeader: require('views/includes/results-header'),
+  resultsHeader: require('views/includes/results-header')
 };
 
 // We have to listen to #sidebar since the other elements doesn't exist at
@@ -43,9 +43,7 @@ function initialize() {
   function update(freshUpdate) {
     var searchParams = getSearchParams();
     // Update the freetext search input
-    var queryString = searchParams.filters.queryString ?
-                      searchParams.filters.queryString.join(' ') :
-                      '';
+    var queryString = searchParams.filters.q;
     $searchInput.val(queryString);
     loadingResults = true;
 
@@ -230,9 +228,13 @@ function initialize() {
       changeSearchParams(searchParams);
     } else if(action === 'remove-filter') {
       // console.log('Removing ', field, 'value', value);
-      filters[field] = filters[field].filter(function(v) {
-        return v !== value;
-      });
+      if(typeof(filters[field]) === 'object') {
+        filters[field] = filters[field].filter(function(v) {
+          return v !== value;
+        });
+      } else {
+        delete filters[field];
+      }
       changeSearchParams(searchParams);
     }
   });
@@ -281,12 +283,12 @@ function initialize() {
     var $form = $(this);
     var queryString = $searchInput.val() || '';
     var searchParams = getSearchParams();
-    searchParams.filters.queryString = queryString.split(' ');
+    searchParams.filters.q = queryString;
     changeSearchParams(searchParams);
   });
 }
 
 // If the path is right - let's initialize
-if(decodeURIComponent(location.pathname) === '/' + config.searchPath) {
+if(decodeURIComponent(location.pathname) === '/' + config.search.path) {
   $(initialize);
 }

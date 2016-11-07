@@ -6,6 +6,8 @@ include ../mixins/search-filter-section.jade
     h2.search-filter-sidebar__heading.hidden-xs Valgte filtre
     .search-filter-sidebar__chosen-filters
       for values, field in filters
+        if typeof(values) === 'string'
+          - values = [values]
         for value in values
           button.btn.btn-primary.btn-filter.btn-close(data-field=field,data-value=value,data-action='remove-filter')
             .btn-filter__text= value
@@ -13,5 +15,6 @@ include ../mixins/search-filter-section.jade
 
   if aggregations
     .search-filter-sidebar__options#search-filter-options
-    each label, key in filterLabels
-      +filterSection(label.singular, label.plural, key)
+    each filter, key in filterLabels
+      if filter.type === 'term' || filter.type === 'date-range'
+        +filterSection(filter.singular, filter.plural, key)
