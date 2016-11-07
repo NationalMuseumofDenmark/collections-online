@@ -17,14 +17,9 @@ module.exports = function() {
 
   var filters = {};
 
-  // Let's not split the querystring on comma
-  if(parameters.q) {
-    filters.queryString = [parameters.q];
-  }
-  delete parameters.q;
-
   // The rest are filters
   Object.keys(parameters).forEach(function(field) {
+    // TODO: Look for the skipSplit config parameter
     filters[field] = parameters[field].split(',');
   });
 

@@ -145,7 +145,7 @@ module.exports = (gulp, specializedConfig) => {
             es: config.es,
             features: config.features,
             googleAnalyticsPropertyID: config.googleAnalyticsPropertyID,
-            searchPath: config.searchPath,
+            search: config.search,
             sortOptions: config.sortOptions,
             types: config.types
           });

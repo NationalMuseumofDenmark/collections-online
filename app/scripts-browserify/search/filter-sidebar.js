@@ -1,3 +1,5 @@
+/* global config */
+
 /**
  * This module handles the rendering of the search filter sidebar.
  */
@@ -25,37 +27,19 @@ exports.update = function(aggregations, filters) {
       }
     });
   });
+  var filterLabels = {};
+  Object.keys(config.search.filters).forEach(function(field) {
+    var filter = config.search.filters[field];
+    if(filter.type !== 'querystring') {
+      filterLabels[field] = filter;
+    }
+  });
   // Render the markup
   var markup = template({
     aggregations: aggregations,
     filters: filters,
     filterCount: filterCount,
-    filterLabels: {
-      'district': {
-        'singular': 'bydel',
-        'plural': 'bydele'
-      },
-      'street_name': {
-        'singular': 'gadenavn',
-        'plural': 'gadenavne'
-      },
-      'creation': {
-        'singular': 'periode',
-        'plural': 'perioder'
-      },
-      'original_material': {
-        'singular': 'originalmateriale',
-        'plural': 'originalmaterialer'
-      },
-      'license': {
-        'singular': 'licens',
-        'plural': 'licenser'
-      },
-      'institution': {
-        'singular': 'institution',
-        'plural': 'institutioner'
-      }
-    }
+    filterLabels: filterLabels
   });
   $sidebar.html(markup);
 };
