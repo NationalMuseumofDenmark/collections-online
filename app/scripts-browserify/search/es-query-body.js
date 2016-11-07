@@ -25,7 +25,7 @@ module.exports = function(parameters) {
         };
         query.terms[filter.field] = parameters.filters[field];
         queries.push(query);
-      } else if(filter.type === 'term') {
+      } else if(filter.type === 'date-range') {
         var intervalQueries = parameters.filters[field].map(function(interval) {
           var intervalSplit = interval.split('-');
           var range = {
@@ -53,12 +53,14 @@ module.exports = function(parameters) {
           }
         });
       } else if(filter.type === 'querystring') {
-        queries.push({
-          'query_string': {
-            'query': parameters.filters[field].join(' '),
-            'default_operator': 'OR'
-          }
-        });
+        if(parameters.filters[field]) {
+          queries.push({
+            'query_string': {
+              'query': parameters.filters[field],
+              'default_operator': 'OR'
+            }
+          });
+        }
       }
     } else {
       console.error('Requested filtering on an unexpected field: ', field);

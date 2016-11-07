@@ -43,9 +43,7 @@ function initialize() {
   function update(freshUpdate) {
     var searchParams = getSearchParams();
     // Update the freetext search input
-    var queryString = searchParams.filters.q ?
-                      searchParams.filters.q.join(' ') :
-                      '';
+    var queryString = searchParams.filters.q;
     $searchInput.val(queryString);
     loadingResults = true;
 
@@ -230,9 +228,13 @@ function initialize() {
       changeSearchParams(searchParams);
     } else if(action === 'remove-filter') {
       // console.log('Removing ', field, 'value', value);
-      filters[field] = filters[field].filter(function(v) {
-        return v !== value;
-      });
+      if(typeof(filters[field]) === 'object') {
+        filters[field] = filters[field].filter(function(v) {
+          return v !== value;
+        });
+      } else {
+        delete filters[field];
+      }
       changeSearchParams(searchParams);
     }
   });
@@ -281,7 +283,7 @@ function initialize() {
     var $form = $(this);
     var queryString = $searchInput.val() || '';
     var searchParams = getSearchParams();
-    searchParams.filters.q = queryString.split(' ');
+    searchParams.filters.q = queryString;
     changeSearchParams(searchParams);
   });
 }

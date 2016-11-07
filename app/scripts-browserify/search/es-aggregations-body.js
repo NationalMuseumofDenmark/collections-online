@@ -82,16 +82,17 @@ module.exports = function(parameters, body) {
         }
       };
     }
-    result.aggs[field + '_independent'] = {
-      filter: buildFilter(parameters, field),
-      aggs: aggs
-    };
+    // Let's only add the _independent aggregation, if aggs exists
+    if(aggs[field]) {
+      result.aggs[field + '_independent'] = {
+        filter: buildFilter(parameters, field),
+        aggs: aggs
+      };
+    }
   });
 
   return result;
 };
-
-
 
 // TODO make it work by including the right stuff as defined in asset-section.js
 // and asset-layout.json

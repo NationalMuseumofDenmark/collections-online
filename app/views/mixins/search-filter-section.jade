@@ -9,7 +9,7 @@ mixin filterSection(displayStringSingular, displayStringPlural, field)
     - var availableBuckets = 0
     for bucket in aggregation.buckets
       //- The user has not filtered this field or has not selected this value
-      if !filters[field] || filters[field].indexOf(bucket.key) == -1
+      if !filters[field] || filters[field].indexOf(bucket.key) === -1
         - availableBuckets++;
         button.btn.btn-default.btn-filter(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
           span.btn-filter__count= bucket.doc_count
