@@ -10,8 +10,8 @@ block content
       each catalog in catalogs
         if catalog
           .frontpage__catalog
-            a(href="/#{catalog.alias}")
-              .thumb(style="background-image: url('#{catalog.sources.thumbnail}')")
+            a(href='/' + catalog.alias)
+              .thumb(style='background-image: url(' + catalog.sources.thumbnail + ')')
               h2= catalog.name
   include includes/footer
 

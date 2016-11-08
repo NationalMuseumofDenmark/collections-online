@@ -87,7 +87,7 @@ block content
               if (zoom)
                 a(data-action="asset-image-size-toggle")
                   +icon('zoom-in')
-            a(data-action="asset-download-show", class="#{downloadable===true ? '' : 'dimmed'}")
+            a(data-action="asset-download-show", class=downloadable===true ? '' : 'dimmed')
               +icon('download')
             a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
               +icon('facebook')
@@ -161,7 +161,7 @@ block content
                 .slider
                   each asset in relatedAssets
                     a(href=asset.href)
-                      img(data-lazy="#{asset.src}")
+                      img(data-lazy=asset.src)
 
 
   .overlay__container(data-content="asset-download")
@@ -169,19 +169,19 @@ block content
       if (downloadable)
         h2 Download
         if(player === 'image-single')
-          a.btn.btn-primary(href='#{sources.imageSet.download800.src}')
+          a.btn.btn-primary(href=sources.imageSet.download800.src)
             | Lille (#{sources.imageSet.download800.size} jpg)
-          a.btn.btn-primary(href='#{sources.imageSet.download1200.src}')
+          a.btn.btn-primary(href=sources.imageSet.download1200.src)
             | Mellem (#{sources.imageSet.download1200.size} jpg)
-          a.btn.btn-primary(href='#{sources.imageSet.download2000.src}')
+          a.btn.btn-primary(href=sources.imageSet.download2000.src)
             | Stor (#{sources.imageSet.download2000.size} jpg)
-          a.btn.btn-primary(href='#{sources.imageSet.downloadOriginal.src}')
+          a.btn.btn-primary(href=sources.imageSet.downloadOriginal.src)
             | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
         if(file_format === 'TIFF Image')
-          a.btn.btn-primary(href='#{sources.download}')
+          a.btn.btn-primary(href=sources.download)
             | Original (#{metadata.width_px} x #{metadata.height_px} tif)
         if(player === 'image-single-animated')
-          a.btn.btn-primary(href='#{sources.download}')
+          a.btn.btn-primary(href=sources.download)
             | Original (#{metadata.width_px} x #{metadata.height_px} gif)
         +displayLicense(metadata.license)
       else

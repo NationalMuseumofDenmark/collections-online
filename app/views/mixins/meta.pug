@@ -25,18 +25,18 @@ mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description
     - image = unsafeBaseUrl + '/images/defaultshare.jpg'
 
   title #{title}
-  meta(name='description', content='#{description}')
-  meta(name='twitter:card', content='#{twitterCard}')
+  meta(name='description', content=description)
+  meta(name='twitter:card', content=twitterCard)
   if twitterAccount
-    meta(name='twitter:site', content='#{twitterAccount}')
-  meta(name='twitter:title', content='#{socialTitle}')
-  meta(name='twitter:description', content='#{description}')
-  meta(name='twitter:image', content='#{image}')
-  meta(property='og:title', content='#{socialTitle}')
-  meta(property='og:type', content='#{facebookType}')
-  meta(property='og:url', content='#{pageUrl}')
-  meta(property='og:image', content='#{image}')
-  meta(property='og:description', content='#{description}')
-  meta(property='og:site_name', content='#{title}')
+    meta(name='twitter:site', content=twitterAccount)
+  meta(name='twitter:title', content=socialTitle)
+  meta(name='twitter:description', content=description)
+  meta(name='twitter:image', content=image)
+  meta(property='og:title', content=socialTitle)
+  meta(property='og:type', content=facebookType)
+  meta(property='og:url', content=pageUrl)
+  meta(property='og:image', content=image)
+  meta(property='og:description', content=description)
+  meta(property='og:site_name', content=title)
   if facebookAppId
-    meta(property='fb:app_id', content='#{facebookAppId}')
+    meta(property='fb:app_id', content=facebookAppId)

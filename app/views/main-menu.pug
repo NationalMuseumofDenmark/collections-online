@@ -8,7 +8,7 @@ each catalog in catalogs
   if catalog.count > 0
     li
       div
-        a.col-xs-10(href='/#{catalog.alias}') #{catalog.name}
+        a.col-xs-10(href='/' + catalog.alias) #{catalog.name}
         .expand
           +icon('plus')
       ul.nav.menu-hidden

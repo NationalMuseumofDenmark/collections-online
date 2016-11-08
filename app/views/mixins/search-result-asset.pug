@@ -1,14 +1,14 @@
 include icon
 
 mixin searchResultAsset(asset)
-  a.box.col-xs-6.col-sm-4.col-lg-3(href='#{asset.link}')
+  a.box.col-xs-6.col-sm-4.col-lg-3(href=asset.link)
     .image
       if asset.type === 'video'
         .video-thumbnail
           +icon('play')
       else
         .overlay
-          img(src='#{asset.thumbnailURL}').rotation
+          img(src=asset.thumbnailURL).rotation
           if asset.type == 'image-rotation'
             +icon('rotation')
     h2.h4 #{asset.title}
