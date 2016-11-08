@@ -68,7 +68,7 @@ function initialize() {
         sidebar.update(response.aggregations, searchParams.filters);
       }, function (error) {
         console.trace(error.message);
-      });
+      }).then(null, console.error);
     }
 
     // Get actual results from the index
@@ -130,7 +130,7 @@ function initialize() {
       }
     }, function (error) {
       console.trace(error.message);
-    });
+    }).then(null, console.error);
   }
 
   function changeSearchParams(searchParams) {
