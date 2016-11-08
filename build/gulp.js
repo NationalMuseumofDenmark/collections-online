@@ -131,8 +131,8 @@ module.exports = (gulp, specializedConfig) => {
   gulp.task('js-browserify', ['pug'], function() {
     return browserify({
       paths: [
-        SCRIPTS_BROWSERIFY_DIR_CO,
         SCRIPTS_BROWSERIFY_DIR,
+        SCRIPTS_BROWSERIFY_DIR_CO,
         DEST_DIR
       ],
       basedir: config.appDir ?
