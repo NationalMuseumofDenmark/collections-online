@@ -104,19 +104,19 @@ block content
             // Tags
             h2 Emneord
             .tags-container
-              if(!metadata.tags)
+              if(!metadata.tags.verified.all.length === 0)
                 span.no-tags Der er ingen emneord endnu.
-              each tag in metadata.tags || []
+              each tag in metadata.tags.verified.all || []
                 +tag(tag)
 
           .col-md-4
             // User tags
             b Tilføjet af brugere
             .tags-container.crowd
-              if(!metadata.tags_crowd)
+              if(!metadata.tags.crowd || metadata.tags.crowd.length === 0)
                 span.no-tags Der er ikke tilføjet nogle emneord endnu.
 
-              each tag in metadata.tags_crowd || []
+              each tag in metadata.tags.crowd || []
                 +tag(tag)
               .material-input
                 input(type='text', required='')
@@ -129,10 +129,10 @@ block content
             // Vision tags
             b Automatisk billedanalyse
             .tags-container.vision
-              if(!metadata.tags_vision || metadata.tags_vision.length === 0)
+              if(!metadata.tags.automated || metadata.tags.automated.length === 0)
                 .btn.btn-primary.btn-small#vision-btn
                   +loader('Analysér billede')
-              each tag in metadata.tags_vision || []
+              each tag in metadata.tags.automated || []
                 +tag(tag)
                   span.add-tag
                     +icon('thumbup')

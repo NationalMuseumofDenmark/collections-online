@@ -1,6 +1,6 @@
 include ../mixins/icon.pug
 
-- var href = '/' + metadata.catalog;
+- var href = '/' + metadata.collection;
 - if(Object.keys(config.types).length > 1) {
 -   href += '/' + type;
 - }
@@ -10,5 +10,5 @@ a(href=href).box.col-xs-6.col-sm-4.col-lg-3
   .image
     .overlay.square-container
       img(src=href + '/thumbnail').object-fit
-  h2.h4= metadata.short_title
+  h2.h4= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
   p.description= metadata.description
