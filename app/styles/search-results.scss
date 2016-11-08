@@ -1,17 +1,25 @@
-.search-page__header {
-  align-items: flex-end;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-bottom: $spacer-md;
-  margin-top: $spacer-lg;
+.search-page {
+  &__header {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: $spacer-md;
+    margin-top: $spacer-lg;
 
-  @media (min-width: $small-size) {
-    margin-top: $spacer-lg * 2;
+    @media (min-width: $small-size) {
+      margin-top: $spacer-lg * 2;
+    }
+
+    h1 {
+      margin: 0;
+    }
   }
 
-  h1 {
-    margin: 0;
+  &__sorting {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: $spacer-sm 0 0 $spacer-md;
   }
 }
 
@@ -23,46 +31,6 @@
       margin-top: $spacer-lg + $spacer-md;
     }
   }
-}
-
-.search-page__filtering {
-  background-color: $gray-lighter;
-  min-height      : $topbar-height;
-  padding-top     : $topbar-height / 3.1;
-
-  .dropdown {
-    margin-bottom: $topbar-height / 4;
-
-    &:not(:last-child) {
-      margin-right: 1rem;
-    }
-  }
-
-  // Overriding bootstrap defaults
-  label {
-    margin-bottom: 0;
-  }
-
-  button {
-    margin-top: $dropdown-padding;
-  }
-
-  .form-group {
-    margin-bottom: 0;
-    padding      : $dropdown-padding $dropdown-padding * 2;
-  }
-
-  .form-control {
-    margin-bottom: $dropdown-padding;
-    width        : 12rem;
-  }
-}
-
-.search-page__sorting {
-  flex-shrink: 0;
-  margin-left: auto;
-  padding-bottom: 7px;
-  padding-top: .5rem;
 }
 
 .search-results {
