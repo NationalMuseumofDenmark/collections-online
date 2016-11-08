@@ -22,11 +22,16 @@ module.exports = function() {
   // The rest are filters
   Object.keys(parameters).forEach(function(field) {
     // TODO: Look for the skipSplit config parameter
-    var value = parameters[field];
-    if(!config.search.filters[field].skipSplit) {
-      value = value.split(',');
+    var filter = config.search.filters[field];
+    if(filter) {
+      var value = parameters[field];
+      if(!filter.skipSplit) {
+        value = value.split(',');
+      }
+      filters[field] = value;
+    } else {
+      console.warn('Skipping an unexpected search parameter:', field);
     }
-    filters[field] = value;
   });
 
   return {
