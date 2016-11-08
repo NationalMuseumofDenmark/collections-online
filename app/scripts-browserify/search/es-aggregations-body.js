@@ -65,6 +65,9 @@ module.exports = function(parameters, body) {
     var filter = config.search.filters[field];
     var aggs = {};
     if(filter.type === 'term') {
+      if(!filter.field) {
+        throw new Error('Expected "field" option on filter field: ' + field);
+      }
       aggs[field] = {
         terms: {
           field: filter.field,
@@ -72,6 +75,9 @@ module.exports = function(parameters, body) {
         }
       };
     } else if(filter.type === 'date-range') {
+      if(!filter.field) {
+        throw new Error('Expected "field" option on filter field: ' + field);
+      }
       // Tried the date histogram /w interval: '3650d' // Not really 10 years
       // See https://github.com/elastic/elasticsearch/issues/8939
       aggs[field] = {
