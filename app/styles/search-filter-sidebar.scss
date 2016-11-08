@@ -12,7 +12,7 @@ $heading-adjustment: 2px;
     background-color: $gray-lighter;
     font-family: $font-family-medium;
     font-size: 1rem;
-    line-height: $topbar-height;
+    line-height: $spacer-sm * 4;
     margin: 0;
     padding-left: $spacer-sm + $spacer-xs;
     padding-right: $spacer-sm + $spacer-xs;
