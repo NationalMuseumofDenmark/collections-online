@@ -1,5 +1,5 @@
 mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description)
-  - siteTitle = req.app.get('siteTitle')
+  - appName = config.appName
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
@@ -7,36 +7,38 @@ mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description
   - facebookType = 'website'
 
   if title
-    - title += ' - ' + siteTitle
+    - title += ' - ' + appName
   else
-    - title = siteTitle
+    - title = appName
 
   if socialTitle
-    - socialTitle += ' - ' + siteTitle
+    - socialTitle += ' - ' + appName
   else
     - socialTitle = title
 
-  if !description
-    - description = 'Søg og udforsk ' + siteTitle
+  if !description && config.metatags && config.metatags.description
+    - description = config.metatags.description
+  else if !description
+    - description = 'Search and explore ' + appName
 
   if image
     - image = unsafeBaseUrl + image
   else
     - image = unsafeBaseUrl + '/images/defaultshare.jpg'
 
-  title #{title}
-  meta(name='description', content='#{description}')
-  meta(name='twitter:card', content='#{twitterCard}')
+  title= title
+  meta(name='description', content=description)
+  meta(name='twitter:card', content=twitterCard)
   if twitterAccount
-    meta(name='twitter:site', content='#{twitterAccount}')
-  meta(name='twitter:title', content='#{socialTitle}')
-  meta(name='twitter:description', content='#{description}')
-  meta(name='twitter:image', content='#{image}')
-  meta(property='og:title', content='#{socialTitle}')
-  meta(property='og:type', content='#{facebookType}')
-  meta(property='og:url', content='#{pageUrl}')
-  meta(property='og:image', content='#{image}')
-  meta(property='og:description', content='#{description}')
-  meta(property='og:site_name', content='#{title}')
+    meta(name='twitter:site', content=twitterAccount)
+  meta(name='twitter:title', content=socialTitle)
+  meta(name='twitter:description', content=description)
+  meta(name='twitter:image', content=image)
+  meta(property='og:title', content=socialTitle)
+  meta(property='og:type', content=facebookType)
+  meta(property='og:url', content=pageUrl)
+  meta(property='og:image', content=image)
+  meta(property='og:description', content=description)
+  meta(property='og:site_name', content=title)
   if facebookAppId
     meta(property='fb:app_id', content='#{facebookAppId}')
