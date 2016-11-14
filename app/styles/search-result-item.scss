@@ -2,7 +2,7 @@
   color: $black;
   display: block;
   margin-bottom: $spacer-md;
-  padding: $spacer-md $spacer-md $spacer-sm;
+  padding: $spacer-md;
   transition: box-shadow $anim-default;
 
   &:focus,
@@ -24,7 +24,6 @@
   &__squared-container {
     height: 0;
     line-height: 0;
-    margin-bottom: $spacer-sm;
     padding-bottom: 100%;
     position: relative;
     width: 100%;
@@ -43,15 +42,32 @@
 
   &__description,
   &__title {
-    height: $spacer-sm * 2;
+    font-size: inherit;
     margin: 0;
     overflow: hidden;
+    position: relative;
     text-overflow: ellipsis;
     white-space: nowrap;
     word-break: normal;
+
+    // TODO - uncomment if we prefer gradient instead of ...
+    // &::after {
+    //   background: linear-gradient(to right, rgba($white, 0), rgba($white, 1));
+    //   bottom: 0;
+    //   content: '';
+    //   position: absolute;
+    //   right: 0;
+    //   top: 0;
+    //   width: $spacer-lg;
+    // }
+  }
+
+  &__title {
+    height: $spacer-sm * 3;
+    padding-top: $spacer-sm;
   }
 
   &__description {
-    margin-bottom: $spacer-xs;
+    height: $spacer-sm * 2;
   }
 }
