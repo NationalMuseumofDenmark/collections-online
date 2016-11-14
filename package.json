@@ -16,7 +16,6 @@
     "body-parser": "~1.14.2",
     "bower": "^1.7.7",
     "browserify": "^13.1.0",
-    "cip-js": "git+https://github.com/NationalMuseumofDenmark/cip.js.git#feature/promises",
     "compression": "~1.6.1",
     "cookie-parser": "~1.4.1",
     "cookieconsent": "^3.0.1",
