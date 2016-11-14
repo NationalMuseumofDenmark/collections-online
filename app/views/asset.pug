@@ -41,14 +41,13 @@ block content
     - var file_format = metadata.file_format;
     - var title = metadata.short_title;
     - var zipcode = metadata.zipcode;
-    - if (metadata.width_px > 768) { zoom = true };
     .asset-top
       .container-fluid.container-fluid-expandable
         .row
           .col-xs-12.small-bleed.img-col
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrap
-                if zoom
+                if zoomable
                   img(src=sources.thumbnail, data-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image--lazy.asset-image
                 else
                   img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
@@ -74,13 +73,13 @@ block content
         .row.asset-info
           .col-sm-8
             if(title)
-              h1= title
+              h1= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
               if(description)
                 p.sr-only Beskrivelse
-                p.lead= description
-            else if(description)
+                p.lead= metadata.text['da-DK'].description
+            else if(metadata.text['da-DK'].description)
               p.sr-only Beskrivelse
-              h1= description
+              h1= metadata.text['da-DK'].description
 
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
