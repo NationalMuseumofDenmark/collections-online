@@ -6,9 +6,8 @@ include ../mixins/icon.pug
 - }
 - href += '/' + metadata.id;
 
-a(href=href).box.col-xs-6.col-sm-4.col-lg-3
-  .image
-    .overlay
-      img(src=href + '/thumbnail').object-fit
-  h2.h4= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
-  p.description= metadata.description
+a(href=href).box.col-xs-6.col-sm-4
+  .box__squared-container
+    img(src=href + '/thumbnail').box__squared-image
+  h2.h4.box__title= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
+  p.box__description= metadata.description

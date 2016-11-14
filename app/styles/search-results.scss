@@ -35,69 +35,27 @@
 
 .search-results {
   margin-bottom: 4.2rem;
+}
 
-  // Video thumbnail
-  .video-thumbnail {
-    background    : $gray;
-    position      : relative;
-    width         : 100%;
+// Video thumbnail
+// TODO: These should prolly be moved to search-result-item.scss
+.video-thumbnail {
+  background    : $gray;
+  position      : relative;
+  width         : 100%;
 
-    svg {
-      fill: $white;
-      height: 75%; // Maintaining the 4:3 aspect ratio
-      transform: scale(.5);
-      width: 100%;
-    }
-  }
-  // The actual image
-  .image {
-    display   : block;
-    text-align: center;
-  }
-
-  .overlay {
-    display  : inline-block;
-    max-width: 100%;
-    position : relative;
-
-    img {
-      max-width: 100%;
-    }
-
-    svg {
-      bottom  : 1em;
-      height  : 2em;
-      opacity : .75;
-      position: absolute;
-      right   : 1em;
-      width   : 3em;
-    }
+  svg {
+    fill: $white;
+    height: 75%; // Maintaining the 4:3 aspect ratio
+    transform: scale(.5);
+    width: 100%;
   }
 }
 
+
 // Responsive masonry boxes
+// TODO: Are these still used?
 .box {
-  color  : $black;
-  display: block;
-  padding: $spacer-md $spacer-md $spacer-sm;
-  transition: box-shadow $anim-default;
-
-  &:hover,
-  &:focus {
-    border          : 0;
-    color           : $link-hover-color;
-    text-decoration : none;
-  }
-
-  // Only target devices with mouse
-  @media (pointer:fine) {
-    &:hover,
-    &:focus {
-      @include shadow(3);
-      z-index: 1;
-    }
-  }
-
   &.loaded-more {
     opacity: 0;
   }
@@ -114,29 +72,6 @@
         opacity: 1;
       }
     }
-  }
-
-  .image {
-    margin-bottom: 1rem;
-  }
-
-  .overlay,
-  .overlay img {
-    width: 100%;
-  }
-
-  .h4 {
-    color     : $black;
-    margin    : 0;
-    word-break: break-word;
-  }
-
-  .description {
-    color        : $text-color;
-    margin       : 0;
-    overflow     : hidden;
-    text-overflow: ellipsis;
-    white-space  : nowrap;
   }
 }
 
