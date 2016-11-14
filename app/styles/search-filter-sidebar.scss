@@ -16,6 +16,7 @@ $heading-adjustment: 2px;
     margin: 0;
     padding-left: $spacer-sm + $spacer-xs;
     padding-right: $spacer-sm + $spacer-xs;
+    user-select: none;
 
     @media (min-width: $small-size) {
       font-size: 1.285714286rem; // 18/14
@@ -97,6 +98,7 @@ $heading-adjustment: 2px;
 
 .btn-filter {
   display: flex;
+  flex-wrap: nowrap;
   // expected max-width: 100%; would work, but margin gives issues.
   max-width: 90%;
   max-width: calc(100% - #{$spacer-xs * 2});
