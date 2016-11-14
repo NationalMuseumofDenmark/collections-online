@@ -11,7 +11,8 @@ mixin filterSection(displayStringSingular, displayStringPlural, field)
       //- The user has not filtered this field or has not selected this value
       if !filters[field] || filters[field].indexOf(bucket.key) === -1
         - availableBuckets++;
-        button.btn.btn-default.btn-filter(data-field=field,data-value=bucket.key,data-action='add-filter')= bucket.key
+        button.btn.btn-default.btn-filter(data-field=field,data-value=bucket.key,data-action='add-filter')
+          span.btn-filter__text= bucket.key
           span.btn-filter__count= bucket.doc_count
     if aggregation.sum_other_doc_count > 0
       p.filter-text Resten (#{aggregation.sum_other_doc_count}) - søg efter #{displayStringSingular} i stedet.
