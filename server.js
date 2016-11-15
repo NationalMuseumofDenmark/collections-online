@@ -8,7 +8,7 @@ exports.config = (config) => {
     throw new Error('Needed a config object when initializing');
   }
   require('./lib/config').set(config);
-  if(config.es.assetsIndex) {
+  if(config.types.asset.index) {
     console.warn('The config parameter "es.assetsIndex" is deprecated',
                  'use "types.asset.index" instead.');
   }
@@ -39,14 +39,14 @@ exports.initialize = (app, pluginPackages) => {
     app.set('trust proxy', 'loopback');
 
     return es.count({
-      index: config.es.assetsIndex
+      index: config.types.asset.index
     }).then(function(response) {
       console.log('Connecting to the Elasticsearch host', config.es.host);
       console.log('The assets index is created and contains',
                   response.count, 'documents.');
     }, function(err) {
       if(err.status === 404) {
-        console.error('Missing Elasticsearch index:', config.es.assetsIndex);
+        console.error('Missing Elasticsearch index:', config.types.asset.index);
       } else {
         console.error('Could not connect to the Elasticsearch:',
                       'Is the elasticsearch service started?');
