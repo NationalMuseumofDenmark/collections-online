@@ -10,6 +10,7 @@ var elasticsearchQueryBody = require('./es-query-body');
 
 const CREATION_INTERVAL_FROM = 1000; // Year 1000
 const CREATION_INTERVAL_TO = (new Date()).getFullYear(); // Current year
+const SKIP_TYPES = ['querystring', 'date-interval-range'];
 
 function buildFilter(parameters, field) {
   var independentFilters = {};
@@ -64,7 +65,9 @@ module.exports = function(parameters, body) {
   Object.keys(config.search.filters).forEach(function(field) {
     var filter = config.search.filters[field];
     var aggs = {};
-    if(filter.type === 'term') {
+    if (SKIP_TYPES.indexOf(filter.type) !== -1) {
+      // Let's not add aggregations for these types
+    } else if (filter.type === 'term') {
       if(!filter.field) {
         throw new Error('Expected "field" option on filter field: ' + field);
       }
@@ -74,7 +77,7 @@ module.exports = function(parameters, body) {
           size: filter.size || 2147483647 // Basically any possible value
         }
       };
-    } else if(filter.type === 'date-range') {
+    } else if (filter.type === 'date-range') {
       if(!filter.field) {
         throw new Error('Expected "field" option on filter field: ' + field);
       }
@@ -87,6 +90,19 @@ module.exports = function(parameters, body) {
           ranges: generateDateRanges()
         }
       };
+    } else if (filter.type === 'filters') {
+      if(!filter.filters) {
+        throw new Error('Expected "filters" option on filter field: ' + field);
+      }
+      // Tried the date histogram /w interval: '3650d' // Not really 10 years
+      // See https://github.com/elastic/elasticsearch/issues/8939
+      aggs[field] = {
+        filters: {
+          filters: filter.filters
+        }
+      };
+    } else {
+      throw new Error('Unexpected filter type: ' + filter.type);
     }
     // Let's only add the _independent aggregation, if aggs exists
     if(aggs[field]) {

@@ -1,0 +1,14 @@
+mixin dateIntervalRangePicker(field)
+  .form-group
+    label(for=field + '-from-date') Fra dato
+    input(type='date',
+          name=field + '-from',
+          id=field + '-from-date',
+          placeholder='fx 24/12/1849').form-control
+    label(for=field + '-to-date') Til dato
+    input(type='date',
+          name=field + '-to',
+          id=field + '-to-date'
+          placeholder='fx 24/12/1945').form-control
+    button.btn.btn-default.btn-filter(data-field=field,
+                                      data-action='add-filter') Filtrér

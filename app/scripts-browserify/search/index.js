@@ -54,7 +54,7 @@ function initialize() {
     if(config.features.filterSidebar && freshUpdate) {
       // Get aggragations for the sidebar
       es.search({
-        index: 'all', // config.es.assetsIndex,
+        index: 'all',
         body: elasticsearchAggregationsBody(searchParams),
         size: 0
       }).then(function (response) {
@@ -73,7 +73,7 @@ function initialize() {
 
     // Get actual results from the index
     es.search({
-      index: 'all', // config.es.assetsIndex,
+      index: 'all',
       body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded.length,
       size: resultsDesired - resultsLoaded.length
@@ -215,11 +215,21 @@ function initialize() {
   $('#sidebar').on('click', '.btn-filter', function() {
     var action = $(this).data('action');
     var field = $(this).data('field');
+    var filter = config.search.filters[field];
     var value = $(this).data('value');
+    if(!value && filter.type === 'date-interval-range') {
+      var $form = $(this).closest('.form-group');
+      var from = $form.find('[name='+field+'-from]').val() || '*';
+      var to = $form.find('[name='+field+'-to]').val() || '*';
+      if(from !== '*' || to !== '*') {
+        value = from.replace(/-/g, '/') + '-' + to.replace(/-/g, '/');
+      } else {
+        return;
+      }
+    }
     var searchParams = getSearchParams();
     var filters = searchParams.filters;
     if(action === 'add-filter') {
-      // console.log('Adding ', field, 'value', value);
       if(typeof(filters[field]) === 'object') {
         filters[field].push(value);
       } else {

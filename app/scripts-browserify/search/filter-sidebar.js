@@ -21,7 +21,12 @@ exports.update = function(aggregations, filters) {
     Object.keys(filteredAggregation).forEach(function(field) {
       var aggregation = filteredAggregation[field];
       if(aggregation.buckets) {
-        aggregation.buckets = aggregation.buckets.filter(function(bucket) {
+        aggregation.buckets = Object.keys(aggregation.buckets)
+        .map(function(b) {
+          var bucket = aggregation.buckets[b];
+          bucket.key = bucket.key || b; // Fallback to the objects key
+          return bucket;
+        }).filter(function(bucket) {
           return bucket.doc_count > 0;
         });
       }

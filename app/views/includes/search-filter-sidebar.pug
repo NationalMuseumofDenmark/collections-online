@@ -19,5 +19,5 @@ include ../mixins/search-filter-section.pug
   if aggregations
     .search-filter-sidebar__options#search-filter-options
     each filter, key in filterLabels
-      if filter.type === 'term' || filter.type === 'date-range'
-        +filterSection(filter.singular, filter.plural, key)
+      if filter.type !== 'querystring'
+        +filterSection(filter.singular, filter.plural, key, filter.type)

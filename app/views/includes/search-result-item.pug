@@ -10,4 +10,4 @@ a(href=href).box.col-xs-6.col-sm-4
   .box__squared-container
     img(src=href + '/thumbnail').box__squared-image.object-fit
   h2.box__title= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
-  p.box__description= metadata.text['da-DK'].description
+  p.box__description= metadata.text ? metadata.text['da-DK'].description || 'Uden beskrivelse' : 'Uden beskrivelse'
