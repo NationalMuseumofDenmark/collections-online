@@ -39,15 +39,18 @@ exports.initialize = (app, pluginPackages) => {
     // the app (See http://expressjs.com/api.html#app.set)
     app.set('trust proxy', 'loopback');
 
+    const indecies = Object.keys(config.types).map((type) => {
+      return config.types[type].index;
+    });
     return es.count({
-      index: config.es.assetsIndex
+      index: indecies
     }).then(function(response) {
       console.log('Connecting to the Elasticsearch host', config.es.host);
       console.log('The assets index is created and contains',
                   response.count, 'documents.');
     }, function(err) {
       if(err.status === 404) {
-        console.error('Missing Elasticsearch index:', config.es.assetsIndex);
+        console.error('Missing Elasticsearch index:', indecies.join(' or '));
       } else {
         console.error('Could not connect to the Elasticsearch:',
                       'Is the elasticsearch service started?');
