@@ -73,7 +73,7 @@ block content
         .row.asset-info
           .col-sm-8
             if(title)
-              h1= metadata.text ? metadata.text['da-DK'].title || 'Uden titel' : 'Uden titel'
+              h1= metadata.short_title || 'Uden titel'
               if(description)
                 p.sr-only Beskrivelse
                 p.lead= metadata.text['da-DK'].description
@@ -92,9 +92,6 @@ block content
               +icon('facebook')
             a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
               +icon('twitter')
-            //- a
-            //-   +icon('email')
-
 
     .asset-middle
       .container-fluid
