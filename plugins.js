@@ -64,10 +64,7 @@ exports.initialize = (pluginPackages, app, config) => {
       throw new Error('Expected plugin to have an initialize function');
     } else {
       var result = package.initialize(app, config);
-      if(!result.then) {
-        throw new Error('Expected plugin return a promise when initialized');
-      }
-      return result;
+      return Q.when(result);
     }
   });
   return Q.all(pluginPromises);
