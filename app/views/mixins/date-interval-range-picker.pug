@@ -1,5 +1,5 @@
 mixin dateIntervalRangePicker(field)
-  .form-group
+  .form-group.search-filter-sidebar__dates
     label(for=field + '-from-date') Fra dato
     input(type='date',
           name=field + '-from',
@@ -10,5 +10,5 @@ mixin dateIntervalRangePicker(field)
           name=field + '-to',
           id=field + '-to-date'
           placeholder='fx 24/12/1945').form-control
-    button.btn.btn-default.btn-filter(data-field=field,
-                                      data-action='add-filter') Filtrér
+    button.btn.btn-default.btn-block(data-field=field,
+                                     data-action='add-filter') Filtrér
