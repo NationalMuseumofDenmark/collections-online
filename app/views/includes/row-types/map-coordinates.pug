@@ -1,7 +1,7 @@
 include ../../mixins/icon
 
-- var latitude = metadata[row.fields.latitude];
-- var longitude = metadata[row.fields.longitude];
+- var latitude = helpers.getFirst(metadata, row.fields.latitude);
+- var longitude = helpers.getFirst(metadata, row.fields.longitude);
 
 if latitude && longitude
   tr
