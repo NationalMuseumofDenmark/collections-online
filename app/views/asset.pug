@@ -39,7 +39,7 @@ block content
     - var city = metadata.city;
     - var description = metadata.description;
     - var file_format = metadata.file_format;
-    - var title = metadata.short_title;
+    - var title = metadata.title;
     - var zipcode = metadata.zipcode;
     .asset-top
       .container-fluid.container-fluid-expandable
@@ -72,8 +72,8 @@ block content
       .container-fluid
         .row.asset-info
           .col-sm-8
-            if(title)
-              h1= metadata.short_title || 'Uden titel'
+            if(metadata.title)
+              h1= metadata.title || 'Uden titel'
               if(description)
                 p.sr-only Beskrivelse
                 p.lead= metadata.text['da-DK'].description
