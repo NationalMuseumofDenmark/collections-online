@@ -1,15 +1,15 @@
 include meta
 
 mixin assetMeta(item, sources)
-  if item.short_title
-    - title = item.short_title
+  if item.title
+    - title = item.title
   else
     - title = 'Ingen titel'
   if item.description
     - description = item.description
   if sources.thumbnail
     - image = sources.thumbnail
-    
+
   - twitterAccount = helpers.getTwitterAccount(item)
   - facebookAppId = helpers.getFacebookAppId(item)
 
