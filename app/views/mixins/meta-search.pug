@@ -3,7 +3,7 @@ include meta
 mixin searchMeta(result, catalog, breadcrumbs)
   if result.isSearch
     - title = filters.q
-    - socialTitle = 'Søgning på "' + title + '"'
+    - socialTitle = 'Søgning på '
 
   if result.isCategory
     if breadcrumbs
@@ -12,7 +12,7 @@ mixin searchMeta(result, catalog, breadcrumbs)
       - title = catalog.name
   if result.isCatalog
     - title = catalog.name
-    
+
   - twitterAccount = helpers.getTwitterAccount()
   - facebookAppId = helpers.getFacebookAppId()
 

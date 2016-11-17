@@ -23,7 +23,6 @@
     "Bloodhound": false,
     "$": false,
     "jQuery": false,
-    "Masonry": false,
     "alert": false
   }
 }

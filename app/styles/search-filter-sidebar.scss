@@ -66,6 +66,14 @@ $heading-adjustment: 2px;
     }
   }
 
+  &__dates {
+    margin: $spacer-xs;
+
+    input {
+      margin-bottom: $spacer-sm;
+    }
+  }
+
   &__filters {
     display: none;
 
