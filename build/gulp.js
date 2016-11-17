@@ -85,7 +85,6 @@ module.exports = (gulp, specializedConfig) => {
     '/fizzy-ui-utils/utils.js',
     '/outlayer/item.js',
     '/outlayer/outlayer.js',
-    '/masonry/masonry.js',
     '/picturefill/dist/picturefill.js',
     '/typeahead.js/dist/typeahead.bundle.js',
     '/scrollToTop/jquery.scrollToTop.js',

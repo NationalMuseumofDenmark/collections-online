@@ -21,8 +21,7 @@
     "angular": false,
     "Bloodhound": false,
     "$": false,
-    "jQuery": false,
-    "Masonry": false
+    "jQuery": false
   },
 
   "plugins": [
