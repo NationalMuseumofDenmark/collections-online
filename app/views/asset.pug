@@ -14,9 +14,9 @@ append javascript
 
 block content
 
-  - var address = metadata.address || metadata.street;
-  - var zipcode = metadata.zipcode;
-  - var city = metadata.city;
+  - var address = metadata.location.address;
+  - var zipcode = metadata.location.zipcode;
+  - var city = metadata.location.city;
   - var fullAddress = [];
 
   - if(address)
@@ -27,13 +27,12 @@ block content
     - fullAddress.push(city)
   - fullAddress = fullAddress.join(', ')
 
-
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
-          data-catalog=metadata.catalog,
+          data-catalog=metadata.collection,
           data-id=metadata.id,
-          data-latitude=metadata.latitude,
-          data-longitude=metadata.longitude,
+          data-latitude=metadata.location.verified.latitude || metadata.location.crowd.latitude,
+          data-longitude=metadata.location.verified.longitude || metadata.location.crowd.longitude,
           data-heading=metadata.heading,
           data-full-address=fullAddress)
     - var city = metadata.city;
