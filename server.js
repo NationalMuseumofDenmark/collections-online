@@ -56,10 +56,20 @@ exports.initialize = (app, pluginPackages) => {
     .then(() => {
       console.log('Starting up the server');
       // Start server
-      app.listen(config.port, config.ip, function() {
-        console.log('Express server listening on %s:%d, in %s mode',
-                    config.ip, config.port, app.get('env'));
-      });
+      if(config.port && config.ip) {
+        app.listen(config.port, config.ip, function() {
+          console.log('Express server listening on %s:%d, in %s mode',
+                      config.ip, config.port, app.get('env'));
+        });
+      } else if(config.socketPath) {
+        app.listen(config.socketPath, function() {
+          console.log('Express server listening on socket %s, in %s mode',
+                      config.socketPath, app.get('env'));
+        });
+      } else {
+        throw new Error('Could not start server, needed "port" and "ip" ' +
+                        'or "socketPath" in the configuration.');
+      }
     }, (err) => {
       console.error('Error when starting the app: ', err.stack);
       process.exit(2);
