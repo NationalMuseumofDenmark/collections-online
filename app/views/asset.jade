@@ -49,7 +49,7 @@ block content
             if(player === 'image-single' || player === 'image-single-animated')
               .image-wrap
                 if zoom
-                  img(src=sources.thumbnail, data-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image--lazy.asset-image
+                  img(src=sources.thumbnail, data-expanded-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image
                 else
                   img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
             else if(player === "image-rotation")
@@ -82,11 +82,12 @@ block content
               p.sr-only Beskrivelse
               h1= description
 
-          .col-sm-4.social
+          .col-sm-4.controls
             if(player === 'image-single' || player === 'image-single-animated')
               if (zoom)
-                a(data-action="asset-image-size-toggle")
-                  +icon('zoom-in')
+                a(data-action="asset-image-size-toggle").hidden-xs.zoom-btn
+                  +icon('zoom-in', 'zoom-in')
+                  +icon('zoom-out', 'zoom-out')
             a(data-action="asset-download-show", class="#{downloadable===true ? '' : 'dimmed'}")
               +icon('download')
             a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
