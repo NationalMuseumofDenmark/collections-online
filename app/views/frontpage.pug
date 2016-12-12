@@ -7,7 +7,7 @@ append header
 block content
   .container-fluid.let-it-grow
     .frontpage
-      each catalog in catalogs
+      each catalog in catalogs || []
         if catalog
           .frontpage__catalog
             a(href='/' + catalog.alias)
