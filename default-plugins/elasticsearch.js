@@ -39,3 +39,6 @@ es.scrollSearch = function(body, hitCallback) {
 };
 
 module.exports = es;
+
+// TODO: Override elasticsearch .search method to inject the index parameter
+// from the configuration

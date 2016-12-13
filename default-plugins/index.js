@@ -1,3 +1,4 @@
+const config = require('../lib/config');
 const plugins = require('../plugins');
 
 module.exports = {
@@ -5,6 +6,8 @@ module.exports = {
     // Nothing really
   },
   registerPlugins: () => {
-    plugins.register('document-service', require('./elasticsearch'));
+    if(config.es) {
+      plugins.register('document-service', require('./elasticsearch'));
+    }
   }
 };
