@@ -1,7 +1,7 @@
 'use strict';
 
 var elasticsearch = require('elasticsearch');
-var config = require('../config');
+var config = require('../lib/config');
 var Q = require('q');
 var Agent = require('agentkeepalive');
 

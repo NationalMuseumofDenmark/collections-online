@@ -19,6 +19,9 @@ exports.initialize = (app, pluginPackages) => {
     throw new Error('Needed an Express app when initializing');
   }
 
+  // Add the default plugins
+  pluginPackages.push(require('./default-plugins'));
+
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   var config = require('./lib/config');
 
@@ -27,7 +30,7 @@ exports.initialize = (app, pluginPackages) => {
     // Save the pluginPackages for later use
     app.set('co-plugins', pluginPackages);
 
-    var es = require('./lib/services/elasticsearch');
+    var ds = require('./lib/services/documents');
 
     require('./lib/express')(app);
 
@@ -42,7 +45,7 @@ exports.initialize = (app, pluginPackages) => {
     const indecies = Object.keys(config.types).map((type) => {
       return config.types[type].index;
     });
-    return es.count({
+    return ds.count({
       index: indecies
     }).then(function(response) {
       console.log('Connecting to the Elasticsearch host', config.es.host);

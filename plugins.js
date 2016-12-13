@@ -26,6 +26,7 @@ function validatePlugin(type, plugin) {
 exports.validatePlugin = validatePlugin;
 
 exports.register = (type, plugin) => {
+  console.log('A pluging of type "' + type + '" was registered');
   // validatePlugin throws exceptions when invalid
   validatePlugin(type, plugin);
   // Create an array for the plugins of this type, if it doesn't exist
