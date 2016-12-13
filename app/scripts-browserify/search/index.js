@@ -87,7 +87,6 @@ function initialize() {
       loadingResults = false;
       response.hits.hits.forEach(function(hit) {
         var item = {
-          type: hit._type,
           metadata: hit._source
         };
         var markup = templates.searchResultItem(item);

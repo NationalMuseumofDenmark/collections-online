@@ -2,7 +2,7 @@ include ../mixins/icon.pug
 
 - var href = '/' + metadata.collection;
 - if(Object.keys(config.types).length > 1) {
--   href += '/' + type;
+-   href += '/' + metadata.type;
 - }
 - href += '/' + metadata.id;
 
