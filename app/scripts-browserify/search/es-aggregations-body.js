@@ -22,7 +22,8 @@ function buildFilter(parameters, field) {
   var independentParameters = {
     filters: independentFilters
   };
-  return elasticsearchQueryBody(independentParameters);
+  var body = elasticsearchQueryBody(independentParameters);
+  return body.query || {};
 }
 
 function generateDateRanges() {
