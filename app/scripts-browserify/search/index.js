@@ -197,7 +197,7 @@ function initialize() {
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
     host: location.origin + '/api',
-    log: config.es.log
+    log: config.es && config.es.log || 'error'
   });
 
   // When the user navigates the state, update it
