@@ -196,7 +196,9 @@ module.exports = (gulp, specializedConfig) => {
     gulp.watch([
       SCRIPTS_ALL,
       SCRIPTS_BROWSERIFY_DIR_CO + '/**/*.js',
-      SCRIPTS_BROWSERIFY_DIR + '/**/*.js'
+      SCRIPTS_BROWSERIFY_DIR + '/**/*.js',
+      config.appDir + '/../config/**/*',
+      config.appDir + '/../shared/*.js'
     ], ['js']);
   });
 
