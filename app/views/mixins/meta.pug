@@ -1,20 +1,15 @@
-mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description)
-  - siteTitle = req.app.get('siteTitle')
+mixin meta(title, description, image)
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
+
+  - siteTitle = req.app.get('siteTitle')
+  - title += ' - ' + siteTitle
+
+  - twitterAccount = helpers.getTwitterAccount(metadata)
   - twitterCard = 'summary_large_image'
+  - facebookAppId = helpers.getFacebookAppId(metadata)
   - facebookType = 'website'
-
-  if title
-    - title += ' - ' + siteTitle
-  else
-    - title = siteTitle
-
-  if socialTitle
-    - socialTitle += ' ' + siteTitle
-  else
-    - socialTitle = title
 
   if !description
     - description = 'Søg og udforsk ' + siteTitle
@@ -29,14 +24,14 @@ mixin meta(title, socialTitle, twitterAccount, facebookAppId, image, description
   meta(name='twitter:card', content=twitterCard)
   if twitterAccount
     meta(name='twitter:site', content=twitterAccount)
-  meta(name='twitter:title', content=socialTitle)
+  meta(name='twitter:title', content=title)
   meta(name='twitter:description', content=description)
   meta(name='twitter:image', content=image)
-  meta(property='og:title', content=socialTitle)
+  meta(property='og:title', content=title)
   meta(property='og:type', content=facebookType)
   meta(property='og:url', content=pageUrl)
   meta(property='og:image', content=image)
   meta(property='og:description', content=description)
-  meta(property='og:site_name', content=title)
+  meta(property='og:site_name', content=siteTitle)
   if facebookAppId
     meta(property='fb:app_id', content=facebookAppId)

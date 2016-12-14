@@ -1,11 +1,12 @@
 extends index
-include mixins/meta-search
+include mixins/meta
 include mixins/icon
 include mixins/loader
 include mixins/search-result-asset
 
 append header
-  +searchMeta(result, catalog, breadcrumbs)
+  - title = 'Søgning på '
+  +meta(title, description, image)
 
 block content
 

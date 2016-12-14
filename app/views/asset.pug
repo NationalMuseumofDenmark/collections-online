@@ -1,12 +1,15 @@
 extends index
 include mixins/icon
 include mixins/loader
-include mixins/meta-asset
+include mixins/meta
 include mixins/tag
 include mixins/display-license
 
 append header
-  +assetMeta(metadata, sources)
+  +meta(helpers.documentTitle(metadata),
+    helpers.documentDescription(metadata),
+    sources.thumbnail
+  )
 
 append javascript
   if(showGeotagging)
@@ -26,6 +29,10 @@ block content
     - fullAddress.push(city)
   - fullAddress = fullAddress.join(', ')
 
+  - var file_format = metadata.file_format;
+  - var description = helpers.documentDescription(metadata);
+  - var title = helpers.documentTitle(metadata);
+
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
           data-catalog=metadata.collection,
@@ -34,11 +41,6 @@ block content
           data-longitude=metadata.location.verified.longitude || metadata.location.crowd.longitude,
           data-heading=metadata.heading,
           data-full-address=fullAddress)
-    - var city = metadata.city;
-    - var description = metadata.description;
-    - var file_format = metadata.file_format;
-    - var title = metadata.title;
-    - var zipcode = metadata.zipcode;
     .asset-top
       .container-fluid.container-fluid-expandable
         .row

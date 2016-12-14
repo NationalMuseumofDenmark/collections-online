@@ -17,5 +17,5 @@ This is where we capture breaking changes
 ## December 2016
 
 - Title and description must be defined in shared/helpers.js
-- meta-asset, meta-search and meta have been change significantly due to the
-  above and frontend rendering
+- No more meta-asset + meta-search. Meta have been change significantly due to
+  the above and frontend rendering
