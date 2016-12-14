@@ -1,4 +1,5 @@
-include ../mixins/icon.pug
+include ../mixins/icon
+include ../mixins/document
 
 - var href = '/' + metadata.collection;
 - if(Object.keys(config.types).length > 1) {
@@ -9,5 +10,7 @@ include ../mixins/icon.pug
 a(href=href).box.col-xs-6.col-sm-4
   .box__squared-container
     img(src=href + '/thumbnail').box__squared-image.object-fit
-  h2.box__title= metadata.title || 'Uden titel'
-  p.box__description= metadata.text ? metadata.text['da-DK'].description || 'Uden beskrivelse' : 'Uden beskrivelse'
+  h2.box__title
+    +documentTitle(metadata)
+  p.box__description
+    +documentDescription(metadata)
