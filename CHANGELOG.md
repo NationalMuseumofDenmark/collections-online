@@ -13,3 +13,9 @@ This is where we capture breaking changes
 - Removed size properties from the .box class on search results (add bootstrap col classes instead)
 - Removed the "enableGeotagging" config parameter, use "features.geotagging" instead.
 - Moved favicons (apart from favicon.ico) from root to images/favicons
+
+## December 2016
+
+- Title and description must be defined in shared/helpers.js
+- No more meta-asset + meta-search. Meta have been change significantly due to
+  the above and frontend rendering
