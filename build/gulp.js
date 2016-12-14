@@ -1,7 +1,6 @@
-module.exports = (gulp, specializedConfig) => {
-
-  var config = require('../lib/config');
-  config.set(specializedConfig);
+module.exports = (gulp, childPath) => {
+  const config = require('../lib/config');
+  config.setChildPath(childPath);
 
   //------------------------------------------
   // Require
@@ -24,7 +23,6 @@ module.exports = (gulp, specializedConfig) => {
   var sequence = require('run-sequence');
   var bower = require('gulp-bower');
   var uniqueFiles = require('gulp-unique-files');
-  var watch = require('gulp-watch');
   var pug = require('gulp-pug');
   var browserify = require('browserify');
   var source = require('vinyl-source-stream');
@@ -33,26 +31,26 @@ module.exports = (gulp, specializedConfig) => {
   //------------------------------------------
   // Directories - note that they are relative to the project specific gulpfile
   //------------------------------------------
-  var DEST_DIR = config.generatedDir;
+  var DEST_DIR = path.join(childPath, 'generated');
   var ROOT_CO = __dirname + '/..';
   var BOWER_COMPONENTS_CO = ROOT_CO + '/bower_components';
-  var STYLES_SRC = config.appDir + '/styles/main.scss';
+  var STYLES_SRC = childPath + '/app/styles/main.scss';
   var STYLES_ALL = [
-    config.appDir + '/styles/*.scss',
+    childPath + '/app/styles/*.scss',
     ROOT_CO + '/app/styles/**/*.scss'
   ];
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER_CO = ROOT_CO + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
   var SCRIPTS_ARRAY_CO = [SCRIPTS_CO];
-  var SCRIPTS = config.appDir + '/scripts/*.js';
+  var SCRIPTS = childPath + '/app/scripts/*.js';
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
   var SVG_SRC_CO = ROOT_CO + '/app/images/icons/*.svg';
-  var SVG_SRC = config.appDir + '/images/icons/*.svg';
+  var SVG_SRC = childPath + '/app/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
   var PUG_SRC_CO = ROOT_CO + '/app/views/**/*.pug';
-  var PUG_SRC = config.appDir + '/views/**/*.pug';
+  var PUG_SRC = childPath + '/app/views/**/*.pug';
   var PUG_DEST = DEST_DIR + '/views';
   var isProduction = process.env.NODE_ENV === 'production';
 
@@ -103,11 +101,13 @@ module.exports = (gulp, specializedConfig) => {
 
   // Add the runtime lib used to run pug templates
   var SCRIPTS_BROWSERIFY_DIR_CO = ROOT_CO + '/app/scripts-browserify';
-  var SCRIPTS_BROWSERIFY_DIR = config.appDir &&
-                               config.appDir  + '/scripts-browserify';
+  var SCRIPTS_BROWSERIFY_DIR = childPath + '/app/scripts-browserify';
 
   var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
 
+  gulp.task('reload-config', function() {
+    config.reload();
+  });
 
   // Return only
   //------------------------------------------
@@ -134,9 +134,7 @@ module.exports = (gulp, specializedConfig) => {
         SCRIPTS_BROWSERIFY_DIR_CO,
         DEST_DIR
       ],
-      basedir: config.appDir ?
-               SCRIPTS_BROWSERIFY_DIR :
-               SCRIPTS_BROWSERIFY_DIR_CO,
+      basedir: SCRIPTS_BROWSERIFY_DIR,
       entries: './index.js',
       insertGlobalVars: {
         config: function(file, dir) {
@@ -197,9 +195,9 @@ module.exports = (gulp, specializedConfig) => {
       SCRIPTS_ALL,
       SCRIPTS_BROWSERIFY_DIR_CO + '/**/*.js',
       SCRIPTS_BROWSERIFY_DIR + '/**/*.js',
-      config.appDir + '/../config/**/*',
-      config.appDir + '/../shared/*.js'
-    ], ['js']);
+      childPath + '/config/**/*',
+      childPath + '/shared/*.js'
+    ], ['reload-config', 'js']);
   });
 
   gulp.task('clean', function() {

@@ -3,11 +3,8 @@
 var Q = require('q');
 var plugins = require('./plugins');
 
-exports.config = (config) => {
-  if(typeof(config) !== 'object') {
-    throw new Error('Needed a config object when initializing');
-  }
-  require('./lib/config').set(config);
+exports.config = (childPath) => {
+  require('./lib/config').setChildPath(childPath);
 };
 
 exports.initialize = (app, pluginPackages) => {
