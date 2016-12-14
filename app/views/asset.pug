@@ -13,7 +13,6 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-
   - var address = metadata.location.address;
   - var zipcode = metadata.location.zipcode;
   - var city = metadata.location.city;
@@ -71,15 +70,8 @@ block content
       .container-fluid
         .row.asset-info
           .col-sm-8
-            if(metadata.title)
-              h1= metadata.title || 'Uden titel'
-              if(description)
-                p.sr-only Beskrivelse
-                p.lead= metadata.text['da-DK'].description
-            else if(metadata.text['da-DK'].description)
-              p.sr-only Beskrivelse
-              h1= metadata.text['da-DK'].description
-
+            h1= helpers.documentTitle(metadata)
+            p.lead= helpers.documentDescription(metadata)
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
               if (zoom)

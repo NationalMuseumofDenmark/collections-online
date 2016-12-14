@@ -1,2 +1,4 @@
 /* global config */
-require('base');
+require('base')({
+  helpers: require('../../shared/helpers')
+});
