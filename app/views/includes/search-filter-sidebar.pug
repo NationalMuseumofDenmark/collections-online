@@ -1,5 +1,6 @@
 include ../mixins/icon
-include ../mixins/search-filter-section.pug
+include ../mixins/search-filter-value
+include ../mixins/search-filter-section
 
 .search-filter-sidebar
   if filterCount > 0
@@ -13,7 +14,8 @@ include ../mixins/search-filter-section.pug
             data-field=field,
             data-value=value,
             data-action='remove-filter')
-            span.btn-filter__text= value
+            span.btn-filter__text
+              +filterValue(field, value)
             +icon('close')
 
   if aggregations
