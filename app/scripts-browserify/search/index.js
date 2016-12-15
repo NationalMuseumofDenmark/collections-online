@@ -1,4 +1,4 @@
-/* global config */
+const config = require('collections-online/shared/config');
 
 /**
  * This module handles all clientside searching

@@ -137,15 +137,9 @@ module.exports = (gulp, childPath) => {
       basedir: SCRIPTS_BROWSERIFY_DIR,
       entries: './index.js',
       insertGlobalVars: {
-        config: function(file, dir) {
-          return JSON.stringify({
-            es: config.es,
-            features: config.features,
-            googleAnalyticsPropertyID: config.googleAnalyticsPropertyID,
-            search: config.search,
-            sortOptions: config.sortOptions,
-            types: config.types
-          });
+        clientSideConfig: function(file, dir) {
+          const clientSideConfig = config.getClientSideConfig();
+          return JSON.stringify(clientSideConfig);
         }
       },
       debug: !isProduction
