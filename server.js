@@ -39,7 +39,8 @@ exports.initialize = (app, pluginPackages) => {
       return config.types[type].index;
     });
     return ds.count({
-      index: indecies
+      index: indecies,
+      query: config.search.baseQuery
     }).then(function(response) {
       console.log('The assets index is created and contains',
                   response.count, 'documents.');
