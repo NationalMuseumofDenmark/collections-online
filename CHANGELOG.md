@@ -19,3 +19,4 @@ This is where we capture breaking changes
 - Title and description must be defined in shared/helpers.js
 - No more meta-asset + meta-search. Meta have been change significantly due to
   the above and frontend rendering
+- Removed config parameters appDir and rootDir and added childPath instead.
