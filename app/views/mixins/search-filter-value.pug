@@ -1,7 +1,8 @@
 
 mixin filterValue(field, value)
   - let labels = filterLabels[field];
-  if(labels.translations && config.translations[labels.translations])
-    = config.translations[labels.translations][value] || value
+  - let translations = labels && labels.translations ? config.translations[labels.translations] : {};
+  if(translations)
+    = translations[value] || value
   else
     = value
