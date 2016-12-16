@@ -6,10 +6,10 @@ include mixins/tag
 include mixins/display-license
 
 append header
-  +meta(helpers.documentTitle(metadata),
-    helpers.documentDescription(metadata),
-    sources.thumbnail
-  )
+  - let title = helpers.documentTitle(metadata);
+  - let description = helpers.documentDescription(metadata);
+  - let thumbnailUrl = helpers.getThumbnailURL(metadata);
+  +meta(title, description, thumbnailUrl)
 
 append javascript
   if(showGeotagging)
@@ -30,8 +30,6 @@ block content
   - fullAddress = fullAddress.join(', ')
 
   - var file_format = metadata.file_format;
-  - var description = helpers.documentDescription(metadata);
-  - var title = helpers.documentTitle(metadata);
 
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
@@ -52,8 +50,8 @@ block content
       .container-fluid
         .row.asset-info
           .col-sm-8
-            h1= helpers.documentTitle(metadata)
-            p.lead= helpers.documentDescription(metadata)
+            h1= title
+            p.lead= description
           .col-sm-4.social
             if(player === 'image-single' || player === 'image-single-animated')
               if (zoom)
