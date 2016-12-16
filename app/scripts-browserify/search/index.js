@@ -81,7 +81,7 @@ function initialize() {
       // If no results are loaded yet, it might be because we just called reset
       if(resultsLoaded.length === 0) {
         // Remove all boxes (search results) from $results, that might be there
-        $results.find('.box').remove();
+        $results.find('.search-result-item').remove();
       }
       resultsTotal = response.hits.total;
       loadingResults = false;
@@ -149,7 +149,7 @@ function initialize() {
   function enableEndlessScrolling() {
     $loadMoreBtn.addClass('invisible');
     $(window).on('scroll', function(e) {
-      var $lastResult = $('#results .box:last-child');
+      var $lastResult = $('#results .search-result-item:last-child');
       if($lastResult.length > 0) {
         var lastResultOffset = $lastResult.offset();
         var scrollTop = $(window).scrollTop();
@@ -163,9 +163,10 @@ function initialize() {
         // Update the location hash
         if(history) {
           // Find the first box that has a top offset below the scrollTop
-          var $boxesAboveScroll = $('#results .box').filter(function() {
-            return $(this).offset().top < scrollTop;
-          });
+          var $boxesAboveScroll = $('#results .search-result-item')
+            .filter(function() {
+              return $(this).offset().top < scrollTop;
+            });
           history.replaceState(null, null, '#' + $boxesAboveScroll.length);
         }
         */
@@ -178,7 +179,7 @@ function initialize() {
     if(state.resultsLoaded) {
       reset();
       // Remove all the boxes right away
-      $results.find('.box').remove();
+      $results.find('.search-result-item').remove();
       // Show the button by removing the invisible class
       // $loadMoreBtn.removeClass('invisible');
       // Append rendered markup, once per asset loaded from the state.

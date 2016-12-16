@@ -37,43 +37,6 @@
   margin-bottom: 4.2rem;
 }
 
-// Video thumbnail
-// TODO: These should prolly be moved to search-result-item.scss
-.video-thumbnail {
-  background    : $gray;
-  position      : relative;
-  width         : 100%;
-
-  svg {
-    fill: $white;
-    height: 75%; // Maintaining the 4:3 aspect ratio
-    transform: scale(.5);
-    width: 100%;
-  }
-}
-
-
-// TODO: Are these still used?
-.box {
-  &.loaded-more {
-    opacity: 0;
-  }
-
-  &.load-done {
-    animation: fadeIn $anim-duration-long forwards;
-    opacity  : 0;
-    @keyframes fadeIn {
-      0% {
-        opacity: 0;
-      }
-
-      100% {
-        opacity: 1;
-      }
-    }
-  }
-}
-
 // Load more button
 .load-more {
   display: block;
