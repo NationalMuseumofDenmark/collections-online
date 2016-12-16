@@ -45,30 +45,10 @@ block content
       .container-fluid.container-fluid-expandable
         .row
           .col-xs-12.small-bleed.img-col
-            if(player === 'image-single' || player === 'image-single-animated')
-              .image-wrap
-                if zoomable
-                  img(src=sources.thumbnail, data-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image--lazy.asset-image
-                else
-                  img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
-            else if(player === "image-rotation")
-              .rotation-wrapper
-                picture(alt=title)
-                  source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
-                  source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
-                  source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
-                  source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
-                  a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-                    img(src=sources.image, alt=title)
-            else if(player === "audio")
-              audio(controls)
-                source(src=sources.audio)
-            else if(player === "video")
-              video(width="100%", controls)
-                source(src=sources.video, type="video/mp4")
+            include includes/player
           .col-md-6.map-wrap
             if showGeotagging
-              include includes/geotagging.pug
+              include includes/geotagging
       .container-fluid
         .row.asset-info
           .col-sm-8

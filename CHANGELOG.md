@@ -22,3 +22,4 @@ This is where we capture breaking changes
 - No more meta-asset + meta-search. Meta have been change significantly due to
   the above and frontend rendering
 - Search results have "search-result-item" class instead of "box"
+- Removed config parameters appDir and rootDir and added childPath instead.
