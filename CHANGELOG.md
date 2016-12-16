@@ -23,3 +23,4 @@ This is where we capture breaking changes
   the above and frontend rendering
 - Search results have "search-result-item" class instead of "box"
 - Removed config parameters appDir and rootDir and added childPath instead.
+- Children needs some helper functions — e.g. determinePlayer
