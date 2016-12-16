@@ -1,3 +1,4 @@
+const config = require('collections-online/shared/config');
 require('cookieconsent/build/cookieconsent.min.js');
 
 // We're using http://cookieconsent.wpengine.com/documentation/javascript-api/

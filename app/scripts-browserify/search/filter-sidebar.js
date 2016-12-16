@@ -1,4 +1,4 @@
-/* global config */
+const config = require('collections-online/shared/config');
 
 /**
  * This module handles the rendering of the search filter sidebar.

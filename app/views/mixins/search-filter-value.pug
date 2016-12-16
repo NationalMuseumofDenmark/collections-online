@@ -1,0 +1,8 @@
+
+mixin filterValue(field, value)
+  - let labels = filterLabels[field];
+  - let translations = labels && labels.translations ? config.translations[labels.translations] : {};
+  if(translations)
+    = translations[value] || value
+  else
+    = value
