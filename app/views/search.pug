@@ -36,15 +36,6 @@ block content
           +loader('Vis flere...')
   .clearfix
 
-  a#toTop
-    +icon('scrolltotop')
-
+  if(config.features.scrollToTop)
+    include includes/to-top
   include includes/footer
-
-append javascript
-  script.
-    $(function() {
-      $('#toTop').scrollToTop(400);
-      // To ensure no boxes are hidden if the was some load error
-      $('.loaded-more').removeClass('loaded-more');
-    });
