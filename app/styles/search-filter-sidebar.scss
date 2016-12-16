@@ -111,6 +111,16 @@ $heading-adjustment: 2px;
   max-width: 90%;
   max-width: calc(100% - #{$spacer-xs * 2});
 
+  @if $filter-btn-full-width == true {
+    justify-content: space-between;
+    width: 100%;
+
+    &__text {
+      flex-grow: 1;
+      text-align: left;
+    }
+  }
+
   &__count,
   &__text,
   svg {
