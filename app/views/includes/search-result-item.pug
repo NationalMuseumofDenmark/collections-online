@@ -1,16 +1,10 @@
 include ../mixins/icon
 
-- var href = '/' + metadata.collection;
-- if(Object.keys(config.types).length > 1) {
--   href += '/' + metadata.type;
-- }
-- href += '/' + metadata.id;
-- var player = helpers.determinePlayer(metadata);
+- let player = helpers.determinePlayer(metadata);
 
-
-a(href=href).search-result-item.col-xs-6.col-sm-4
+a(href=helpers.getDocumentURL(metadata)).search-result-item.col-xs-6.col-sm-4
   .search-result-item__squared-container
-    img(src=href + '/thumbnail').search-result-item__squared-image.object-fit
+    img(src=helpers.getThumbnailURL(metadata)).search-result-item__squared-image.object-fit
     if player === 'rotation'
       +icon('rotation')
     if player === 'video'
