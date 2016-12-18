@@ -1,5 +1,24 @@
 let helpers = {};
 
+const REQUIRED_HELPERS = [
+  'documentTitle',
+  'documentDescription',
+  'determinePlayer',
+  'getDocumentURL',
+  'getThumbnailURL',
+  'getDownloadURL',
+  'getDownloadOptions',
+  'translate'
+];
+
+helpers.checkRequiredHelpers = () => {
+  REQUIRED_HELPERS.forEach((requiredHelper) => {
+    if(typeof(helpers[requiredHelper]) !== 'function') {
+      throw new Error('Missing required helper function: ' + requiredHelper);
+    }
+  });
+};
+
 // TODO: Consider if a localization function might be easier to use
 helpers.thousandsSeparator = (number) => {
   if(number) {
