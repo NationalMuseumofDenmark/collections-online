@@ -125,20 +125,9 @@ block content
       if (downloadable)
         h2 Download
         if(player === 'image-single')
-          a.btn.btn-primary(href=sources.imageSet.download800.src)
-            | Lille (#{sources.imageSet.download800.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.download1200.src)
-            | Mellem (#{sources.imageSet.download1200.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.download2000.src)
-            | Stor (#{sources.imageSet.download2000.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.downloadOriginal.src)
-            | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-        if(file_format === 'TIFF Image')
-          a.btn.btn-primary(href=sources.download)
-            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
-        if(player === 'image-single-animated')
-          a.btn.btn-primary(href=sources.download)
-            | Original (#{metadata.width_px} x #{metadata.height_px} gif)
+          each option in helpers.getDownloadOptions(metadata)
+            a.btn.btn-primary(href=option.href)
+              = option.label
         +displayLicense(metadata.license)
       else
         h2 Vi beklager
