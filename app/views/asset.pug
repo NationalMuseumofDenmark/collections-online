@@ -116,19 +116,8 @@ block content
             != assetSection('additional-information', metadata)
           .col-sm-6
             != assetSection('technical-information', metadata)
-
-          if relatedAssets && relatedAssets.length > 0
-            .col-xs-12
-              h2 Relaterede billeder
-              .related-assets
-                .related-assets__next-arrow
-                  +icon('chevron-right')
-                .related-assets__prev-arrow
-                  +icon('chevron-right')
-                .slider
-                  each asset in relatedAssets
-                    a(href=asset.href)
-                      img(data-lazy=asset.src)
+        .row
+          include includes/relations
 
 
   .overlay__container(data-content="asset-download")
