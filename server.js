@@ -28,7 +28,10 @@ exports.initialize = (app, pluginPackages) => {
     require('./lib/express')(app);
 
     app.locals.config = config;
-    app.locals.helpers = require('./lib/helpers');
+    
+    const helpers = require('./lib/helpers');
+    helpers.checkRequiredHelpers();
+    app.locals.helpers = helpers;
 
     app.set('siteTitle', config.siteTitle);
     // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
