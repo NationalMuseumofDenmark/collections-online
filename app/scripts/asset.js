@@ -43,16 +43,23 @@
           nextArrow: '.related-assets__next-arrow',
 
           responsive: [{
+            breakpoint: 1180,
+            settings: {
+              arrows: false
+            }
+          }, {
             breakpoint: 768,
             settings: {
               slidesToShow: 4,
               slidesToScroll: 4,
+              arrows: false
             }
           }, {
             breakpoint: 480,
             settings: {
               slidesToShow: 3,
-              slidesToScroll: 3
+              slidesToScroll: 3,
+              arrows: false
             }
           }]
         });
