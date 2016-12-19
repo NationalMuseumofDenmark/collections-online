@@ -114,6 +114,10 @@ $slider-arrow-size: 4rem;
   }
 }
 
+.date-string {
+  white-space: pre;
+}
+
 .asset-bottom {
   background-color: $asset-bottom-bg;
   padding: 1rem 0 3rem;
