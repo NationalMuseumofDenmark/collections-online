@@ -124,10 +124,9 @@ block content
     .overlay__content
       if (downloadable)
         h2 Download
-        if(player === 'image-single')
-          each option in helpers.getDownloadOptions(metadata)
-            a.btn.btn-primary(href=option.href)
-              = option.label
+        each option in helpers.getDownloadOptions(metadata)
+          a.btn.btn-primary(href=option.url)
+            = option.label
         +displayLicense(metadata.license)
       else
         h2 Vi beklager
