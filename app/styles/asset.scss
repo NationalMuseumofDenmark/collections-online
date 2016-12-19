@@ -26,25 +26,29 @@ $slider-arrow-size: 4rem;
   }
 }
 
-.img-col {
-  height: 100%;
-}
-
 .asset-image {
-  display   : block;
-  margin    : 0 auto;
-  max-width : 100%;
-  min-width : 0; // So that animation works
-  padding   : 0;
-  transition: $anim-default;
-
-  @media (min-width: $small-size) {
-    max-height: $asset-max-height;
+  display  : block;
+  margin   : 0 auto;
+  max-width: 100%;
+  padding  : 0;
+  @if $asset-zoom-animation {
+    transition: $anim-default;
   }
 
   &--zoomable:not(.dimmed) {
     cursor: zoom-in;
   }
+}
+
+.asset-top:not(.expanded) .asset-image {
+  @media (min-width: $small-size) {
+    max-height: $asset-max-height;
+  }
+}
+
+.expanded .asset-image {
+  cursor: zoom-out;
+  width : 100%;
 }
 
 .rotation-wrapper {
@@ -57,13 +61,6 @@ $slider-arrow-size: 4rem;
   @media (min-width: $large-size) {
     max-width: 70%;
   }
-}
-
-// Full blown image
-.expanded .asset-image {
-  cursor    : zoom-out;
-  max-height: 10000px; // So that animation works
-  min-width: 100%;
 }
 
 .social {
@@ -94,9 +91,9 @@ $slider-arrow-size: 4rem;
   }
 
   b {
+    display: block;
     margin-bottom: -.5rem;
     margin-top: .5rem;
-    display: block;
   }
 
   @media (min-width: $medium-size) {
