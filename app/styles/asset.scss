@@ -34,6 +34,7 @@ $slider-arrow-size: 4rem;
   display   : block;
   margin    : 0 auto;
   max-width : 100%;
+  min-width : 0; // So that animation works
   padding   : 0;
   transition: $anim-default;
 
@@ -61,7 +62,8 @@ $slider-arrow-size: 4rem;
 // Full blown image
 .expanded .asset-image {
   cursor    : zoom-out;
-  max-height: 2000px; // Should match the size given in the image path
+  max-height: 10000px; // So that animation works
+  min-width: 100%;
 }
 
 .social {
