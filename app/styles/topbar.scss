@@ -58,7 +58,8 @@
   align-items: center;
   display    : flex;
 
-  &:hover {
+  &:hover,
+  &:focus {
     text-decoration: none;
   }
 }
