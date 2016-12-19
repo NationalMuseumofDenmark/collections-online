@@ -40,7 +40,7 @@ block content
           data-heading=metadata.heading,
           data-full-address=fullAddress)
     .asset-top
-      .container-fluid.container-fluid-expandable
+      .container-fluid
         .row
           .col-xs-12.small-bleed.img-col
             include includes/player
@@ -53,10 +53,9 @@ block content
             h1= title
             p.lead= description
           .col-sm-4.social
-            if(player === 'image-single' || player === 'image-single-animated')
-              if (zoom)
-                a(data-action="asset-image-size-toggle")
-                  +icon('zoom-in')
+            if(player === 'image' || player === 'image-downloaded')
+              a(data-action="asset-image-size-toggle")
+                +icon('zoom-in')
             a(data-action="asset-download-show", class=downloadable===true ? '' : 'dimmed')
               +icon('download')
             a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
