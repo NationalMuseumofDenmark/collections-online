@@ -8,8 +8,8 @@ mixin licenseImageOrText(license)
   - else
     p No known rights
 
-mixin displayLicense(license)
-  - license = helpers.licenseMapped(license)
+mixin displayLicense(metadata)
+  - license = helpers.licenseMapped(metadata)
   - if (license && license.url)
     a(href=license.url, rel='license', target='_blank')
       +licenseImageOrText(license)
