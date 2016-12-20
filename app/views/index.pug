@@ -8,11 +8,11 @@ html(lang='da').no-js
   body
     include includes/menu
 
-    div.main-wrapper
+    .main-wrapper
       include includes/topbar
-      block before-content
       block content
+      block footer
+        include includes/footer
 
-    include includes/translate
     include includes/scripts
     block javascript
