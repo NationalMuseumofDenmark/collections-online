@@ -5,6 +5,9 @@ module.exports = options => {
   if(config.features.cookieConsent) {
     require('cookie-consent');
   }
+  if(config.features.geotagging) {
+    require('geo-tags');
+  }
   require('dropdown');
 
   window.helpers = options.helpers;
