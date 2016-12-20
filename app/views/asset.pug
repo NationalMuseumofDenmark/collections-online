@@ -53,15 +53,7 @@ block content
             h1= title
             p.lead= description
           .col-sm-4.social
-            if(player === 'image' || player === 'image-downloaded')
-              a(data-action="asset-image-size-toggle")
-                +icon('zoom-in')
-            a(data-action="asset-download-show", class=downloadable===true ? '' : 'dimmed')
-              +icon('download')
-            a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
-              +icon('facebook')
-            a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
-              +icon('twitter')
+            include includes/social-buttons
 
     .asset-middle
       .container-fluid
@@ -118,19 +110,7 @@ block content
         .row
           include includes/relations
 
-
-  .overlay__container(data-content="asset-download")
-    .overlay__content
-      if (downloadable)
-        h2 Download
-        each option in helpers.getDownloadOptions(metadata)
-          a.btn.btn-primary(href=option.url)
-            = option.label
-        +displayLicense(metadata.license)
-      else
-        h2 Vi beklager
-        p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
-
+  include includes/download-overlay
 
   .facebook-group
     h2 Tusind tak for din hjælp!

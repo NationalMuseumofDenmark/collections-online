@@ -13,7 +13,6 @@ block content
             a(href='/' + catalog.alias)
               .thumb(style='background-image: url(' + catalog.sources.thumbnail + ')')
               h2= catalog.name
-  include includes/footer
 
 append javascript
   - baseURL = 'http://' + (req.get('x-forwarded-host') || req.get('host')) + '/'
