@@ -1,4 +1,4 @@
-const config = require('../lib/config');
+const config = require('./config');
 let helpers = {};
 
 const REQUIRED_HELPERS = [
