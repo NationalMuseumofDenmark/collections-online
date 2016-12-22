@@ -1,7 +1,7 @@
 'use strict';
 
 var elasticsearch = require('elasticsearch');
-var config = require('../lib/config');
+var config = require('../config');
 var Q = require('q');
 var Agent = require('agentkeepalive');
 
@@ -39,6 +39,3 @@ es.scrollSearch = function(body, hitCallback) {
 };
 
 module.exports = es;
-
-// TODO: Override elasticsearch .search method to inject the index parameter
-// from the configuration

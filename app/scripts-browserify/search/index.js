@@ -54,7 +54,6 @@ function initialize() {
     if(config.features.filterSidebar && freshUpdate) {
       // Get aggragations for the sidebar
       es.search({
-        index: 'all',
         body: elasticsearchAggregationsBody(searchParams),
         size: 0
       }).then(function (response) {
@@ -68,12 +67,12 @@ function initialize() {
         sidebar.update(response.aggregations, searchParams.filters);
       }, function (error) {
         console.trace(error.message);
-      }).then(null, console.error);
+      });
     }
 
     // Get actual results from the index
     es.search({
-      index: 'all',
+      index: 'all', // config.es.assetsIndex,
       body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded.length,
       size: resultsDesired - resultsLoaded.length
@@ -81,12 +80,13 @@ function initialize() {
       // If no results are loaded yet, it might be because we just called reset
       if(resultsLoaded.length === 0) {
         // Remove all boxes (search results) from $results, that might be there
-        $results.find('.search-result-item').remove();
+        $results.find('.box').remove();
       }
       resultsTotal = response.hits.total;
       loadingResults = false;
       response.hits.hits.forEach(function(hit) {
         var item = {
+          type: hit._type,
           metadata: hit._source
         };
         var markup = templates.searchResultItem(item);
@@ -129,7 +129,7 @@ function initialize() {
       }
     }, function (error) {
       console.trace(error.message);
-    }).then(null, console.error);
+    });
   }
 
   function changeSearchParams(searchParams) {
@@ -149,7 +149,7 @@ function initialize() {
   function enableEndlessScrolling() {
     $loadMoreBtn.addClass('invisible');
     $(window).on('scroll', function(e) {
-      var $lastResult = $('#results .search-result-item:last-child');
+      var $lastResult = $('#results .box:last-child');
       if($lastResult.length > 0) {
         var lastResultOffset = $lastResult.offset();
         var scrollTop = $(window).scrollTop();
@@ -163,10 +163,9 @@ function initialize() {
         // Update the location hash
         if(history) {
           // Find the first box that has a top offset below the scrollTop
-          var $boxesAboveScroll = $('#results .search-result-item')
-            .filter(function() {
-              return $(this).offset().top < scrollTop;
-            });
+          var $boxesAboveScroll = $('#results .box').filter(function() {
+            return $(this).offset().top < scrollTop;
+          });
           history.replaceState(null, null, '#' + $boxesAboveScroll.length);
         }
         */
@@ -179,7 +178,7 @@ function initialize() {
     if(state.resultsLoaded) {
       reset();
       // Remove all the boxes right away
-      $results.find('.search-result-item').remove();
+      $results.find('.box').remove();
       // Show the button by removing the invisible class
       // $loadMoreBtn.removeClass('invisible');
       // Append rendered markup, once per asset loaded from the state.
@@ -197,7 +196,7 @@ function initialize() {
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
     host: location.origin + '/api',
-    log: config.es && config.es.log || 'error'
+    log: config.es.log
   });
 
   // When the user navigates the state, update it
@@ -212,24 +211,14 @@ function initialize() {
     inflateHistoryState(history.state);
   }
 
-  $('#sidebar').on('click', '.btn', function() {
+  $('#sidebar').on('click', '.btn-filter', function() {
     var action = $(this).data('action');
     var field = $(this).data('field');
-    var filter = config.search.filters[field];
     var value = $(this).data('value');
-    if(!value && filter.type === 'date-interval-range') {
-      var $form = $(this).closest('.form-group');
-      var from = $form.find('[name='+field+'-from]').val() || '*';
-      var to = $form.find('[name='+field+'-to]').val() || '*';
-      if(from !== '*' || to !== '*') {
-        value = from.replace(/-/g, '/') + '-' + to.replace(/-/g, '/');
-      } else {
-        return;
-      }
-    }
     var searchParams = getSearchParams();
     var filters = searchParams.filters;
     if(action === 'add-filter') {
+      // console.log('Adding ', field, 'value', value);
       if(typeof(filters[field]) === 'object') {
         filters[field].push(value);
       } else {

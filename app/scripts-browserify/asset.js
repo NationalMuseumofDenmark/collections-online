@@ -1,4 +1,5 @@
 'use strict';
+/* global config */
 
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
@@ -89,16 +90,24 @@
     },
 
     toggleBigImage: function() {
-      var $use = $(ACTION_BIG_IMAGE_TOGGLE).find('use');
       $(CONTENT_ASSET_TOP).toggleClass(CONTENT_EXPANDED_CLASS);
-      if ($use.attr('xlink:href') === '#icon-zoom-in') {
-        $use.attr('xlink:href', '#icon-zoom-out');
-      } else {
-        $use.attr('xlink:href', '#icon-zoom-in');
+      if(config.features.lazyLoadExpandedAssets) {
+        // Make sure that an image that needs lazyloading gets its src replaced
+        var expanded = $(CONTENT_ASSET_TOP).hasClass(CONTENT_EXPANDED_CLASS);
+        $('img[data-expanded-src]', CONTENT_ASSET_TOP).each(function() {
+          if (expanded) {
+            // Save the original src for later
+            var originalSrc = $(this).attr('src');
+            $(this).data('original-src', originalSrc);
+            // Replace the src
+            $(this).attr('src', $(this).data('expanded-src'));
+          } else {
+            $(this).attr('src', $(this).data('original-src'));
+          }
+        });
       }
     }
   };
 
   window.AssetPage = AssetPage;
-
 })(jQuery, window);

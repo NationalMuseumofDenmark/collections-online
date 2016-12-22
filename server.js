@@ -12,9 +12,6 @@ exports.initialize = (app, pluginPackages) => {
     throw new Error('Needed an Express app when initializing');
   }
 
-  // Add the default plugins
-  pluginPackages.push(require('./default-plugins'));
-
   process.env.NODE_ENV = process.env.NODE_ENV || 'development';
   var config = require('./lib/config');
 
@@ -23,15 +20,12 @@ exports.initialize = (app, pluginPackages) => {
     // Save the pluginPackages for later use
     app.set('co-plugins', pluginPackages);
 
-    var ds = require('./lib/services/documents');
+    var es = require('./lib/services/elasticsearch');
 
     require('./lib/express')(app);
 
     app.locals.config = config;
-    
-    const helpers = require('./lib/helpers');
-    helpers.checkRequiredHelpers();
-    app.locals.helpers = helpers;
+    app.locals.helpers = require('./lib/helpers');
 
     app.set('siteTitle', config.siteTitle);
     // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
@@ -45,13 +39,15 @@ exports.initialize = (app, pluginPackages) => {
       index: indecies,
       query: config.search.baseQuery
     }).then(function(response) {
+      console.log('Connecting to the Elasticsearch host', config.es.host);
       console.log('The assets index is created and contains',
                   response.count, 'documents.');
     }, function(err) {
       if(err.status === 404) {
         console.error('Missing document index:', indecies.join(' or '));
       } else {
-        console.error('Could not connect to the document service', err);
+        console.error('Could not connect to the Elasticsearch:',
+                      'Is the elasticsearch service started?');
         process.exit(1);
       }
     })

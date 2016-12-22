@@ -25,7 +25,6 @@
     "elasticsearch": "~11.0.1",
     "errorhandler": "~1.4.3",
     "express": "~4.13.4",
-    "express-session": "~1.13.0",
     "google-translate": "^1.0.6",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
