@@ -1,5 +1,6 @@
 'use strict';
-/* global config */
+
+const config = require('collections-online/shared/config');
 
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
