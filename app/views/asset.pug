@@ -6,10 +6,10 @@ include mixins/tag
 include mixins/display-license
 
 append header
-  +meta(helpers.documentTitle(metadata),
-    helpers.documentDescription(metadata),
-    sources.thumbnail
-  )
+  - let title = helpers.documentTitle(metadata);
+  - let description = helpers.documentDescription(metadata);
+  - let thumbnailUrl = helpers.getThumbnailURL(metadata);
+  +meta(title, description, thumbnailUrl)
 
 append javascript
   if(showGeotagging)
@@ -30,8 +30,6 @@ block content
   - fullAddress = fullAddress.join(', ')
 
   - var file_format = metadata.file_format;
-  - var description = helpers.documentDescription(metadata);
-  - var title = helpers.documentTitle(metadata);
 
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
@@ -42,49 +40,20 @@ block content
           data-heading=metadata.heading,
           data-full-address=fullAddress)
     .asset-top
-      .container-fluid.container-fluid-expandable
+      .container-fluid
         .row
           .col-xs-12.small-bleed.img-col
-            if(player === 'image-single' || player === 'image-single-animated')
-              .image-wrap
-                if zoomable
-                  img(src=sources.thumbnail, data-src=sources.thumbnail+'/2000', alt=title).asset-image--zoomable.asset-image--lazy.asset-image
-                else
-                  img(src=sources.thumbnail, alt=title).asset-image--zoomable.asset-image
-            else if(player === "image-rotation")
-              .rotation-wrapper
-                picture(alt=title)
-                  source(srcset=sources.imageSet['2000'], media='(min-width: 1200px)')
-                  source(srcset=sources.imageSet['1200'], media='(min-width: 800px)')
-                  source(srcset=sources.imageSet['800'], media='(min-width: 400px)')
-                  source(srcset=sources.imageSet['400'], media='(max-width: 400px)')
-                  a.Magic360(data-magic360-options=helpers.magic360Options(sources.imageRotationSet))
-                    img(src=sources.image, alt=title)
-            else if(player === "audio")
-              audio(controls)
-                source(src=sources.audio)
-            else if(player === "video")
-              video(width="100%", controls)
-                source(src=sources.video, type="video/mp4")
+            include includes/player
           .col-md-6.map-wrap
             if showGeotagging
-              include includes/geotagging.pug
+              include includes/geotagging
       .container-fluid
         .row.asset-info
           .col-sm-8
-            h1= helpers.documentTitle(metadata)
-            p.lead= helpers.documentDescription(metadata)
+            h1= title
+            p.lead= description
           .col-sm-4.social
-            if(player === 'image-single' || player === 'image-single-animated')
-              if (zoom)
-                a(data-action="asset-image-size-toggle")
-                  +icon('zoom-in')
-            a(data-action="asset-download-show", class=downloadable===true ? '' : 'dimmed')
-              +icon('download')
-            a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
-              +icon('facebook')
-            a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
-              +icon('twitter')
+            include includes/social-buttons
 
     .asset-middle
       .container-fluid
@@ -138,45 +107,10 @@ block content
             != assetSection('additional-information', metadata)
           .col-sm-6
             != assetSection('technical-information', metadata)
+        .row
+          include includes/relations
 
-          if relatedAssets && relatedAssets.length > 0
-            .col-xs-12
-              h2 Relaterede billeder
-              .related-assets
-                .related-assets__next-arrow
-                  +icon('chevron-right')
-                .related-assets__prev-arrow
-                  +icon('chevron-right')
-                .slider
-                  each asset in relatedAssets
-                    a(href=asset.href)
-                      img(data-lazy=asset.src)
-
-
-  .overlay__container(data-content="asset-download")
-    .overlay__content
-      if (downloadable)
-        h2 Download
-        if(player === 'image-single')
-          a.btn.btn-primary(href=sources.imageSet.download800.src)
-            | Lille (#{sources.imageSet.download800.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.download1200.src)
-            | Mellem (#{sources.imageSet.download1200.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.download2000.src)
-            | Stor (#{sources.imageSet.download2000.size} jpg)
-          a.btn.btn-primary(href=sources.imageSet.downloadOriginal.src)
-            | Original (#{metadata.width_px} x #{metadata.height_px} jpg)
-        if(file_format === 'TIFF Image')
-          a.btn.btn-primary(href=sources.download)
-            | Original (#{metadata.width_px} x #{metadata.height_px} tif)
-        if(player === 'image-single-animated')
-          a.btn.btn-primary(href=sources.download)
-            | Original (#{metadata.width_px} x #{metadata.height_px} gif)
-        +displayLicense(metadata.license)
-      else
-        h2 Vi beklager
-        p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.
-
+  include includes/download-overlay
 
   .facebook-group
     h2 Tusind tak for din hjælp!

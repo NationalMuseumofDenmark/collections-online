@@ -1,16 +1,15 @@
 'use strict';
+/* global google, ga */
+const helpers = require('collections-online/shared/helpers');
 
-var resizeMap;
-var map;
-var assetMap;
 var streetView;
 var marker;
 var headingMarker;
-var google;
-var ga;
 var mapHeading = 0;
 
 (function($) {
+  var map;
+  var assetMap;
 
   // Check if we should show facebook-thanks on load
   window.showFacebookMaybe();
@@ -26,12 +25,20 @@ var mapHeading = 0;
 
   // Let's define a global function, to be called when initializing or when
   // the window resizes.
-  resizeMap = function() {
+  function resizeMap() {
     $map.height($map.width());
     var center = map.getCenter();
     google.maps.event.trigger(map, 'resize');
     map.setCenter(center);
-  };
+  }
+
+  function generateSaveURL(catalogAlias, assetId) {
+    return helpers.getDocumentURL({
+      collection: catalogAlias,
+      type: 'asset',
+      id: assetId
+    }) + '/save-geotag';
+  }
 
   var showMap = function() {
     if (!window.localStorage.getItem('geotagging-overlay-closed')) {
@@ -107,10 +114,9 @@ var mapHeading = 0;
     var $asset = $('.asset');
     var catalogAlias = $asset.data('catalog');
     var assetId = $asset.data('id');
-    var url = '/' + catalogAlias + '/' + assetId + '/save-geotag';
     $.ajax({
       type: 'post',
-      url: url,
+      url: generateSaveURL(catalogAlias, assetId),
       data: data,
       dataType: 'json',
       success: function(response) {
@@ -144,7 +150,7 @@ var mapHeading = 0;
     var heading = $('.asset').data('heading');
     var address = $('.asset').data('full-address');
 
-    var mapOptions = {
+    var options = {
       center: initialPosition,
       zoom: 16,
       mapTypeControlOptions: {
@@ -162,13 +168,11 @@ var mapHeading = 0;
       }]
     };
 
-    map = new google.maps.Map(document.getElementById('geotagging-map'),
-      mapOptions);
+    map = new google.maps.Map(document.getElementById('geotagging-map'), options);
 
     // Show asset location on map if asset has a geolocation
     if (document.getElementById('asset-map')) {
-      assetMap = new google.maps.Map(document.getElementById('asset-map'),
-        mapOptions);
+      assetMap = new google.maps.Map(document.getElementById('asset-map'), options);
       assetMap.setZoom(13);
       assetMap.setCenter({lat: latitude, lng: longitude});
     }
@@ -336,14 +340,3 @@ var mapHeading = 0;
     resizeMap();
   };
 })(jQuery);
-
-// Prevent Roboto from loading
-var head = document.getElementsByTagName('head')[0];
-var insertBefore = head.insertBefore;
-head.insertBefore = function(newElement, referenceElement) {
-  if (newElement.href && newElement.href.indexOf(
-      'https://fonts.googleapis.com/css?family=Roboto') === 0) {
-    return;
-  }
-  insertBefore.call(head, newElement, referenceElement);
-};

@@ -2,17 +2,17 @@ if(config.env !== 'development')
   script.
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
-        pageLanguage: 'da', 
-        autoDisplay: true, 
-        gaTrack: true, 
+        pageLanguage: 'da',
+        autoDisplay: true,
+        gaTrack: true,
         gaId: '#{config.googleAnalyticsPropertyID}'
       }, 'google_translate_element');
     }
-else 
+else
   script.
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
-        pageLanguage: 'da', 
+        pageLanguage: 'da',
         autoDisplay: true
       }, 'google_translate_element');
     }

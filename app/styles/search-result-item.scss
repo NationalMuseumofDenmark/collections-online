@@ -1,4 +1,4 @@
-.box {
+.search-result-item {
   color: $black;
   display: block;
   margin-bottom: $spacer-md;
@@ -49,17 +49,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     word-break: normal;
-
-    // TODO - uncomment if we prefer gradient instead of ...
-    // &::after {
-    //   background: linear-gradient(to right, rgba($white, 0), rgba($white, 1));
-    //   bottom: 0;
-    //   content: '';
-    //   position: absolute;
-    //   right: 0;
-    //   top: 0;
-    //   width: $spacer-lg;
-    // }
   }
 
   &__title {
@@ -69,5 +58,30 @@
 
   &__description {
     height: $spacer-sm * 2;
+  }
+
+  &__overlay {
+    background-color: rgba($gray-dark, .6);
+    bottom: 0;
+    color: $white;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    svg {
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%) translateY(-50%);
+    }
+  }
+
+  svg {
+    fill: currentcolor;
+    height: 3rem;
+    width: 3rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
   }
 }

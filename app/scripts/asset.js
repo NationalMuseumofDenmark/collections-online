@@ -3,7 +3,6 @@
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="asset-download-show"]';
   var ACTION_ASSET_ZOOMABLE = '.asset-image--zoomable';
-  var ACTION_ASSET_LAZY = '.asset-image--lazy';
   var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]:not(.dimmed)';
   var ACTION_BIG_IMAGE_DISABLED = '[data-action="asset-image-size-toggle"].dimmed';
   var CONTENT_ASSET_TOP = '.asset-top';
@@ -28,9 +27,6 @@
         .on('click', this.toggleBigImage.bind(this));
       $(ACTION_BIG_IMAGE_TOGGLE)
         .on('click', this.toggleBigImage.bind(this));
-      $(ACTION_ASSET_LAZY).each(function(){
-        $(this).attr('src', $(this).data('src'));
-      });
 
       if ($(CONTENT_SLIDER).size() > 0) {
         $(CONTENT_SLIDER).slick({
@@ -43,16 +39,23 @@
           nextArrow: '.related-assets__next-arrow',
 
           responsive: [{
+            breakpoint: 1180,
+            settings: {
+              arrows: false
+            }
+          }, {
             breakpoint: 768,
             settings: {
               slidesToShow: 4,
               slidesToScroll: 4,
+              arrows: false
             }
           }, {
             breakpoint: 480,
             settings: {
               slidesToShow: 3,
-              slidesToScroll: 3
+              slidesToScroll: 3,
+              arrows: false
             }
           }]
         });

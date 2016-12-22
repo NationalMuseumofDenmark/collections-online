@@ -19,7 +19,7 @@
     transition-timing-function: $anim-entrance;
 
     .overlay__content {
-      transform                 : translate3d(-50%, -50%, 0) scale(1);
+      transform                 : translate(-50%, -50%) scale(1);
       transition-timing-function: $anim-entrance;
     }
   }
@@ -43,7 +43,7 @@
   left      : 50%;
   position  : absolute;
   top       : 50%;
-  transform : translate3d(-50%, -50%, 0) scale(.5);
+  transform : translate(-50%, -50%) scale(.8);
   transition: transform $anim-duration $anim-exit;
 
   > * {

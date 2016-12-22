@@ -4,8 +4,8 @@ mixin formatDateInterval(from, to)
     = helpers.formatDate(from)
   else
     if(from)
-      = helpers.formatDate(from)
+      span.date-string= helpers.formatDate(from)
     if(from && to)
       | &nbsp;&ndash;&nbsp;
     if(to)
-      = helpers.formatDate(to)
+      span.date-string= helpers.formatDate(to)

@@ -42,6 +42,7 @@ $anim-duration-fast           : 150ms !default;
 $anim-entrance                : ease-out !default;
 $anim-exit                    : ease-in !default;
 $anim-default                 : $anim-duration ease !default;
+$asset-zoom-animation         : true !default;
 
 // Menu
 $menu-width                   : 280px !default;
@@ -76,6 +77,10 @@ $snackbar-zindex              : 1000 !default;
 
 // SVG
 $icon-size                    : 24px !default;
+
+// Search result
+$filter-btn-full-width        : false !default;
+$filter-btn-svg-right-margin  : .2em !default;
 
 // Asset
 $asset-top-bg                 : $topbar-color !default;

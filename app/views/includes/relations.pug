@@ -1,0 +1,13 @@
+each docs, type in metadata.related
+  if docs.length > 0
+    .col-xs-12
+      h2= 'Relaterede ' + helpers.translate(type)
+      .related-assets
+        .related-assets__next-arrow
+          +icon('chevron-right')
+        .related-assets__prev-arrow
+          +icon('chevron-right')
+        .slider
+          each doc in docs
+            a(href=helpers.getDocumentURL(doc))
+              img(data-lazy=helpers.getThumbnailURL(doc))

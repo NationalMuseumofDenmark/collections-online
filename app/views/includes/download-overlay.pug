@@ -1,0 +1,11 @@
+.overlay__container(data-content="asset-download")
+  .overlay__content
+    if helpers.isDownloadable(metadata)
+      h2 Download
+      each option in helpers.getDownloadOptions(metadata)
+        a.btn.btn-primary(href=option.url)
+          = option.label
+      +displayLicense(metadata)
+    else
+      h2 Vi beklager
+      p Billedet er ophavsretligt beskyttet og kan derfor ikke downloades uden forudgående aftale med fotografen.

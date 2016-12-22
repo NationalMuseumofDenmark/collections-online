@@ -30,4 +30,9 @@
       transform: rotate(180deg);
     }
   }
+
+  .related-assets__next-arrow,
+  .related-assets__prev-arrow {
+    display: none;
+  }
 }

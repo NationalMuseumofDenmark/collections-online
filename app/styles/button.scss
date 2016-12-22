@@ -7,18 +7,19 @@
   border    : 0;
 
   svg {
-    margin        : 0 .2em;
-    vertical-align: middle;
-    height: 18px;
-    width : 18px;
     fill: $white;
+    height: 18px;
+    margin: 0 .2em;
+    vertical-align: middle;
+    width : 18px;
   }
 
   &-default {
     background-color: $button-bg;
     color           : $white;
 
-    &:hover, &:focus {
+    &:hover,
+    &:focus {
       background-color: darken($button-bg, 10%);
       color           : $white;
     }

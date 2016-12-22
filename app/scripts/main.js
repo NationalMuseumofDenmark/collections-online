@@ -18,9 +18,13 @@ function fbshareCurrentPage() {
 }
 
 function twittershareCurrentPage() {
+  var via = '';
   var twitterAccount = $('meta[name="twitter:site"]').attr('content');
+  if (twitterAccount){
+    via += '&via=' + twitterAccount;
+  }
   window.open('https://twitter.com/intent/tweet?url='
-    + escape(window.location.href) + '&via=' + twitterAccount
+    + escape(window.location.href) + via
   );
   return false;
 }

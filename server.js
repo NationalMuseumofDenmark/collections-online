@@ -3,11 +3,8 @@
 var Q = require('q');
 var plugins = require('./plugins');
 
-exports.config = (config) => {
-  if(typeof(config) !== 'object') {
-    throw new Error('Needed a config object when initializing');
-  }
-  require('./lib/config').set(config);
+exports.config = (childPath) => {
+  require('./lib/config').setChildPath(childPath);
 };
 
 exports.initialize = (app, pluginPackages) => {
@@ -31,7 +28,10 @@ exports.initialize = (app, pluginPackages) => {
     require('./lib/express')(app);
 
     app.locals.config = config;
-    app.locals.helpers = require('./lib/helpers');
+    
+    const helpers = require('./lib/helpers');
+    helpers.checkRequiredHelpers();
+    app.locals.helpers = helpers;
 
     app.set('siteTitle', config.siteTitle);
     // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
@@ -42,7 +42,8 @@ exports.initialize = (app, pluginPackages) => {
       return config.types[type].index;
     });
     return ds.count({
-      index: indecies
+      index: indecies,
+      query: config.search.baseQuery
     }).then(function(response) {
       console.log('The assets index is created and contains',
                   response.count, 'documents.');
