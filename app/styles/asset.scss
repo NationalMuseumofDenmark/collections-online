@@ -62,7 +62,7 @@ $slider-arrow-size: 4rem;
   max-height: 2000px; // Should match the size given in the image path
 }
 
-.social {
+.controls {
   text-align: right;
 
   > a {
@@ -78,6 +78,24 @@ $slider-arrow-size: 4rem;
     fill  : $asset-top-color;
     height: $icon-size;
     width : $icon-size;
+  }
+}
+
+// Change the state of the zoom button, depending on the expansion of the image
+.asset-top {
+  .zoom-btn .zoom-out {
+    display: none;
+  }
+  .zoom-btn .zoom-in {
+    display: inline-block;
+  }
+  &.expanded {
+    .zoom-btn .zoom-out {
+      display: inline-block;
+    }
+    .zoom-btn .zoom-in {
+      display: none;
+    }
   }
 }
 

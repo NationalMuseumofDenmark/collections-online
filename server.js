@@ -20,7 +20,7 @@ exports.initialize = (app, pluginPackages) => {
     // Save the pluginPackages for later use
     app.set('co-plugins', pluginPackages);
 
-    var ds = require('./lib/services/documents');
+    var es = require('./lib/services/elasticsearch');
 
     require('./lib/express')(app);
 
