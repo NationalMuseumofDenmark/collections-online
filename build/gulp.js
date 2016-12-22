@@ -5,28 +5,30 @@ module.exports = (gulp, childPath) => {
   //------------------------------------------
   // Require
   //------------------------------------------
-  // sorted alphabetically after npm name
-  var del = require('del');
-  var fs = require('fs');
-  var autoprefixer = require('gulp-autoprefixer');
-  var concat = require('gulp-concat');
-  var cleanCSS = require('gulp-clean-css');
-  var gulpif = require('gulp-if');
-  var print = require('gulp-print');
-  var rename = require('gulp-rename');
-  var sass = require('gulp-sass');
-  var sourcemaps = require('gulp-sourcemaps');
-  var svgmin = require('gulp-svgmin');
-  var svgstore = require('gulp-svgstore');
-  var uglify = require('gulp-uglify');
-  var path = require('path');
-  var sequence = require('run-sequence');
-  var bower = require('gulp-bower');
-  var uniqueFiles = require('gulp-unique-files');
-  var pug = require('gulp-pug');
-  var browserify = require('browserify');
-  var source = require('vinyl-source-stream');
-  var customPug = require('./custom-pug.js')(config);
+  // sorted alphabetically after const name
+  const autoprefixer = require('gulp-autoprefixer');
+  const bower = require('gulp-bower');
+  const browserify = require('browserify');
+  const cleanCSS = require('gulp-clean-css');
+  const concat = require('gulp-concat');
+  const customPug = require('./custom-pug.js')(config);
+  const del = require('del');
+  const fs = require('fs');
+  const gulpif = require('gulp-if');
+  const notify = require('gulp-notify');
+  const path = require('path');
+  const plumber = require('gulp-plumber');
+  const print = require('gulp-print');
+  const pug = require('gulp-pug');
+  const rename = require('gulp-rename');
+  const sass = require('gulp-sass');
+  const sequence = require('run-sequence');
+  const source = require('vinyl-source-stream');
+  const sourcemaps = require('gulp-sourcemaps');
+  const svgmin = require('gulp-svgmin');
+  const svgstore = require('gulp-svgstore');
+  const uglify = require('gulp-uglify');
+  const uniqueFiles = require('gulp-unique-files');
 
   //------------------------------------------
   // Directories - note that they are relative to the project specific gulpfile
@@ -119,8 +121,14 @@ module.exports = (gulp, childPath) => {
 
   gulp.task('css', function() {
     return gulp.src(STYLES_SRC)
+      .pipe(plumber())
       .pipe(gulpif(!isProduction, sourcemaps.init()))
-      .pipe(sass().on('error', sass.logError))
+      .pipe(sass().on('error', function(sass){
+        sass.logError;
+        return notify().write({
+          'message': 'Sass error'
+        });
+      }))
       .pipe(cleanCSS())
       .pipe(autoprefixer({browsers: ['last 4 versions']}))
       .pipe(gulpif(!isProduction, sourcemaps.write()))
@@ -144,6 +152,13 @@ module.exports = (gulp, childPath) => {
       },
       debug: !isProduction
     }).bundle()
+      .on('error', function(err){
+        console.log(err.stack);
+        return notify().write({
+          'title': 'Browserify error',
+          'message': err.message
+        });
+      })
       .pipe(source('browserify-index.js'))
       .pipe(gulp.dest(SCRIPTS_DEST));
   });
@@ -158,7 +173,8 @@ module.exports = (gulp, childPath) => {
       .pipe(concat(SCRIPT_NAME))
       .pipe(gulpif(isProduction, uglify()))
       .pipe(gulpif(!isProduction, sourcemaps.write()))
-      .pipe(gulp.dest(SCRIPTS_DEST));
+      .pipe(gulp.dest(SCRIPTS_DEST))
+      .pipe(notify('Ready to reload'));
   });
 
   gulp.task('svg', function() {
@@ -196,9 +212,5 @@ module.exports = (gulp, childPath) => {
 
   gulp.task('clean', function() {
     return del([DEST_DIR]);
-  });
-
-  gulp.task('console', function() {
-    console.log(SCRIPTS_ALL);
   });
 };
