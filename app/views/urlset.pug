@@ -10,4 +10,5 @@ urlset(xmlns='http://www.sitemaps.org/schemas/sitemap/0.9',
         image:loc= url.location + '/thumbnail'
         image:title= '<![CDATA[' + url.title + ']]>'
         image:caption= '<![CDATA[' + url.description + ']]>'
-        image:license= url.license_url
+        if url.licenseUrl
+          image:license= url.licenseUrl

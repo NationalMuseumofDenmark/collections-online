@@ -20,7 +20,7 @@ exports.initialize = (app, pluginPackages) => {
     // Save the pluginPackages for later use
     app.set('co-plugins', pluginPackages);
 
-    var es = require('./lib/services/elasticsearch');
+    var ds = require('./lib/services/documents');
 
     require('./lib/express')(app);
 
@@ -39,9 +39,7 @@ exports.initialize = (app, pluginPackages) => {
       index: indecies,
       query: config.search.baseQuery
     }).then(function(response) {
-      console.log('Connecting to the Elasticsearch host', config.es.host);
-      console.log('The assets index is created and contains',
-                  response.count, 'documents.');
+      console.log('The index is created and has', response.count, 'documents.');
     }, function(err) {
       if(err.status === 404) {
         console.error('Missing document index:', indecies.join(' or '));

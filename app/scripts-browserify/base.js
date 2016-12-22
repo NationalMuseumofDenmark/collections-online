@@ -5,6 +5,8 @@ module.exports = options => {
   if(config.features.cookieConsent) {
     require('cookie-consent');
   }
+  
+  require('asset');
   if(config.features.geotagging) {
     require('document/geo-tags');
   }

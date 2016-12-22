@@ -72,7 +72,6 @@ function initialize() {
 
     // Get actual results from the index
     es.search({
-      index: 'all', // config.es.assetsIndex,
       body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded.length,
       size: resultsDesired - resultsLoaded.length
@@ -195,8 +194,7 @@ function initialize() {
 
   var elasticsearch = require('elasticsearch');
   var es = new elasticsearch.Client({
-    host: location.origin + '/api',
-    log: config.es.log
+    host: location.origin + '/api'
   });
 
   // When the user navigates the state, update it
