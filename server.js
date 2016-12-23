@@ -13,6 +13,9 @@ let co = {
     if(config.es) {
       plugins.register(require('./plugins/elasticsearch'));
     }
+    if(config.features.keystone) {
+      plugins.register(require('./plugins/keystone'));
+    }
   },
   initialize: (app, pluginPackages) => {
     if(!app) {
