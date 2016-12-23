@@ -5,7 +5,7 @@ require('cookieconsent/build/cookieconsent.min.js');
 
 window.cookieconsent.initialise({
   cookie: {
-    name: config.features.cookieName
+    name: 'cookie-consented'
   },
   content: {
     message: 'Vi bruger cookies for at give dig en bedre brugeroplevelse.',
