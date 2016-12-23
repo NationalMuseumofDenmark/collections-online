@@ -17,22 +17,19 @@ let co = {
       plugins.register(require('./plugins/keystone'));
     }
   },
-  initialize: (app, pluginPackages) => {
+  initialize: (app) => {
     if(!app) {
       throw new Error('Needed an Express app when initializing');
     }
-
+    // Setting the NODE_ENV environment if it's not already sat
+    // TODO: Consider removing this
     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
-    var config = require('./lib/config');
 
     // After all plugins have initialized, the main server should start
-    return plugins.initialize(pluginPackages, app, config).then(() => {
-      // Save the pluginPackages for later use
-      app.set('co-plugins', pluginPackages);
-
-      const ds = require('./lib/services/documents');
-
+    return plugins.initialize(app).then(() => {
       require('./lib/express')(app);
+      
+      const ds = require('./lib/services/documents');
 
       app.locals.config = config;
       app.locals.helpers = require('./lib/helpers');
