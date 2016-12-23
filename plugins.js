@@ -1,6 +1,9 @@
-var Q = require('q');
+const Q = require('q');
 
-var plugins = {};
+// An object of lists of modules, keyed on their type
+const pluginModulesByType = {};
+// An array of plugins
+const plugins = [];
 
 var requiredMethods = {
   'image-controller': [
@@ -25,48 +28,41 @@ function validatePlugin(type, plugin) {
 
 exports.validatePlugin = validatePlugin;
 
-exports.register = (type, plugin) => {
-  console.log('A pluging of type "' + type + '" was registered');
-  // validatePlugin throws exceptions when invalid
-  validatePlugin(type, plugin);
+exports.register = (plugin) => {
+  if(!plugin.type) {
+    throw new Error('The plugin was missing a type');
+  } else if(!plugin.module) {
+    throw new Error('The plugin was missing a module');
+  }
+  // Validate the plugin, throwing an error if invalid
+  validatePlugin(plugin.type, plugin.module);
+  // Let's notify the developer that the plugin was registered
+  console.log('A pluging of type "' + plugin.type + '" was registered');
   // Create an array for the plugins of this type, if it doesn't exist
-  if(typeof(plugins[type]) !== 'object') {
-    plugins[type] = [];
+  if(typeof(pluginModulesByType[plugin.type]) !== 'object') {
+    pluginModulesByType[plugin.type] = [];
   }
   // Push the plugin to the list
-  plugins[type].push(plugin);
+  pluginModulesByType[plugin.type].push(plugin.module);
+  plugins.push(plugin);
 };
 
 exports.getFirst = (type) => {
-  if(plugins[type] && plugins[type].length > 0) {
-    return plugins[type][0];
+  if(pluginModulesByType[type] && pluginModulesByType[type].length > 0) {
+    return pluginModulesByType[type][0];
   }
   throw new Error('No plugins of the desired type (' + type + ')');
 };
 
-exports.all = plugins;
-
-exports.initialize = (pluginPackages, app, config) => {
-  // Initialize all the plugins
-  if(!pluginPackages) {
-    pluginPackages = [];
-  }
-  // Register plugins
-  pluginPackages.forEach((package) => {
-    if(typeof(package.registerPlugins) !== 'function') {
-      throw new Error('Expected plugin to have a registerPlugins function');
-    } else {
-      package.registerPlugins();
-    }
-  });
+exports.initialize = (app, config) => {
   // Initialize every plugin package
-  var pluginPromises = pluginPackages.map((package) => {
-    if(typeof(package.initialize) !== 'function') {
-      throw new Error('Expected plugin to have an initialize function');
+  var pluginPromises = plugins.map((plugin) => {
+    if(typeof(plugin.initialize) === 'function') {
+      return Q.when(plugin.initialize(app, config));
     } else {
-      var result = package.initialize(app, config);
-      return Q.when(result);
+      return Q.when(undefined);
     }
   });
+  // Return a promise that gets resolved when all plugins have initialized
   return Q.all(pluginPromises);
 };
