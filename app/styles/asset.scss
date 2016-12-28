@@ -44,6 +44,17 @@ $slider-arrow-size: 4rem;
   }
 }
 
+.asset-top:not(.expanded) .asset-image {
+  @media (min-width: $small-size) {
+    max-height: $asset-max-height;
+  }
+}
+
+.expanded .asset-image {
+  cursor: zoom-out;
+  width : 100%;
+}
+
 .rotation-wrapper {
   margin: 0 auto;
 

@@ -198,10 +198,21 @@ function initialize() {
     inflateHistoryState(history.state);
   }
 
-  $('#sidebar').on('click', '.btn-filter', function() {
+  $('#sidebar').on('click', '.btn', function() {
     var action = $(this).data('action');
     var field = $(this).data('field');
+    var filter = config.search.filters[field];
     var value = $(this).data('value');
+    if(!value && filter.type === 'date-interval-range') {
+      var $form = $(this).closest('.form-group');
+      var from = $form.find('[name='+field+'-from]').val() || '*';
+      var to = $form.find('[name='+field+'-to]').val() || '*';
+      if(from !== '*' || to !== '*') {
+        value = from.replace(/-/g, '/') + '-' + to.replace(/-/g, '/');
+      } else {
+        return;		
+      }
+    }
     var searchParams = getSearchParams();
     var filters = searchParams.filters;
     if(action === 'add-filter') {
