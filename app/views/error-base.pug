@@ -1,0 +1,21 @@
+extends index
+include mixins/meta
+
+append header
+  if(err.status === 404)
+    +meta('Siden blev ikke fundet')
+  else
+    +meta('Der er sket en fejl')
+
+block content
+  .let-it-grow
+    .container-fluid
+      if(err.status === 404)
+        h1 Siden blev ikke fundet
+      else
+        h1 Der er sket en fejl
+      p Du er meget velkommen til at kontakte os, hvis fejlen ikke forsvinder.
+      block before-stacktrace
+      if(showStacktrace)
+        hr
+        pre= err.stack
