@@ -93,7 +93,7 @@ helpers.licenseLinked = function(license) {
     const licenseOptions = config.licenseMapping[license];
     return helpers.link(licenseOptions.url, license);
   } else {
-    return license || 'Ukendt!!';
+    return license || 'Ukendt';
   }
 };
 
