@@ -4,11 +4,11 @@ include ../mixins/loader
   #geotagging-map.geotagging-map
   input#pac-input.controls(type="text", placeholder="Søg efter adresse")
   .map-buttons
-    .btn.btn-primary.hide-map
+    button.btn.btn-primary.hide-map
       | Annuller
-    .btn.btn-primary.save-coordinates
+    button.btn.btn-primary.save-coordinates
       +loader('Gem placering')
-  .map-buttons.btn.btn-primary.back-to-map
+  button.map-buttons.btn.btn-primary.back-to-map
     | Tilbage til kortvisning
   .overlay
     h2 Hjælp os med at placere dette billede på kortet!
