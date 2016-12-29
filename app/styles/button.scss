@@ -4,30 +4,31 @@
 
 .btn {
   background: transparent;
-  border    : 0;
+  border: 0;
 
   svg {
     fill: $white;
     height: 18px;
     margin: 0 .2em;
+    pointer-events: none;
     vertical-align: middle;
-    width : 18px;
+    width: 18px;
   }
 
   &-default {
     background-color: $button-bg;
-    color           : $white;
+    color: $white;
 
     &:hover,
     &:focus {
       background-color: darken($button-bg, 10%);
-      color           : $white;
+      color: $white;
     }
   }
 
   &-primary {
     background-color: $brand-primary;
-    color           : $white;
+    color: $white;
 
     &:hover,
     &:focus {
@@ -36,13 +37,13 @@
   }
 
   &-icon {
-    padding       : .2rem;
+    padding: .2rem;
     vertical-align: middle;
   }
 
   &-small {
     font-size: 90%;
-    padding  : .32rem .5rem .2rem;
+    padding: .32rem .5rem .2rem;
 
     &.btn-icon {
       padding: .22rem;
@@ -50,23 +51,7 @@
 
     svg {
       height: 18px;
-      width : 18px;
-    }
-  }
-
-  &-toggle {
-    &__toggled-text {
-      display: none;
-    }
-  }
-  &-toggle--toggled {
-    .btn-toggle {
-      &__toggled-text {
-        display: inline-block;
-      }
-      &__default-text {
-        display: none;
-      }
+      width: 18px;
     }
   }
 }
