@@ -56,24 +56,6 @@ module.exports = (gulp, childPath) => {
   var PUG_DEST = DEST_DIR + '/views';
   var isProduction = process.env.NODE_ENV === 'production';
 
-  // Scripts that are connected to a feature
-  // TODO: Transition this to browserified scripts, checking the config
-  // parameter instead.
-  var FEATURE_SCRIPTS = {
-    geotagging: ['geo-tagging.js'],
-    rotationalImages: ['magic360.da.js', 'magic360.js'],
-    crowdtagging: []
-  };
-
-  // Remove disabled feature scripts
-  Object.keys(FEATURE_SCRIPTS).forEach((feature) => {
-    if(config.features[feature] === false) {
-      FEATURE_SCRIPTS[feature].forEach((script) => {
-        SCRIPTS_ARRAY_CO.push('!' + SCRIPTS_FOLDER_CO + '/' + script);
-      });
-    }
-  });
-
   // Add bower scripts
   var BOWER_SCRIPTS = [
     '/jquery/dist/jquery.js',
