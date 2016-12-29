@@ -1,16 +1,23 @@
 module.exports = options => {
   const config = require('collections-online/shared/config');
 
-  require('search');
+  require('./search');
   if(config.features.cookieConsent) {
-    require('cookie-consent');
+    require('./cookie-consent');
   }
 
-  require('asset');
-  if(config.features.geotagging) {
-    require('document/geo-tags');
+  require('./asset');
+  if(config.features.geoTagging || config.features.motifTagging) {
+    require('./document/contribution-counter');
   }
-  require('dropdown');
+  if(config.features.geoTagging) {
+    require('./document/geo-tagging');
+  }
+  if(config.features.motifTagging) {
+    require('./document/motif-tagging');
+  }
+
+  require('./dropdown');
 
   window.helpers = options.helpers;
 };

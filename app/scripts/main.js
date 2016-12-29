@@ -30,9 +30,6 @@ function twittershareCurrentPage() {
 }
 
 $(function() {
-  var Snackbar = window.Snackbar;
-  Snackbar.init();
-
   var AssetPage = window.AssetPage;
   AssetPage.init();
 
