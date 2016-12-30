@@ -1,18 +1,18 @@
 include ../mixins/search-count
 include ../mixins/loader
 
-.search-page__header
-  h1
-    if isLoading
+.search-results-header
+  h1.search-results-header__title
+    .search-results-header__title--loading
       +loader()
-    else
+    .search-results-header__title--loaded
       if isFiltered
         | Filtrering gav
       else
         | I alt
       +searchCount
 
-  .search-page__sorting
+  .search-results-header__sorting
     | Sorteret efter
     .dropdown#sorting
       a.dropdown__selected= sortOptions[sorting].label

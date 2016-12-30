@@ -50,5 +50,6 @@ exports.update = function(filters, aggregations) {
     filterCount: filterCount,
     filterLabels: filterLabels
   });
+  // Replace the HTML with the newly rendered markup
   $sidebar.html(markup);
 };

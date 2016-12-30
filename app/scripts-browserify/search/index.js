@@ -3,33 +3,32 @@
  */
 const config = require('collections-online/shared/config');
 
-var getSearchParams = require('./get-parameters');
-var elasticsearchQueryBody = require('./es-query-body');
-var elasticsearchAggregationsBody = require('./es-aggregations-body');
-var generateQuerystring = require('./generate-querystring');
+const getSearchParams = require('./get-parameters');
+const elasticsearchQueryBody = require('./es-query-body');
+const elasticsearchAggregationsBody = require('./es-aggregations-body');
+const generateQuerystring = require('./generate-querystring');
+const resultsHeader = require('./results-header');
+
+const templates = {
+  searchResultItem: require('views/includes/search-results-item')
+};
 
 // How many assets should be loaded at once?
 const PAGE_SIZE = 24;
 module.exports.PAGE_SIZE = PAGE_SIZE;
 
-var resultsDesired = PAGE_SIZE;
-var resultsLoaded = [];
-var resultsTotal = Number.MAX_SAFE_INTEGER;
-var loadingResults = false;
-
-var templates = {
-  searchResultItem: require('views/includes/search-result-item'),
-  resultsHeader: require('views/includes/results-header')
-};
+let resultsDesired = PAGE_SIZE;
+let resultsLoaded = [];
+let resultsTotal = Number.MAX_SAFE_INTEGER;
+let loadingResults = false;
 
 // We have to listen to #sidebar since the other elements doesn't exist at
 // $documentready
 function initialize() {
-  var $results = $('#results');
-  var $resultsHeader = $('#results-header');
-  var $searchInput = $('#search-input');
-  var $loadMoreBtn = $('#load-more-btn');
-  var $noResultsText = $('#no-results-text');
+  const $results = $('#results');
+  const $searchInput = $('#search-input');
+  const $loadMoreBtn = $('#load-more-btn');
+  const $noResultsText = $('#no-results-text');
 
   function reset() {
     resultsLoaded = [];
@@ -39,7 +38,11 @@ function initialize() {
     $loadMoreBtn.addClass('invisible');
   }
 
-  function update(freshUpdate) {
+  function update(freshUpdate, indicateLoading) {
+    // If the indicateLoading is not set - default to true
+    if(typeof(indicateLoading) === 'undefined') {
+      indicateLoading = true;
+    }
     var searchParams = getSearchParams();
     // Update the freetext search input
     var queryString = searchParams.filters.q;
@@ -50,29 +53,26 @@ function initialize() {
     // search parameters.
     freshUpdate = resultsLoaded.length === 0 || freshUpdate;
 
-    if(config.features.filterSidebar && freshUpdate) {
-      const sidebar = require('./filter-sidebar');
-      // Update the sidebar right away
-      sidebar.update(searchParams.filters, null);
-      // Get aggragations for the sidebar
-      es.search({
-        body: elasticsearchAggregationsBody(searchParams),
-        size: 0
-      }).then(function (response) {
-        sidebar.update(searchParams.filters, response.aggregations);
-      }, function (error) {
-        console.trace(error.message);
-      });
-    }
-
-    // Update the results header before the result comes in
     if(freshUpdate) {
-      $resultsHeader.html(templates.resultsHeader({
-        isLoading: true,
-        sorting: searchParams.sorting,
-        sortOptions: config.sortOptions
-      }));
-      $('.search-results').addClass('loading');
+      resultsHeader.update(searchParams, resultsTotal);
+      if(config.features.filterSidebar) {
+        const sidebar = require('./filter-sidebar');
+        // Update the sidebar right away
+        sidebar.update(searchParams.filters, null);
+        // Get aggragations for the sidebar
+        es.search({
+          body: elasticsearchAggregationsBody(searchParams),
+          size: 0
+        }).then(function (response) {
+          sidebar.update(searchParams.filters, response.aggregations);
+        }, function (error) {
+          console.trace(error.message);
+        });
+      }
+      // Update the results header before the result comes in
+      if(indicateLoading) {
+        $('.search-results').addClass('search-results--loading');
+      }
     }
 
     // Get actual results from the index
@@ -84,7 +84,7 @@ function initialize() {
       // If no results are loaded yet, it might be because we just called reset
       if(resultsLoaded.length === 0) {
         // Remove all search result items from $results, that might be there
-        $results.find('.search-result-item').remove();
+        $results.find('.search-results-item').remove();
       }
       resultsTotal = response.hits.total;
       loadingResults = false;
@@ -101,7 +101,8 @@ function initialize() {
       // Replace the state of in the history if supported
       if(history.replaceState) {
         history.replaceState({
-          resultsLoaded: resultsLoaded
+          resultsLoaded,
+          resultsTotal
         }, null, null);
       }
 
@@ -121,15 +122,10 @@ function initialize() {
 
       // Update the results header with the result
       if(freshUpdate) {
-        $resultsHeader.html(templates.resultsHeader({
-          isFiltered: Object.keys(searchParams.filters).length > 0,
-          sorting: searchParams.sorting,
-          sortOptions: config.sortOptions,
-          result: {
-            totalCount: response.hits.total
-          }
-        }));
-        $('.search-results').removeClass('loading');
+        resultsHeader.update(searchParams, resultsTotal);
+        if(indicateLoading) {
+          $('.search-results').removeClass('search-results--loading');
+        }
       }
     }, function (error) {
       console.trace(error.message);
@@ -153,7 +149,7 @@ function initialize() {
   function enableEndlessScrolling() {
     $loadMoreBtn.addClass('invisible');
     $(window).on('scroll', function(e) {
-      var $lastResult = $('#results .search-result-item:last-child');
+      var $lastResult = $('#results .search-results-item:last-child');
       if($lastResult.length > 0) {
         var lastResultOffset = $lastResult.offset();
         var scrollTop = $(window).scrollTop();
@@ -172,7 +168,7 @@ function initialize() {
     if(state.resultsLoaded) {
       reset();
       // Remove all the search result items right away
-      $results.find('.search-result-item').remove();
+      $results.find('.search-results-item').remove();
       // Show the button by removing the invisible class
       // $loadMoreBtn.removeClass('invisible');
       // Append rendered markup, once per asset loaded from the state.
@@ -182,8 +178,11 @@ function initialize() {
         var markup = templates.searchResultItem(item);
         $results.append(markup);
       });
+      // Replace the resultsTotal from the state
+      resultsTotal = state.resultsTotal;
       // Using the freshUpdate=true, updates the header as well
-      update(true);
+      // Using the indicateLoading=false makes sure the UI doesn't blink
+      update(true, false);
     }
   }
 

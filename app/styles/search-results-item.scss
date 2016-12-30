@@ -1,4 +1,6 @@
-.search-result-item {
+$overlay-color: rgba($gray-dark, .6);
+
+.search-results-item {
   color: $black;
   display: block;
   margin-bottom: $spacer-md;
@@ -13,7 +15,7 @@
   }
 
   // Only target devices with mouse
-  @media (pointer:fine) {
+  @media (pointer: fine) {
     &:focus,
     &:hover {
       @include shadow(3);
@@ -61,7 +63,7 @@
   }
 
   &__overlay {
-    background-color: rgba($gray-dark, .6);
+    background-color: $overlay-color;
     bottom: 0;
     color: $white;
     left: 0;
@@ -70,18 +72,18 @@
     top: 0;
 
     svg {
-      top: 50%;
       left: 50%;
+      top: 50%;
       transform: translateX(-50%) translateY(-50%);
     }
   }
 
   svg {
+    bottom: 1rem;
     fill: currentcolor;
     height: 3rem;
-    width: 3rem;
     position: absolute;
-    bottom: 1rem;
     right: 1rem;
+    width: 3rem;
   }
 }
