@@ -2,13 +2,14 @@ const config = require('./config');
 let helpers = {};
 
 const REQUIRED_HELPERS = [
-  'isWatermarkRequired',
   'determinePlayer',
   'documentDescription',
-  'documentTitle',
-  'getDownloadOptions',
   'documentLicense',
-  'isDownloadable'
+  'documentTitle',
+  'generateSitemapElements',
+  'getDownloadOptions',
+  'isDownloadable',
+  'isWatermarkRequired'
 ];
 
 helpers.capitalizeFirstLetter = string => {
