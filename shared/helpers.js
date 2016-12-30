@@ -66,6 +66,10 @@ helpers.getDownloadURL = (metadata, size) => {
   return path.join('/');
 };
 
+helpers.getAbsoluteURL = (req, relativePath) => {
+  return req.protocol + '://' + req.get('host') + relativePath;
+};
+
 helpers.getDirectDownloadURL = (metadata) => {
   if(!config.cip || !config.cip.baseURL) {
     throw new Error('Expected the baseURL of the CIP to be configered');

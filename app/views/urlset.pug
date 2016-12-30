@@ -1,14 +1,25 @@
 doctype xml
 urlset(xmlns='http://www.sitemaps.org/schemas/sitemap/0.9',
-       xmlns:image='http://www.google.com/schemas/sitemap-image/1.1')
+       xmlns:image='http://www.google.com/schemas/sitemap-image/1.1',
+       xmlns:video='http://www.google.com/schemas/sitemap-video/1.1')
   each url in urls
     url
       loc= url.location
       changefreq weekly
       lastmod= url.lastmod
-      image:image
-        image:loc= url.location + '/thumbnail'
-        image:title= '<![CDATA[' + url.title + ']]>'
-        image:caption= '<![CDATA[' + url.description + ']]>'
-        if url.licenseUrl
-          image:license= url.licenseUrl
+      each element in url.elements
+        if element.type === 'image'
+          image:image
+            image:loc= element.location
+            image:title= '<![CDATA[' + element.title + ']]>'
+            image:caption= '<![CDATA[' + element.description + ']]>'
+            if element.licenseUrl
+              image:license= element.licenseUrl
+        else if element.type === 'video'
+          video:video
+            video:thumbnail_loc= element.thumbnailLocation
+            image:title= '<![CDATA[' + element.title + ']]>'
+            image:caption= '<![CDATA[' + element.description + ']]>'
+            video:content_loc= element.contentLocation
+            video:requires_subscription no
+            video:live no
