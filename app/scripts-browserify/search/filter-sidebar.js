@@ -9,29 +9,33 @@ var template = require('views/includes/search-filter-sidebar');
 /**
  * Updates the search filter sidebar based on the selected and available filters
  */
-exports.update = function(aggregations, filters) {
+exports.update = function(filters, aggregations) {
   var $sidebar = $('#sidebar');
   var filterCount = 0;
   Object.keys(filters).forEach(function(field) {
     filterCount += filters[field].length;
   });
-  // Go though the aggregations and remove all buckets with no documents
-  Object.keys(aggregations).forEach(function(a) {
-    var filteredAggregation = aggregations[a];
-    Object.keys(filteredAggregation).forEach(function(field) {
-      var aggregation = filteredAggregation[field];
-      if(aggregation.buckets) {
-        aggregation.buckets = Object.keys(aggregation.buckets)
-        .map(function(b) {
-          var bucket = aggregation.buckets[b];
-          bucket.key = bucket.key || b; // Fallback to the objects key
-          return bucket;
-        }).filter(function(bucket) {
-          return bucket.doc_count > 0;
-        });
-      }
+
+  if(aggregations) {
+    // Go though the aggregations and remove all buckets with no documents
+    Object.keys(aggregations).forEach(function(a) {
+      var filteredAggregation = aggregations[a];
+      Object.keys(filteredAggregation).forEach(function(field) {
+        var aggregation = filteredAggregation[field];
+        if(aggregation.buckets) {
+          aggregation.buckets = Object.keys(aggregation.buckets)
+          .map(function(b) {
+            var bucket = aggregation.buckets[b];
+            bucket.key = bucket.key || b; // Fallback to the objects key
+            return bucket;
+          }).filter(function(bucket) {
+            return bucket.doc_count > 0;
+          });
+        }
+      });
     });
-  });
+  }
+
   var filterLabels = {};
   Object.keys(config.search.filters).forEach(function(field) {
     var filter = config.search.filters[field];

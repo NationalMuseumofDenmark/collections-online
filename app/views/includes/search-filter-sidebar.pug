@@ -17,9 +17,6 @@ include ../mixins/search-filter-section
             span.btn-filter__text
               +filterValue(field, value)
             +icon('close')
-
-  if aggregations
-    .search-filter-sidebar__options#search-filter-options
-    each filter, key in filterLabels
-      if filter.type !== 'querystring'
-        +filterSection(filter.singular, filter.plural, key, filter.type)
+  each filter, key in filterLabels
+    if filter.type !== 'querystring'
+      +filterSection(filter.singular, filter.plural, key, filter.type)

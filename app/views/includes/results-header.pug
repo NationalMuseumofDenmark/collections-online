@@ -1,12 +1,16 @@
 include ../mixins/search-count
+include ../mixins/loader
 
 .search-page__header
   h1
-    if isFiltered
-      | Filtrering gav
+    if isLoading
+      +loader()
     else
-      | I alt
-    +searchCount
+      if isFiltered
+        | Filtrering gav
+      else
+        | I alt
+      +searchCount
 
   .search-page__sorting
     | Sorteret efter

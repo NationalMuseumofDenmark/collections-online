@@ -3,13 +3,14 @@ $small-scale: scaleX(.5) scaleY(.5);
 $one-scale: scaleX(1) scaleY(1);
 
 .loader {
-  animation       : loading-dots 1.5s infinite ease-in-out 0s;
-  animation-delay : -.4s;
-  background-color: $white;
-  border-radius   : 50%;
-  height          : $size;
-  margin-left     : .5em;
-  width           : $size;
+  animation: loading-dots 1.5s infinite ease-in-out 0s;
+  animation-delay: -.4s;
+  background-color: currentColor;
+  border-radius: 50%;
+  display: inline-block;
+  height: $size;
+  margin-left: .5em;
+  width: $size;
 
   &.one {
     animation-delay: -.2s;
@@ -17,7 +18,7 @@ $one-scale: scaleX(1) scaleY(1);
 
   &.two {
     animation-delay: 0s;
-    margin-right   : .5em;
+    margin-right: .5em;
   }
 }
 

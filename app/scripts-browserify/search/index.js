@@ -51,22 +51,28 @@ function initialize() {
     freshUpdate = resultsLoaded.length === 0 || freshUpdate;
 
     if(config.features.filterSidebar && freshUpdate) {
+      const sidebar = require('./filter-sidebar');
+      // Update the sidebar right away
+      sidebar.update(searchParams.filters, null);
       // Get aggragations for the sidebar
       es.search({
         body: elasticsearchAggregationsBody(searchParams),
         size: 0
       }).then(function (response) {
-        var sidebar = require('./filter-sidebar');
-        /*
-        if(history.replaceState) {
-          history.state.aggregations = response.aggregations;
-          history.replaceState(history.state);
-        }
-        */
-        sidebar.update(response.aggregations, searchParams.filters);
+        sidebar.update(searchParams.filters, response.aggregations);
       }, function (error) {
         console.trace(error.message);
       });
+    }
+
+    // Update the results header before the result comes in
+    if(freshUpdate) {
+      $resultsHeader.html(templates.resultsHeader({
+        isLoading: true,
+        sorting: searchParams.sorting,
+        sortOptions: config.sortOptions
+      }));
+      $('.search-results').addClass('loading');
     }
 
     // Get actual results from the index
@@ -113,10 +119,9 @@ function initialize() {
         $loadMoreBtn.addClass('invisible');
       }
 
-      // Update the results header
+      // Update the results header with the result
       if(freshUpdate) {
         $resultsHeader.html(templates.resultsHeader({
-          filters: searchParams.filters,
           isFiltered: Object.keys(searchParams.filters).length > 0,
           sorting: searchParams.sorting,
           sortOptions: config.sortOptions,
@@ -124,6 +129,7 @@ function initialize() {
             totalCount: response.hits.total
           }
         }));
+        $('.search-results').removeClass('loading');
       }
     }, function (error) {
       console.trace(error.message);
@@ -210,7 +216,7 @@ function initialize() {
       if(from !== '*' || to !== '*') {
         value = from.replace(/-/g, '/') + '-' + to.replace(/-/g, '/');
       } else {
-        return;		
+        return;
       }
     }
     var searchParams = getSearchParams();

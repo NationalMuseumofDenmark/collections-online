@@ -35,6 +35,13 @@
 
 .search-results {
   margin-bottom: 4.2rem;
+
+  &.loading {
+    .search-page__header,
+    .search-result-item {
+      opacity: .75;
+    }
+  }
 }
 
 // Load more button
