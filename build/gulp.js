@@ -133,16 +133,25 @@ module.exports = (gulp, childPath) => {
         }
       },
       debug: !isProduction
-    }).bundle()
-      .on('error', function(err){
-        console.log(err.stack);
-        return notify().write({
-          'title': 'Browserify error',
-          'message': err.message
-        });
-      })
-      .pipe(source('browserify-index.js'))
-      .pipe(gulp.dest(SCRIPTS_DEST));
+    })
+    .transform('babelify', {
+      presets: [
+        'babel-preset-es2015',
+        'babel-preset-es2016',
+        'babel-preset-es2017'
+      ].map(require.resolve)
+      // Mapping because of https://github.com/babel/gulp-babel/issues/93
+    })
+    .bundle()
+    .on('error', function(err){
+      console.log(err.stack);
+      return notify().write({
+        'title': 'Browserify error',
+        'message': err.message
+      });
+    })
+    .pipe(source('browserify-index.js'))
+    .pipe(gulp.dest(SCRIPTS_DEST));
   });
 
   gulp.task('js', ['js-browserify'], function() {
