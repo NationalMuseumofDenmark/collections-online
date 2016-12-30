@@ -12,7 +12,7 @@ append header
   +meta(title, description, thumbnailUrl)
 
 append javascript
-  if(showGeotagging)
+  if config.features.geoTagging
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
@@ -45,7 +45,7 @@ block content
           .col-xs-12.small-bleed.img-col
             include includes/player
           .col-md-6.map-wrap
-            if showGeotagging
+            if config.features.geoTagging
               include includes/geotagging
       .container-fluid
         .row.asset-info
