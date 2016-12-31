@@ -29,9 +29,9 @@ function resizeMap() {
   map.setCenter(center);
 }
 
-function generateSaveURL(catalogAlias, assetId) {
+function generateSaveURL(collection, assetId) {
   return helpers.getDocumentURL({
-    collection: catalogAlias,
+    collection: collection,
     type: 'asset',
     id: assetId
   }) + '/save-geotag';
@@ -102,11 +102,11 @@ $('.map-buttons .save-coordinates').click(function() {
   };
 
   var $asset = $('.asset');
-  var catalogAlias = $asset.data('catalog');
+  var collection = $asset.data('collection');
   var assetId = $asset.data('id');
   $.ajax({
     type: 'post',
-    url: generateSaveURL(catalogAlias, assetId),
+    url: generateSaveURL(collection, assetId),
     data: data,
     dataType: 'json',
     success: function(response) {
@@ -115,7 +115,7 @@ $('.map-buttons .save-coordinates').click(function() {
         ga('send',
           'event',
           GA_EVENT_CATEGORY,
-          'Saved', catalogAlias + '-' + assetId, {
+          'Saved', collection + '-' + assetId, {
             hitCallback: function() {
               location.reload();
             }

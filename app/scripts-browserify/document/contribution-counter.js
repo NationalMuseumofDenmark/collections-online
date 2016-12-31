@@ -26,7 +26,7 @@ const contributionCount = {
   contributionAdded: function() {
     if (localStorage) {
       var $article = $('article');
-      var asset = $('article').data('catalog') + '-' + $('article').data('id');
+      var asset = $article.data('collection') + '-' + $article.data('id');
       var contributions = localStorage.getItem('contributions');
       // Split or default to an empty array
       contributions = contributions ? contributions.split(',') : [];

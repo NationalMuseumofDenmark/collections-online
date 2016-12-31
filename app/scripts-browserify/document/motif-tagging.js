@@ -22,7 +22,6 @@ var $stopCrowdBtn = $('#stop-crowd-btn');
 var $crowdTags = $('.tags-container.crowd');
 var $crowdInput = $('.tags-container.crowd input');
 var $asset = $('.asset');
-var catalogAlias = $asset.data('catalog');
 var assetId = $asset.data('id');
 var showError = function(msg) {
   var $error = $('<div class="alert alert-danger">');
