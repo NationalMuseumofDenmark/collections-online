@@ -3,7 +3,8 @@ mixin meta(title, description, image)
   - baseUrl = 'https://' + (req.get('x-forwarded-host') || req.get('host'))
   - unsafeBaseUrl = 'http://' + (req.get('x-forwarded-host') || req.get('host'))
   - pageUrl = baseUrl + req.originalUrl
-  - siteTitle = req.app.get('siteTitle')
+  - siteTitle = config.siteTitle
+  - siteSubTitle = config.siteSubTitle
 
   - // Social variables
   - twitterAccount = helpers.getTwitterAccount(metadata)
@@ -14,6 +15,8 @@ mixin meta(title, description, image)
   - // Handle fallbacks
   if title
     - title += ' - ' + siteTitle
+  else if siteSubTitle
+    - title = siteTitle + ' - ' + siteSubTitle
   else
     - title = siteTitle
   if !description
