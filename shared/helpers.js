@@ -36,6 +36,14 @@ helpers.decimals = function(n, decimals) {
   }
 };
 
+helpers.generateSearchTitle = filters => {
+  if(filters.q) {
+    return 'Søgning på "' + filters.q + '"';
+  } else {
+    return 'Søgning';
+  }
+};
+
 helpers.getDocumentURL = (metadata) => {
   let path = [metadata.collection];
   if(Object.keys(config.types).length > 1) {

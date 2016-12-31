@@ -1,7 +1,9 @@
 /**
  * This module handles all clientside searching
  */
+
 const config = require('collections-online/shared/config');
+const helpers = require('../../../shared/helpers');
 
 const getSearchParams = require('./get-parameters');
 const elasticsearchQueryBody = require('./es-query-body');
@@ -47,6 +49,9 @@ function initialize() {
     // Update the freetext search input
     var queryString = searchParams.filters.q;
     $searchInput.val(queryString);
+    // Update the page title
+    const title = helpers.generateSearchTitle(searchParams.filters);
+    $('head title').text(title + ' - ' + config.siteTitle);
     loadingResults = true;
 
     // A fresh update is the first of potentially many updates with the same

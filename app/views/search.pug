@@ -3,7 +3,7 @@ include mixins/meta
 include mixins/loader
 
 append header
-  - title = 'Søgning på '
+  - title = helpers.generateSearchTitle(filters);
   +meta(title, description, image)
 
 block content
