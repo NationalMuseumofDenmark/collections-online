@@ -28,11 +28,13 @@ let co = {
     // After all plugins have initialized, the main server should start
     return plugins.initialize(app).then(() => {
       require('./lib/express')(app);
-      
+
       const ds = require('./lib/services/documents');
 
       app.locals.config = config;
-      app.locals.helpers = require('./lib/helpers');
+      const helpers = require('./lib/helpers');
+      helpers.checkRequiredHelpers();
+      app.locals.helpers = helpers;
 
       app.set('siteTitle', config.siteTitle);
       // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
