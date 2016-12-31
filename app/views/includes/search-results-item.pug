@@ -1,10 +1,12 @@
 include ../mixins/icon
 
-- let player = helpers.determinePlayer(metadata);
+- const player = helpers.determinePlayer(metadata);
+- const documentURL = helpers.getDocumentURL(metadata);
+- const thumbnailURL = helpers.getThumbnailURL(metadata);
 
-a(href=helpers.getDocumentURL(metadata)).search-results-item.col-xs-6.col-sm-4
+a(href=documentURL).search-results-item.col-xs-6.col-sm-4
   .search-results-item__squared-container
-    img(src=helpers.getThumbnailURL(metadata)).search-results-item__squared-image.object-fit
+    img(src=thumbnailURL).search-results-item__squared-image.object-fit
     if player === 'rotation'
       +icon('rotation')
     if player === 'video'
