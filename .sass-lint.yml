@@ -1,3 +1,4 @@
 rules:
   class-name-format:
-    convention: hyphenatedbem
+    - 1
+    - convention: hyphenatedbem
