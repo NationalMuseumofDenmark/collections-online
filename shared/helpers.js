@@ -45,13 +45,16 @@ helpers.getDocumentURL = (metadata) => {
   return '/' + path.join('/');
 };
 
-helpers.getThumbnailURL = (metadata, size) => {
+helpers.getThumbnailURL = (metadata, size, watermarkPosition) => {
   let path = [
     helpers.getDocumentURL(metadata),
     'thumbnail'
   ];
   if(size) {
     path.push(size);
+    if(watermarkPosition) {
+      path.push(watermarkPosition);
+    }
   }
   return path.join('/');
 };
