@@ -105,8 +105,8 @@ module.exports = (gulp, childPath) => {
     return gulp.src(STYLES_SRC)
       .pipe(plumber())
       .pipe(gulpif(!isProduction, sourcemaps.init()))
-      .pipe(sass().on('error', function(sass){
-        sass.logError;
+      .pipe(sass().on('error', function(err) {
+        sass.logError(err);
         return notify().write({
           'message': 'Sass error'
         });
