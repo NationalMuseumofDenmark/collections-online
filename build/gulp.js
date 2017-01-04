@@ -141,10 +141,11 @@ module.exports = (gulp, childPath) => {
           'presets': [
             'babel-preset-latest',
             //'babel-preset-babili'
-          ].map(require.resolve),
-          global: true
+          ].map(require.resolve)
         }
-      }
+      },
+      // Global is needed because JS in collections-online is considered global
+      global: isProduction
     })
     .bundle()
     .on('error', function(err){
