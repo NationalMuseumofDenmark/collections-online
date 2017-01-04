@@ -125,22 +125,26 @@ module.exports = (gulp, childPath) => {
         DEST_DIR
       ],
       basedir: SCRIPTS_BROWSERIFY_DIR,
+      debug: !isProduction,
       entries: './index.js',
       insertGlobalVars: {
         clientSideConfig: function(file, dir) {
           const clientSideConfig = config.getClientSideConfig();
           return JSON.stringify(clientSideConfig);
         }
-      },
-      debug: !isProduction
+      }
     })
     .transform('babelify', {
-      presets: [
-        'babel-preset-es2015',
-        'babel-preset-es2016',
-        'babel-preset-es2017'
-      ].map(require.resolve)
-      // Mapping because of https://github.com/babel/gulp-babel/issues/93
+      // Mapping because of https://github.com/babel/gulp-babel/issues/93,
+      'env': {
+        'production': {
+          'presets': [
+            'babel-preset-latest',
+            //'babel-preset-babili'
+          ].map(require.resolve),
+          global: true
+        }
+      }
     })
     .bundle()
     .on('error', function(err){
@@ -160,12 +164,18 @@ module.exports = (gulp, childPath) => {
     ]);
     return gulp.src(scriptPaths)
       .pipe(uniqueFiles())
-      .pipe(gulpif(!isProduction, sourcemaps.init()))
       .pipe(concat(SCRIPT_NAME))
-      .pipe(gulpif(isProduction, uglify()))
-      .pipe(gulpif(!isProduction, sourcemaps.write()))
       .pipe(gulp.dest(SCRIPTS_DEST))
-      .pipe(notify('Ready to reload'));
+      .pipe(gulpif(isProduction, uglify().on('error', console.error)))
+      .pipe(gulp.dest(SCRIPTS_DEST))
+      .pipe(notify('Ready to reload'))
+      .on('error', function(err){
+        console.log(err.stack);
+        return notify().write({
+          'title': 'JavaScript error',
+          'message': err.message
+        });
+      });
   });
 
   gulp.task('svg', function() {
