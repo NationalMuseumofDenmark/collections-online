@@ -16,6 +16,9 @@ module.exports = options => {
   if(config.features.motifTagging) {
     require('./document/motif-tagging');
   }
+  if(config.features.scrollToTop) {
+    require('./scroll-to-top');
+  }
 
   require('./dropdown');
 
