@@ -1,3 +1,4 @@
 mixin searchCount
-  - var pluralMaybe = result.totalCount > 1 ? 'er' : '';
-  span.search-count &nbsp;#{result.totalCount.toLocaleString()} post#{pluralMaybe}
+  - const count = result && result.totalCount ? result.totalCount : 0;
+  - const pluralMaybe = count > 1 ? 'er' : '';
+  span.search-count &nbsp;#{count ? count.toLocaleString() : '0'} post#{pluralMaybe}
