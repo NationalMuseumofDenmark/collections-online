@@ -20,6 +20,7 @@ module.exports = options => {
     require('./scroll-to-top');
   }
 
+  require('./sidebar-menu');
   require('./dropdown');
 
   window.helpers = options.helpers;
