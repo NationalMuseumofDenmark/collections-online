@@ -1,92 +1,47 @@
 .topbar {
   background-color: $topbar-color;
-  line-height     : 1.5;
-  position        : relative;
-  z-index         : 10;
+  line-height: 1.5;
+  position: relative;
+  z-index: 10;
+
+  nav {
+    display: flex;
+    flex-direction: column;
+  }
 
   svg {
     fill: $white;
   }
 
-  .tag-line,
-  h1 {
-    margin: 0;
-  }
+  &__items {
+    align-items: center;
+    display: flex;
+    height: $topbar-height;
 
-  h1 {
-    font-size : 1.9rem;
-    margin-top: .3rem;
-  }
+    &-link {
+      color: $white;
+      flex-shrink: 0;
+      text-decoration: none;
 
-  .tag-line {
-    font-size     : 1.1rem;
-    letter-spacing: .03rem;
-  }
-}
+      &:focus,
+      &:hover {
+        color: $white;
+        text-decoration: none;
+      }
 
-.topbar-items {
-  align-items: center;
-  display    : flex;
-  height     : $topbar-height;
-
-  > a {
-    flex-shrink: 0;
-  }
-}
-
-// Frontpage styling
-.topbar--frontpage {
-  @media (min-width: $medium-size) {
-    height: 200px;
-  }
-}
-
-.big-wrap {
-  cursor    : default;
-  margin-top: .5rem;
-
-  .logo {
-    svg {
-      height: 60px;
-      width : 60px;
+      &:not(:last-child) {
+        margin-right: 1rem;
+      }
     }
   }
 }
 
-// Logo and logo text
-.logo-wrap {
-  align-items: center;
-  display    : flex;
-
-  &:hover,
-  &:focus {
-    text-decoration: none;
-  }
-}
-
-.logo,
-.logo-text {
-  display: inline-block;
-}
-
-.logo {
-  margin-right: 10px;
-
+.hamburger {
+  display: flex;
   svg {
-    height        : 40px;
-    vertical-align: middle;
-    width         : 40px;
-  }
-}
-
-.logo-text {
-  color       : $white;
-  font-size   : $font-size-base * .9;
-  line-height : 1.4;
-  margin-right: 10px;
-
-  span {
-    display: block;
+    height: 20px;
+    margin-right: 10px;
+    width: 20px;
   }
 }
 
