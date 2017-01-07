@@ -1,0 +1,92 @@
+.gallery {
+
+  @media (min-width: $small-size) {
+    align-items: center;
+    display: flex;
+    padding: 1rem 0;
+
+    &--odd {
+      flex-direction: row-reverse;
+    }
+
+    .text-col-left {
+      padding-right: 3rem;
+    }
+  }
+
+  @media (min-width: $medium-size) {
+    padding: 2rem 0;
+  }
+
+  &__title {
+    // font-family: $font-family-medium;
+    font-size: 2rem;
+    letter-spacing: -.02em;
+    margin-left: -.04em;
+
+    @media (min-width: $medium-size) {
+      font-size: 2.6rem;
+    }
+
+    @media (min-width: $large-size) {
+      font-size: 3rem;
+    }
+  }
+
+  &__text {
+    font-size: 1.2rem;
+    line-height: 1.5;
+
+    @media (min-width: $medium-size) {
+      font-size: 1.43rem;
+      line-height: 1.4;
+      letter-spacing: -.01em;
+    }
+  }
+}
+
+.gallery-thumb {
+  color: inherit;
+  display: block;
+  margin: 1rem 0;
+  overflow: hidden; // Needed because of the safari bug fix on overlay
+  position: relative;
+
+  &:focus,
+  &:hover {
+    color: inherit;
+
+    .gallery-thumb__text {
+      display: block;
+    }
+  }
+
+  &__image {
+    max-width: 100%;
+  }
+
+  &__overlay {
+    background-color: rgba($black, .7);
+    bottom: -1px; // Safari bug fix
+    color: $white;
+    max-height: 100%;
+    overflow: hidden;
+    padding: 0 15px;
+    position: absolute;
+    width: 100%;
+    -webkit-font-smoothing: subpixel-antialiased;
+  }
+
+  &__title {
+    font-family: $font-family-medium;
+    font-size: 1.1rem;
+    line-height: 1.2;
+    margin-top: 1rem;
+  }
+
+  &__text {
+    display: none;
+    line-height: 1.2;
+    margin-top: -.4rem;
+  }
+}

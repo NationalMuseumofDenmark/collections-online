@@ -39,3 +39,13 @@
     }
   }
 }
+
+.frontpage-galleries {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+
+  @media (min-width: $large-size) {
+    padding-bottom: 3rem;
+    padding-top: 0rem;
+  }
+}
