@@ -1,18 +1,4 @@
-include mixins/icon
-include mixins/recursive-menu-item.pug
-
-li
-  a.col-xs-10(href='/') Alle samlinger
-
-each catalog in catalogs
-  if catalog.count > 0
+if menus && menus.main
+  each item in menus.main
     li
-      div
-        a.col-xs-10(href='/' + catalog.alias) #{catalog.name}
-        .expand
-          +icon('plus')
-      ul.nav.menu-hidden
-        each category in catalog.categoryRoot.children
-          +recursiveCategoryItem(catalog, category)
-li
-  a.col-xs-10(href='http://digital.natmus.dk/sitesservices/', target='_blank') Om Nationalmuseets Samlinger Online
+      a(href=item.url).topbar-items__link= item.title
