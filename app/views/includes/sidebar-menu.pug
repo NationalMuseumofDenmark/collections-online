@@ -1,0 +1,8 @@
+nav
+  ul(aria-labelledby='heading-categories-menu', role='menu').nav.sidebar-menu
+    if menus && menus.main
+      block before
+      each item in menus.main
+        li
+          a(href=item.url).sidebar-menu__link= item.title
+.gray-overlay

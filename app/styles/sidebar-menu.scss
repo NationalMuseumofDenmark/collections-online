@@ -1,6 +1,4 @@
-// Open menu
-
-.categories-menu-open {
+.sidebar-menu-open {
   left    : 0;
   position: fixed;
   right   : 0;
@@ -13,7 +11,7 @@
     visibility    : visible;
   }
 
-  .dropdown-menu-right {
+  .sidebar-menu {
     box-shadow: 0 0 1px $menu-shadow, 0 0 3px $menu-shadow, 0 0 10px $menu-shadow;
     padding-left: 0;
     right     : 0;
@@ -46,7 +44,7 @@
 // Menu styling
 $expand-width: 50px;
 
-.dropdown-menu-right {
+.sidebar-menu {
   background: $topbar-color;
   box-shadow: 0 0 1px $menu-no-shadow, 0 0 3px $menu-no-shadow, 0 0 10px $menu-no-shadow;
   height    : 100%;
@@ -57,89 +55,32 @@ $expand-width: 50px;
   transition: right $anim-exit $anim-duration;
   width     : $menu-width;
   z-index   : 9999;
+  padding-top: 10px;
 
   @media (min-width: $small-size) {
     right: -$menu-width-small;
     width: $menu-width-small;
   }
 
-  > li:first-child {
-    margin-top: 10px;
-  }
-
-  ul li {
-    margin-left: 15px;
-  }
-
-  li {
-    // This is needed, because an expanded li is otherwise placing itself
-    // ontop of the menu items above it.
-    overflow: hidden;
-    // Chrome fix
+  a {
+    color: $white;
     display: block;
-
-    > div {
-      align-items: stretch;
-      display    : flex;
-    }
-  }
-
-  a,
-  .expand {
-    align-items    : center;
-    display        : flex;
-    padding        : 10px 15px;
+    float: none;
+    padding: 10px 15px;
     text-decoration: none;
+    width: 100%;
 
     &:hover,
     &:focus {
       // Has to be important to override bootstrap without too much nesting
       // scss-lint:disable ImportantRule
       background-color: $menu-highlight !important;
-
-      > span {
-        color: darken($gray, 20%);
-      }
     }
   }
-
-  a {
-    color: $white;
-    float: none;
-    width: calc(100% - #{$expand-width});
-
-    > span {
-      color      : $gray;
-      margin-left: 4px;
-    }
-
-  }
-
-  .expand {
-    cursor    : pointer;
-    float     : right;
-    text-align: center;
-    width     : $expand-width;
-
-    svg {
-      fill  : $white;
-      height: 12px;
-      margin: 0 auto;
-      width : 12px;
-    }
-  }
-}
-
-.menu-hidden {
-  display: none;
-}
-
-.menu-childern-last a {
-  padding: 7px 25px;
 }
 
 @media (pointer:coarse) {
-  .dropdown-menu-right {
+  .sidebar-menu {
     a:hover,
     a:focus {
       background-color: transparent;
