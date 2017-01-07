@@ -1,8 +1,60 @@
 .topbar {
   background-color: $topbar-color;
+  color: $white;
   line-height: 1.5;
   position: relative;
   z-index: 10;
+
+  &__logo {
+    align-items: center;
+    cursor: default; // TODO: Check why?
+    display: flex;
+    flex-grow: 1;
+    margin-top: .5rem;
+
+    &:hover,
+    &:focus {
+      text-decoration: none;
+    }
+  }
+
+  &__logo-text {
+    color: $white;
+    display: inline-block;
+    line-height: 1.4;
+    margin: .3rem 0 0 10px;
+
+    h1 {
+      font-size: 1.9rem;
+      margin: 0;
+    }
+
+    span {
+      display: block;
+    }
+  }
+
+  &__logo-tagline {
+    font-size: 1.1rem;
+    letter-spacing: .03rem;
+  }
+
+  &__logo-icon {
+    display: inline-block;
+
+    svg {
+      height: 40px;
+      vertical-align: middle;
+      width: 40px;
+    }
+
+    &--large {
+      svg {
+        height: 60px;
+        width: 60px;
+      }
+    }
+  }
 
   nav {
     display: flex;
@@ -34,14 +86,21 @@
       }
     }
   }
-}
 
-.hamburger {
-  display: flex;
-  svg {
-    height: 20px;
-    margin-right: 10px;
-    width: 20px;
+  &__hamburger {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    line-height: 0;
+    padding-left: 10px;
+    padding-right: 2px;
+    text-decoration: none;
+
+    svg {
+      height: 20px;
+      margin-right: 10px;
+      width : 26px;
+    }
   }
 }
 
@@ -105,26 +164,5 @@
     padding-bottom  : 5px;
     padding-left    : 0;
     padding-top     : 7px;
-  }
-}
-
-// Menu button
-.hamburger {
-  align-items    : center;
-  cursor         : pointer;
-  line-height    : 0;
-  padding-left   : 10px;
-  padding-right  : 2px;
-  text-decoration: none;
-
-  svg {
-    height: 20px;
-    width : 26px;
-  }
-
-  .catalog-name {
-    color    : $white;
-    font-size: 20px;
-    margin   : 0 0 0 15px;
   }
 }
