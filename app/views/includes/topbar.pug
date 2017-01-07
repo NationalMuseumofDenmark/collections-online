@@ -29,7 +29,7 @@ header.topbar(class=frontpage ? 'topbar--frontpage' : '')
               button.btn-search.btn
                 span.sr-only Search
                 +icon('search')
-        #heading-categories-menu.hamburger
+        .hamburger(data-action="toggle-sidebar-menu")
           span.sr-only Catalogs and categories
           +icon('menu')
       if frontpage
