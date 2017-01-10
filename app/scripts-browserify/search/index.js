@@ -5,6 +5,8 @@
 const config = require('collections-online/shared/config');
 const helpers = require('../../../shared/helpers');
 
+require('./search-freetext-form');
+
 const getSearchParams = require('./get-parameters');
 const elasticsearchQueryBody = require('./es-query-body');
 const elasticsearchAggregationsBody = require('./es-aggregations-body');
@@ -27,8 +29,8 @@ let loadingResults = false;
 // We have to listen to #sidebar since the other elements doesn't exist at
 // $documentready
 function initialize() {
+  const $searchInput = $('.search-freetext-form__input');
   const $results = $('#results');
-  const $searchInput = $('#search-input');
   const $loadMoreBtn = $('#load-more-btn');
   const $noResultsText = $('#no-results-text');
 

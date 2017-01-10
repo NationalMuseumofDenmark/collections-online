@@ -1,0 +1,15 @@
+
+mixin searchFreetextForm(placeholder, ...modifiers)
+  - const modifierClasses = modifiers.map(m => 'search-freetext-form--' + m);
+  form.search-freetext-form(method='get', action='/', class=modifierClasses)
+    .input-group
+      input.form-control.search-freetext-form__input(
+        type='text',
+        placeholder=placeholder,
+        name='q',
+        autocomplete="off",
+        value=req.query.q || '')
+      .input-group-btn
+        button.btn.search-freetext-form__btn
+          span.sr-only Søg
+          +icon('search')

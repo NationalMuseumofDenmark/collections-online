@@ -1,0 +1,110 @@
+@mixin search-freetext-form($detail-color, $text-color: $detail-color, $placeholder-color: $text-color) {
+  $detail-color--blur: rgba($detail-color, .66);
+
+  .search-freetext-form {
+    &__input {
+      color: $text-color;
+
+      &::placeholder {
+        color: $placeholder-color;
+      }
+    }
+
+    &__btn {
+      color: $detail-color;
+    }
+  }
+
+  .input-group {
+    &::after {
+      background-color: $detail-color--blur;
+    }
+  }
+}
+
+.search-freetext-form {
+  flex-grow: 1;
+  margin: 0 10px;
+  position: relative;
+
+  .input-group {
+    max-width: 20rem;
+
+    &::after {
+      bottom: .2rem;
+      content: '';
+      height: .05rem;
+      left: 0;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  &__input,
+  &__btn {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    outline: none;
+  }
+
+  &__input {
+    height: $input-height-base + 2;
+    padding-bottom: 5px;
+    padding-left: 0;
+    padding-top: 7px;
+
+    &::placeholder {
+      font-family: $font-family-sans-serif;
+    }
+
+    &:focus {
+      &::placeholder {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__btn {
+    height: auto;
+    line-height: 1.2;
+    margin-left: 0;
+    padding-right: 0;
+  }
+
+  &--large {
+    .input-group {
+      &::after {
+        height: .15rem;
+      }
+    }
+
+    .search-freetext-form {
+      &__input {
+        font-size: 1.6rem;
+        height: 3rem;
+      }
+
+      &__btn {
+        svg {
+          height: 2rem;
+          margin-bottom: .2rem;
+          width: 2rem;
+        }
+      }
+    }
+  }
+
+  &--on-brand {
+    @include search-freetext-form($white);
+  }
+
+  &--on-white {
+    @include search-freetext-form($brand-primary, $black, $gray);
+  }
+
+  &--focus {
+    // TODO: Add something that changes the color on the line when focussed
+  }
+}
