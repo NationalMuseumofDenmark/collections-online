@@ -19,7 +19,9 @@ mixin meta(title, description, image)
     - title = siteTitle + ' - ' + siteSubTitle
   else
     - title = siteTitle
-  if !description
+  if !description && config.metatags && config.metatags.description
+    - description = config.metatags.description
+  else if !description
     - description = 'Søg og udforsk ' + siteTitle
   if image
     - image = unsafeBaseUrl + image
