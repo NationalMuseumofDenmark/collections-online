@@ -8,8 +8,8 @@ include mixins/display-license
 append header
   - let title = helpers.documentTitle(metadata);
   - let description = helpers.documentDescription(metadata);
-  - let thumbnailUrl = helpers.getThumbnailURL(metadata);
-  +meta(title, description, thumbnailUrl)
+  - let socialThumbnailURL = helpers.getSocialThumbnailURL(metadata);
+  +meta(title, description, socialThumbnailURL)
 
 append javascript
   if config.features.geoTagging

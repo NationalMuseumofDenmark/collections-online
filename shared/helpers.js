@@ -67,6 +67,15 @@ helpers.getThumbnailURL = (metadata, size, watermarkPosition) => {
   return path.join('/');
 };
 
+const SOCIAL_THUMBNAIL_SIZE = 500;
+
+helpers.getSocialThumbnailURL = (metadata) => {
+  if(config.thumbnailSize >= SOCIAL_THUMBNAIL_SIZE) {
+    console.warn('config.thumbnailSize should be < ' + SOCIAL_THUMBNAIL_SIZE);
+  }
+  return helpers.getThumbnailURL(metadata, SOCIAL_THUMBNAIL_SIZE);
+};
+
 helpers.getDownloadURL = (metadata, size) => {
   let path = [
     helpers.getDocumentURL(metadata),
