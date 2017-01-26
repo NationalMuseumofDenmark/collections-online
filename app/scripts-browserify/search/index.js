@@ -83,6 +83,8 @@ function initialize() {
     }
 
     // Get actual results from the index
+    // TODO: Could probably be combined with the first es.search request when
+    // performing a fresh update.
     es.search({
       body: elasticsearchQueryBody(searchParams),
       from: resultsLoaded.length,
