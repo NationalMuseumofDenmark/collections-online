@@ -1,6 +1,9 @@
-@mixin search-freetext-form($detail-color, $text-color: $detail-color, $placeholder-color: $text-color) {
-  $detail-color--blur: rgba($detail-color, .66);
-
+@mixin search-freetext-form(
+  $detail-color,
+  $text-color: $detail-color,
+  $placeholder-color: $text-color,
+  $detail-color--dimmed: rgba($detail-color, .66)
+) {
   .search-freetext-form {
     &__input {
       color: $text-color;
@@ -17,7 +20,7 @@
 
   .input-group {
     &::after {
-      background-color: $detail-color--blur;
+      background-color: $detail-color--dimmed;
     }
   }
 }
@@ -108,7 +111,16 @@
     @include search-freetext-form($brand-primary, $black, $gray);
   }
 
+  &--on-dark {
+    @include search-freetext-form($white, $white, $gray-light, $gray-light);
+  }
+
   &--focus {
+    &.search-freetext-form {
+      &--on-dark {
+        @include search-freetext-form($white, $white, $gray-light, $white);
+      }
+    }
     // TODO: Add something that changes the color on the line when focussed
   }
 }
