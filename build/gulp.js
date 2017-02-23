@@ -142,6 +142,12 @@ module.exports = (gulp, childPath) => {
             'babel-preset-latest',
             //'babel-preset-babili'
           ].map(require.resolve)
+        },
+        'test': {
+          'presets': [
+            'babel-preset-latest',
+            //'babel-preset-babili'
+          ].map(require.resolve)
         }
       },
       // Global is needed because JS in collections-online is considered global
