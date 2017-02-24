@@ -93,53 +93,57 @@ $heading-adjustment: 2px;
     }
   }
 
-  .btn-filter,
   .filter-text {
+    line-height: 1.4;
     margin: $spacer-xs;
   }
 
-  .filter-text {
-    line-height: 1.4;
-  }
-}
+  &__filter-btn {
+    margin: $spacer-xs;
+    // expected max-width: 100%; would work, but margin gives issues.
+    max-width: 90%;
+    max-width: calc(100% - #{$spacer-xs * 2});
 
-
-.btn-filter {
-  display: flex;
-  flex-wrap: nowrap;
-  // expected max-width: 100%; would work, but margin gives issues.
-  max-width: 90%;
-  max-width: calc(100% - #{$spacer-xs * 2});
-
-  @if $filter-btn-full-width == true {
-    justify-content: space-between;
-    width: 100%;
-
-    &__text {
-      flex-grow: 1;
-      text-align: left;
+    &:not(:first-child) {
+      margin-top: 0;
     }
-  }
 
-  &__count,
-  &__text,
-  svg {
-    align-self: center;
-  }
+    // See http://stackoverflow.com/questions/35464067/flexbox-not-working-on-button-element-in-some-browsers
+    &-container {
+      display: flex;
+      flex-wrap: nowrap;
+    }
 
-  &__count {
-    font-family: $font-family-light;
-    font-weight: 300;
-    padding-left: $spacer-xs;
-  }
+    @if $filter-btn-full-width == true {
+      justify-content: space-between;
+      width: 100%;
 
-  &__text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+      &-text {
+        flex-grow: 1;
+        text-align: left;
+      }
+    }
 
-  svg {
-    flex-shrink: 0;
-    margin: 0 $filter-btn-svg-right-margin 0 .5em;
+    &-count,
+    &-text,
+    svg {
+      align-self: center;
+    }
+
+    &-count {
+      font-family: $font-family-light;
+      font-weight: 300;
+      padding-left: $spacer-xs;
+    }
+
+    &-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    svg {
+      flex-shrink: 0;
+      margin: 0 $filter-btn-svg-right-margin 0 .5em;
+    }
   }
 }
