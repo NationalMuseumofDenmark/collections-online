@@ -1,7 +1,5 @@
 each docs, type in metadata.related
-  - const restrictRelated = config.types[metadata.type].layout.restrictRelated;
-  - const show = !restrictRelated || restrictRelated.indexOf(type) !== -1;
-  if show && docs.length > 0
+  if docs.length > 0
     .col-xs-12
       h2= 'Relaterede ' + helpers.translate(type)
       .related-assets
