@@ -104,6 +104,11 @@ helpers.getDirectDownloadURL = (metadata) => {
   ].join('/');
 };
 
+helpers.getAssetField = (shortName) => {
+  if(!config.assetFields) return null;
+  return config.assetFields.find((field) => field.short === shortName);
+}
+
 helpers.licenseMapped = (metadata) => {
   let license = helpers.documentLicense(metadata);
   if(license) {
