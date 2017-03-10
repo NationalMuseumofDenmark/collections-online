@@ -1,7 +1,7 @@
 var Q = require('q');
 
 var testResults = [
-  require('./test-dependants').run()
+  // require('./test-dependants').run()
 ];
 
 Q.all(testResults).then((passed) => {
