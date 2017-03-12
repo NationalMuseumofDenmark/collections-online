@@ -3,7 +3,7 @@
     if helpers.isDownloadable(metadata)
       h2 Download
       each option in helpers.getDownloadOptions(metadata)
-        a.btn.btn-primary(href=option.url)
+        a.btn.btn-primary(href=option.url, target="_blank")
           = option.label
       +displayLicense(metadata)
     else
