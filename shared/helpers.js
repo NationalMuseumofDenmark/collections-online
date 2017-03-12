@@ -105,9 +105,11 @@ helpers.getDirectDownloadURL = (metadata) => {
 };
 
 helpers.getAssetField = (shortName) => {
-  if(!config.assetFields) return null;
-  return config.assetFields.find((field) => field.short === shortName);
-}
+  if(!config.types || !config.types.asset || !config.types.asset.fields) {
+    throw new Error('Cannot get field. Missing config.types.asset.fields');
+  }
+  return config.types.asset.fields.find((field) => field.short === shortName);
+};
 
 helpers.licenseMapped = (metadata) => {
   let license = helpers.documentLicense(metadata);
