@@ -145,4 +145,5 @@ helpers.translate = key => {
     return key;
   }
 };
+
 module.exports = helpers;
