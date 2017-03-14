@@ -18,22 +18,38 @@ module.exports = {
     app.use(passport.initialize());
     app.use(passport.session());
 
-    app.get('/login',
-    function(req, res){
-      res.render('login', { env: process.env });
+    app.use(function(req, res, next) {
+      res.locals.user = req.user;
+      res.locals.authCredentials = {
+        clientId: process.env.AUTH0_CLIENT_ID,
+        callbackUrl: process.env.AUTH0_CALLBACK_URL,
+        domain: process.env.AUTH0_DOMAIN
+      }
+      next();
     });
 
-    // Perform session logout and redirect to homepage
-    app.get('/logout', function(req, res){
-      req.logout();
-      res.redirect('/');
-    });
+    mountRoutes(app);
+  }
+}
 
-    // Perform the final stage of authentication and redirect to '/user'
-    app.get('/callback',
-      passport.authenticate('auth0', { failureRedirect: '/url-if-something-fails' }),
-      function(req, res) {
-        res.redirect(req.session.returnTo || '/user');
-      });
+function mountRoutes(app){
+  app.get('/login', function(req, res) {
+    res.render('login', { env: process.env });
+  });
+
+  app.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+  });
+
+  app.get('/user', function (req, res) {
+    res.render('user', { user: req.user });
+  });
+
+  app.get('/auth/callback', passport.authenticate('auth0',
+    { failureRedirect: '/url-if-something-fails' }),
+    function(req, res) {
+      res.redirect(req.session.returnTo || '/');
     }
-};
+  );
+}

@@ -9,7 +9,8 @@
     "scrollToTop": "1.0.3",
     "typeahead.js": "~0.11.1",
     "slick-carousel": "^1.5.9",
-    "formatter.js": "formatter#^0.1.5"
+    "formatter.js": "formatter#^0.1.5",
+    "auth0-lock": "^10.13.0"
   },
   "devDependencies": {},
   "overrides": {

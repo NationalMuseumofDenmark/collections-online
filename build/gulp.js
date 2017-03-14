@@ -71,7 +71,8 @@ module.exports = (gulp, childPath) => {
     '/typeahead.js/dist/typeahead.bundle.js',
     '/scrollToTop/jquery.scrollToTop.js',
     '/slick-carousel/slick/slick.min.js',
-    '/formatter.js/dist/jquery.formatter.min.js'
+    '/formatter.js/dist/jquery.formatter.min.js',
+    '/auth0-lock/build/lock.min.js'
   ].map((script) => {
     return BOWER_COMPONENTS_CO + script;
   });

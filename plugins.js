@@ -37,7 +37,7 @@ exports.register = (plugin) => {
   // Validate the plugin, throwing an error if invalid
   validatePlugin(plugin.type, plugin.module);
   // Let's notify the developer that the plugin was registered
-  console.log('A pluging of type "' + plugin.type + '" was registered');
+  console.log('A plugin of type "' + plugin.type + '" was registered');
   // Create an array for the plugins of this type, if it doesn't exist
   if(typeof(pluginModulesByType[plugin.type]) !== 'object') {
     pluginModulesByType[plugin.type] = [];
