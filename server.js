@@ -16,6 +16,9 @@ let co = {
     if(config.features.keystone) {
       plugins.register(require('./plugins/keystone'));
     }
+    if(config.features.users) {
+      plugins.register(require('./plugins/auth'));
+    }
   },
   initialize: (app) => {
     if(!app) {
