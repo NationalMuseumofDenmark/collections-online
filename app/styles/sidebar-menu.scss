@@ -62,6 +62,14 @@ $expand-width: 50px;
     width: $menu-width-small;
   }
 
+  .sidebar-menu__link-seperator {
+    width: 95%;
+    height: 1px;
+    display: block;
+    margin: 0 auto;
+    background-color: lighten($topbar-color, 5%);
+  }
+
   a {
     color: $white;
     display: block;
