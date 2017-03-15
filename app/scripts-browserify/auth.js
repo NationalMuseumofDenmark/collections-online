@@ -1,7 +1,9 @@
 $(function() {
-  var credentials = $('#meta__auth-credentials').data('credentials');
+  var credentials = $("meta[name='auth-credentials']").attr('content');
 
   if(credentials){
+    credentials = JSON.parse(credentials);
+
     var lock = new Auth0Lock(credentials.clientId, credentials.domain, {
       languageDictionary: {
         title: "kbhbilleder.dk"
@@ -21,8 +23,8 @@ $(function() {
       }
     });
 
-    $('.btn__login').on('click',function(){
+    $('[data-action="login"]').on('click',function(){
       lock.show();
-  });
+    });
   }
 });
