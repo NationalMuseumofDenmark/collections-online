@@ -19,6 +19,9 @@ module.exports = options => {
   if(config.features.scrollToTop) {
     require('./scroll-to-top');
   }
+  if(config.features.users) {
+    require('./auth');
+  }
 
   require('./sidebar-menu');
   require('./dropdown');

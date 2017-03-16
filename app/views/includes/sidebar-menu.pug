@@ -4,5 +4,15 @@ nav
       block before
       each item in menus.main
         li
-          a(href=item.url).sidebar-menu__link= item.title
+          a(href=item.url)= item.title
+    if config.features.users
+      span.sidebar-menu__link-seperator
+      if user
+        li
+          a= (user.name.givenName || user.nickname)
+        li
+          a(href='/logout') Log ud
+      else
+        li
+          a(data-action='login') Log ind
 .gray-overlay
