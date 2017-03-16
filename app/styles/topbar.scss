@@ -99,7 +99,20 @@
     svg {
       height: 20px;
       margin-right: 10px;
-      width : 26px;
+      width: 26px;
+    }
+  }
+
+  &__menu {
+    flex-grow: 1;
+  }
+
+  &__search {
+    flex-grow: 0;
+
+    svg {
+      height: 1.7rem;
+      width: 1.7rem;
     }
   }
 }

@@ -48,7 +48,9 @@ let co = {
       });
       return ds.count({
         index: indecies,
-        query: config.search.baseQuery
+        body: {
+          query: config.search.baseQuery
+        }
       }).then(function(response) {
         console.log('Index exists and has', response.count, 'documents.');
       }, function(err) {
