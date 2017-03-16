@@ -3,6 +3,7 @@
 const config = require('collections-online/lib/config');
 
 const keystone = require('keystone');
+const middleware = require('./middleware');
 const csrf = require('csurf');
 
 module.exports = {
@@ -44,6 +45,12 @@ module.exports = {
       return next();
     });
 
+    // Common Middleware
+    keystone.pre('routes', middleware.initLocals);
+
+    // Override error handlers - to use collections-online's
+    keystone.set('404', middleware.error404);
+    keystone.set('500', middleware.error500);
     // Register the keystone specific routes
     keystone.set('routes', require('./routes')(app));
 
