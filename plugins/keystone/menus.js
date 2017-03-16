@@ -8,9 +8,9 @@ function reload() {
   var MenuItem = keystone.list('Menu item');
   var menuItems = {};
   Q.all(MENUS.map((menu) => {
-  	return MenuItem.model.find({
-  		placement: menu
-  	})
+    return MenuItem.model.find({
+      placement: menu
+    })
     .populate('page')
     .sort('order')
     .exec(function(err, items) {

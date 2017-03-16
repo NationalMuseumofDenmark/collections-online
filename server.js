@@ -50,7 +50,7 @@ let co = {
         index: indecies,
         query: config.search.baseQuery
       }).then(function(response) {
-        console.log('The index is created and has', response.count, 'documents.');
+        console.log('Index exists and has', response.count, 'documents.');
       }, function(err) {
         if(err.status === 404) {
           console.error('Missing document index:', indecies.join(' or '));
