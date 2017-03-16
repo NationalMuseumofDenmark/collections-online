@@ -20,11 +20,6 @@ module.exports = {
 
     app.use(function(req, res, next) {
       res.locals.user = req.user;
-      res.locals.authCredentials = {
-        clientId: process.env.AUTH0_CLIENT_ID,
-        callbackUrl: process.env.AUTH0_CALLBACK_URL,
-        domain: process.env.AUTH0_DOMAIN
-      };
       next();
     });
 
