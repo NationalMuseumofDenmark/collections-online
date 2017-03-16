@@ -2,6 +2,7 @@ const config = require('./config');
 let helpers = {};
 
 const REQUIRED_HELPERS = [
+  'cleanDocumentId',
   'determinePlayer',
   'documentDescription',
   'documentLicense',

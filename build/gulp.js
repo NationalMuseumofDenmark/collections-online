@@ -54,7 +54,7 @@ module.exports = (gulp, childPath) => {
   var PUG_SRC_CO = ROOT_CO + '/app/views/**/*.pug';
   var PUG_SRC = childPath + '/app/views/**/*.pug';
   var PUG_DEST = DEST_DIR + '/views';
-  var isProduction = process.env.NODE_ENV === 'production';
+  var isDevelopment = process.env.NODE_ENV === 'development';
 
   // Add bower scripts
   var BOWER_SCRIPTS = [
@@ -104,7 +104,7 @@ module.exports = (gulp, childPath) => {
   gulp.task('css', function() {
     return gulp.src(STYLES_SRC)
       .pipe(plumber())
-      .pipe(gulpif(!isProduction, sourcemaps.init()))
+      .pipe(gulpif(isDevelopment, sourcemaps.init()))
       .pipe(sass().on('error', function(err) {
         sass.logError(err);
         return notify().write({
@@ -113,7 +113,7 @@ module.exports = (gulp, childPath) => {
       }))
       .pipe(cleanCSS())
       .pipe(autoprefixer({browsers: ['last 4 versions']}))
-      .pipe(gulpif(!isProduction, sourcemaps.write()))
+      .pipe(gulpif(isDevelopment, sourcemaps.write()))
       .pipe(gulp.dest(STYLES_DEST));
   });
 
@@ -125,7 +125,7 @@ module.exports = (gulp, childPath) => {
         DEST_DIR
       ],
       basedir: SCRIPTS_BROWSERIFY_DIR,
-      debug: !isProduction,
+      debug: isDevelopment,
       entries: './index.js',
       insertGlobalVars: {
         clientSideConfig: function(file, dir) {
@@ -142,10 +142,16 @@ module.exports = (gulp, childPath) => {
             'babel-preset-latest',
             //'babel-preset-babili'
           ].map(require.resolve)
+        },
+        'test': {
+          'presets': [
+            'babel-preset-latest',
+            //'babel-preset-babili'
+          ].map(require.resolve)
         }
       },
       // Global is needed because JS in collections-online is considered global
-      global: isProduction
+      global: !isDevelopment
     })
     .bundle()
     .on('error', function(err){
@@ -167,7 +173,7 @@ module.exports = (gulp, childPath) => {
       .pipe(uniqueFiles())
       .pipe(concat(SCRIPT_NAME))
       .pipe(gulp.dest(SCRIPTS_DEST))
-      .pipe(gulpif(isProduction, uglify().on('error', console.error)))
+      .pipe(gulpif(!isDevelopment, uglify().on('error', console.error)))
       .pipe(gulp.dest(SCRIPTS_DEST))
       .pipe(notify('Ready to reload'))
       .on('error', function(err){
@@ -193,7 +199,7 @@ module.exports = (gulp, childPath) => {
       .pipe(uniqueFiles())
       .pipe(pug({
         client: true,
-        compileDebug: !isProduction,
+        compileDebug: isDevelopment,
         pug: customPug
       }))
       .pipe(gulp.dest(PUG_DEST));
