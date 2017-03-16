@@ -66,3 +66,7 @@ exports.initialize = (app, config) => {
   // Return a promise that gets resolved when all plugins have initialized
   return Q.all(pluginPromises);
 };
+
+exports.all = () => {
+  return plugins;
+};

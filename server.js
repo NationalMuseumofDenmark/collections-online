@@ -84,10 +84,8 @@ let co = {
     });
   },
   registerRoutes: (app) => {
-    // Register routes for all plugins
-    var pluginPackages = app.get('co-plugins') || [];
     // Require routes from each plugin, if they register routes
-    pluginPackages.forEach((plugin) => {
+    plugins.all().forEach((plugin) => {
       try {
         if(typeof(plugin.registerRoutes) === 'function') {
           plugin.registerRoutes(app);
