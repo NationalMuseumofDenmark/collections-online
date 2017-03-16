@@ -45,22 +45,23 @@ module.exports = {
       return next();
     });
 
+    keystone.set('nav', config.keystone.nav);
+    keystone.openDatabaseConnection(function() {
+      require('./menus')(app);
+    });
+
     // Common Middleware
     keystone.pre('routes', middleware.initLocals);
 
     // Override error handlers - to use collections-online's
     keystone.set('404', middleware.error404);
     keystone.set('500', middleware.error500);
+  },
+  registerRoutes: app => {
     // Register the keystone specific routes
     keystone.set('routes', require('./routes')(app));
-
-    keystone.set('nav', config.keystone.nav);
-
+    // Set the routes for the admin interface
     app.use('/keystone', keystone.Admin.Server.createStaticRouter(keystone));
     app.use('/keystone', keystone.Admin.Server.createDynamicRouter(keystone));
-
-    keystone.openDatabaseConnection(function() {
-      require('./menus')(app);
-    });
   }
 };
