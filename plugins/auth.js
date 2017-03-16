@@ -22,28 +22,25 @@ module.exports = {
       res.locals.user = req.user;
       next();
     });
+  },
+  registerRoutes: app => {
+    app.get('/login', function(req, res) {
+      res.render('login', {env: process.env});
+    });
 
-    mountRoutes(app);
+    app.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+    });
+
+    app.get('/user', function (req, res) {
+      res.render('user', {user: req.user});
+    });
+
+    app.get('/auth/callback', passport.authenticate('auth0', {
+      failureRedirect: '/url-if-something-fails'
+    }), function(req, res) {
+      res.redirect(req.session.returnTo || '/');
+    });
   }
 };
-
-function mountRoutes(app){
-  app.get('/login', function(req, res) {
-    res.render('login', {env: process.env});
-  });
-
-  app.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-  });
-
-  app.get('/user', function (req, res) {
-    res.render('user', {user: req.user});
-  });
-
-  app.get('/auth/callback', passport.authenticate('auth0', {
-    failureRedirect: '/url-if-something-fails'
-  }), function(req, res) {
-    res.redirect(req.session.returnTo || '/');
-  });
-}
