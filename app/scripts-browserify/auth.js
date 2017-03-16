@@ -1,5 +1,6 @@
 'use strict';
 
+const config = require('collections-online/shared/config');
 
 /* global Auth0Lock */
 
@@ -11,12 +12,12 @@ $(function() {
 
     var lock = new Auth0Lock(credentials.clientId, credentials.domain, {
       languageDictionary: {
-        title: "kbhbilleder.dk"
+        title: config.siteTitle
       },
       theme: {
         logo: '/images/favicons/favicon-96x96.png',
         labeledSubmitButton: false,
-        primaryColor: 'hsl(340, 88%, 47%)'
+        primaryColor: config.themeColor
       },
       language: 'da',
       auth: {
