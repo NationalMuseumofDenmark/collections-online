@@ -42,7 +42,7 @@ module.exports = {
     app.use('/keystone', csrf());
     app.use('/keystone', function(req, res, next) {
       res.locals.csrftoken = req.csrfToken();
-      return next();
+      next();
     });
 
     keystone.set('nav', config.keystone.nav);
