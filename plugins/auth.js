@@ -24,17 +24,17 @@ module.exports = {
         clientId: process.env.AUTH0_CLIENT_ID,
         callbackUrl: process.env.AUTH0_CALLBACK_URL,
         domain: process.env.AUTH0_DOMAIN
-      }
+      };
       next();
     });
 
     mountRoutes(app);
   }
-}
+};
 
 function mountRoutes(app){
   app.get('/login', function(req, res) {
-    res.render('login', { env: process.env });
+    res.render('login', {env: process.env});
   });
 
   app.get('/logout', function(req, res) {
@@ -43,13 +43,12 @@ function mountRoutes(app){
   });
 
   app.get('/user', function (req, res) {
-    res.render('user', { user: req.user });
+    res.render('user', {user: req.user});
   });
 
-  app.get('/auth/callback', passport.authenticate('auth0',
-    { failureRedirect: '/url-if-something-fails' }),
-    function(req, res) {
-      res.redirect(req.session.returnTo || '/');
-    }
-  );
+  app.get('/auth/callback', passport.authenticate('auth0', {
+    failureRedirect: '/url-if-something-fails'
+  }), function(req, res) {
+    res.redirect(req.session.returnTo || '/');
+  });
 }

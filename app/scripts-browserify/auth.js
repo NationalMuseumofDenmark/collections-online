@@ -1,5 +1,10 @@
+'use strict';
+
+
+/* global Auth0Lock */
+
 $(function() {
-  var credentials = $("meta[name='auth-credentials']").attr('content');
+  var credentials = $('meta[name="auth-credentials"]').attr('content');
 
   if(credentials){
     credentials = JSON.parse(credentials);
