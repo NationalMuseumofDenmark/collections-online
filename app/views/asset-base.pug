@@ -15,10 +15,12 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-  article.asset(itemscope,
-          itemtype='http://schema.org/CreativeWork',
-          data-collection=metadata.collection,
-          data-id=metadata.id)
+  article.asset.let-it-grow(
+      itemscope,
+      itemtype='http://schema.org/CreativeWork',
+      data-collection=metadata.collection,
+      data-id=metadata.id
+    )
     block asset-top
       .asset-top
         .container-fluid
