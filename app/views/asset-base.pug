@@ -16,56 +16,41 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-  - var address = metadata.location.address;
-  - var zipcode = metadata.location.zipcode;
-  - var city = metadata.location.city;
-  - var fullAddress = [];
-
-  - if(address)
-    - fullAddress.push(address)
-  - if(zipcode)
-    - fullAddress.push(zipcode)
-  - if(city)
-    - fullAddress.push(city)
-  - fullAddress = fullAddress.join(', ')
-
   article.asset(itemscope,
           itemtype='http://schema.org/CreativeWork',
           data-collection=metadata.collection,
-          data-id=metadata.id,
-          data-latitude=metadata.location.verified.latitude || metadata.location.crowd.latitude,
-          data-longitude=metadata.location.verified.longitude || metadata.location.crowd.longitude,
-          data-heading=metadata.heading,
-          data-full-address=fullAddress)
-    .asset-top
-      .container-fluid
-        .row
-          .col-xs-12.small-bleed.img-col
-            include includes/player
-          .col-md-6.map-wrap
-            if config.features.geoTagging
-              include includes/geotagging
-      .container-fluid
-        .row.asset-info
-          .col-sm-8
-            h1= title
-            p.lead= description
-          .col-sm-4.controls
-            include includes/asset-controls
+          data-id=metadata.id)
+    block asset-top
+      .asset-top
+        .container-fluid
+          .row
+            .col-xs-12.small-bleed.img-col
+              include includes/player
+            .col-md-6.map-wrap
+              if config.features.geoTagging
+                include includes/geotagging
+        .container-fluid
+          .row.asset-info
+            .col-sm-8
+              h1= title
+              p.lead= description
+            .col-sm-4.controls
+              include includes/asset-controls
     block asset-middle
-    .asset-bottom
-      .container-fluid
-        .row.metadata
-          .col-sm-6
-            != assetSection('place', metadata)
-          .col-sm-6
-            != assetSection('time', metadata)
-          .clearfix
-          .col-sm-6
-            != assetSection('additional-information', metadata)
-          .col-sm-6
-            != assetSection('technical-information', metadata)
-        .row
-          include includes/relations
+    block asset-bottom
+      .asset-bottom
+        .container-fluid
+          .row.metadata
+            .col-sm-6
+              != assetSection('place', metadata)
+            .col-sm-6
+              != assetSection('time', metadata)
+            .clearfix
+            .col-sm-6
+              != assetSection('additional-information', metadata)
+            .col-sm-6
+              != assetSection('technical-information', metadata)
+          .row
+            include includes/relations
 
   include includes/download-overlay

@@ -102,6 +102,7 @@ $('.map-buttons .save-coordinates').click(function() {
   };
 
   var $asset = $('.asset');
+  // TODO: Consider moving the collection and asset id to meta-tags in the head
   var collection = $asset.data('collection');
   var assetId = $asset.data('id');
   $.ajax({
@@ -140,6 +141,9 @@ $('.map-buttons .save-coordinates').click(function() {
 
 window.initMap = function() {
   var initialPosition = new google.maps.LatLng(55.6747, 12.5747);
+  // TODO: Perform a call to /json to get raw metadata about the asset
+  // instead of saving this in the markup, as it makes the templates less
+  // independent of the metadata schema used.
   var latitude = $('.asset').data('latitude');
   var longitude = $('.asset').data('longitude');
   var heading = $('.asset').data('heading');
