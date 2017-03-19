@@ -85,8 +85,16 @@ function initialize() {
     // Get actual results from the index
     // TODO: Could probably be combined with the first es.search request when
     // performing a fresh update.
+
+    // Generate the query body
+    let queryBody = elasticsearchQueryBody(searchParams);
+    if(typeof(helpers.modifySearchQueryBody) === 'function') {
+      // If a modifySearchQueryBody helper is defined, call it
+      queryBody = helpers.modifySearchQueryBody(queryBody, searchParams);
+    }
+
     es.search({
-      body: elasticsearchQueryBody(searchParams),
+      body: queryBody,
       from: resultsLoaded.length,
       size: resultsDesired - resultsLoaded.length
     }).then(function (response) {
