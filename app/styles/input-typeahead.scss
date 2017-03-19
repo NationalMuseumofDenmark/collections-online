@@ -4,30 +4,30 @@
   .tt-menu {
     @include shadow(2);
     background-color: $white;
-    cursor          : pointer;
-    margin-top      : $thick-line - $thin-line;
-    padding         : .5rem 0 .2rem;
+    cursor: pointer;
+    margin-top: $thick-line - $thin-line;
+    padding: .5rem 0 .2rem;
 
     &:hover {
       .tt-suggestion:hover {
         background-color: $brand-primary;
-        color           : $white;
+        color: $white;
       }
     }
 
     &:not(:hover) {
       .tt-cursor {
         background-color: $brand-primary;
-        color           : $white;
+        color: $white;
       }
     }
   }
 
   .tt-hint {
-    bottom        : 0;
-    color         : $gray-light;
+    bottom: 0;
+    color: $gray-light;
     padding-bottom: 0;
-    top           : auto;
+    top: auto;
   }
 
   .tt-suggestion {
@@ -48,7 +48,7 @@
   &.valid {
     ~label {
       font-size: .8rem;
-      top      : 0;
+      top: 0;
     }
   }
 }

@@ -1,0 +1,41 @@
+include ../mixins/tag
+include ../mixins/icon
+
+.row
+  .col-md-7
+    h2 Emneord
+    .motif-tagging__tags
+      if(!metadata.tags || metadata.tags.length === 0)
+        span.no-tags Der er ikke tilføjet nogle emneord endnu.
+      each tag in helpers.motifTagging.getTags(metadata) || []
+        +tag(tag)
+          if editing
+            .motif-tagging__remove-btn(data-action='remove-motif-tag')
+              +icon('cross')
+    .motif-tagging__controls
+      if editing
+        .motif-tagging__add-tag
+          .motif-tagging__add-input.material-input
+            input(type='text', required)
+            span.bar
+            label Indtast nyt emneord og tryk enter
+          - // .motif-tagging__add-btn.btn.btn-primary.btn-small(data-action='add-motif-tag')
+          - //  | Tilføj emneord
+        .motif-tagging__editing-tags
+          .motif-tagging__save-btn.btn.btn-primary.btn-small(data-action='save-motif-tags', disabled=saving)
+            | Gem emneord
+          .motif-tagging__cancel-btn.btn.btn-default.btn-small(data-action='cancel-motif-tags')
+            | Afslut
+      else
+        .motif-tagging__edit-btn.btn.btn-primary.btn-small(data-action='edit-motif-tags')
+          | Tilføj emneord
+  .col-md-5
+    h2 Emneord fra billedanalyse
+    .motif-tagging__tags
+      each tag in helpers.motifTagging.getVisionTags(metadata) || []
+        +tag(tag)
+          if editing
+            .motif-tagging__transfer-btn(data-action='transfer-motif-tag')
+              +icon('thumbup')
+            .motif-tagging__remove-btn(data-action='remove-motif-tag')
+              +icon('cross')

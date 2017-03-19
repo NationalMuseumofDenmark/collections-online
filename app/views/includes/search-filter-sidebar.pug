@@ -17,7 +17,7 @@ include ../mixins/search-filter-section
             span.search-filter-sidebar__filter-btn-container
               span.search-filter-sidebar__filter-btn-text
                 +filterValue(field, value)
-              +icon('close')
+              +icon('cross')
   each filter, key in filterLabels
     if filter.type !== 'querystring'
       +filterSection(filter.singular, filter.plural, key, filter.type)

@@ -2,7 +2,6 @@ extends index
 include mixins/icon
 include mixins/loader
 include mixins/meta
-include mixins/tag
 include mixins/display-license
 
 append header
@@ -37,6 +36,10 @@ block content
             .col-sm-4.controls
               include includes/asset-controls
     block asset-middle
+      if config.features.motifTagging
+        .asset-middle
+          .container-fluid.motif-tagging
+            include includes/motif-tagging
     block asset-bottom
       .asset-bottom
         .container-fluid

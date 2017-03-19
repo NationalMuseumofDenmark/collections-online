@@ -3,5 +3,6 @@ mixin tag(name)
     href='/?q='+encodeURIComponent(name),
     data-tag=name
   )= name
+    - // If child elements are defined, put them here ..
     if block
       block

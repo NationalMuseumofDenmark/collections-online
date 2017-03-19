@@ -1,0 +1,36 @@
+.motif-tagging {
+  .btn {
+    margin-bottom: .5rem;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+
+  &__tags {
+    padding-bottom: .4rem;
+    padding-top: .6rem;
+  }
+
+  &__add-input {
+    margin-right: .5rem;
+  }
+
+  &__transfer-btn,
+  &__remove-btn {
+    display: inline-block;
+
+    svg {
+      height: 13px;
+      vertical-align: -10%;
+      width: 13px;
+    }
+  }
+
+  &__transfer-btn {
+    margin-left: .3rem;
+  }
+}
