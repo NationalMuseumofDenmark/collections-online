@@ -2,6 +2,10 @@
 
 const helpers = require('../../../shared/helpers');
 
+// TODO: Re-introduce the use of Google Analytics events
+// TODO: Add pretty errors instead of silent fails
+// TODO: Use the "require('./contribution-counter')"
+
 // Precondition on the availability of the helpers
 
 if(!helpers.motifTagging ||
