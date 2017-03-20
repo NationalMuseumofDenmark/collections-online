@@ -1,13 +1,17 @@
 .motif-tagging {
+  .btn-group {
+    display: inline-block;
+
+    &:not(:last-child) {
+      margin-right: .5rem;
+    }
+  }
+
   .btn {
     margin-bottom: .5rem;
     max-width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
-
-    &:not(:last-child) {
-      margin-right: .5rem;
-    }
   }
 
   &__tags {
@@ -31,6 +35,5 @@
   }
 
   &__transfer-btn {
-    margin-left: .3rem;
   }
 }

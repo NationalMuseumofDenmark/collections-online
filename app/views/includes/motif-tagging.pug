@@ -5,13 +5,14 @@ include ../mixins/icon
   .col-md-7
     h2 Emneord
     .motif-tagging__tags
-      if(!metadata.tags || metadata.tags.length === 0)
-        span.no-tags Der er ikke tilføjet nogle emneord endnu.
-      each tag in helpers.motifTagging.getTags(metadata) || []
-        +tag(tag)
+      each tag in helpers.motifTagging.getTags(metadata)
+        .btn-group(data-tag=tag)
+          +tag(tag)
           if editing
-            .motif-tagging__remove-btn(data-action='remove-motif-tag')
+            .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
               +icon('cross')
+      else
+        span.no-tags Der er ikke tilføjet nogle emneord endnu.
     .motif-tagging__controls
       if editing
         .motif-tagging__add-tag
@@ -22,20 +23,21 @@ include ../mixins/icon
           - // .motif-tagging__add-btn.btn.btn-primary.btn-small(data-action='add-motif-tag')
           - //  | Tilføj emneord
         .motif-tagging__editing-tags
-          .motif-tagging__save-btn.btn.btn-primary.btn-small(data-action='save-motif-tags', disabled=saving)
+          .motif-tagging__save-btn.btn.btn-default(data-action='save-motif-tags', disabled=saving)
             | Gem emneord
-          .motif-tagging__cancel-btn.btn.btn-default.btn-small(data-action='cancel-motif-tags')
+          .motif-tagging__cancel-btn.btn.btn-default(data-action='cancel-motif-tags')
             | Afslut
       else
-        .motif-tagging__edit-btn.btn.btn-primary.btn-small(data-action='edit-motif-tags')
+        .motif-tagging__edit-btn.btn.btn-primary(data-action='edit-motif-tags')
           | Tilføj emneord
   .col-md-5
     h2 Emneord fra billedanalyse
     .motif-tagging__tags
       each tag in helpers.motifTagging.getVisionTags(metadata) || []
-        +tag(tag)
+        .btn-group(data-tag=tag)
+          +tag(tag)
           if editing
-            .motif-tagging__transfer-btn(data-action='transfer-motif-tag')
+            .motif-tagging__transfer-btn.btn.btn-success(data-action='transfer-motif-tag')
               +icon('thumbup')
-            .motif-tagging__remove-btn(data-action='remove-motif-tag')
+            .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
               +icon('cross')
