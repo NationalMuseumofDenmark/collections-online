@@ -1,0 +1,12 @@
+include ../../mixins/tag
+include ../../mixins/icon
+
+.motif-tagging__tags
+  each tag in helpers.motifTagging.getVisionTags(metadata) || []
+    .btn-group(data-tag=tag)
+      +tag(tag)
+      if editing
+        .motif-tagging__transfer-btn.btn.btn-success(data-action='transfer-motif-tag')
+          +icon('thumbup')
+        .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
+          +icon('cross')
