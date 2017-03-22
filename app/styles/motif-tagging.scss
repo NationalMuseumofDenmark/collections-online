@@ -14,9 +14,19 @@
     text-overflow: ellipsis;
   }
 
-  &__tags {
+  &__final-tags {
+    margin-top: 1rem;
+  }
+
+  &__editing-tags {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__tags, &__editing-tags {
     padding-bottom: .4rem;
-    padding-top: .6rem;
+    padding-top: 1.5rem;
   }
 
   &__add-input {
