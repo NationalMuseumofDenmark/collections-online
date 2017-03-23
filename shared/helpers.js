@@ -219,7 +219,7 @@ helpers.getAnyFlat = (object, paths) => {
     return helpers.getAny(object, path);
   });
   // Flatten them deep and filter out empty values.
-  return _.flattenDeep(values).filter(value => value);
+  return _.flattenDeep(values);
 };
 
 module.exports = helpers;
