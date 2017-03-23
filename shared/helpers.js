@@ -1,4 +1,6 @@
 const config = require('./config');
+const _ = require('lodash');
+
 let helpers = {};
 
 const REQUIRED_HELPERS = [
@@ -152,6 +154,72 @@ helpers.translate = key => {
   } else {
     return key;
   }
+};
+
+
+
+/**
+ * Use this method to get all values at the "end of a path" in an object.
+ * It traverses the object along the path, if an array is found along the way
+ * the result will contain an array of values for that sub-tree of the object.
+ *
+ * Example:
+ *    object = {a: [{b: [{c: 'test'}, {c: 'this'}]}]}
+ *    path = 'a.b.c'
+ *    returns [['test', 'this']]
+ *
+ * @param {Object} object The object to look for values in.
+ * @param {string} path The path used when looking for values.
+ */
+helpers.getAny = (object, path) => {
+  if(typeof(path) === 'string') {
+    // If given a string, split on dots and call recursively
+    return helpers.getAny(object, path.split('.'));
+  } else if(Array.isArray(path)){
+    if(path.length === 0) {
+      // Throw an error if requested with an empty path
+      throw new Error('Expected some path');
+    } else if(path.length === 1) {
+      // We have arrived at the leaf of the path
+      return object[path[0]];
+    } else {
+      const value = object[path[0]];
+      const restOfPath = path.slice(1);
+      if(Array.isArray(value)) {
+        return value.map(item => {
+          return helpers.getAny(item, restOfPath);
+        });
+      } else if(typeof(value) === 'object') {
+        return helpers.getAny(value, restOfPath);
+      }
+      // Skipping values which are neither arrays nor objects
+    }
+  } else {
+    throw new Error('Path had an unexpected type: ' + typeof(path));
+  }
+};
+
+ /**
+  * Use this method to get all values at the "end of a path" in an object,
+  * you have multiple such paths and you want a flat array of values.
+  * It traverses the object along each of the paths and returns a flattened
+  * array of values.
+  *
+  * Example:
+  *    object = {a: {b: [{c: 'test', d: 123}, {c: 'this'}]}}
+  *    path = ['a.b.c', 'a.b.d']
+  *    returns ['test', 'this', 123]
+  *
+  * @param {Object} object The object to look for values in.
+  * @param {string[]} paths The paths used when looking for values.
+  */
+helpers.getAnyFlat = (object, paths) => {
+  // For every path - getAny values
+  const values = paths.map(path => {
+    return helpers.getAny(object, path);
+  });
+  // Flatten them deep and filter out empty values.
+  return _.flattenDeep(values);
 };
 
 module.exports = helpers;
