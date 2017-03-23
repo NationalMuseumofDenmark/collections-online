@@ -1,0 +1,7 @@
+if row.templates && row.templates.title && row.templates.value
+  each element in helpers.get(metadata, row.field) || []
+    tr
+      th.col-xs-6.col-sm-4!= row.templates.title(options, element)
+      td.col-xs-6.col-sm-8!= row.templates.value(options, element)
+else
+  | Missing row.templates.title or row.templates.value
