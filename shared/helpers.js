@@ -189,9 +189,10 @@ helpers.getAny = (object, path) => {
         return value.map(item => {
           return helpers.getAny(item, restOfPath);
         });
-      } else if(value) {
+      } else if(typeof(value) === 'object') {
         return helpers.getAny(value, restOfPath);
       }
+      // Skipping values which are neither arrays nor objects
     }
   } else {
     throw new Error('Path had an unexpected type: ' + typeof(path));
