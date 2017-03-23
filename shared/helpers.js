@@ -185,7 +185,7 @@ helpers.getAny = (object, path) => {
     } else {
       const value = object[path[0]];
       const restOfPath = path.slice(1);
-      if(value && Array.isArray(value)) {
+      if(Array.isArray(value)) {
         return value.map(item => {
           return helpers.getAny(item, restOfPath);
         });
