@@ -14,27 +14,32 @@
     text-overflow: ellipsis;
   }
 
+  &__editing-container {
+    margin-top: .5rem;
+  }
+
   &__no-tags {
     margin-top: -1rem;
   }
 
-  &__final-tags {
+  &__tags, &__tag-suggestions {
     margin-top: 1rem;
-  }
-
-  &__editing-tags {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  &__tags, &__editing-tags {
-    padding-bottom: .4rem;
-    padding-top: 1.5rem;
   }
 
   &__add-input {
     margin-right: .5rem;
+
+    label {
+      color: #999999
+    }
+  }
+
+  &__add-tag {
+    margin-bottom: .5rem;
+  }
+
+  &__cancel-btn {
+    margin-left: 1rem;
   }
 
   &__transfer-btn,
