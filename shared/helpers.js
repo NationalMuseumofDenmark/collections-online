@@ -166,7 +166,7 @@ helpers.translate = key => {
  * Example:
  *    object = {a: [{b: [{c: 'test'}, {c: 'this'}]}]}
  *    path = 'a.b.c'
- *    returns [[['test', 'this']]]
+ *    returns [['test', 'this']]
  *
  * @param {Object} object The object to look for values in.
  * @param {string} path The path used when looking for values.
