@@ -181,7 +181,7 @@ helpers.getAny = (object, path) => {
       throw new Error('Expected some path');
     } else if(path.length === 1) {
       // We have arrived at the leaf of the path
-      return object[path[0]] || null;
+      return object[path[0]];
     } else {
       const value = object[path[0]];
       const restOfPath = path.slice(1);
