@@ -53,7 +53,7 @@ const templates = {
         editing: false,
         saving: false,
         metadata: {},
-        users: true // TODO: This might not be a long term solution.
+        user: true // TODO: This might not be a long term solution.
       };
 
       // Register the listeners
