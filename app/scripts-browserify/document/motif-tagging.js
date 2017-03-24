@@ -1,6 +1,9 @@
 'use strict';
 const helpers = require('../../../shared/helpers');
 
+const Snackbar = require('../snackbar');
+const contributionCounter = require('./contribution-counter');
+
 // TODO: Re-introduce the use of Google Analytics events
 // TODO: Add pretty errors instead of silent fails
 // TODO: Use the "require('./contribution-counter')"
@@ -133,6 +136,9 @@ const templates = {
         this.state.saving = false;
         this.state.editing = false;
         this.render();
+
+        Snackbar.info('Gemt! Tak for dit bidrag!');
+        contributionCounter.contributionAdded();
       }, 'json');
     }
 
@@ -206,13 +212,13 @@ const templates = {
 
       // When the input is focussed, add a class to the parent
       $input.on('focus', function() {
-        $input.parent('.twitter-typeahead').addClass('focussed');
+        $input.parent('.twitter-typeahead').addClass('focused');
       });
 
       // When the input is empty and blurred, remove the class again
       $input.on('blur', function() {
         if($input.val() === '') {
-          $input.parent('.twitter-typeahead').removeClass('focussed');
+          $input.parent('.twitter-typeahead').removeClass('focused');
         }
       });
     }

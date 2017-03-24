@@ -1,0 +1,29 @@
+include ../../mixins/tag
+include ../../mixins/icon
+
+.motif-tagging__tags
+  each tag in helpers.motifTagging.getTags(metadata)
+    .btn-group(data-tag=tag)
+      +tag(tag)
+      if editing
+        .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
+          +icon('cross')
+  else
+    span.no-tags Der er ikke tilføjet nogle emneord endnu.
+.motif-tagging__controls
+  if editing
+    .motif-tagging__add-tag
+      .motif-tagging__add-input.material-input
+        input(type='text', required)
+        span.bar
+        label Indtast nyt emneord og tryk enter
+      - // .motif-tagging__add-btn.btn.btn-primary.btn-small(data-action='add-motif-tag')
+      - //  | Tilføj emneord
+    .motif-tagging__editing-tags
+      .motif-tagging__save-btn.btn.btn-default(data-action='save-motif-tags', disabled=saving)
+        | Gem emneord
+      .motif-tagging__cancel-btn.btn.btn-default(data-action='cancel-motif-tags')
+        | Afslut
+  else
+    .motif-tagging__edit-btn.btn.btn-primary(data-action='edit-motif-tags')
+      | Tilføj emneord
