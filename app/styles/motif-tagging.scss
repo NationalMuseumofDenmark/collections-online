@@ -16,6 +16,11 @@
 
   &__editing-container {
     margin-top: .5rem;
+    display: none;
+  }
+
+  &__editing-container--editing {
+    display: block;
   }
 
   &__no-tags {
