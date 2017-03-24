@@ -52,9 +52,10 @@ const templates = {
       this.state = {
         editing: false,
         saving: false,
-        metadata: {}
+        metadata: {},
+        users: true // TODO: This might not be a long term solution.
       };
-      
+
       // Register the listeners
       this.registerListeners();
       this.bindTypeahead(this.$input);
