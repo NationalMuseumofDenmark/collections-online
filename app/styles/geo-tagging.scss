@@ -15,11 +15,6 @@
       height: 0;
       width: 100%;
 
-      &.map-visible {
-        height: auto;
-        padding-bottom: 80%;
-      }
-
       * {
         font-family: $font-family-sans-serif !important;
       }
@@ -54,12 +49,10 @@
 
   &__overlay {
     background-color: rgba($topbar-color, .9);
+    bottom: 0;
     color: $white;
     display: none;
     left: 0;
-    // safari bug fix
-    margin: -1px;
-    min-height: calc(100% + 2px);
     padding: 2.5rem;
     position: absolute;
     right: 0;
@@ -67,7 +60,7 @@
     transform: translateZ(3px);
     z-index: 30;
 
-    &.overlay-visible {
+    &--visible {
       display: flex;
       flex-direction: column;
       justify-content: center;

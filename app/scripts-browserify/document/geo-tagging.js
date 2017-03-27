@@ -10,17 +10,19 @@ const expandable = require('./expandable');
 
 const GEO_TAGGING_MINI_MAP = '.geo-tagging-mini-map';
 const GEO_TAGGING_SELECTOR = '.geo-tagging';
-const GEO_TAGGING_VISIBLE_CLASS = 'geo-tagging--visible';
 const INPUT_SELECTOR = '.geo-tagging__input';
 const MAP_ELEMENT_SELECTOR = '.geo-tagging__map-element';
 const OVERLAY_SELECTOR = '.geo-tagging__overlay';
-const OVERLAY_VISIBLE_CLASS = '.geo-tagging__overlay--visible';
 const PLAYER_SELECTOR = '.geo-tagging__player';
+
+const GEO_TAGGING_VISIBLE_CLASS = 'geo-tagging--visible';
+const OVERLAY_VISIBLE_CLASS = 'geo-tagging__overlay--visible';
 
 const BACK_TO_MAP_SELECTOR = '[data-action="back-to-map"]';
 const SAVE_GEO_TAG_SELECTOR = '[data-action="save-geo-tag"]';
 const START_GEO_TAGGING_SELECTOR = '[data-action="start-geo-tagging"]';
 const STOP_GEOTAGGING_SELECTOR = '[data-action="stop-geo-tagging"]';
+const CLOSE_OVERLAY_SELECTOR = '[data-action="close-overlay"]';
 
 const LOCATION_SET_ZOOM = 16;
 const GA_EVENT_CATEGORY = 'Geotagging';
@@ -305,8 +307,7 @@ function generateMapOptions(latitude, longitude) {
     start() {
       // Show the overlay if it has never been closed
       if (!window.localStorage.getItem('geotagging-overlay-closed')) {
-        // TODO: Test this ..
-        this.geoTagging(OVERLAY_SELECTOR).addClass(OVERLAY_VISIBLE_CLASS);
+        this.$geoTagging.find(OVERLAY_SELECTOR).addClass(OVERLAY_VISIBLE_CLASS);
       }
       // Disable all buttons that can start geo-tagging
       $(START_GEO_TAGGING_SELECTOR).attr('disabled', true);
@@ -388,12 +389,19 @@ function generateMapOptions(latitude, longitude) {
       $(document).on('click', START_GEO_TAGGING_SELECTOR, () => {
         this.start();
       });
+      // Clicking stop / cancel
       this.$geoTagging.on('click', STOP_GEOTAGGING_SELECTOR, () => {
         this.stop();
       });
+      // Clicking save
       this.$geoTagging.on('click', SAVE_GEO_TAG_SELECTOR, () => {
         this.save();
       });
+      this.$geoTagging.on('click', CLOSE_OVERLAY_SELECTOR, () => {
+        window.localStorage.setItem('geotagging-overlay-closed', true);
+        const $overlay = this.$geoTagging.find(OVERLAY_SELECTOR);
+        $overlay.removeClass(OVERLAY_VISIBLE_CLASS);
+      })
     }
   }
 
