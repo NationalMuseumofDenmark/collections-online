@@ -4,7 +4,7 @@ include ../../mixins/icon
 if Object.keys(metadata).length > 0
   - const latitude = helpers.getFirst(metadata, row.fields.latitude);
   - const longitude = helpers.getFirst(metadata, row.fields.longitude);
-  - const editGeotagging = helpers.isGeoTagsEditable(metadata);
+  - const editGeotagging = helpers.geoTagging.enabled(metadata);
 
   if latitude && longitude
     tr
@@ -13,12 +13,14 @@ if Object.keys(metadata).length > 0
          = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
          if editGeotagging
            | &nbsp;
-           button.btn.btn-icon.btn-primary.btn-small(data-action='edit-place')
+           button.btn.btn-icon.btn-primary.btn-small(data-action='start-geo-tagging')
              +icon('pencil')
+    - // TODO: Move this to a mixin that is included by the asset template
     tr
-     td(colspan='2')
-       #asset-map.mini-map
+      td(colspan='2')
+        .geo-tagging-mini-map(data-latitude=latitude, data-longitude=longitude)
   else
     tr
       td(colspan='2')
-        button.btn.btn-small.btn-primary#edit-coordinates Tilføj placering
+        button.btn.btn-small.btn-primary(data-action='start-geo-tagging')
+         | Tilføj placering
