@@ -1,0 +1,13 @@
+include ../../mixins/tag
+include ../../mixins/icon
+
+.motif-tagging__suggestion-explanation Disse emneord er skabt med automatisk billedanalyse. Godkend dem, ved at klikke på hånden eller slet dem ved at klikke på krydset. Husk at gemme til sidst.
+each tag in helpers.motifTagging.getVisionTags(metadata) || []
+  .btn-group(data-tag=tag)
+    +tag(tag)
+    .motif-tagging__transfer-btn.btn.btn-success(data-action='transfer-motif-tag')
+      +icon('thumbup')
+    .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
+      +icon('cross')
+else
+  .motif-tagging__no-tags Der er ikke flere forslag til dette billede.
