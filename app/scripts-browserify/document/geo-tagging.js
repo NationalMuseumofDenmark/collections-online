@@ -335,7 +335,7 @@ function generateMapOptions(latitude, longitude) {
 
     resize() {
       // Set the maps height to the same as the sibling player
-      const $player = $('.asset__image', PLAYER_SELECTOR);
+      const $player = $(PLAYER_SELECTOR);
       this.$geoTagging.find(MAP_ELEMENT_SELECTOR).height($player.height());
       // Trigger a resize event and reset the center position
       var center = this.map.getCenter();
