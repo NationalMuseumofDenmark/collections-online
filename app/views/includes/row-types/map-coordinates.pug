@@ -8,8 +8,8 @@ if Object.keys(metadata).length > 0
 
   if latitude && longitude
     tr
-      th.col-xs-6.col-sm-4 #{row.title}:
-      td.col-xs-6.col-sm-8
+      th #{row.title}:
+      td
          = latitude.toFixed(5) + ', ' + longitude.toFixed(5)
          if editGeotagging
            | &nbsp;
