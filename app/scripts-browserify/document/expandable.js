@@ -36,4 +36,15 @@ $(DOCUMENT_TOP_SELECTOR).on('click', TOGGLE_EXPANSION_SELECTOR, () => {
   expandable.toggle();
 });
 
+// Trigger a faked window resize on expand and collapse
+// This helps elements inside the expandable realize they've changed size
+const fakedWindowResize = () => {
+  setTimeout(() => {
+    const resizeEvent = new Event('resize');
+    window.dispatchEvent(resizeEvent);
+  }, 150); // Should match the delay used in document.scss
+};
+expandable.bind('expanded', fakedWindowResize);
+expandable.bind('collapsed', fakedWindowResize);
+
 module.exports = expandable;
