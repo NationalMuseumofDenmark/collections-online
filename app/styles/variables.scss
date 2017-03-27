@@ -83,10 +83,10 @@ $filter-btn-full-width        : false !default;
 $filter-btn-svg-right-margin  : .2em !default;
 
 // Documents
-$document-top-bg                 : $topbar-color !default;
-$document-top-color              : $white !default;
+$document-top-bg                 : $white !default;
+$document-top-color              : $text-color !default;
 $document-middle-bg              : $gray-lighter !default;
-$document-bottom-bg              : $white !default;
+$document-bottom-bg              : $gray-light !default;
 $document-heading-font           : inherit !default;
 $asset-full-width-on-big-image: true !default;
 
