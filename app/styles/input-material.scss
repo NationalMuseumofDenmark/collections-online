@@ -12,6 +12,7 @@ $thick-line: 2px;
   width: 100%;
 
   input {
+    background: transparent;
     border: 0;
     border-bottom: $thin-line solid $text-color;
     display: block;

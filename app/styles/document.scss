@@ -1,0 +1,164 @@
+.document {
+  h1,
+  h2,
+  h3 {
+    font-family: $document-heading-font;
+  }
+
+  &__top {
+    background-color: $document-top-bg;
+    color: $document-top-color;
+    padding-bottom: 2rem;
+
+    @media (min-width: $small-size) {
+      padding-top: $topbar-height;
+    }
+
+    @media (min-width: $medium-size) {
+      padding-top: $topbar-height * 3 / 2;
+    }
+  }
+
+  &__middle {
+    background-color: $document-middle-bg;
+    padding: 1rem 0 2rem;
+  }
+
+  &__bottom {
+    background-color: $document-bottom-bg;
+    padding: 1rem 0 3rem;
+  }
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__description {
+    font-size: 1.13rem;
+    margin-bottom: .3rem;
+    white-space: pre-line;
+  }
+
+  &__top-metadata {
+    // Makes sure a width: 100%; will not extend this
+    position: relative;
+  }
+
+  &__player {
+    // height: 100%;
+    display: block;
+    max-height: 2000px; // Should match the size given in the image path
+    max-width: 100%;
+  }
+
+  &__player,
+  &__geo-tagging {
+    // Remove the padding from the col-* classes on small screens
+    @media (max-width: $small-size) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+
+  &__player-controls {
+    margin: 1rem 0;
+    text-align: right;
+
+    // Left-align controls on a larger screen
+    @media (min-width: $small-size) {
+      text-align: left;
+    }
+
+    > a {
+      display: inline-block;
+      margin-top: .5rem;
+
+      &:not(:last-child) {
+        margin-right: $icon-size / 2;
+      }
+    }
+
+    svg {
+      fill: $document-top-color;
+      height: $icon-size;
+      width: $icon-size;
+    }
+  }
+
+  // Styling related to tables of metadata within the document block
+  table {
+    margin-top: .5rem;
+    text-align: left;
+  }
+
+  th,
+  td {
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+
+  th {
+    padding-right: 1rem;
+    white-space: nowrap;
+  }
+
+  // Expansion
+  &__expandable {
+    [data-action='toggle-expandable'] {
+      cursor: zoom-in;
+    }
+
+    // Show or hide the zoon-in/out buttons
+    .document__player-controls {
+      .zoom-in {
+        display: inline-block;
+      }
+
+      .zoom-out {
+        display: none;
+      }
+    }
+
+    &--expanded {
+      .document__player-controls {
+        .zoom-in {
+          display: none;
+        }
+
+        .zoom-out {
+          display: inline-block;
+        }
+      }
+    }
+
+    // Animate the expandable and the cols inside any of its rows when expanding
+    @if $document-expansion-animation {
+      transition: $anim-duration-fast;
+
+      .row {
+        > [class*='col-'] {
+          transition: $anim-duration-fast;
+        }
+      }
+    }
+
+    &--expanded {
+      // A little top-padding on larger screens
+      @media (min-width: $small-size) {
+        padding-top: 1rem;
+      }
+
+      [data-action='toggle-expandable'] {
+        cursor: zoom-out;
+      }
+
+      // What happens when a document expandable is expanded?
+      // The collumns inside the expandable .rows become wide
+      .row {
+        > [class*='col-'] {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

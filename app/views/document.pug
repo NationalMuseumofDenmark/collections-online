@@ -15,46 +15,40 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + config.googleMapsAPIKey + "&callback=initMap&libraries=geometry,places")
 
 block content
-  article.asset.let-it-grow(
+  section.document.let-it-grow(
       itemscope,
       itemtype='http://schema.org/CreativeWork',
       data-collection=metadata.collection,
       data-id=metadata.id
     )
-    block asset-top
-      .asset-top
+    block document__top
+      .document__top.document__expandable
         .container-fluid
           .row
-            .col-xs-12.small-bleed.img-col
-              include includes/player
-            .col-md-6.map-wrap
+            block document__player
               if config.features.geoTagging
-                include includes/geo-tagging
-        .container-fluid
-          .row.asset-info
-            .col-sm-8
-              h1= title
-              p.lead= description
-            .col-sm-4.controls
-              include includes/asset-controls
-    block asset-middle
+                .document__geo-tagging.col-xs-12.col-sm-7
+                  include includes/geo-tagging
+                  .document__player-controls
+                    include includes/player-controls
+              else
+                .document__player.col-xs-12.col-sm-7
+                  include includes/player
+                  .document__player-controls
+                    include includes/player-controls
+            block document__top-metadata
+              .document__top-metadata.col-xs-12.col-sm-5
+                h1.document__title= title
+                p.document__description= description
+    block document__middle
       if config.features.motifTagging
-        .asset-middle
+        .document__middle
           .container-fluid.motif-tagging
             include includes/motif-tagging
-    block asset-bottom
-      .asset-bottom
+    block document__bottom
+      .document__bottom
         .container-fluid
-          .row.metadata
-            .col-sm-6
-              != assetSection('place', metadata)
-            .col-sm-6
-              != assetSection('time', metadata)
-            .clearfix
-            .col-sm-6
-              != assetSection('additional-information', metadata)
-            .col-sm-6
-              != assetSection('technical-information', metadata)
+          block document__bottom-metadata
           .row
             include includes/relations
 

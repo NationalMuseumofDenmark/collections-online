@@ -42,7 +42,7 @@ $anim-duration-fast           : 150ms !default;
 $anim-entrance                : ease-out !default;
 $anim-exit                    : ease-in !default;
 $anim-default                 : $anim-duration ease !default;
-$asset-zoom-animation         : true !default;
+$document-expansion-animation : true !default;
 
 // Menu
 $menu-width                   : 280px !default;
@@ -82,12 +82,12 @@ $icon-size                    : 24px !default;
 $filter-btn-full-width        : false !default;
 $filter-btn-svg-right-margin  : .2em !default;
 
-// Asset
-$asset-top-bg                 : $topbar-color !default;
-$asset-top-color              : $white !default;
-$asset-middle-bg              : $gray-lighter !default;
-$asset-bottom-bg              : $white !default;
-$asset-heading-font           : inherit !default;
+// Documents
+$document-top-bg                 : $topbar-color !default;
+$document-top-color              : $white !default;
+$document-middle-bg              : $gray-lighter !default;
+$document-bottom-bg              : $white !default;
+$document-heading-font           : inherit !default;
 $asset-full-width-on-big-image: true !default;
 
 $asset--icon-shadow-color     : #fff !default;

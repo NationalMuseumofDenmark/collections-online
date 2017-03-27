@@ -6,7 +6,11 @@ module.exports = options => {
     require('./cookie-consent');
   }
 
+  // TODO: Remove this asset require, once downloading has been moved to a
+  // seperate script.
   require('./asset');
+
+  require('./document/expandable');
   if(config.features.geoTagging || config.features.motifTagging) {
     require('./document/contribution-counter');
   }
