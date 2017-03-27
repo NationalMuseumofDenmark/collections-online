@@ -22,10 +22,10 @@ const EDIT_MOTIF_TAGS_SELECTOR = '[data-action="edit-motif-tags"]';
 const SAVE_MOTIF_TAGS_SELECTOR = '[data-action="save-motif-tags"]';
 const TRANSFER_TAG_INPUT_SELECTOR = '[data-action="transfer-motif-tag"]';
 const REMOVE_TAG_INPUT_SELECTOR = '[data-action="remove-motif-tag"]';
-const DYNAMIC_TEMPLATE_SELECTOR = '[data-motif-template]';
+const DYNAMIC_TEMPLATE_SELECTOR = '[data-template]';
 
 const ADD_TAG_INPUT_SELECTOR = '.motif-tagging__add-input input';
-const EDITNG_CONTAINER_SELECTOR = '.motif-tagging__editing-container';
+const EDITING_CONTAINER_SELECTOR = '.motif-tagging__editing-container';
 
 const IS_EDITING_CLASS = 'motif-tagging__editing-container--editing';
 
@@ -46,27 +46,32 @@ const templates = {
 
     constructor($motifTagging) {
       this.$motifTagging = $motifTagging;
-      this.templateSelectors = $motifTagging.find(DYNAMIC_TEMPLATE_SELECTOR);
-      this.$editingContainer = $($motifTagging.find(EDITNG_CONTAINER_SELECTOR)[0]);
+
+      this.$templateSelectors = $motifTagging.find(DYNAMIC_TEMPLATE_SELECTOR);
+      this.$editingContainer = $motifTagging.find(EDITING_CONTAINER_SELECTOR);
+      this.$input = this.$motifTagging.find(ADD_TAG_INPUT_SELECTOR);
 
       this.state = {
         editing: false,
         saving: false,
-        metadata: {}
+        metadata: {},
+        user: true // TODO: This might not be a long term solution.
       };
+
       // Register the listeners
       this.registerListeners();
+      this.bindTypeahead(this.$input);
     }
 
     render() {
       this.$editingContainer.toggleClass(IS_EDITING_CLASS, this.state.editing);
 
-      this.templateSelectors.each((i, template) => {
+      this.$templateSelectors.each((i, template) => {
         let $template = $(template);
-        let name = $template.data('motif-template');
-        let markup = $(templates[name](this.state));
+        let name = $template.data('template');
+        let markup = templates[name](this.state);
 
-        $template.html(markup.html());
+        $template.html(markup);
       });
     }
 
@@ -91,11 +96,10 @@ const templates = {
     }
 
     addTagFromInput() {
-      const $input = this.$motifTagging.find(ADD_TAG_INPUT_SELECTOR);
       // Read the value of the input field
-      const tag = $input.val();
+      let tag = this.$input.val();
       // Then clear it
-      $input.val('');
+      this.$input.val('');
       // Add it
       this.addTag(tag);
     }

@@ -23,12 +23,8 @@
     display: block;
   }
 
-  &__no-tags {
-    margin-top: -1rem;
-  }
-
-  &__tags, &__tag-suggestions {
-    margin-top: 1rem;
+  &__suggestion-explanation {
+    margin-bottom: .5rem;
   }
 
   &__add-input {
@@ -41,6 +37,10 @@
 
   &__add-tag {
     margin-bottom: .5rem;
+  }
+
+  &__save-buttons {
+    margin-top: 1rem;
   }
 
   &__cancel-btn {
