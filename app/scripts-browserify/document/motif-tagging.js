@@ -65,7 +65,6 @@ const templates = {
 
     render() {
       this.$editingContainer.toggleClass(IS_EDITING_CLASS, this.state.editing);
-
       this.$templateSelectors.each((i, template) => {
         let $template = $(template);
         let name = $template.data('template');
