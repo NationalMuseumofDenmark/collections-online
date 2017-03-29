@@ -13,7 +13,7 @@ $menu-no-shadow               : rgba(0, 0, 0, 0) !default;
 $menu-highlight               : rgba(255, 255, 255, .1) !default;
 
 $dropdown-bg                  : $white !default;
-$dropdown-bg-hover            : rgba($gray-lighter, .5) !default;
+$dropdown-bg-hover            : $gray-lighter !default;
 $dropdown-padding             : .5em !default;
 
 // Scaffolding
