@@ -1,5 +1,4 @@
 'use strict';
-
 const helpers = require('../../../shared/helpers');
 
 const Snackbar = require('../snackbar');
@@ -7,7 +6,6 @@ const contributionCounter = require('./contribution-counter');
 
 // TODO: Re-introduce the use of Google Analytics events
 // TODO: Add pretty errors instead of silent fails
-// TODO: Use the "require('./contribution-counter')"
 
 // Precondition on the availability of the helpers
 
@@ -24,10 +22,23 @@ const EDIT_MOTIF_TAGS_SELECTOR = '[data-action="edit-motif-tags"]';
 const SAVE_MOTIF_TAGS_SELECTOR = '[data-action="save-motif-tags"]';
 const TRANSFER_TAG_INPUT_SELECTOR = '[data-action="transfer-motif-tag"]';
 const REMOVE_TAG_INPUT_SELECTOR = '[data-action="remove-motif-tag"]';
+const DYNAMIC_TEMPLATE_SELECTOR = '[data-template]';
 
 const ADD_TAG_INPUT_SELECTOR = '.motif-tagging__add-input input';
+const EDITING_CONTAINER_SELECTOR = '.motif-tagging__editing-container';
+
+const IS_EDITING_CLASS = 'motif-tagging__editing-container--editing';
 
 const motifTaggingTemplate = require('views/includes/motif-tagging');
+const tagTemplate = require('views/includes/motif-tagging/tags');
+const tagSuggestionsTemplate = require('views/includes/motif-tagging/tag-suggestions');
+const saveButtonTemplate = require('views/includes/motif-tagging/save-buttons');
+
+const templates = {
+  'tags': tagTemplate,
+  'tag-suggestions': tagSuggestionsTemplate,
+  'save-buttons': saveButtonTemplate
+};
 
 (function($) {
 
@@ -35,41 +46,59 @@ const motifTaggingTemplate = require('views/includes/motif-tagging');
 
     constructor($motifTagging) {
       this.$motifTagging = $motifTagging;
+
+      this.$templateSelectors = $motifTagging.find(DYNAMIC_TEMPLATE_SELECTOR);
+      this.$editingContainer = $motifTagging.find(EDITING_CONTAINER_SELECTOR);
+      this.$input = this.$motifTagging.find(ADD_TAG_INPUT_SELECTOR);
+
       this.state = {
         editing: false,
         saving: false,
-        metadata: {}
+        metadata: {},
+        user: true // TODO: This might not be a long term solution.
       };
+
       // Register the listeners
       this.registerListeners();
+      this.bindTypeahead(this.$input);
     }
 
     render() {
-      const markup = motifTaggingTemplate(this.state);
-      this.$motifTagging.html(markup);
+      this.$editingContainer.toggleClass(IS_EDITING_CLASS, this.state.editing);
+      this.$templateSelectors.each((i, template) => {
+        let $template = $(template);
+        let name = $template.data('template');
+        let markup = templates[name](this.state);
 
-      const $input = this.$motifTagging.find(ADD_TAG_INPUT_SELECTOR);
-      this.bindTypeahead($input);
+        $template.html(markup);
+      });
     }
 
-    edit() {
+    toggleEditing(editing) {
       // Fetch the current metadata when editing
       $.getJSON(location.pathname + '/json', (metadata) => {
         // Fetch and override the metadata
         this.state.metadata = metadata;
         // Mutate the state
-        this.state.editing = true;
+        this.state.editing = editing;
         // Re-render the motif-tagging template
         this.render();
       });
     }
 
+    edit() {
+      this.toggleEditing(true);
+    }
+
+    cancel() {
+      this.toggleEditing(false);
+    }
+
     addTagFromInput() {
-      const $input = this.$motifTagging.find(ADD_TAG_INPUT_SELECTOR);
       // Read the value of the input field
-      const tag = $input.val();
+      let tag = this.$input.val();
       // Then clear it
-      $input.val('');
+      this.$input.val('');
       // Add it
       this.addTag(tag);
     }
@@ -91,18 +120,6 @@ const motifTaggingTemplate = require('views/includes/motif-tagging');
       helpers.motifTagging.removeVisionTag(this.state.metadata, tag);
       // Re-render the motif-tagging template
       this.render();
-    }
-
-    cancel() {
-      // Fetch the current metadata when editing
-      $.getJSON(location.pathname + '/json', (metadata) => {
-        // Fetch and override the metadata
-        this.state.metadata = metadata;
-        // Mutate the state
-        this.state.editing = false;
-        // Re-render the motif-tagging template
-        this.render();
-      });
     }
 
     save() {

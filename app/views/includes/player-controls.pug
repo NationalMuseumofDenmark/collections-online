@@ -1,8 +1,8 @@
-if(player === 'image' || player === 'image-downloaded')
-  a(data-action="asset-image-size-toggle")
-    +icon('zoom-in')
 - const isDownloadable = helpers.isDownloadable(metadata);
-a(data-action="asset-download-show", class=isDownloadable ? '' : 'dimmed')
+a(data-action='toggle-expandable').hidden-xs.zoom-btn
+  +icon('zoom-in', 'zoom-in')
+  +icon('zoom-out', 'zoom-out')
+a(data-action="asset-download-show", class= isDownloadable ? '' : 'dimmed')
   +icon('download')
 a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
   +icon('facebook')

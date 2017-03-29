@@ -1,7 +1,19 @@
-.row
-  .col-md-7
-    h2 Emneord
-    include ./motif-tagging/users
-  .col-md-5
-    h2 Emneord fra billedanalyse
-    include ./motif-tagging/vision
+h2 Emneord
+.motif-tagging__tags(data-template='tags')
+  include ./motif-tagging/tags
+
+.row.motif-tagging__editing-container
+  .col-md-6
+    h2 Forslag til emneord
+    .motif-tagging__tag-suggestions(data-template='tag-suggestions')
+      include ./motif-tagging/tag-suggestions
+  .col-md-4.col-md-offset-1
+    h2 Tilføj flere emneord
+    div Skriv et emneord og afslut med enter. Husk at gemme til sidst.
+    .motif-tagging__add-tag
+      .motif-tagging__add-input.material-input
+        input(type='text', required)
+        span.bar
+        label Indtast nyt emneord og tryk enter
+      .motif-tagging__save-buttons(data-template='save-buttons')
+        include ./motif-tagging/save-buttons

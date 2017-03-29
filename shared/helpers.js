@@ -116,9 +116,9 @@ helpers.getAssetField = (shortName) => {
 };
 
 helpers.licenseMapped = (metadata) => {
-  let license = helpers.documentLicense(metadata);
-  if(license) {
-    return config.licenseMapping[license];
+  let licenseId = helpers.documentLicense(metadata);
+  if(licenseId !== null && typeof(licenseId) !== 'undefined') {
+    return config.licenseMapping[licenseId];
   } else {
     return null;
   }

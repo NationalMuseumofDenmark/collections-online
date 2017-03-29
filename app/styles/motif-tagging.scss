@@ -14,13 +14,37 @@
     text-overflow: ellipsis;
   }
 
-  &__tags {
-    padding-bottom: .4rem;
-    padding-top: .6rem;
+  &__editing-container {
+    margin-top: .5rem;
+    display: none;
+  }
+
+  &__editing-container--editing {
+    display: block;
+  }
+
+  &__suggestion-explanation {
+    margin-bottom: .5rem;
   }
 
   &__add-input {
     margin-right: .5rem;
+
+    label {
+      color: #999999
+    }
+  }
+
+  &__add-tag {
+    margin-bottom: .5rem;
+  }
+
+  &__save-buttons {
+    margin-top: 1rem;
+  }
+
+  &__cancel-btn {
+    margin-left: 1rem;
   }
 
   &__transfer-btn,

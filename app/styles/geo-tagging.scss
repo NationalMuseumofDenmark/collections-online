@@ -1,0 +1,158 @@
+.geo-tagging {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  @media (max-width: $small-size) {
+    flex-direction: column;
+  }
+
+  &__map {
+    display: none;
+    position: relative;
+
+    &-element {
+      height: 0;
+      width: 100%;
+
+      * {
+        font-family: $font-family-sans-serif !important;
+      }
+
+      .controls {
+        border: 1px solid transparent;
+        border-radius: 0;
+        box-shadow: 0 2px 6px rgba($black, .3);
+        box-sizing: border-box;
+        height: 32px;
+        margin-top: 10px;
+        outline: none;
+      }
+
+      input {
+        background-color: $white;
+        color: $text-color;
+        font-size: $font-size-base;
+        font-weight: 300;
+        margin-left: 12px;
+        max-width: 50%;
+        padding: 0 11px;
+        text-overflow: ellipsis;
+        width: 300px;
+
+        &:focus {
+          border-color: $brand-primary;
+        }
+      }
+    }
+  }
+
+  &__overlay {
+    background-color: rgba($topbar-color, .9);
+    bottom: 0;
+    color: $white;
+    display: none;
+    left: 0;
+    padding: 2.5rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translateZ(3px);
+    z-index: 30;
+
+    &--visible {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      opacity: 1;
+      visibility: visible;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  &__map-buttons {
+    bottom: 19px;
+    pointer-events: none;
+    position: absolute;
+    text-align: center;
+    transform: translateZ(2px);
+    width: 100%;
+    z-index: 20;
+
+    &.back-to-map {
+      bottom: auto;
+      left: 5px;
+      top: 10px;
+      width: auto;
+    }
+
+    &.btn,
+    .btn {
+      box-shadow: 0 2px 6px rgba($black, .3);
+      margin: 0 5px;
+      pointer-events: auto;
+    }
+  }
+
+  &--visible {
+    .geo-tagging {
+      &__map {
+        display: block;
+      }
+
+      // On larger screens - put these side-by-side
+      @media (min-width: $small-size) {
+        &__player,
+        &__map {
+          width: 50%;
+        }
+      }
+    }
+  }
+}
+
+.geo-tagging-mini-map {
+  height: 10rem;
+  margin-top: .5rem;
+  width: 100%;
+}
+
+// We have to use important to overide element style
+.gmnoprint {
+  > .gm-style-mtc > div,
+  > div {
+    border-radius: 0 !important;
+  }
+}
+
+// TODO: Consider moving this to an option when initializing the map.
+.gm-iv-container {
+  display: none;
+}
+
+.gm-fullscreen-control {
+  cursor: pointer;
+}
+
+@media (max-width: $extra-small-size) {
+  .geotagging {
+    &__map {
+      min-height: 66vh;
+    }
+
+    &__overlay {
+      padding: 10px;
+    }
+
+    .call-to-action .btn {
+      font-size: 12px;
+    }
+  }
+}

@@ -7,7 +7,7 @@ const config = require('collections-online/shared/config');
   var ACTION_ASSET_ZOOMABLE = '.asset-image--zoomable';
   var ACTION_BIG_IMAGE_TOGGLE = '[data-action="asset-image-size-toggle"]:not(.dimmed)';
   var ACTION_BIG_IMAGE_DISABLED = '[data-action="asset-image-size-toggle"].dimmed';
-  var CONTENT_ASSET_TOP = '.asset-top';
+  var CONTENT_ASSET_TOP = '.document__top';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
   var CONTENT_ASSET_NO_ZOOM = '.no-zoom-message';
   var CONTENT_EXPANDED_CLASS = 'expanded';

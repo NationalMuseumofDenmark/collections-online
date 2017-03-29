@@ -1,6 +1,6 @@
 if row.template && row.template.title && row.template.value
   tr
-    th.col-xs-6.col-sm-4!= row.template.title(options, metadata)
-    td.col-xs-6.col-sm-8!= row.template.value(options, metadata)
+    th!= row.template.title(options, metadata)
+    td!= row.template.value(options, metadata)
 else
   | Missing row.template.title or row.template.value

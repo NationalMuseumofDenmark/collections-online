@@ -104,11 +104,15 @@
   }
 
   &__menu {
-    flex-grow: 1;
+    flex-grow: 3;
   }
 
   &__search {
-    flex-grow: 0;
+    flex-grow: 1;
+
+    .input-group {
+      float: right;
+    }
 
     svg {
       height: 1.7rem;

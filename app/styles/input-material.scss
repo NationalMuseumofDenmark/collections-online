@@ -12,10 +12,11 @@ $thick-line: 2px;
   width: 100%;
 
   input {
+    background: transparent;
     border: 0;
     border-bottom: $thin-line solid $text-color;
     display: block;
-    padding-bottom: .1rem;
+    padding-bottom: $thick-line;
     transition: $input-animation;
     width: 100%;
   }
@@ -35,11 +36,11 @@ $thick-line: 2px;
 
     &::after {
       background: $brand-primary;
-      bottom: 0;
       content: '';
       height: $thick-line;
       left: 50%;
       position: absolute;
+      top: - $thick-line;
       transition: $input-animation;
       width: 0;
     }
