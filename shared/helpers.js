@@ -14,7 +14,7 @@ const REQUIRED_HELPERS = [
   'generateSitemapElements',
   'getDownloadOptions',
   'isDownloadable',
-  'isWatermarkRequired',
+  'isWatermarkRequired'
 ];
 
 helpers.capitalizeFirstLetter = string => {
