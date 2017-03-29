@@ -3,6 +3,6 @@ include ../../mixins/format-date-interval
 tr
   th #{row.title}:
   td
-    - var fromDate = helpers.getDate(metadata, row.fields.from);
-    - var toDate = helpers.getDate(metadata, row.fields.to);
+    - var fromDate = helpers.getDate(metadata, row.fields.from, row.format);
+    - var toDate = helpers.getDate(metadata, row.fields.to, row.format);
     +formatDateInterval(fromDate, toDate)
