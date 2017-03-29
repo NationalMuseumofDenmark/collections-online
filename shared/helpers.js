@@ -6,7 +6,8 @@ let helpers = {};
 
 const REQUIRED_HELPERS = [
   'cleanDocumentId',
-  'determinePlayer',
+  'determineMediaTypes',
+  'determinePlayers',
   'documentDescription',
   'documentLicense',
   'documentTitle',

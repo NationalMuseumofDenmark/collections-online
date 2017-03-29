@@ -1,16 +1,18 @@
 include ../mixins/icon
 
-- const player = helpers.determinePlayer(metadata);
+- const mediaTypes = helpers.determineMediaTypes(metadata);
+- const hasMediaType = type => mediaTypes.indexOf(type) !== -1;
 - const documentURL = helpers.getDocumentURL(metadata);
 - const thumbnailURL = helpers.getThumbnailURL(metadata);
 
 a(href=documentURL).search-results-item.col-xs-6.col-sm-4
   .search-results-item__squared-container
     img(src=thumbnailURL).search-results-item__squared-image.object-fit
-    if player === 'rotation'
-      +icon('rotation')
-    if player === 'video'
+    if hasMediaType('rotation') || hasMediaType('video')
       .search-results-item__overlay
-        +icon('play')
+        if hasMediaType('rotation')
+          +icon('rotation')
+        if hasMediaType('video')
+          +icon('play')
   h2.search-results-item__title= helpers.documentTitle(metadata)
   p.search-results-item__description= helpers.documentDescription(metadata)
