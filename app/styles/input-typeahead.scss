@@ -1,5 +1,6 @@
 .twitter-typeahead {
   width: 100%;
+  display: block !important; // inline block adds spacing after the span
 
   .tt-menu {
     @include shadow(2);
