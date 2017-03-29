@@ -18,7 +18,7 @@ const REQUIRED_HELPERS = [
 ];
 
 helpers.capitalizeFirstLetter = string => {
-  if(string) {
+  if(typeof(string) === 'string') {
     return string.charAt(0).toUpperCase() + string.slice(1);
   } else {
     return string;
