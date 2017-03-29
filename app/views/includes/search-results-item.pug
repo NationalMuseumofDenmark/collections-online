@@ -1,9 +1,9 @@
 include ../mixins/icon
 
-- const mediaTypes = helpers.determineMediaTypes(metadata);
-- const hasMediaType = type => mediaTypes.indexOf(type) !== -1;
 - const documentURL = helpers.getDocumentURL(metadata);
 - const thumbnailURL = helpers.getThumbnailURL(metadata);
+- const mediaTypes = helpers.determineMediaTypes(metadata);
+- const hasMediaType = type => mediaTypes.indexOf(type) !== -1;
 
 a(href=documentURL).search-results-item.col-xs-6.col-sm-4
   .search-results-item__squared-container

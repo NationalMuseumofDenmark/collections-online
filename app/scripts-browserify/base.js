@@ -1,3 +1,7 @@
+// Requiring the babel polyfill, to enable Array.prototype.find
+// http://babeljs.io/docs/usage/polyfill/
+require('babel-polyfill');
+
 module.exports = options => {
   const config = require('collections-online/shared/config');
 
