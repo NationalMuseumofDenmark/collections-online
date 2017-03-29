@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "agentkeepalive": "~2.0.3",
+    "babel-polyfill": "^6.23.0",
     "babel-preset-babili": "0.0.9",
     "babel-preset-latest": "^6.16.0",
     "babelify": "^7.3.0",
