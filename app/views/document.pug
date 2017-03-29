@@ -41,15 +41,11 @@ block content
                 h1.document__title= title
                 p.document__description= description
     block document__middle
-      if config.features.motifTagging
-        .document__middle
-          .container-fluid.motif-tagging
-            include includes/motif-tagging
+      - // Empty - but use the .document__middle here
     block document__bottom
       .document__bottom
         .container-fluid
           block document__bottom-metadata
           .row
             include includes/relations
-
-  include includes/download-overlay
+  block document__overlays

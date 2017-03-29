@@ -1,6 +1,6 @@
 mixin licenseImageOrText(license)
   - if(license && license.img)
-    img(src=license.img, alt=license.short).license-img
+    img(src=license.img, alt=license.short)
   - else if(license && license.short)
     = license.short
   - else if(license && license.displaystring)
