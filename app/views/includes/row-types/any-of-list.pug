@@ -2,6 +2,6 @@
 if row.paths && row.title
   tr
     th!= row.title
-    td!= helpers.getAnyFlat(metadata, row.paths).join(row.separator ? row.separator : ', ')
+    td!= helpers.getAnyFlat(metadata, row.paths).join(row.separator || ', ')
 else
   | Missing row.title or row.paths
