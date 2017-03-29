@@ -15,6 +15,7 @@ $thick-line: 2px;
     background: transparent;
     border: 0;
     border-bottom: $thin-line solid $text-color;
+    box-shadow: none;
     display: block;
     padding-bottom: $thick-line;
     transition: $input-animation;
