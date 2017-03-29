@@ -1,6 +1,7 @@
 include ../mixins/icon
 
-- const player = helpers.determinePlayer(metadata);
+- const mediaTypes = helpers.determineMediaTypes(metadata);
+- const hasMediaType = type => mediaTypes.indexOf(type) !== -1;
 - const documentURL = helpers.getDocumentURL(metadata);
 - const thumbnailURL = helpers.getThumbnailURL(metadata);
 

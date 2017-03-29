@@ -6,14 +6,15 @@ let helpers = {};
 
 const REQUIRED_HELPERS = [
   'cleanDocumentId',
-  'determinePlayer',
+  'determineMediaTypes',
+  'determinePlayers',
   'documentDescription',
   'documentLicense',
   'documentTitle',
   'generateSitemapElements',
   'getDownloadOptions',
   'isDownloadable',
-  'isWatermarkRequired'
+  'isWatermarkRequired',
 ];
 
 helpers.capitalizeFirstLetter = string => {
