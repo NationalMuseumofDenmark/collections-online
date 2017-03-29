@@ -106,11 +106,11 @@ function initialize() {
       resultsTotal = response.hits.total;
       loadingResults = false;
       response.hits.hits.forEach(function(hit) {
-        var item = {
+        const item = {
           type: hit._type,
           metadata: hit._source
         };
-        var markup = templates.searchResultItem(item);
+        const markup = templates.searchResultItem(item);
         $results.append(markup);
         resultsLoaded.push(item);
       });
