@@ -104,6 +104,7 @@ function initialize() {
         $results.find('.search-results-item').remove();
       }
       resultsTotal = response.hits.total;
+      window.sessionStorage.setItem('lastSearch', JSON.stringify(response.hits));
       loadingResults = false;
       response.hits.hits.forEach(function(hit) {
         const item = {

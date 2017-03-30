@@ -81,7 +81,7 @@
         text-decoration: none;
       }
 
-      &:not(:last-child) {
+      &:not(:last-child, .topbar__name) {
         margin-right: 1rem;
       }
     }
@@ -117,6 +117,12 @@
     svg {
       height: 1.7rem;
       width: 1.7rem;
+    }
+  }
+
+  &__auth {
+    .dropdown__selected::after {
+      border-top-color: $white;
     }
   }
 }

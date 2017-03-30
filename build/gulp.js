@@ -144,7 +144,7 @@ module.exports = (gulp, childPath) => {
             //'babel-preset-babili'
           ].map(require.resolve)
         },
-        'test': {
+        'beta': {
           'presets': [
             'babel-preset-latest',
             //'babel-preset-babili'

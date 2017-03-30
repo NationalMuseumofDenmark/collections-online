@@ -27,7 +27,7 @@
   color      : $text-color;
   display    : inline-block;
   font-weight: bold;
-  padding    : 0 1.7em 0 0;
+  padding    : 0 1.4em 0 0;
 
   &:focus,
   &:hover {
@@ -57,10 +57,9 @@
 .dropdown__options {
   @include shadow(0);
   background: $dropdown-bg;
-  left      : -$dropdown-padding * 2;
+  right: 0;
   margin-top: $dropdown-padding / 2;
   max-width : calc(100vw - #{$dropdown-padding * 2});
-  min-width : 100%; // Min width of the select element, so it doesn't look weird
   opacity   : 0;
   padding   : $dropdown-padding 0;
   position  : absolute;

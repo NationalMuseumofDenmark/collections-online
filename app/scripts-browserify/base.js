@@ -15,6 +15,7 @@ module.exports = options => {
   require('./asset');
 
   require('./document/expandable');
+  require('./document/navigator');
   if(config.features.geoTagging || config.features.motifTagging) {
     require('./document/contribution-counter');
   }
