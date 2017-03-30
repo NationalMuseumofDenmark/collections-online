@@ -26,10 +26,10 @@
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: $spacer-md;
-  margin-top: $spacer-lg;
+  margin-top: $spacer-md;
 
   @media (min-width: $small-size) {
-    margin-top: $spacer-lg * 2;
+    margin-top: $spacer-lg + $spacer-md;
   }
 
   &__sorting {
@@ -47,16 +47,6 @@
 
     &--loaded {
       display: inline-block;
-    }
-  }
-}
-
-.has-sidebar {
-  .search-results__header {
-    margin-top: $spacer-md;
-
-    @media (min-width: $small-size) {
-      margin-top: $spacer-lg + $spacer-md;
     }
   }
 }
