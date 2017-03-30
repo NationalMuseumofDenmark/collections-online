@@ -6,7 +6,6 @@ let helpers = {};
 
 const REQUIRED_HELPERS = [
   'cleanDocumentId',
-  'determineMediaTypes',
   'determinePlayers',
   'documentDescription',
   'documentLicense',
@@ -222,6 +221,17 @@ helpers.getAnyFlat = (object, paths) => {
   });
   // Flatten them deep and filter out empty values.
   return _.flattenDeep(values);
+};
+
+ /**
+  * Determine what media types a particular document "consists of".
+  * The helper is currently used when determining icons on search result items.
+  *
+  * @param {Object} metadata The documents metadata object.
+  */
+helpers.determineMediaTypes = metadata => {
+  const players = helpers.determinePlayers(metadata);
+  return players.map(player => player.type);
 };
 
 module.exports = helpers;
