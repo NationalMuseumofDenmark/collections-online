@@ -104,7 +104,6 @@ function initialize() {
         $results.find('.search-results-item').remove();
       }
       resultsTotal = response.hits.total;
-      window.sessionStorage.setItem('lastSearch', JSON.stringify(response.hits));
       loadingResults = false;
       response.hits.hits.forEach(function(hit) {
         const item = {
@@ -115,6 +114,13 @@ function initialize() {
         $results.append(markup);
         resultsLoaded.push(item);
       });
+
+      // Save the results loaded in the session storage, so we can use them on
+      // out other places.
+      if(window.sessionStorage) {
+        const resultsString = JSON.stringify(resultsLoaded);
+        window.sessionStorage.setItem('searchResultsLoaded', resultsString);
+      }
 
       // Replace the state of in the history if supported
       if(history.replaceState) {

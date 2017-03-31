@@ -1,22 +1,41 @@
 const helpers = require('../../../shared/helpers');
 
-let assetId = $('.document').data('id');
-let searchHits = window.sessionStorage.getItem('lastSearch');
+// Check if the session storage is available
+if(window.sessionStorage) {
+  const currentId = $('.document').data('id');
+  const resultsString = window.sessionStorage.getItem('searchResultsLoaded');
 
-let assetIndex;
-let nextHit;
-let previousHit;
+  if(currentId && resultsString) {
+    const results = JSON.parse(resultsString);
 
-if(assetId && searchHits) {
-  let searchHits = JSON.parse(searchHits).hits;
+    console.log('results', results);
 
-  assetIndex = searchHits.findIndex((hit) => {
-    return assetId == hit['_source']['id'];
-  });
+    // Locate the current assets index in the last search result
+    const currentIndex = results.findIndex((hit) => {
+      // The non-typed equal comparison is on purpose
+      return currentId == hit.metadata.id;
+    });
 
-  if(assetIndex > 0) previousHit = searchHits[assetIndex-1]['_source'];
-  if(assetIndex < searchHits.length) nextHit = searchHits[assetIndex+1]['_source'];
+    if(currentIndex > -1) {
+      let previousHit = null;
+      if(currentIndex > 0) {
+        previousHit = results[currentIndex-1];
+      }
 
-  if(previousHit) console.log("Previous asset: ", helpers.getDocumentURL(previousHit));
-  if(nextHit) console.log("Next asset: ", helpers.getDocumentURL(nextHit));
+      let nextHit = null;
+      if(currentIndex < results.length) {
+        nextHit = results[currentIndex+1];
+      }
+
+      if(previousHit) {
+        const previousURL = helpers.getDocumentURL(previousHit.metadata);
+        console.log('Previous asset: ', previousURL);
+      }
+
+      if(nextHit) {
+        const nextURL = helpers.getDocumentURL(nextHit.metadata);
+        console.log('Next asset: ', nextURL);
+      }
+    }
+  }
 }
