@@ -69,6 +69,10 @@
       text-align: left;
     }
 
+    @media (max-width: $small-size) {
+      padding: 0 1rem;
+    }
+
     > a {
       display: inline-block;
       margin-top: .5rem;
