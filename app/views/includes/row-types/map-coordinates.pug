@@ -4,6 +4,7 @@ include ../../mixins/icon
 if Object.keys(metadata).length > 0
   - const latitude = helpers.getFirst(metadata, row.fields.latitude);
   - const longitude = helpers.getFirst(metadata, row.fields.longitude);
+  - const heading = helpers.getFirst(metadata, row.fields.heading);
   - const editGeotagging = helpers.geoTagging.enabled(metadata);
 
   if latitude && longitude
@@ -18,7 +19,11 @@ if Object.keys(metadata).length > 0
     - // TODO: Move this to a mixin that is included by the asset template
     tr
       td(colspan='2')
-        .geo-tagging-mini-map(data-latitude=latitude, data-longitude=longitude)
+        .geo-tagging-mini-map(
+          data-latitude=latitude,
+          data-longitude=longitude,
+          data-heading=heading
+        )
   else
     tr
       td(colspan='2')
