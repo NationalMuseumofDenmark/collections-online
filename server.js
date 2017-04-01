@@ -39,6 +39,9 @@ let co = {
       helpers.checkRequiredHelpers();
       app.locals.helpers = helpers;
 
+      // Injects an SVG sprite
+      app.use(require('./lib/middleware/svg-sprite'));
+
       // Trust the X-Forwarded-* headers from the Nginx reverse proxy infront of
       // the app (See http://expressjs.com/api.html#app.set)
       app.set('trust proxy', 'loopback');
