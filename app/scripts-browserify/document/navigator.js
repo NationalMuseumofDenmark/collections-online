@@ -1,5 +1,11 @@
 const helpers = require('../../../shared/helpers');
 
+const $navigator = $('.document__navigator');
+const $left = $navigator.find('a.document__navigator-left');
+const $right = $navigator.find('a.document__navigator-right');
+const $leftTitle = $left.find('.document__navigator-title');
+const $rightTitle = $right.find('.document__navigator-title');
+
 // Check if the session storage is available
 if(window.sessionStorage) {
   const currentId = $('.document').data('id');
@@ -7,8 +13,6 @@ if(window.sessionStorage) {
 
   if(currentId && resultsString) {
     const results = JSON.parse(resultsString);
-
-    console.log('results', results);
 
     // Locate the current assets index in the last search result
     const currentIndex = results.findIndex((hit) => {
@@ -29,13 +33,19 @@ if(window.sessionStorage) {
 
       if(previousHit) {
         const previousURL = helpers.getDocumentURL(previousHit.metadata);
-        console.log('Previous asset: ', previousURL);
+        const previousTitle = helpers.documentTitle(previousHit.metadata);
+        $left.attr('href', previousURL);
+        $leftTitle.text(previousTitle);
       }
 
       if(nextHit) {
         const nextURL = helpers.getDocumentURL(nextHit.metadata);
-        console.log('Next asset: ', nextURL);
+        const nextTitle = helpers.documentTitle(nextHit.metadata);
+        $right.attr('href', nextURL);
+        $rightTitle.text(nextTitle);
       }
+
+      $navigator.removeClass('hidden');
     }
   }
 }
