@@ -87,7 +87,7 @@ const navigator = {
 };
 
 // Register a listener for the swipe gesture
-$('.document').each((i, doc) => {
+$('.document__player').each((i, doc) => {
   const hammer = new Hammer(doc);
   hammer.on('swipe', (e) => {
     if(e.direction in DIRECTIONS) {
