@@ -5,6 +5,20 @@ const $left = $navigator.find('a.document__navigator-left');
 const $right = $navigator.find('a.document__navigator-right');
 const $leftTitle = $left.find('.document__navigator-title');
 const $rightTitle = $right.find('.document__navigator-title');
+const navigator = {
+  save: (state) => {
+    if(window.sessionStorage) {
+      const searchString = JSON.stringify(state);
+      window.sessionStorage.setItem('search', searchString);
+    } else {
+      console.warn('Cannot save search state: sessionStorage is not supported');
+    }
+  },
+  load: () => {
+    const searchString = window.sessionStorage.getItem('search');
+    return searchString ? JSON.parse(searchString) : {};
+  },
+};
 
 // Check if the session storage is available
 if(window.sessionStorage) {
@@ -49,3 +63,5 @@ if(window.sessionStorage) {
     }
   }
 }
+
+module.exports = navigator;

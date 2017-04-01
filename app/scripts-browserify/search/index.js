@@ -12,6 +12,7 @@ const elasticsearchQueryBody = require('./es-query-body');
 const elasticsearchAggregationsBody = require('./es-aggregations-body');
 const generateQuerystring = require('./generate-querystring');
 const resultsHeader = require('./results-header');
+const navigator = require('../document/navigator');
 
 const templates = {
   searchResultItem: require('views/includes/search-results-item')
@@ -117,10 +118,9 @@ function initialize() {
 
       // Save the results loaded in the session storage, so we can use them on
       // out other places.
-      if(window.sessionStorage) {
-        const resultsString = JSON.stringify(resultsLoaded);
-        window.sessionStorage.setItem('searchResultsLoaded', resultsString);
-      }
+      navigator.save({
+        resultsLoaded, queryBody
+      });
 
       // Replace the state of in the history if supported
       if(history.replaceState) {
