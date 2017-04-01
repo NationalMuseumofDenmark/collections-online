@@ -64,6 +64,19 @@ function generateMapOptions(latitude, longitude) {
   };
 }
 
+function addHeadingPolygon(map, latLng, heading, offset) {
+  const computeOffset = google.maps.geometry.spherical.computeOffset;
+  const headingLatLng1 = computeOffset(latLng, offset, heading + 15);
+  const headingLatLng2 = computeOffset(latLng, offset, heading - 15);
+  const headingPolyline = new google.maps.Polygon({
+    map,
+    fillColor: '#333333',
+    fillOpacity: 0.05,
+    strokeWeight: 0,
+    paths: [headingLatLng1, latLng, headingLatLng2]
+  });
+}
+
 (function($) {
 
   class GeoTaggingController {
@@ -88,6 +101,7 @@ function generateMapOptions(latitude, longitude) {
       // this.address = $('.asset').data('full-address');
 
       this.initialize();
+
       // Bind some of the method, so they can be used as a callbacks directly
       this.resize = this.resize.bind(this);
       this.stop = this.stop.bind(this);
@@ -111,6 +125,14 @@ function generateMapOptions(latitude, longitude) {
       // Initialize the map
       this.map = new google.maps.Map(element, options);
 
+      const originalSetCenter = this.map.setCenter.bind(this.map);
+      this.map.setCenter = center => {
+        if(center.lng() === 0) {
+          throw new Error('Dont call setCenter with a 0');
+        }
+        originalSetCenter(center);
+      };
+
       // Register listener
       this.map.addListener('click', (e) => {
         // Ensure that distance between markers is the same on every zoom level
@@ -123,6 +145,20 @@ function generateMapOptions(latitude, longitude) {
         this.headingMarker.setPosition(headingMarkerLatLng);
         this.state.heading = this.calculateHeading();
         this.recalculateLine();
+      });
+
+      // When the map is full-screened, it should recenter and rezoom
+      google.maps.event.addDomListener(window, 'resize', () => {
+        if(this.state && this.state.latitude && this.state.longitude) {
+          const center = new google.maps.LatLng(this.state.latitude,
+                                                this.state.longitude);
+
+          // Timeout is needed for the map to find its position before recenter
+          setTimeout(() => {
+            this.map.setCenter(center);
+            this.map.setZoom(options.zoom);
+          }, 1);
+        }
       });
     }
 
@@ -280,10 +316,10 @@ function generateMapOptions(latitude, longitude) {
       }, (results, status) => {
         if (status === google.maps.GeocoderStatus.OK) {
           const location = results[0].geometry.location;
-          const latLng = new google.maps.LatLng(location.lat(), location.lng());
-          this.map.setCenter(latLng);
+          // const latLng = new google.maps.LatLng(location.lat(), location.lng());
+          this.map.setCenter(location);
           // TODO: Consider if we really need this resize?
-          this.resize();
+          // this.resize();
         }
         // Let's show the user that we have searched for this address
         $(INPUT_SELECTOR).val(address);
@@ -299,8 +335,11 @@ function generateMapOptions(latitude, longitude) {
         // Once we have them, update the markers and recalculate line
         this.updateMarkersFromState();
         this.streetView.setVisible(false);
-        // If the metadata contains an address, use that
-        // this.geocodeSuggestedLocation(address)
+        // If no location is known, let's try geocoding an address
+        if(!location || !location.latitude || !location.longitude) {
+          const address = helpers.geoTagging.getAddress(metadata);
+          this.geocodeSuggestedLocation(address);
+        }
       }, 'json');
     }
 
@@ -419,19 +458,41 @@ function generateMapOptions(latitude, longitude) {
       const $map = $(element);
       const latitude = parseFloat($map.data('latitude'), 10);
       const longitude = parseFloat($map.data('longitude'), 10);
+      // Parse the heading if it exists
+      let heading = $map.data('heading') || null;
+      heading = heading ? parseFloat(heading, 10) : null;
 
       const options = generateMapOptions(latitude, longitude);
+      options.fullscreenControl = true;
       // Initialize the map
       const map = new google.maps.Map(element, options);
+
+      // When the miniture map is full-screened, it should recenter and rezoom
+      google.maps.event.addDomListener(window, 'resize', () => {
+        // Timeout is needed for the map to find its position before recenter
+        setTimeout(() => {
+          map.setCenter(options.center);
+          map.setZoom(options.zoom);
+        }, 1);
+      });
+
       // Add a marker
+      const latLng = new google.maps.LatLng(latitude, longitude);
       const marker = new google.maps.Marker({
         map,
-        icon: '/images/map_pin_red.png',
-        position: {
-          lat: latitude,
-          lng: longitude
-        }
+        position: latLng,
+        icon: '/images/camera_pin_green.png'
       });
+
+      // Add a marker indicating heading
+      if(typeof(heading) === 'number') {
+        addHeadingPolygon(map, latLng, heading,  50);
+        addHeadingPolygon(map, latLng, heading, 100);
+        addHeadingPolygon(map, latLng, heading, 150);
+        addHeadingPolygon(map, latLng, heading, 200);
+        addHeadingPolygon(map, latLng, heading, 250);
+        addHeadingPolygon(map, latLng, heading, 300);
+      }
 
       google.maps.event.trigger(map, 'resize');
     });
