@@ -1,6 +1,8 @@
 $overlay-color: rgba($gray-dark, .2);
+$search-results-item-bg: #fff;
 
 .search-results-item {
+  background: $search-results-item-bg;
   color: $black;
   display: block;
   margin-bottom: $spacer-md;
