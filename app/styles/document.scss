@@ -61,16 +61,14 @@
   }
 
   &__player-controls {
+    margin: 1rem 0;
+    text-align: right;
+
     svg {
       fill: $document-top-color;
       height: $icon-size;
       width: $icon-size;
     }
-  }
-
-  &__player-controls-icons {
-    margin: 1rem 0;
-    text-align: right;
 
     a {
       display: inline-block;
@@ -96,30 +94,59 @@
   }
 
   &__navigator {
-    margin-bottom: 1rem;
 
-    &-left,
-    &-right {
+    &-preview {
+      background: $white;
+      display: none;
+      padding: $spacer-xs;
+    }
+
+    &-preview-image {
+      min-width: 100px;
+      width: 5vw;
+    }
+
+    &-arrow {
       align-items: center;
-      display: inline-flex;
-      margin: 0;
-      width: 50%;
-    }
-
-    &-left {
-      justify-content: flex-start;
+      display: flex;
+      opacity: 1;
+      position: fixed;
+      top: 50%;
+      transform: translate(0, -50%);
+      transition: $anim-duration-long;
 
       svg {
-        margin-left: -.6rem;
+        height: 3rem;
+        width: 3rem;
+      }
+
+      &--left {
+        left: 0;
+      }
+
+      &--right {
+        right: 0;
+      }
+
+      &--hidden {
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+      }
+
+      @media (pointer: fine) {
+        &:focus,
+        &:hover {
+          .document__navigator-preview {
+            @include shadow(3);
+            display: block;
+          }
+        }
       }
     }
 
-    &-right {
-      justify-content: flex-end;
-
-      svg {
-        margin-right: -.6rem;
-      }
+    &-title {
+      display: none;
     }
   }
 
