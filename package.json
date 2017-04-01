@@ -52,6 +52,7 @@
     "gulp-uglify": "^2.0.0",
     "gulp-unique-files": "^0.1.2",
     "gulp-util": "^3.0.7",
+    "hammerjs": "^2.0.8",
     "jscs": "^2.10.1",
     "jshint": "^2.9.1",
     "keystone": "4.0.0-beta.1",
