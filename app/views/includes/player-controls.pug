@@ -1,10 +1,21 @@
-- const isDownloadable = helpers.isDownloadable(metadata);
-a(data-action='toggle-expandable').hidden-xs.zoom-btn
-  +icon('zoom-in', 'zoom-in')
-  +icon('zoom-out', 'zoom-out')
-a(data-action="asset-download-show", class= isDownloadable ? '' : 'dimmed')
-  +icon('download')
-a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
-  +icon('facebook')
-a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
-  +icon('twitter')
+block document__navigator
+  .document__navigator.hidden
+    a.document__navigator-left.btn.btn-default
+      +icon('chevron-left')
+      span.document__navigator-title
+    a.document__navigator-right.btn.btn-default
+      span.document__navigator-title
+      +icon('chevron-right')
+
+.document__player-controls-icons
+  block document__player-controls-icons
+    - const isDownloadable = helpers.isDownloadable(metadata);
+    a(data-action='toggle-expandable').hidden-xs.hidden-sm.zoom-btn
+      +icon('zoom-in', 'zoom-in')
+      +icon('zoom-out', 'zoom-out')
+    a(data-action="asset-download-show", class= isDownloadable ? '' : 'dimmed')
+      +icon('download')
+    a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
+      +icon('facebook')
+    a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
+      +icon('twitter')

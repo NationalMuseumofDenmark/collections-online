@@ -61,8 +61,29 @@
   }
 
   &__player-controls {
+    svg {
+      fill: $document-top-color;
+      height: $icon-size;
+      width: $icon-size;
+    }
+  }
+
+  &__player-controls-icons {
     margin: 1rem 0;
     text-align: right;
+
+    a {
+      display: inline-block;
+      text-decoration: none;
+
+      &:not(:last-child) {
+        margin-right: $icon-size / 2;
+      }
+
+      svg {
+        vertical-align: middle;
+      }
+    }
 
     // Left-align controls on a larger screen
     @media (min-width: $small-size) {
@@ -72,20 +93,33 @@
     @media (max-width: $small-size) {
       padding: 0 1rem;
     }
+  }
 
-    > a {
-      display: inline-block;
-      margin-top: .5rem;
+  &__navigator {
+    margin-bottom: 1rem;
 
-      &:not(:last-child) {
-        margin-right: $icon-size / 2;
+    &-left,
+    &-right {
+      align-items: center;
+      display: inline-flex;
+      margin: 0;
+      width: 50%;
+    }
+
+    &-left {
+      justify-content: flex-start;
+
+      svg {
+        margin-left: -.6rem;
       }
     }
 
-    svg {
-      fill: $document-top-color;
-      height: $icon-size;
-      width: $icon-size;
+    &-right {
+      justify-content: flex-end;
+
+      svg {
+        margin-right: -.6rem;
+      }
     }
   }
 
