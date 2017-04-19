@@ -19,7 +19,7 @@ if Object.keys(metadata).length > 0
           data-latitude=latitude,
           data-longitude=longitude,
           data-heading=heading,
-          data-approximate=approximate
+          data-approximate=approximate ? 'true' : 'false'
         )
     if editGeotagging
       tr

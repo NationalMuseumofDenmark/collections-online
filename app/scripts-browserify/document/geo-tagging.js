@@ -477,7 +477,7 @@ function addHeadingPolygon(map, latLng, heading, offset) {
       });
 
       const latLng = new google.maps.LatLng(latitude, longitude);
-      if($map.data('approximate') === 'true') {
+      if($map.data('approximate') === true) {
         // Add a circle indicating approximate location
         const headingPolyline = new google.maps.Circle({
           map,
