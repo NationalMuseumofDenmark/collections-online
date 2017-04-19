@@ -160,6 +160,7 @@
   table {
     margin-top: .5rem;
     text-align: left;
+    width: 100%;
   }
 
   th,
@@ -171,6 +172,10 @@
   th {
     padding-right: 1rem;
     white-space: nowrap;
+  }
+
+  td {
+    width: 100%;
   }
 
   // Expansion
