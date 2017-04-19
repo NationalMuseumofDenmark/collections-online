@@ -40,6 +40,9 @@ block content
               .document__top-metadata.col-xs-12.col-md-5
                 h1.document__title= title
                 p.document__description= description
+        - // The navigator is inserted twice in the dom.
+        .hidden-xs.hidden-sm
+          include includes/navigator
     block document__middle
       - // Empty - but use the .document__middle here
     block document__bottom
@@ -48,5 +51,4 @@ block content
           block document__bottom-metadata
           .row
             include includes/relations
-  include includes/navigator
   block document__overlays

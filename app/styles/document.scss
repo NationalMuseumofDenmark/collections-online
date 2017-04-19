@@ -9,6 +9,7 @@
     background-color: $document-top-bg;
     color: $document-top-color;
     padding-bottom: 2rem;
+    position: relative;
 
     @media (min-width: $small-size) {
       padding-top: $topbar-height;
@@ -49,6 +50,7 @@
     display: block;
     max-height: 2000px; // Should match the size given in the image path
     max-width: 100%;
+    position: relative; // Positions the navigator relative to the player
   }
 
   &__player,
@@ -110,7 +112,7 @@
       align-items: center;
       display: flex;
       opacity: 1;
-      position: fixed;
+      position: absolute;
       top: 50%;
       transform: translate(0, -50%);
       transition: $anim-duration-long;
