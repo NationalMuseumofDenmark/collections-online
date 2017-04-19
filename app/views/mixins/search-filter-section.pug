@@ -2,7 +2,7 @@ include ../mixins/date-interval-range-picker
 
 mixin filterSection(displayStringSingular, displayStringPlural, field, type)
   - var dataId = field + '-filters'
-  h2.search-filter-sidebar__heading
+  h2.search-filter-sidebar__heading(tabindex="0")
     span(data-action='show-filters' data-id=field)= displayStringSingular
 
   .search-filter-sidebar__filters(data-id=dataId)

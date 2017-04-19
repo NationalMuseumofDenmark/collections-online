@@ -30,6 +30,10 @@ $heading-adjustment: 2px;
       text-transform: uppercase;
     }
 
+    &:focus {
+      outline: none;
+    }
+
     // Used for mobile accordion navigation
     span {
       cursor: pointer;
