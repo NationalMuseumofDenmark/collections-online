@@ -100,6 +100,7 @@
     &-preview {
       background: $white;
       display: none;
+      margin: .5rem;
       padding: $spacer-xs;
     }
 
@@ -118,7 +119,10 @@
       transition: $anim-duration-long;
 
       svg {
+        background: $navigator-arrow-background;
+        fill: $navigator-arrow-color;
         height: 3rem;
+        padding: .5rem;
         width: 3rem;
       }
 
