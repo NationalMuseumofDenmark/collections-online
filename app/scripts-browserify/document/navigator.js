@@ -24,8 +24,12 @@ const DIRECTIONS = {
   4: 'left'
 };
 
-const navigationQueue = [];
-const urls = {};
+const KEYCODES = {
+  'right': 39,
+  'left': 37
+}
+
+const urls = {}
 
 const navigator = {
   save: (state) => {
@@ -45,12 +49,20 @@ const navigator = {
     const url = helpers.getDocumentURL(hit.metadata);
     // Save this url such that the swipe listener can change location
     urls[direction] = url;
-    $arrow.attr('href', url);
     const $preview = $arrow.find('.document__navigator-preview');
     $preview.html(navigatorPreview({
       helpers,
       metadata: hit.metadata
     }));
+    // Listen for actions
+    $arrow.on('click',()=> {
+      navigator.navigate(direction);
+    })
+    $(window).on('keydown', (e) => {
+      if(e.which === KEYCODES[direction]){
+        navigator.navigate(direction);
+      }
+    })
     // Showing the arrow
     navigator.showArrow($arrow);
     $(window).on('mousemove', () => {
@@ -62,10 +74,8 @@ const navigator = {
     });
   },
   navigate: direction => {
-    if(direction in urls) {
-      location.href = urls[direction];
-    } else {
-      navigationQueue.push(direction);
+    if(direction in urls){
+      location.replace(urls[direction]);
     }
   },
   startHidingArrow: $arrow => {
