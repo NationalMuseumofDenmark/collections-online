@@ -476,22 +476,34 @@ function addHeadingPolygon(map, latLng, heading, offset) {
         }, 1);
       });
 
-      // Add a marker
       const latLng = new google.maps.LatLng(latitude, longitude);
-      const marker = new google.maps.Marker({
-        map,
-        position: latLng,
-        icon: '/images/camera_pin_green.png'
-      });
+      if($map.data('approximate') === 'true') {
+        // Add a circle indicating approximate location
+        const headingPolyline = new google.maps.Circle({
+          map,
+          fillColor: config.themeColor,
+          fillOpacity: 0.33,
+          strokeWeight: 0,
+          center: latLng,
+          radius: 90
+        });
+      } else {
+        // Add a marker
+        const marker = new google.maps.Marker({
+          map,
+          position: latLng,
+          icon: '/images/camera_pin_green.png'
+        });
 
-      // Add a marker indicating heading
-      if(typeof(heading) === 'number') {
-        addHeadingPolygon(map, latLng, heading,  50);
-        addHeadingPolygon(map, latLng, heading, 100);
-        addHeadingPolygon(map, latLng, heading, 150);
-        addHeadingPolygon(map, latLng, heading, 200);
-        addHeadingPolygon(map, latLng, heading, 250);
-        addHeadingPolygon(map, latLng, heading, 300);
+        // Add a marker indicating heading
+        if(typeof(heading) === 'number') {
+          addHeadingPolygon(map, latLng, heading,  50);
+          addHeadingPolygon(map, latLng, heading, 100);
+          addHeadingPolygon(map, latLng, heading, 150);
+          addHeadingPolygon(map, latLng, heading, 200);
+          addHeadingPolygon(map, latLng, heading, 250);
+          addHeadingPolygon(map, latLng, heading, 300);
+        }
       }
 
       google.maps.event.trigger(map, 'resize');
