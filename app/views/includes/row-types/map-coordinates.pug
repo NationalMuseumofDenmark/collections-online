@@ -12,7 +12,6 @@ if Object.keys(metadata).length > 0
     tr
       th #{row.title}:
       td= latitude.toFixed(5) + ', ' + longitude.toFixed(5)
-    - // TODO: Move this to a mixin that is included by the asset template
     tr
       td(colspan='2')
         .geo-tagging-mini-map(
@@ -21,7 +20,7 @@ if Object.keys(metadata).length > 0
           data-heading=heading,
           data-approximate=approximate ? 'true' : 'false'
         )
-    if editGeotagging
+    if config.features.geoTagging && editGeotagging
       tr
         td(colspan='2')
           button.btn.btn-default.btn-sm.btn-block(data-action='start-geo-tagging')
@@ -31,7 +30,8 @@ if Object.keys(metadata).length > 0
       th #{row.title}:
       td
         block map-coordinates__missing-coordinates-text
-    tr
-      td(colspan='2')
-        button.btn.btn-primary.btn-sm(data-action='start-geo-tagging')
-          block map-coordinates__add-coordinates-text
+    if config.features.geoTagging
+      tr
+        td(colspan='2')
+          button.btn.btn-primary.btn-sm(data-action='start-geo-tagging')
+            block map-coordinates__add-coordinates-text
