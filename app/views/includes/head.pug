@@ -9,6 +9,8 @@ meta(name="application-name", content=config.siteTitle)
 meta(name="msapplication-TileColor", content=config.themeColor)
 
 meta(name="msapplication-TileImage", content="/images/favicons/mstile-144x144.png")
+- var authenticated = user ? 'true' : 'false'
+meta(name="authenticated", content=authenticated)
 link(rel="apple-touch-icon", href="/images/favicons/apple-touch-icon.png")
 link(rel="icon", type="image/png", href="/images/favicons/favicon-32x32.png", sizes="32x32")
 link(rel="icon", type="image/png", href="/images/favicons/favicon-194x194.png", sizes="194x194")

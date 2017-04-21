@@ -38,9 +38,16 @@ module.exports = {
     });
 
     app.get('/auth/callback', passport.authenticate('auth0', {
-      failureRedirect: '/url-if-something-fails'
+      failureRedirect: '/'
     }), function(req, res) {
-      res.redirect(req.session.returnTo || '/');
+      const serializedState = req.query.state;
+
+      if(typeof(serializedState) === 'string') {
+        const state = JSON.parse(Buffer.from(serializedState, 'base64'));
+        res.redirect(state.returnPath);
+      } else {
+        res.redirect('/');
+      }
     });
   }
 };

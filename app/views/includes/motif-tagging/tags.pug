@@ -10,6 +10,5 @@ each tag in helpers.motifTagging.getTags(metadata) || []
 else
   .motif-tagging__no-tags Der er ikke tilføjet nogle emneord endnu.
 if !editing
-  - var action = config.features.users && !user ? 'login' : 'edit-motif-tags'
-  .motif-tagging__edit-btn.btn.btn-primary(data-action=action)
+  .motif-tagging__edit-btn.btn.btn-primary(data-action='edit-motif-tags')
     | Rediger
