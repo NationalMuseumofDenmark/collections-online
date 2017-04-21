@@ -77,6 +77,18 @@ function addHeadingPolygon(map, latLng, heading, offset) {
   });
 }
 
+function addApproximateCircle(map, latLng) {
+  return new google.maps.Circle({
+    map,
+    fillColor: config.themeColor,
+    fillOpacity: 0.33,
+    strokeWeight: 0,
+    center: latLng,
+    clickable: false,
+    radius: 90
+  });
+}
+
 (function($) {
 
   class GeoTaggingController {
@@ -231,6 +243,8 @@ function addHeadingPolygon(map, latLng, heading, offset) {
         strokeColor: '#333333'
       });
 
+      this.approximateCircle = addApproximateCircle(this.map, null);
+
       this.marker.addListener('drag', () => {
         this.state.heading = this.calculateHeading();
         this.recalculateLine();
@@ -291,13 +305,16 @@ function addHeadingPolygon(map, latLng, heading, offset) {
 
     updateMarkersFromState() {
       const computeOffset = google.maps.geometry.spherical.computeOffset;
-      const latitude = this.state.latitude;
-      const longitude = this.state.longitude;
-      const heading = this.state.heading;
+      const { latitude, longitude, heading, isApproximate } = this.state;
 
       if(latitude && longitude) {
         const latLng = new google.maps.LatLng(latitude, longitude);
-        this.marker.setPosition(latLng);
+        if(isApproximate){
+          this.approximateCircle.setCenter(latLng);
+        }
+        else {
+          this.marker.setPosition(latLng);
+        }
         this.map.setCenter(latLng);
 
         if (heading) {
@@ -478,15 +495,7 @@ function addHeadingPolygon(map, latLng, heading, offset) {
 
       const latLng = new google.maps.LatLng(latitude, longitude);
       if($map.data('approximate') === true) {
-        // Add a circle indicating approximate location
-        const headingPolyline = new google.maps.Circle({
-          map,
-          fillColor: config.themeColor,
-          fillOpacity: 0.33,
-          strokeWeight: 0,
-          center: latLng,
-          radius: 90
-        });
+        addApproximateCircle(map, latLng);
       } else {
         // Add a marker
         const marker = new google.maps.Marker({
