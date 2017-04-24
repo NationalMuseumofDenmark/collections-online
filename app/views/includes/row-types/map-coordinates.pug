@@ -7,11 +7,13 @@ if Object.keys(metadata).length > 0
   - const heading = helpers.getFirst(metadata, row.fields.heading);
   - const approximate = helpers.getFirst(metadata, row.fields.approximate);
   - const editGeotagging = helpers.geoTagging.enabled(metadata);
+  
+  - const details = approximate ? ' (omtrentlig)' : '';
 
   if latitude && longitude
     tr
       th #{row.title}:
-      td= latitude.toFixed(5) + ', ' + longitude.toFixed(5)
+      td= latitude.toFixed(5) + ', ' + longitude.toFixed(5) + details
     tr
       td(colspan='2')
         .geo-tagging-mini-map(
@@ -21,9 +23,10 @@ if Object.keys(metadata).length > 0
           data-approximate=approximate ? 'true' : 'false'
         )
     if config.features.geoTagging && editGeotagging
+    - let extraClasses = approximate ? 'btn-primary' : 'btn-default btn-sm';
       tr
         td(colspan='2')
-          button.btn.btn-default.btn-sm.btn-block(data-action='start-geo-tagging')
+          button.btn.btn-block(data-action='start-geo-tagging', class=extraClasses)
             block map-coordinates__edit-coordinates-text
   else
     tr
