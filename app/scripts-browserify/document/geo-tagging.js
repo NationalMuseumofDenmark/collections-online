@@ -73,6 +73,7 @@ function addHeadingPolygon(map, latLng, heading, offset) {
     fillColor: '#333333',
     fillOpacity: 0.05,
     strokeWeight: 0,
+    clickable: false,
     paths: [headingLatLng1, latLng, headingLatLng2]
   });
 }
@@ -217,13 +218,15 @@ function addHeadingPolygon(map, latLng, heading, offset) {
       this.marker = new google.maps.Marker({
         map: this.map,
         icon: '/images/camera_pin_green.png',
-        draggable: true
+        draggable: true,
+        clickable: false
       });
 
       this.headingMarker = new google.maps.Marker({
         map: this.map,
         icon: '/images/heading_pin_red.png',
-        draggable: true
+        draggable: true,
+        clickable: false
       });
 
       this.headingLine = new google.maps.Polyline({
@@ -492,7 +495,8 @@ function addHeadingPolygon(map, latLng, heading, offset) {
         const marker = new google.maps.Marker({
           map,
           position: latLng,
-          icon: '/images/camera_pin_green.png'
+          icon: '/images/camera_pin_green.png',
+          clickable: false
         });
 
         // Add a marker indicating heading
