@@ -8,7 +8,7 @@ each tag in helpers.motifTagging.getTags(metadata) || []
       .motif-tagging__remove-btn.btn.btn-danger(data-action='remove-motif-tag')
         +icon('cross')
 else
-  .motif-tagging__no-tags Der er ikke tilføjet nogle emneord endnu.
+  p.motif-tagging__no-tags Der er ikke tilføjet nogle emneord endnu.
 if !editing
   - var action = config.features.users && !user ? 'login' : 'edit-motif-tags'
   .motif-tagging__edit-btn.btn.btn-primary(data-action=action)
