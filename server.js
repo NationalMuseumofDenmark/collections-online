@@ -88,18 +88,9 @@ let co = {
       });
     });
   },
-  registerRoutes: (app) => {
-    // Require routes from each plugin, if they register routes
-    plugins.all().forEach((plugin) => {
-      try {
-        if(typeof(plugin.registerRoutes) === 'function') {
-          plugin.registerRoutes(app);
-        }
-      } catch (err) {
-        console.error('Error registering routes for a plugin: ', err);
-      }
-    });
-    console.log('Setting up routing for the collections-online core');
+  registerRoutes: app => {
+    // Ask plugins to register their routes
+    plugins.registerRoutes(app);
     // Register the core collections-online routes
     require('./lib/routes')(app);
   },
