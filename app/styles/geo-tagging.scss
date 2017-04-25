@@ -1,3 +1,5 @@
+$map-background: #eaeaea;
+
 .geo-tagging {
   display: flex;
   flex-direction: row;
@@ -8,6 +10,7 @@
   }
 
   &__map {
+    background: $map-background;
     display: none;
     position: relative;
 
@@ -119,6 +122,7 @@
 }
 
 .geo-tagging-mini-map {
+  background: $map-background;
   height: 10rem;
   margin-top: .5rem;
   width: 100%;

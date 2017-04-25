@@ -3,7 +3,7 @@ const Q = require('q');
 // An object of lists of modules, keyed on their type
 const pluginModulesByType = {};
 // An array of plugins
-const plugins = [];
+const registeredPlugins = [];
 
 var requiredMethods = {
   'image-controller': [
@@ -44,7 +44,7 @@ exports.register = (plugin) => {
   }
   // Push the plugin to the list
   pluginModulesByType[plugin.type].push(plugin.module);
-  plugins.push(plugin);
+  registeredPlugins.push(plugin);
 };
 
 exports.getFirst = (type) => {
@@ -56,7 +56,7 @@ exports.getFirst = (type) => {
 
 exports.initialize = (app, config) => {
   // Initialize every plugin package
-  var pluginPromises = plugins.map((plugin) => {
+  var pluginPromises = registeredPlugins.map((plugin) => {
     if(typeof(plugin.initialize) === 'function') {
       return Q.when(plugin.initialize(app, config));
     } else {
@@ -67,6 +67,16 @@ exports.initialize = (app, config) => {
   return Q.all(pluginPromises);
 };
 
-exports.all = () => {
-  return plugins;
+exports.registerRoutes = app => {
+  // Require routes from each plugin, if they register routes
+  registeredPlugins.forEach(plugin => {
+    try {
+      if(typeof(plugin.registerRoutes) === 'function') {
+        plugin.registerRoutes(app);
+      }
+    } catch (err) {
+      console.error('Error registering routes for a plugin: ', err);
+    }
+  });
+  console.log('Setting up routing for the collections-online core');
 };

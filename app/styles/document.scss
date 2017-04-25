@@ -5,6 +5,31 @@
     font-family: $document-heading-font;
   }
 
+  table {
+    margin-top: .5rem;
+    text-align: left;
+    width: 100%;
+  }
+
+  th,
+  td {
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+
+  th {
+    padding-right: 1rem;
+    white-space: nowrap;
+  }
+
+  td {
+    width: 100%;
+
+    .btn {
+      margin: .5rem 0;
+    }
+  }
+
   &__top {
     background-color: $document-top-bg;
     color: $document-top-color;
@@ -153,32 +178,6 @@
 
     &-title {
       display: none;
-    }
-  }
-
-  // Styling related to tables of metadata within the document block
-  table {
-    margin-top: .5rem;
-    text-align: left;
-    width: 100%;
-  }
-
-  th,
-  td {
-    vertical-align: top;
-    word-wrap: break-word;
-  }
-
-  th {
-    padding-right: 1rem;
-    white-space: nowrap;
-  }
-
-  td {
-    width: 100%;
-
-    .btn {
-      margin: .5rem 0;
     }
   }
 
