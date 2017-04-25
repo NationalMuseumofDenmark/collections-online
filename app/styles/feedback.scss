@@ -1,0 +1,27 @@
+.feedback {
+  &--editing &__btn-show-form {
+    display: none;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+  }
+
+  &__form {
+    width: 100%;
+    margin-bottom: 1rem;
+    resize: vertical;
+  }
+
+  &__counter-container {
+    float: right;
+  }
+
+  &__container {
+    display: none;
+  }
+
+  &--editing &__container {
+    display: block;
+  }
+}

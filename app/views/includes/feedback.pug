@@ -1,0 +1,16 @@
+.feedback
+  h2.feedback__title Ved du mere om dette billede?
+  .feedback__btn-show-form.btn.btn-primary(data-action='feedback__form--show')
+    | Skriv til os
+  .feedback__container
+    textarea.feedback__form(
+      maxlength=config.feedback.maxLength 
+      placeholder="Skriv til os, hvis du har yderligere oplysninger om fx fotografen, dateringen, motivet eller personerne på billedet. ")
+    .feedback__btn-hide-form.btn.btn-primary(data-action='feedback__form--send')
+      | Send
+    .feedback__btn-hide-form.btn.btn-default(data-action='feedback__form--hide')
+      | Annuller
+    span.feedback__counter-container
+      span.feedback__counter 0
+      |  / 
+      = config.feedback.maxLength

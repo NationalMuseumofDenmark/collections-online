@@ -8,7 +8,9 @@ $(function() {
   restrictActions([
     "login",
     "start-geo-tagging",
-    "edit-motif-tags"
+    "edit-motif-tags",
+    "feedback__form--show",
+    "feedback__form--send"
   ], lock());
 
   function lock() {
