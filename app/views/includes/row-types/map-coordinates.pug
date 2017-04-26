@@ -26,7 +26,7 @@ if Object.keys(metadata).length > 0
     - let extraClasses = approximate ? 'btn-primary' : 'btn-default btn-sm';
       tr
         td(colspan='2')
-          button.btn.btn-block(data-action='start-geo-tagging', class=extraClasses)
+          button.btn.btn-block(data-action='geo-tagging:start', class=extraClasses)
             block map-coordinates__edit-coordinates-text
   else
     tr
@@ -36,5 +36,5 @@ if Object.keys(metadata).length > 0
     if config.features.geoTagging
       tr
         td(colspan='2')
-          button.btn.btn-primary.btn-sm(data-action='start-geo-tagging')
+          button.btn.btn-primary.btn-sm(data-action='geo-tagging:start')
             block map-coordinates__add-coordinates-text

@@ -10,5 +10,5 @@ each tag in helpers.motifTagging.getTags(metadata) || []
 else
   p.motif-tagging__no-tags Der er ikke tilføjet nogle emneord endnu.
 if !editing
-  .motif-tagging__edit-btn.btn.btn-primary(data-action='edit-motif-tags')
+  .motif-tagging__edit-btn.btn.btn-primary(data-action='motif-tagging:start')
     | Rediger

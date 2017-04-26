@@ -7,10 +7,9 @@ const config = require('collections-online/shared/config');
 $(function() {
   restrictActions([
     "login",
-    "start-geo-tagging",
-    "edit-motif-tags",
-    "feedback__form--show",
-    "feedback__form--send"
+    "geo-tagging:start",
+    "motif-tagging:start",
+    "feedback:start",
   ], lock());
 
   function lock() {

@@ -20,8 +20,8 @@ const OVERLAY_VISIBLE_CLASS = 'geo-tagging__overlay--visible';
 
 const BACK_TO_MAP_SELECTOR = '[data-action="back-to-map"]';
 const SAVE_GEO_TAG_SELECTOR = '[data-action="save-geo-tag"]';
-const START_GEO_TAGGING_SELECTOR = '[data-action="start-geo-tagging"]';
-const STOP_GEOTAGGING_SELECTOR = '[data-action="stop-geo-tagging"]';
+const START_GEO_TAGGING_SELECTOR = '[data-action="geo-tagging:start"]';
+const STOP_GEOTAGGING_SELECTOR = '[data-action="geo-tagging:stop"]';
 const CLOSE_OVERLAY_SELECTOR = '[data-action="close-overlay"]';
 
 const LOCATION_SET_ZOOM = 16;

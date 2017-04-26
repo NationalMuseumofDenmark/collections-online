@@ -1,9 +1,9 @@
 const feedbackTemplate = require('views/includes/motif-tagging');
 
 // Actions
-const SHOW_EDITING_SELECTOR = '[data-action=feedback__form--show]';
-const HIDE_EDITING_SELECTOR = '[data-action=feedback__form--hide]';
-const SEND_FORM_SELECTOR = '[data-action=feedback__form--send]';
+const SHOW_EDITING_SELECTOR = '[data-action="feedback:start"]';
+const HIDE_EDITING_SELECTOR = '[data-action="feedback:stop"]';
+const SEND_FORM_SELECTOR = '[data-action="feedback:send"]';
 
 const FORM_SELECTOR = '.feedback__form';
 const COUNTER_SELECTOR = '.feedback__counter';
