@@ -1,5 +1,5 @@
 // Register click listener that acts on the 'toggle-expandable' action
-const DOCUMENT_TOP_SELECTOR = '.document__top';
+const DOCUMENT_SELECTOR = '.document';
 const TOGGLE_EXPANSION_SELECTOR = '[data-action="toggle-expandable"]';
 const EXPANDABLE_SELECTOR = '.document__expandable';
 const EXPANDED_CLASS = 'document__expandable--expanded';
@@ -32,7 +32,7 @@ const expandable = {
   }
 };
 
-$(DOCUMENT_TOP_SELECTOR).on('click', TOGGLE_EXPANSION_SELECTOR, () => {
+$(DOCUMENT_SELECTOR).on('click', TOGGLE_EXPANSION_SELECTOR, () => {
   expandable.toggle();
 });
 
