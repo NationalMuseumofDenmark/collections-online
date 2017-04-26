@@ -1,101 +1,82 @@
 // Colors
-$black                        : #000 !default;
-$white                        : #fff !default;
-$topbar-color                 : #262626 !default;
-$gray-darker                  : $black !default;
-$gray-dark                    : #333 !default;
-$gray                         : #555 !default;
-$gray-light                   : #999 !default;
-$gray-lighter                 : hsl(345, 3%, 88%) !default;
-$brand-primary                : hsl(185, 95%, 30%) !default;
-$menu-shadow                  : rgba(0, 0, 0, .5) !default;
-$menu-no-shadow               : rgba(0, 0, 0, 0) !default;
-$menu-highlight               : rgba(255, 255, 255, .1) !default;
-
-$dropdown-bg                  : $white !default;
-$dropdown-bg-hover            : $gray-lighter !default;
-$dropdown-padding             : .5em !default;
-
+$black: #000 !default;
+$white: #fff !default;
+$topbar-color: #262626 !default;
+$gray-darker: $black !default;
+$gray-dark: #333 !default;
+$gray: #555 !default;
+$gray-light: #999 !default;
+$gray-lighter: hsl(345, 3%, 88%) !default;
+$brand-primary: hsl(185, 95%, 30%) !default;
+$menu-shadow: rgba(0, 0, 0, .5) !default;
+$menu-no-shadow: rgba(0, 0, 0, 0) !default;
+$menu-highlight: rgba(255, 255, 255, .1) !default;
+$dropdown-bg: $white !default;
+$dropdown-bg-hover: $gray-lighter !default;
+$dropdown-padding: .5em !default;
 // Scaffolding
-$body-bg                      : $white !default;
-$text-color                   : $gray-dark !default;
-$link-color                   : $brand-primary !default;
-$link-hover-color             : lighten($link-color, 10%) !default;
-
+$body-bg: $white !default;
+$text-color: $gray-dark !default;
+$link-color: $brand-primary !default;
+$link-hover-color: lighten($link-color, 10%) !default;
 // Typography
-$font-family-sans-serif       : Avenir, 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Verdana, sans-serif !default;
-$font-family-thin             : $font-family-sans-serif !default;
-$font-family-light            : $font-family-sans-serif !default;
-$font-family-medium           : $font-family-sans-serif !default;
-$font-size-base               : 14px !default;
-$line-height-base             : 1.6 !default;
-$headings-font-weight         : 600 !default;
-$border-radius-base           : 0 !default;
-$border-radius-large          : 0 !default;
-$border-radius-small          : 0 !default;
-$input-border-focus           : $brand-primary !default;
-
+$font-family-sans-serif: Avenir, 'Avenir Next', 'Helvetica Neue', 'Segoe UI', Verdana, sans-serif !default;
+$font-family-thin: $font-family-sans-serif !default;
+$font-family-light: $font-family-sans-serif !default;
+$font-family-medium: $font-family-sans-serif !default;
+$font-size-base: 14px !default;
+$line-height-base: 1.6 !default;
+$headings-font-weight: 600 !default;
+$border-radius-base: 0 !default;
+$border-radius-large: 0 !default;
+$border-radius-small: 0 !default;
+$input-border-focus: $brand-primary !default;
 // Animation
-$anim-duration                : 300ms !default;
-$anim-duration-long           : 400ms !default;
-$anim-duration-fast           : 150ms !default;
-$anim-entrance                : ease-out !default;
-$anim-exit                    : ease-in !default;
-$anim-default                 : $anim-duration ease !default;
-$document-expansion-animation : true !default;
-
+$anim-duration: 300ms !default;
+$anim-duration-long: 400ms !default;
+$anim-duration-fast: 150ms !default;
+$anim-entrance: ease-out !default;
+$anim-exit: ease-in !default;
+$anim-default: $anim-duration ease !default;
+$document-expansion-animation: true !default;
 // Menu
-$menu-width                   : 280px !default;
-$menu-width-small             : 440px !default;
-$topbar-height                : 60px !default;
-
+$menu-width: 280px !default;
+$menu-width-small: 440px !default;
+$topbar-height: 60px !default;
 // Breakpoints
-$extra-small-size             : 480px !default;
-$extra-small-size-min         : $extra-small-size + 1px !default;
-$small-size                   : 768px !default;
-$medium-size                  : 992px !default;
-$large-size                   : 1070px !default;
-
+$extra-small-size: 480px !default;
+$extra-small-size-min: $extra-small-size + 1px !default;
+$small-size: 768px !default;
+$medium-size: 992px !default;
+$large-size: 1070px !default;
 // Spacers
-$spacer-base                  : 5px !default;
-$spacer-xs                    : $spacer-base !default;
-$spacer-sm                    : $spacer-base * 2 !default;
-$spacer-md                    : $spacer-base * 3 !default;
-$spacer-lg                    : $spacer-base * 6 !default;
+$spacer-base: 5px !default;
+$spacer-xs: $spacer-base !default;
+$spacer-sm: $spacer-base * 2 !default;
+$spacer-md: $spacer-base * 3 !default;
+$spacer-lg: $spacer-base * 6 !default;
 
 // item
-$button-bg                    : $gray !default;
-$snackbar-bg                  : $gray-dark !default;
-$snackbar-front               : $white !default;
+$button-bg: $gray !default;
+$snackbar-bg: $gray-dark !default;
+$snackbar-front: $white !default;
 
 // Footer
-$footer-background-color      : $topbar-color !default;
-$footer-text-color            : $white !default;
+$footer-background-color: $topbar-color !default;
+$footer-text-color: $white !default;
 
 //z-indexes
-$snackbar-zindex              : 1000 !default;
+$snackbar-zindex: 1000 !default;
 
 // SVG
-$icon-size                    : 24px !default;
+$icon-size: 24px !default;
 
 // Search result
-$filter-btn-full-width        : false !default;
-$filter-btn-svg-right-margin  : .2em !default;
+$filter-btn-full-width: false !default;
+$filter-btn-svg-right-margin: .2em !default;
 
 // Documents
-$document-top-bg                 : $white !default;
-$document-top-color              : $text-color !default;
-$document-middle-bg              : $gray-lighter !default;
-$document-bottom-bg              : $gray-light !default;
-$document-heading-font           : inherit !default;
-$asset-full-width-on-big-image: true !default;
-$navigator-arrow-background: rgba(0, 0, 0, .7);
-$navigator-arrow-color: $white;
 
-$asset--icon-shadow-color     : #fff !default;
-$asset-subject-headline-height: 3rem !default;
-$asset-max-height             : calc(100vh - #{$topbar-height}*2) !default;
-$asset-height-small           : calc(80vh - #{$topbar-height}*2) !default;
 $document-section-backgrounds: (
   1: $white,
   2: $gray-lighter,
@@ -112,3 +93,6 @@ $document-section-colors: (
   5: $text-color
 ) !default;
 
+$document-heading-font: inherit !default;
+$navigator-arrow-background: rgba(0, 0, 0, .7) !default;
+$navigator-arrow-color: $white !default;
