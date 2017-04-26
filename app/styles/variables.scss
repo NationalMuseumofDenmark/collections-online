@@ -96,3 +96,19 @@ $asset--icon-shadow-color     : #fff !default;
 $asset-subject-headline-height: 3rem !default;
 $asset-max-height             : calc(100vh - #{$topbar-height}*2) !default;
 $asset-height-small           : calc(80vh - #{$topbar-height}*2) !default;
+$document-section-backgrounds: (
+  1: $white,
+  2: $gray-lighter,
+  3: $gray-light,
+  4: none,
+  5: none
+) !default;
+
+$document-section-colors: (
+  1: $text-color,
+  2: $text-color,
+  3: $text-color,
+  4: $text-color,
+  5: $text-color
+) !default;
+

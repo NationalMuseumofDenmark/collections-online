@@ -1,3 +1,8 @@
+@mixin document-section($index) {
+  background-color: map-get($document-section-backgrounds, $index);
+  color: map-get($document-section-colors, $index);
+}
+
 .document {
   h1,
   h2,
@@ -30,9 +35,17 @@
     }
   }
 
+  // Adding default padding to the sections
+  &__section-1,
+  &__section-2,
+  &__section-3,
+  &__section-4,
+  &__section-5 {
+    padding: 1rem 0 2rem;
+  }
+
   &__section-1 {
-    background-color: $document-top-bg;
-    color: $document-top-color;
+    @include document-section(1);
     padding-bottom: 2rem;
     position: relative;
     @media (min-width: $small-size) {
@@ -44,13 +57,19 @@
   }
 
   &__section-2 {
-    background-color: $document-middle-bg;
-    padding: 1rem 0 2rem;
+    @include document-section(2);
   }
 
   &__section-3 {
-    background-color: $document-bottom-bg;
-    padding: 1rem 0 3rem;
+    @include document-section(3);
+  }
+
+  &__section-4 {
+    @include document-section(4);
+  }
+
+  &__section-5 {
+    @include document-section(5);
   }
 
   &__title {
@@ -90,7 +109,7 @@
     text-align: right;
 
     svg {
-      fill: $document-top-color;
+      fill: map-get($document-section-colors, 1); // TODO: Could we inherit?
       height: $icon-size;
       width: $icon-size;
     }

@@ -6,5 +6,19 @@ block document__section-2
       .container-fluid.motif-tagging
         include includes/motif-tagging
 
+block document__section-4
+  .document__section-4
+    .container-fluid
+      if config.features.feedback
+        .row
+          .col-sm-7
+            include includes/feedback
+
+block document__section-5
+  .document__section-5
+    .container-fluid
+      .row
+        include includes/relations
+
 append document__overlays
   include includes/download-overlay
