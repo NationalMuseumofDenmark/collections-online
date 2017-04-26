@@ -36,7 +36,6 @@ defaults.zoom = defaults.zoom || 16;
 
 // TODO: Re-introduce the use of Google Analytics events
 // TODO: Add pretty errors instead of silent fails
-// TODO: Use the "require('./contribution-counter')"
 
 // Precondition on the availability of the helpers
 if(!helpers.geoTagging ||
