@@ -5,14 +5,15 @@ const config = require('collections-online/shared/config');
 /* global Auth0Lock */
 
 $(function() {
-  const lock = authenticate();
   restrictActions([
-    "start-geo-tagging",
-    "edit-motif-tags"
-  ], lock);
+    "login",
+    "geo-tagging:start",
+    "motif-tagging:start",
+    "feedback:start",
+  ], lock());
 
-  function authenticate() {
-    const lock = new Auth0Lock(config.auth0.clientID, config.auth0.domain, {
+  function lock() {
+    return new Auth0Lock(config.auth0.clientID, config.auth0.domain, {
       languageDictionary: {
         title: config.siteTitle
       },
@@ -26,17 +27,10 @@ $(function() {
         redirectUrl: config.auth0.callbackURL,
         responseType: 'code',
         params: {
-          scope: 'openid name email picture',
-          state: btoa(JSON.stringify({returnPath: window.location.pathname}))
+          scope: 'openid name email picture'
         }
       }
     });
-
-    $('[data-action="login"]').on('click', () => {
-      lock.show();
-    });
-
-    return lock;
   }
 
   function restrictActions(actions, lock) {
@@ -49,7 +43,13 @@ $(function() {
     $(dataActions).on('click', (e) => {
       if(authenticated !== 'true') {
         e.stopPropagation();
-        lock.show();
+        lock.show({
+          auth: {
+            params: {
+              state: btoa(JSON.stringify({returnPath: window.location.href}))
+            }
+          }
+        });
       }
     });
   }

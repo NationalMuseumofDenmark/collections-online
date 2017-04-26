@@ -8,7 +8,7 @@ include ../mixins/loader
     .geo-tagging__map-element
     input.geo-tagging__input.controls(type="text", placeholder="Søg efter adresse")
     .geo-tagging__map-buttons
-      button.btn.btn-primary(data-action='stop-geo-tagging')
+      button.btn.btn-primary(data-action='geo-tagging:stop')
         | Annuller
       button.btn.btn-primary(data-action='save-geo-tag')
         +loader('Gem placering')

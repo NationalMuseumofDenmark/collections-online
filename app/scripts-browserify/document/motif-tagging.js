@@ -17,9 +17,9 @@ if(!helpers.motifTagging ||
 }
 
 const ADD_MOTIF_TAG_SELECTOR = '[data-action="add-motif-tag"]';
-const CANCEL_MOTIF_TAGS_SELECTOR = '[data-action="cancel-motif-tags"]';
-const EDIT_MOTIF_TAGS_SELECTOR = '[data-action="edit-motif-tags"]';
-const SAVE_MOTIF_TAGS_SELECTOR = '[data-action="save-motif-tags"]';
+const CANCEL_MOTIF_TAGS_SELECTOR = '[data-action="motif-tagging:cancel"]';
+const EDIT_MOTIF_TAGS_SELECTOR = '[data-action="motif-tagging:start"]';
+const SAVE_MOTIF_TAGS_SELECTOR = '[data-action="motif-tagging:save"]';
 const TRANSFER_TAG_INPUT_SELECTOR = '[data-action="transfer-motif-tag"]';
 const REMOVE_TAG_INPUT_SELECTOR = '[data-action="remove-motif-tag"]';
 const DYNAMIC_TEMPLATE_SELECTOR = '[data-template]';

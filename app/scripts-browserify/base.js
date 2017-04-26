@@ -18,6 +18,10 @@ module.exports = options => {
   // seperate script.
   require('./asset');
 
+  if(config.features.feedback) {
+    require('./document/feedback');
+  }
+  
   require('./document/expandable');
   require('./document/navigator');
   if(config.features.geoTagging || config.features.motifTagging) {
@@ -29,6 +33,7 @@ module.exports = options => {
   if(config.features.motifTagging) {
     require('./document/motif-tagging');
   }
+
   if(config.features.scrollToTop) {
     require('./scroll-to-top');
   }
