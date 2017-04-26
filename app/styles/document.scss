@@ -11,8 +11,8 @@
     width: 100%;
   }
 
-  th,
-  td {
+  td,
+  th {
     vertical-align: top;
     word-wrap: break-word;
   }
@@ -30,27 +30,25 @@
     }
   }
 
-  &__top {
+  &__section-1 {
     background-color: $document-top-bg;
     color: $document-top-color;
     padding-bottom: 2rem;
     position: relative;
-
     @media (min-width: $small-size) {
       padding-top: $topbar-height;
     }
-
     @media (min-width: $medium-size) {
       padding-top: $topbar-height * 3 / 2;
     }
   }
 
-  &__middle {
+  &__section-2 {
     background-color: $document-middle-bg;
     padding: 1rem 0 2rem;
   }
 
-  &__bottom {
+  &__section-3 {
     background-color: $document-bottom-bg;
     padding: 1rem 0 3rem;
   }
@@ -65,7 +63,7 @@
     white-space: pre-line;
   }
 
-  &__top-metadata {
+  &__metadata {
     // Makes sure a width: 100%; will not extend this
     position: relative;
   }
@@ -78,8 +76,8 @@
     position: relative; // Positions the navigator relative to the player
   }
 
-  &__player,
-  &__geo-tagging {
+  &__geo-tagging,
+  &__player {
     // Remove the padding from the col-* classes on small screens
     @media (max-width: $small-size) {
       padding-left: 0;
@@ -109,19 +107,16 @@
         vertical-align: middle;
       }
     }
-
     // Left-align controls on a larger screen
     @media (min-width: $small-size) {
       text-align: left;
     }
-
     @media (max-width: $small-size) {
       padding: 0 1rem;
     }
   }
 
   &__navigator {
-
     &-preview {
       background: $white;
       display: none;
@@ -164,7 +159,6 @@
         opacity: 0;
         overflow: hidden;
       }
-
       @media (pointer: fine) {
         &:focus,
         &:hover {
@@ -199,6 +193,23 @@
     }
 
     &--expanded {
+      // A little top-padding on larger screens
+      @media (min-width: $small-size) {
+        padding-top: 1rem;
+      }
+
+      [data-action='toggle-expandable'] {
+        cursor: zoom-out;
+      }
+
+      // What happens when a document expandable is expanded?
+      // The collumns inside the expandable .rows become wide
+      .row {
+        > [class*='col-'] {
+          width: 100%;
+        }
+      }
+
       .document__player-controls {
         .zoom-in {
           display: none;
@@ -217,25 +228,6 @@
       .row {
         > [class*='col-'] {
           transition: $anim-duration-fast;
-        }
-      }
-    }
-
-    &--expanded {
-      // A little top-padding on larger screens
-      @media (min-width: $small-size) {
-        padding-top: 1rem;
-      }
-
-      [data-action='toggle-expandable'] {
-        cursor: zoom-out;
-      }
-
-      // What happens when a document expandable is expanded?
-      // The collumns inside the expandable .rows become wide
-      .row {
-        > [class*='col-'] {
-          width: 100%;
         }
       }
     }

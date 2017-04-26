@@ -1,0 +1,21 @@
+.document__section-1.document__expandable
+  .container-fluid
+    .row
+      block document__player
+        if config.features.geoTagging
+          .document__geo-tagging.col-xs-12.col-md-7
+            include ./geo-tagging
+            .document__player-controls
+              include ./player-controls
+        else
+          .document__player.col-xs-12.col-sm-7
+            include ./player
+            .document__player-controls
+              include ./player-controls
+      block document__section-1-metadata
+        .document__section-1-metadata.col-xs-12.col-md-5
+          h1.document__title= title
+          p.document__description= description
+  - // The navigator is inserted twice in the dom.
+  .hidden-xs.hidden-sm
+    include ./navigator

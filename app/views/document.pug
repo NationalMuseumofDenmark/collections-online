@@ -22,34 +22,10 @@ block content
       data-collection=metadata.collection,
       data-id=metadata.id
     )
-    block document__top
-      .document__top.document__expandable
-        .container-fluid
-          .row
-            block document__player
-              if config.features.geoTagging
-                .document__geo-tagging.col-xs-12.col-md-7
-                  include includes/geo-tagging
-                  .document__player-controls
-                    include includes/player-controls
-              else
-                .document__player.col-xs-12.col-sm-7
-                  include includes/player
-                  .document__player-controls
-                    include includes/player-controls
-            block document__top-metadata
-              .document__top-metadata.col-xs-12.col-md-5
-                h1.document__title= title
-                p.document__description= description
-        - // The navigator is inserted twice in the dom.
-        .hidden-xs.hidden-sm
-          include includes/navigator
-    block document__middle
-      - // Empty - but use the .document__middle here
-    block document__bottom
-      .document__bottom
-        .container-fluid
-          block document__bottom-metadata
-          .row
-            include includes/relations
+    block document__section-1
+      include includes/document-section-1.pug
+    block document__section-2
+      include includes/document-section-2.pug
+    block document__section-3
+      include includes/document-section-3.pug
   block document__overlays
