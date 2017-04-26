@@ -5,8 +5,8 @@ const plugins = require('./plugins');
 const config = require('./lib/config');
 
 let co = {
-  config: (childPath) => {
-    require('./lib/config').setChildPath(childPath);
+  config: (customizationPath) => {
+    require('./lib/config').setCustomizationPath(customizationPath);
   },
   registerPlugins: () => {
     // Register the default fallback plugins

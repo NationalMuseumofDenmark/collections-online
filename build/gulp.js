@@ -1,6 +1,6 @@
-module.exports = (gulp, childPath) => {
+module.exports = (gulp, customizationPath) => {
   const config = require('../lib/config');
-  config.setChildPath(childPath);
+  config.setCustomizationPath(customizationPath);
 
   //------------------------------------------
   // Require
@@ -33,26 +33,26 @@ module.exports = (gulp, childPath) => {
   //------------------------------------------
   // Directories - note that they are relative to the project specific gulpfile
   //------------------------------------------
-  var DEST_DIR = path.join(childPath, 'generated');
+  var DEST_DIR = path.join(customizationPath, 'generated');
   var ROOT_CO = __dirname + '/..';
   var BOWER_COMPONENTS_CO = ROOT_CO + '/bower_components';
-  var STYLES_SRC = childPath + '/app/styles/main.scss';
+  var STYLES_SRC = customizationPath + '/app/styles/main.scss';
   var STYLES_ALL = [
-    childPath + '/app/styles/*.scss',
+    customizationPath + '/app/styles/*.scss',
     ROOT_CO + '/app/styles/**/*.scss'
   ];
   var STYLES_DEST = DEST_DIR + '/styles';
   var SCRIPTS_FOLDER_CO = ROOT_CO + '/app/scripts';
   var SCRIPTS_CO = SCRIPTS_FOLDER_CO + '/*.js';
   var SCRIPTS_ARRAY_CO = [SCRIPTS_CO];
-  var SCRIPTS = childPath + '/app/scripts/*.js';
+  var SCRIPTS = customizationPath + '/app/scripts/*.js';
   var SCRIPTS_DEST = DEST_DIR + '/scripts';
   var SCRIPT_NAME = 'main.js';
   var SVG_SRC_CO = ROOT_CO + '/app/images/icons/*.svg';
-  var SVG_SRC = childPath + '/app/images/icons/*.svg';
+  var SVG_SRC = customizationPath + '/app/images/icons/*.svg';
   var SVG_DEST = DEST_DIR + '/images';
   var PUG_SRC_CO = ROOT_CO + '/app/views/**/*.pug';
-  var PUG_SRC = childPath + '/app/views/**/*.pug';
+  var PUG_SRC = customizationPath + '/app/views/**/*.pug';
   var PUG_DEST = DEST_DIR + '/views';
   var isDevelopment = process.env.NODE_ENV === 'development';
 
@@ -86,7 +86,7 @@ module.exports = (gulp, childPath) => {
 
   // Add the runtime lib used to run pug templates
   var SCRIPTS_BROWSERIFY_DIR_CO = ROOT_CO + '/app/scripts-browserify';
-  var SCRIPTS_BROWSERIFY_DIR = childPath + '/app/scripts-browserify';
+  var SCRIPTS_BROWSERIFY_DIR = customizationPath + '/app/scripts-browserify';
 
   var SCRIPTS_ALL = SCRIPTS_ARRAY_CO;
 
@@ -214,8 +214,8 @@ module.exports = (gulp, childPath) => {
       SCRIPTS_ALL,
       SCRIPTS_BROWSERIFY_DIR_CO + '/**/*.js',
       SCRIPTS_BROWSERIFY_DIR + '/**/*.js',
-      childPath + '/config/**/*',
-      childPath + '/shared/*.js'
+      customizationPath + '/config/**/*',
+      customizationPath + '/shared/*.js'
     ], ['reload-config', 'js']);
   });
 
