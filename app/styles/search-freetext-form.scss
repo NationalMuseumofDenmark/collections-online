@@ -108,7 +108,7 @@
   }
 
   &--on-white {
-    @include search-freetext-form($brand-primary, $black, $gray);
+    @include search-freetext-form($brand-primary, $black, $gray-dark);
   }
 
   &--on-dark {
