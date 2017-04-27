@@ -29,8 +29,14 @@ or `indexing-engine`. But can also persist metadata through the
 
 ## A search index / document service (typically Elasticsearch)
 
+The document service is used to store and enable searching in a volatile
+representation of the entities from the DAMS.
+
 Note: This external system needs to implement the Elasticsearch interface or
 alternatively some wrapper needs to be implemented, as it is done for the
 [natmus-api](https://github.com/NationalMuseumofDenmark/natmus-samlinger/blob/master/services/natmus-api.js).
 
 ## A document database (typically MongoDB)
+
+This database is required only when the Keystone CMS feature is enabled, used to
+store pages, menu items and curated galleries on the frontpage.
