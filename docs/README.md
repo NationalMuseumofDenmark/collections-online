@@ -21,5 +21,5 @@ The documentation has been partitioned into sections
 
 1. [Dependencies](./DEPENDENCIES.md)
 2. [Customizations](./CUSTOMIZATIONS.md)
-2. [Plugins](./PLUGINS.md)
-3. [Repositories](./REPOSITORIES.md)
+3. [Plugins](./PLUGINS.md)
+4. [Contributing](./CONTRIBUTING.md)
