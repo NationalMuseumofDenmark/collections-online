@@ -157,7 +157,13 @@ helpers.translate = key => {
   }
 };
 
-
+helpers.hasRelations = metadata => {
+  return metadata && metadata.related && Object.keys(metadata.related)
+  .reduce((result, type) => {
+    const relatedOfType = metadata.related[type];
+    return result + relatedOfType.length;
+  }, 0) > 0;
+};
 
 /**
  * Use this method to get all values at the "end of a path" in an object.

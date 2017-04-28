@@ -15,10 +15,11 @@ block document__section-4
             include includes/feedback
 
 block document__section-5
-  .document__section-5
-    .container-fluid
-      .row
-        include includes/relations
+  if helpers.hasRelations(metadata)
+    .document__section-5
+      .container-fluid
+        .row
+          include includes/relations
 
 append document__overlays
   include includes/download-overlay
