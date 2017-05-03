@@ -191,7 +191,9 @@ module.exports = (gulp, customizationPath) => {
       .pipe(uniqueFiles())
       .pipe(svgmin())
       .pipe(rename({prefix: 'icon-'}))
-      .pipe(svgstore())
+      .pipe(svgstore({
+        inlineSvg: true
+      }))
       .pipe(gulp.dest(SVG_DEST));
   });
 
