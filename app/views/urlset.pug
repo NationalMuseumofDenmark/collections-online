@@ -19,8 +19,8 @@ urlset(xmlns='http://www.sitemaps.org/schemas/sitemap/0.9',
         else if element.type === 'video'
           video:video
             video:thumbnail_loc= element.thumbnailLocation
-            image:title= '<![CDATA[' + element.title + ']]>'
-            image:caption= '<![CDATA[' + element.description + ']]>'
+            video:title= '<![CDATA[' + element.title + ']]>'
+            video:description= '<![CDATA[' + element.description + ']]>'
             video:content_loc= element.contentLocation
             video:requires_subscription no
             video:live no
