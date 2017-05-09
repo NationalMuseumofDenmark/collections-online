@@ -16,20 +16,19 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initMap&libraries=geometry,places")
 
 block content
-  section.document.let-it-grow(
-      itemscope,
-      itemtype='http://schema.org/CreativeWork',
-      data-collection=metadata.collection,
-      data-id=metadata.id
-    )
-    block document__section-1
-      include includes/document-section-1.pug
-    block document__section-2
-      include includes/document-section-2.pug
-    block document__section-3
-      include includes/document-section-3.pug
-    block document__section-4
-      include includes/document-section-4.pug
-    block document__section-5
-      include includes/document-section-5.pug
-  block document__overlays
+  section(itemscope, itemtype='http://schema.org/CreativeWork')
+    .document.let-it-grow(
+        data-collection=metadata.collection,
+        data-id=metadata.id
+      )
+      block document__section-1
+        include includes/document-section-1.pug
+      block document__section-2
+        include includes/document-section-2.pug
+      block document__section-3
+        include includes/document-section-3.pug
+      block document__section-4
+        include includes/document-section-4.pug
+      block document__section-5
+        include includes/document-section-5.pug
+    block document__overlays

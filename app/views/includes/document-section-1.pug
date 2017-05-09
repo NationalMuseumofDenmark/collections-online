@@ -14,8 +14,8 @@
               include ./player-controls
       block document__section-1-metadata
         .document__section-1-metadata.col-xs-12.col-md-5
-          h1.document__title= title
-          p.document__description= description
+          h1.document__title(itemprop='name')= title
+          p.document__description(itemprop='description')= description
   - // The navigator is inserted twice in the dom.
   .hidden-xs.hidden-sm
     include ./navigator
