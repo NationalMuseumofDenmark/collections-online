@@ -96,9 +96,9 @@ const templates = {
 
     addTagFromInput() {
       // Read the value of the input field
-      let tag = this.$input.val();
-      // Then clear it
-      this.$input.val('');
+      const tag = this.$input.val();
+      // Then clear it - via typehead, as simply calling .val('') won't work
+      this.$input.typeahead('val', '');
       // Add it
       this.addTag(tag);
     }
