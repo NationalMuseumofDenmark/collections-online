@@ -422,6 +422,8 @@ function addApproximateCircle(map, latLng) {
         return;
       }
       this.state.saving = true;
+      // Disable anything that might save
+      this.$geoTagging.find(SAVE_GEO_TAG_SELECTOR).prop('disabled', true);
       // Set the latitude and longitude, based on the markers current position
       const position = this.marker.getPosition();
       if(position) {
@@ -432,11 +434,16 @@ function addApproximateCircle(map, latLng) {
         // Post to the API
         const url = location.pathname + '/save-geotag';
         $.post(url, this.state, () => {
+          // TODO: Make this text i18n friendly
           Snackbar.info('Gemt! Tak for dit bidrag!');
           contributionCounter.contributionAdded();
-          this.state.saving = false;
           window.location.reload();
-        }, 'json');
+        }, 'json').fail((err, body) => {
+        }).always(() => {
+          this.state.saving = false;
+          // Re-enable anything that might save
+          this.$geoTagging.find(SAVE_GEO_TAG_SELECTOR).prop('disabled', false);
+        });
       } else {
         throw new Error('Expected a valid position for the marker');
       }
