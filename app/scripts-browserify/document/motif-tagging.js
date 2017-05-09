@@ -135,13 +135,18 @@ const templates = {
       $.post(url, this.state.metadata, (metadata) => {
         // Once the metadata is back, override it and stop saving
         this.state.metadata = metadata;
-        this.state.saving = false;
         this.state.editing = false;
-        this.render();
-
+        // TODO: Make this text i18n friendly
         Snackbar.info('Gemt! Tak for dit bidrag!');
         contributionCounter.contributionAdded();
-      }, 'json');
+      }, 'json').fail(err => {
+        const message = err.responseJSON && err.responseJSON.message;
+        // TODO: Make this text i18n friendly
+        Snackbar.error(message || 'Der skete en fejl');
+      }).always(() => {
+        this.state.saving = false;
+        this.render();
+      });
     }
 
     registerListeners() {

@@ -439,6 +439,9 @@ function addApproximateCircle(map, latLng) {
           contributionCounter.contributionAdded();
           window.location.reload();
         }, 'json').fail((err, body) => {
+          const message = err.responseJSON && err.responseJSON.message;
+          // TODO: Make this text i18n friendly
+          Snackbar.error(message || 'Der skete en fejl');
         }).always(() => {
           this.state.saving = false;
           // Re-enable anything that might save
