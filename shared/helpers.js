@@ -127,17 +127,32 @@ helpers.licenseMapped = (metadata) => {
 helpers.licenseLinked = function(license) {
   if (license && license in config.licenseMapping) {
     const licenseOptions = config.licenseMapping[license];
-    return helpers.link(licenseOptions.url, license);
+    return helpers.link(licenseOptions.url, license, {
+      rel: 'license',
+      itemprop: 'license'
+    });
   } else {
     return license || 'Ukendt';
   }
 };
 
-helpers.link = function(url, text) {
+helpers.link = function(href, text, attributes) {
   if(!text) {
-    text = url;
+    text = href;
   }
-  return '<a href="' + url + '" target="_blank">' + text + '</a>';
+  // Insert href and target before overriding with the attributes, if any
+  attributes = Object.assign({
+    href,
+    target: '_blank'
+  }, attributes || {});
+
+  // Build up a string of attributes
+  const attributesString = Object.keys(attributes).map(key => {
+    const value = attributes[key];
+    return key + '="' + value + '"';
+  }).join(' ');
+
+  return '<a ' + attributesString + '>' + text + '</a>';
 };
 
 // TODO: Consider if a localization function might be easier to use

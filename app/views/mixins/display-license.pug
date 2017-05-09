@@ -11,7 +11,7 @@ mixin licenseImageOrText(license)
 mixin displayLicense(metadata)
   - license = helpers.licenseMapped(metadata)
   - if (license && license.url)
-    a(href=license.url, rel='license', itemprop='license', target='_blank')
+    a(href=license.url, target='_blank')
       +licenseImageOrText(license)
   - else
     +licenseImageOrText(license)
