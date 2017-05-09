@@ -83,6 +83,8 @@ const templates = {
         this.state.editing = editing;
         // Re-render the motif-tagging template
         this.render();
+        // Position the focus on the input field
+        this.$input.focus();
       });
     }
 
