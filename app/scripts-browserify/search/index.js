@@ -111,9 +111,9 @@ function initialize() {
           type: hit._type,
           metadata: hit._source
         };
-        const markup = templates.searchResultItem(item);
-        $results.append(markup);
         resultsLoaded.push(item);
+        const markup = templates.searchResultItem(item);
+        $(markup).appendTo($results);
       });
 
       // Save the results loaded in the session storage, so we can use them on
@@ -198,9 +198,9 @@ function initialize() {
       // Append rendered markup, once per asset loaded from the state.
       resultsLoaded = state.resultsLoaded;
       resultsDesired = resultsLoaded.length;
-      resultsLoaded.forEach(function(item) {
-        var markup = templates.searchResultItem(item);
-        $results.append(markup);
+      resultsLoaded.forEach((item) => {
+        const markup = templates.searchResultItem(item);
+        $(markup).appendTo($results);
       });
       // Replace the resultsTotal from the state
       resultsTotal = state.resultsTotal;
