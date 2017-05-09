@@ -5,8 +5,6 @@ include mixins/loader
 append header
   - title = helpers.generateSearchTitle(filters);
   +meta(title, description, image)
-  - // Let's ask robots not to index search result pages
-  meta(name='robots', content='noindex')
 
 block content
 
