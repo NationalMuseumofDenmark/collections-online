@@ -213,12 +213,12 @@ const templates = {
       });
 
       // When the input is focussed, add a class to the parent
-      $input.on('focus', function() {
+      $input.on('focus', () => {
         $input.parent('.twitter-typeahead').addClass('focused');
       });
 
       // When the input is empty and blurred, remove the class again
-      $input.on('blur', function() {
+      $input.on('blur', () => {
         if($input.val() === '') {
           $input.parent('.twitter-typeahead').removeClass('focused');
         }

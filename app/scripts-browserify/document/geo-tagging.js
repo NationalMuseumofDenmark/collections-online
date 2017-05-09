@@ -307,7 +307,7 @@ function addApproximateCircle(map, latLng) {
 
     updateMarkersFromState() {
       const computeOffset = google.maps.geometry.spherical.computeOffset;
-      const { latitude, longitude, heading, isApproximate } = this.state;
+      const {latitude, longitude, heading, isApproximate} = this.state;
 
       if(latitude && longitude) {
         const latLng = new google.maps.LatLng(latitude, longitude);
@@ -459,7 +459,7 @@ function addApproximateCircle(map, latLng) {
         window.localStorage.setItem('geotagging-overlay-closed', true);
         const $overlay = this.$geoTagging.find(OVERLAY_SELECTOR);
         $overlay.removeClass(OVERLAY_VISIBLE_CLASS);
-      })
+      });
     }
   }
 
