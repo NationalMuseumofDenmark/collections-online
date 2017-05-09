@@ -1,6 +1,9 @@
 // Requiring the babel polyfill, to enable Array.prototype.find
 // http://babeljs.io/docs/usage/polyfill/
 require('babel-polyfill');
+// Requiring the object-fit-images polyfill for Internet Explorer
+// TODO: Remove this once IE support for the object-fit CSS property improves
+require('object-fit-images')();
 
 module.exports = options => {
   const config = require('collections-online/shared/config');
@@ -21,7 +24,7 @@ module.exports = options => {
   if(config.features.feedback) {
     require('./document/feedback');
   }
-  
+
   require('./document/expandable');
   require('./document/navigator');
   if(config.features.geoTagging || config.features.motifTagging) {
@@ -37,7 +40,6 @@ module.exports = options => {
   if(config.features.scrollToTop) {
     require('./scroll-to-top');
   }
-
 
   require('./sidebar-menu');
   require('./dropdown');
