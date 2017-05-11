@@ -34,7 +34,9 @@ let co = {
 
       const ds = require('./lib/services/documents');
 
+      // Expose the configuration for the view templates
       app.locals.config = config;
+
       const helpers = require('./lib/helpers');
       helpers.checkRequiredHelpers();
       app.locals.helpers = helpers;
@@ -49,6 +51,7 @@ let co = {
       const indecies = Object.keys(config.types).map((type) => {
         return config.types[type].index;
       });
+
       return ds.count({
         index: indecies,
         body: {
