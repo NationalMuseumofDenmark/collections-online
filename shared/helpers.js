@@ -13,7 +13,9 @@ const REQUIRED_HELPERS = [
   'generateSitemapElements',
   'getDownloadOptions',
   'isDownloadable',
-  'isWatermarkRequired'
+  'isWatermarkRequired',
+  'rdfa.about',
+  'rdfa.itemType'
 ];
 
 helpers.capitalizeFirstLetter = string => {

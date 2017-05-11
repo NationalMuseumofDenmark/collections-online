@@ -16,7 +16,11 @@ append javascript
     script(async defer src="https://maps.googleapis.com/maps/api/js?key=" + key + "&callback=initMap&libraries=geometry,places")
 
 block content
-  section(itemscope, itemtype='http://schema.org/CreativeWork')
+  section(
+    itemscope,
+    itemtype=helpers.rdfa.itemType(metadata),
+    about=helpers.rdfa.about(req, metadata)
+  )
     .document.let-it-grow(
         data-collection=metadata.collection,
         data-id=metadata.id
