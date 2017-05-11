@@ -25,9 +25,10 @@ helpers.capitalizeFirstLetter = string => {
 };
 
 helpers.checkRequiredHelpers = () => {
-  REQUIRED_HELPERS.forEach((requiredHelper) => {
-    if(typeof(helpers[requiredHelper]) !== 'function') {
-      throw new Error('Missing required helper function: ' + requiredHelper);
+  REQUIRED_HELPERS.forEach(requiredHelper => {
+    const helper = _.get(helpers, requiredHelper);
+    if(typeof(helper) !== 'function') {
+      throw new Error('Missing a required helper function: ' + requiredHelper);
     }
   });
 };
