@@ -1,0 +1,17 @@
+include ../../mixins/format-date-interval
+
+tr
+  th #{row.title}:
+  td
+    - let yearFrom = helpers.get(metadata, row.fields.from);
+    - let yearTo = helpers.get(metadata, row.fields.to);
+    - yearFrom = yearFrom < 0 ? (-1 * yearFrom) + ' f.kr.' : yearFrom;
+    - yearTo = yearTo < 0 ? (-1 * yearTo) + ' f.kr.' : yearTo;
+    if yearFrom && yearTo
+      = yearFrom + ' – ' + yearTo
+    else if yearFrom
+      = 'Fra ' + yearFrom
+    else if yearTo
+      = 'Til ' + yearTo
+    else
+      | Ukendt
