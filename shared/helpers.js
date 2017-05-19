@@ -16,6 +16,7 @@ const REQUIRED_HELPERS = [
   'isWatermarkRequired',
   'microdata.about',
   'microdata.itemType',
+  'microdata.metaTags'
 ];
 
 helpers.capitalizeFirstLetter = string => {
@@ -131,7 +132,6 @@ helpers.licenseLinked = function(license) {
   if (license && license in config.licenseMapping) {
     const licenseOptions = config.licenseMapping[license];
     return helpers.link(licenseOptions.url, license, {
-      rel: 'license',
       itemprop: 'license'
     });
   } else {

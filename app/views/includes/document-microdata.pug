@@ -1,0 +1,4 @@
+- const tags = helpers.microdata.metaTags(req, metadata);
+each content, itemprop in tags
+  if content
+    meta(itemprop=itemprop, content=content)
