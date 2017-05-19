@@ -14,8 +14,8 @@ const REQUIRED_HELPERS = [
   'getDownloadOptions',
   'isDownloadable',
   'isWatermarkRequired',
-  'rdfa.about',
-  'rdfa.itemType'
+  'microdata.about',
+  'microdata.itemType',
 ];
 
 helpers.capitalizeFirstLetter = string => {

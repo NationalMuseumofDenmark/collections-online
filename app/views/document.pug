@@ -18,8 +18,8 @@ append javascript
 block content
   section(
     itemscope,
-    itemtype=helpers.rdfa.itemType(metadata),
-    about=helpers.rdfa.about(req, metadata)
+    itemtype=helpers.microdata.itemType(metadata),
+    about=helpers.microdata.about(req, metadata)
   )
     .document.let-it-grow(
         data-collection=metadata.collection,
