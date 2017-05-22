@@ -3,24 +3,62 @@
 
 $slider-padding: 15px;
 
-.slider {
-  margin-top: .5rem;
-
-  img {
-    width: 100%;
-  }
-}
-
 .slick-slider {
   overflow: hidden;
 }
 
 .slick-list {
-  margin-left : -$slider-padding;
+  margin-left: -$slider-padding;
   margin-right: -$slider-padding;
 }
 
 .slick-slide {
-  padding-left : $slider-padding;
+  padding-left: $slider-padding;
   padding-right: $slider-padding;
+}
+
+$slider-arrow-size: 4rem;
+
+
+.slick-carousel {
+  position: relative;
+
+  &__items {
+    margin-top: .5rem;
+    width: 100%;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  &__next-arrow,
+  &__prev-arrow {
+    cursor: pointer;
+    margin-top: -$slider-arrow-size / 2;
+    opacity: .2;
+    position: absolute;
+    top: 50%;
+
+    &:hover {
+      opacity: .5;
+    }
+
+    svg {
+      height: $slider-arrow-size;
+      width: $slider-arrow-size;
+    }
+  }
+
+  &__next-arrow {
+    right: -5rem;
+  }
+
+  &__prev-arrow {
+    left: -5rem;
+
+    svg {
+      transform: rotate(180deg);
+    }
+  }
 }

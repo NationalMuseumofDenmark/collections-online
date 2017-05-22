@@ -5,7 +5,7 @@ const config = require('collections-online/shared/config');
 (function($, window) {
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="download:show-overlay"]';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
-  var CONTENT_SLIDER = '.slider';
+  var CONTENT_SLIDER = '.related-assets > .slick-carousel__items';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
 
@@ -23,8 +23,8 @@ const config = require('collections-online/shared/config');
           speed: 300,
           slidesToShow: 6,
           slidesToScroll: 6,
-          prevArrow: '.related-assets__prev-arrow',
-          nextArrow: '.related-assets__next-arrow',
+          prevArrow: '.related-assets .slick-carousel__prev-arrow',
+          nextArrow: '.related-assets .slick-carousel__next-arrow',
 
           responsive: [{
             breakpoint: 1180,

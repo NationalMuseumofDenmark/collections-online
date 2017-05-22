@@ -2,12 +2,12 @@ each docs, type in metadata.related
   if docs.length > 0
     .col-xs-12
       h2= 'Relaterede ' + helpers.translate(type)
-      .related-assets
-        .related-assets__next-arrow
+      .related-assets.slick-carousel
+        .slick-carousel__next-arrow
           +icon('chevron-right')
-        .related-assets__prev-arrow
+        .slick-carousel__prev-arrow
           +icon('chevron-right')
-        .slider
+        .slick-carousel__items
           each doc in docs
             a(href=helpers.getDocumentURL(doc))
               img(data-lazy=helpers.getThumbnailURL(doc))
