@@ -26,6 +26,7 @@ module.exports = options => {
     require('./document/feedback');
   }
 
+  require('./document/player');
   require('./document/expandable');
   require('./document/navigator');
   if(config.features.geoTagging || config.features.motifTagging) {

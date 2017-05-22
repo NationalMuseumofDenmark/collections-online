@@ -104,6 +104,10 @@ $map-background: #eaeaea;
     }
   }
 
+  &__player {
+    width: 100%;
+  }
+
   &--visible {
     .geo-tagging {
       &__map {
