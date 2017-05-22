@@ -20,6 +20,7 @@ module.exports = options => {
   // TODO: Remove this asset require, once downloading has been moved to a
   // seperate script.
   require('./asset');
+  require('./document/download');
 
   if(config.features.feedback) {
     require('./document/feedback');
