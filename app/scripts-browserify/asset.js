@@ -3,21 +3,14 @@
 const config = require('collections-online/shared/config');
 
 (function($, window) {
-  var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="download:show-overlay"]';
-  var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
-  var CONTENT_SLIDER = '.related-assets > .slick-carousel__items';
+  var RELATED_ASSETS_SLIDER = '.related-assets > .slick-carousel__items';
   var OVERLAY_ACTIVE_CLASS = 'overlay__container--active';
   var OVERLAY_ANIM_IN_CLASS = 'overlay__container--anim-in';
 
   var AssetPage = {
     init: function() {
-      $(ACTION_ASSET_DOWNLOAD_SHOW)
-        .on('click', this.actionAssetDownloadShow.bind(this, true));
-      $(CONTENT_ASSET_DOWNLOAD)
-        .on('click', this.actionAssetDownloadShow.bind(this, false));
-
-      if ($(CONTENT_SLIDER).size() > 0) {
-        $(CONTENT_SLIDER).slick({
+      if ($(RELATED_ASSETS_SLIDER).size() > 0) {
+        $(RELATED_ASSETS_SLIDER).slick({
           lazyLoad: 'progressive',
           infinite: true,
           speed: 300,
@@ -47,19 +40,6 @@ const config = require('collections-online/shared/config');
             }
           }]
         });
-      }
-    },
-
-    actionAssetDownloadShow: function(show) {
-      var $el = $(CONTENT_ASSET_DOWNLOAD);
-      if (show === true) {
-        $el.addClass(OVERLAY_ACTIVE_CLASS);
-        $el.addClass(OVERLAY_ANIM_IN_CLASS);
-      } else if (show === false) {
-        $el.removeClass(OVERLAY_ANIM_IN_CLASS);
-        setTimeout(function() {
-          $el.removeClass(OVERLAY_ACTIVE_CLASS);
-        }, 300);
       }
     }
   };
