@@ -3,9 +3,9 @@ block document__player-controls
   a(data-action='toggle-expandable').hidden-xs.hidden-sm.zoom-btn
     +icon('zoom-in', 'zoom-in')
     +icon('zoom-out', 'zoom-out')
-  a(data-action="download:show-overlay", class= isDownloadable ? '' : 'dimmed')
+  a(data-action='download:show-overlay', class= isDownloadable ? '' : 'dimmed')
     +icon('download')
-  a(href="javascript:fbshareCurrentPage()", target="_blank", alt="Del på Facebook")
+  a(href='javascript:fbshareCurrentPage()', target='_blank', alt='Del på Facebook')
     +icon('facebook')
-  a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
+  a(href='javascript:twittershareCurrentPage()', target='_blank', alt='Del på Twitter')
     +icon('twitter')

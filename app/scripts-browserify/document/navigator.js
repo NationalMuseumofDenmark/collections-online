@@ -27,9 +27,9 @@ const DIRECTIONS = {
 const KEYCODES = {
   'right': 39,
   'left': 37
-}
+};
 
-const urls = {}
+const urls = {};
 
 const navigator = {
   save: (state) => {
@@ -57,12 +57,12 @@ const navigator = {
     // Listen for actions
     $arrow.on('click',()=> {
       navigator.navigate(direction);
-    })
+    });
     $(window).on('keydown', (e) => {
       if(e.which === KEYCODES[direction]){
         navigator.navigate(direction);
       }
-    })
+    });
     // Showing the arrow
     navigator.showArrow($arrow);
     $(window).on('mousemove', () => {
