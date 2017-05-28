@@ -1,3 +1,6 @@
+const expandable = require('./expandable');
+
+const PLAYER_LINK_SELECTOR = '.document__player-link';
 
 (function($) {
 
@@ -6,8 +9,6 @@
     constructor($players, $previewer) {
       this.$players = $players;
       this.$previewer = $previewer;
-      this.state = {
-      };
     }
 
     initialize() {
@@ -15,7 +16,26 @@
     }
 
     initializeSlick() {
-      const $previewerItems = this.$previewer.find('.slick-carousel__items');
+      this.$previewerItems = this.$previewer.find('.slick-carousel__items');
+      const slideCount = this.$previewerItems.children().length;
+
+      // To address this bug: https://github.com/kenwheeler/slick/issues/1630
+      const centerMode = slideCount > 5 ? true : false;
+
+      this.$previewerItems.slick({
+        slidesToShow: Math.min(5, slideCount),
+        centerMode,
+        focusOnSelect: true,
+        arrows: false,
+        infinite: true,
+        asNavFor: this.$players.selector,
+        responsive: [{
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: Math.min(3, slideCount)
+          }
+        }]
+      });
 
       this.$players.slick({
         slidesToShow: 1,
@@ -23,17 +43,35 @@
         arrows: false,
         fade: true,
         adaptiveHeight: true,
-        asNavFor: $previewerItems.selector
-      });
+        asNavFor: this.$previewerItems.selector
+      }).show().on('afterChange', this.updateControls.bind(this));
+      // Update the controls right away
+      this.updateControls();
 
-      $previewerItems.slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        centerMode: true,
-        focusOnSelect: true,
-        arrows: false,
-        asNavFor: this.$players.selector
+      // When the primary image is expanded or collapsed, update Slick
+      expandable.bind('has-expanded', () => {
+        this.$previewerItems.slick('setPosition');
+        this.$players.slick('setPosition');
       });
+      expandable.bind('has-collapsed', () => {
+        this.$previewerItems.slick('setPosition');
+        this.$players.slick('setPosition');
+      });
+    }
+
+    updateControls() {
+      // Determine which player is active
+      const $activePlayer = $('.document__players').find('.slick-current');
+      // If there is an active player
+      if($activePlayer.length) {
+        // Read the href - and change location
+        const href = $activePlayer.data('href');
+        if(href) {
+          $(PLAYER_LINK_SELECTOR).removeClass('dimmed').attr('href', href);
+        } else {
+          $(PLAYER_LINK_SELECTOR).addClass('dimmed').attr('href', null);
+        }
+      }
     }
   }
 

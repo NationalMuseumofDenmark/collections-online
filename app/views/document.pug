@@ -20,13 +20,10 @@ block content
     itemscope,
     itemtype=helpers.microdata.itemType(metadata),
     about=helpers.microdata.about(req, metadata)
-  )
+  ).let-it-grow
     block document__microdata
-      include includes/document-microdata.pug
-    .document.let-it-grow(
-        data-collection=metadata.collection,
-        data-id=metadata.id
-      )
+      include includes/document-microdata
+    .document(data-collection=metadata.collection, data-id=metadata.id)
       block document__section-1
         include includes/document-section-1
       block document__section-2

@@ -47,6 +47,7 @@
   &__section-1 {
     @include document-section(1);
     padding-bottom: 2rem;
+    padding-top: 0;
     position: relative;
     @media (min-width: $small-size) {
       padding-top: $topbar-height;
@@ -85,6 +86,11 @@
   &__metadata {
     // Makes sure a width: 100%; will not extend this
     position: relative;
+  }
+
+  // The players should be hidden, until Slick has loaded
+  &__players {
+    display: none;
   }
 
   &__player {
@@ -136,7 +142,19 @@
   }
 
   &__player-previewer {
-    /* height: 100px; */
+    margin-bottom: .6rem;
+
+    .slick-slide {
+      background-position: 50% 50%;
+      background-repeat: no-repeat;
+      background-size: cover;
+      margin: 0 .3rem;
+      outline: none;
+    }
+
+    .slick-track {
+      height: 100px;
+    }
   }
 
   &__navigator {

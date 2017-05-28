@@ -1,15 +1,16 @@
 - let players = helpers.determinePlayers(metadata);
 
-block document__player
-  pre Please add a template to views/includes/player.pug to define a player
-
 block document__player-previewer
   if players.length > 1
     .document__player-previewer.slick-carousel
       .slick-carousel__items
         each player, i in players
-          img(src=player.thumbnail)
-  
+          - const style = 'background-image:url("' + player.thumbnail + '")';
+          div(style=style)
+
+block document__player
+  pre Please add a template to views/includes/player.pug to define a player
+
 - // The navigator is inserted twice in the dom.
 .hidden-md.hidden-lg
   include ./navigator
