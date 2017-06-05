@@ -133,7 +133,7 @@ module.exports = (gulp, customizationPath) => {
         }
       }
     })
-    .transform('babelify', {
+    .transform(require.resolve('babelify'), {
       // Mapping because of https://github.com/babel/gulp-babel/issues/93,
       'env': {
         'production': {
