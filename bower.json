@@ -2,13 +2,11 @@
   "name": "natmus-samlinger",
   "version": "0.0.1",
   "dependencies": {
-    "jquery-infinite-scroll": "~2.1.0",
-    "imagesloaded": "~4.1.0",
     "jquery": "~2.2.1",
-    "picturefill": "~3.0.2",
+    "picturefill": "~3.0.3",
     "scrollToTop": "1.0.3",
     "typeahead.js": "~0.11.1",
-    "slick-carousel": "^1.5.9",
+    "slick-carousel": "^1.6.0",
     "formatter.js": "formatter#^0.1.5",
     "auth0-lock": "^10.13.0"
   },

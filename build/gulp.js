@@ -60,8 +60,6 @@ module.exports = (gulp, customizationPath) => {
   var BOWER_SCRIPTS = [
     '/jquery/dist/jquery.js',
     '/ev-emitter/ev-emitter.js',
-    '/imagesloaded/imagesloaded.js',
-    '/jquery-infinite-scroll/jquery.infinitescroll.js',
     '/get-size/get-size.js',
     '/desandro-matches-selector/matches-selector.js',
     '/fizzy-ui-utils/utils.js',
