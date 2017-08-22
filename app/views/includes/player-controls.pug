@@ -9,3 +9,11 @@ block document__player-controls
     +icon('facebook')
   a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
     +icon('twitter')
+  a(
+    href= isDownloadable ? "javascript:skoletubeshareCurrentPage()" : false,
+    data-action= isDownloadable ? false : "skoletube:show-overlay"
+    target="_blank",
+    alt="Del på SkoleTube"
+    class= isDownloadable ? '' : 'dimmed'
+  )
+    +icon('skoletube')
