@@ -32,21 +32,27 @@ function twittershareCurrentPage() {
 /**
  * Construct a redirect url and pop up a share window for Skoletube.
  */
-function skoletubeshareCurrentPage() {
+function skoletubeshareCurrentPage(element) {
+  // TODO: Relocate this to natmus-samlinger.
   // Collect metadata to send to skoletube. We piggyback on the og: tags.
   var title = $('meta[property="og:title"]').attr('content');
   var description = $('meta[property="og:description"]').attr('content');
   var thumbnail = $('meta[property="og:image"]').attr('content');
+  // Harcode to BY-SA until we have proper license mapping.
+  var license = 2;
   var keywords = 'Nationalmuseet samlinger';
 
   // Construct url for the download.
-  var embed_code = $('meta[property="og:url"]').attr('content') + '/download/original-jpeg';
+  // We hardcode the host-part of the url to ensure we don't leak dev/test
+  // urls to Skoletube.
+  var embed_code = "http://samlinger.natmus.dk" + window.location.pathname + '/download/original-jpeg';
 
   // Construct the url and open a new share-window.
   var url = 'https://www.skoletube.dk/upload.php?secondpage=embed'
   + '&embed_code=' + encodeURIComponent(embed_code)
   + '&thumbnail=' + encodeURIComponent(thumbnail)
   + '&iframe=false'
+  + '&media_ccommon=' + license
   + '&media_title=' + encodeURIComponent(title)
   + '&media_descr=' + encodeURIComponent(description)
   + '&media_keywords=' + encodeURIComponent(keywords);

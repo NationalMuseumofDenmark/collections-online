@@ -1,5 +1,6 @@
 block document__player-controls
   - const isDownloadable = helpers.isDownloadable(metadata);
+  - const license = helpers.documentLicense(metadata);
   a(data-action='toggle-expandable').hidden-xs.hidden-sm.zoom-btn
     +icon('zoom-in', 'zoom-in')
     +icon('zoom-out', 'zoom-out')
@@ -10,8 +11,10 @@ block document__player-controls
   a(href="javascript:twittershareCurrentPage()", target="_blank", alt="Del på Twitter")
     +icon('twitter')
   a(
-    href= isDownloadable ? "javascript:skoletubeshareCurrentPage()" : false,
-    data-action= isDownloadable ? false : "skoletube:show-overlay"
+    href= isDownloadable ? "#" : false,
+    onclick= isDownloadable ? "skoletubeshareCurrentPage(this)" : false,
+    data-action= isDownloadable ? false : "skoletube:show-overlay",
+    data-skoletube-license= license ? license : 'Ukendt',
     target="_blank",
     alt="Del på SkoleTube"
     class= isDownloadable ? '' : 'dimmed'
