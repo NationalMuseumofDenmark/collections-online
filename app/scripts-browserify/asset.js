@@ -3,6 +3,7 @@
 const config = require('collections-online/shared/config');
 
 (function($, window) {
+  var ACTION_SKOLETUBE_SHOW = '[data-action="skoletube:show-overlay"]';
   var ACTION_ASSET_DOWNLOAD_SHOW = '[data-action="download:show-overlay"]';
   var CONTENT_ASSET_DOWNLOAD = '[data-content="asset-download"]';
   var CONTENT_SLIDER = '.slider';
@@ -12,6 +13,11 @@ const config = require('collections-online/shared/config');
   var AssetPage = {
     init: function() {
       $(ACTION_ASSET_DOWNLOAD_SHOW)
+        .on('click', this.actionAssetDownloadShow.bind(this, true));
+      // Skoletube overlay piggybacks on the download overlay as they have the
+      // same behaviour when isDownloadable is false and that is the only state
+      // where the skoletube icon will have the ACTION_SKOLETUBE_SHOW attribute.
+      $(ACTION_SKOLETUBE_SHOW)
         .on('click', this.actionAssetDownloadShow.bind(this, true));
       $(CONTENT_ASSET_DOWNLOAD)
         .on('click', this.actionAssetDownloadShow.bind(this, false));
