@@ -1,6 +1,7 @@
 include ../../mixins/tag
 include ../../mixins/icon
 
+h4 Forslag
 each tag in helpers.motifTagging.getTags(metadata) || []
   .btn-group(data-tag=tag)
     +tag(tag)
